@@ -17,9 +17,10 @@ Octopress is a wrapper around Jekyll which is a utility for creating a static bl
 hosted on anything that can server files: Apache, AWS, Dropbox, etc...
 
 ### Q: Why not use WordPress, Tumbler, Blogger?!?
-1. Those tailor to non-developers and their editors are not the ones I use everyday, my IDE. Octopress lets me
+Those tailor to non-developers and their editors are not the ones I use everyday, my IDE. Octopress lets me
 write my articles the same way as I write code: plain text. It uses markdown or any other HTML generator I configure.
-2. Static pages are easier for me to deploy when I have to switch hosting providers. Hopefully Github sticks around
+
+Static pages are easier for me to deploy when I have to switch hosting providers. Hopefully Github sticks around
 for a while, but if they don't, I can rest assured I can have the article hosted some where else faster than DNS propagation.
 
 ``` ruby
