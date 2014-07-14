@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Octopress | @_ddrscott_]]></title>
+  <title><![CDATA[Category: octopress | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2014-04-17T10:43:16-05:00</updated>
+  <updated>2014-07-14T13:46:52-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
