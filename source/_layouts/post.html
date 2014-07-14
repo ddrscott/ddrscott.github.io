@@ -35,3 +35,15 @@ single: true
     </div>
   </div>
 </div>
+
+{% if site.disqus_short_name and page.comments == true %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}

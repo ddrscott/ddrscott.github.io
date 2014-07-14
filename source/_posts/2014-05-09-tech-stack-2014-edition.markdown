@@ -4,6 +4,7 @@ title: "Tech stack 2014 Edition"
 date: 2014-05-09 09:17:02 -0500
 comments: true
 categories: architecture full-stack infrastructure
+published: false
 ---
 I've built a lot of things, but the most interesting thing is usually what I'm currently working on or have
 built recently. With that in mind I thought I'd take a moment to reflect on the technology stack of my current
