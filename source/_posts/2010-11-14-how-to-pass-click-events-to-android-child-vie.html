@@ -1,0 +1,80 @@
+---
+layout: post
+title: How to pass click events to Android child views
+date: 2010-11-14 01:12:00.000000000 -06:00
+comments: true
+categories: 
+posterous_id: 33414518
+---
+<p>When dealing with child views in Android, nesting views with
+touch events can wipe out basic onClick behavior. This can turn a
+happy developer into a "punch stranger in the face" developer in no
+time flat. To return the rabbit developer back to normal, I scraped
+together the following snippet.</p>
+<blockquote>
+<p class="p1"></p>
+<p class="p1">View innerMostChild(MotionEvent event) {</p>
+<p class="p1"><span class="s1">return</span> innerMostChild(event,
+<span class="s1">this</span>, 0);</p>
+<p class="p1">}</p>
+<p class="p1">View innerMostChild(MotionEvent event, ViewGroup
+view, <span class="s1">int</span> nesting) {</p>
+<p class="p1">View result = <span class="s1">null</span>;</p>
+<p class="p1"><span class="s1">final</span> <span class=
+"s1">float</span> x = event.getX();</p>
+<p class="p1"><span class="s1">final</span> <span class=
+"s1">float</span> y = event.getY();</p>
+<p class="p1"><span class="s1">for</span> (<span class=
+"s1">int</span> i = view.getChildCount() - 1; i &gt;= 0; i--) {</p>
+<p class="p1">View child = view.getChildAt(i);</p>
+<p class="p2"><span class="s2"></span>// check if click is within
+bounds</p>
+<p class="p1"><span class="s1">if</span> (x &gt;= child.getLeft()
+&amp;&amp; x &lt; child.getRight() &amp;&amp; y &gt;=
+child.getTop() &amp;&amp; y &lt; child.getBottom()) {</p>
+<p class="p1"><span class="s1">if</span> (<span class=
+"s3">logv</span>) Log.v(<span class="s3">TAG</span>,
+String.format(<span class="s4">"&gt;%"</span> + (nesting == 0 ?
+<span class="s4">""</span> : nesting * 2) + <span class="s4">"s
+child: %s"</span>, <span class="s4">""</span>,
+child.getClass().getSimpleName()));</p>
+<p class="p1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<span class="s1">if</span> (child <span class=
+"s1">instanceof</span> ViewGroup) {</p>
+<p class="p1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; result =
+innerMostChild(event, (ViewGroup) child, nesting+1);</p>
+<p class="p1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+<span class="s1">else</span> {</p>
+<p class="p1">&nbsp; &nbsp; &nbsp; &nbsp; result = child;</p>
+<p class="p1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p>
+<p class="p1">}</p>
+<p class="p1">}</p>
+<p class="p1"><span class="s1">return</span> result;</p>
+<p class="p1">}</p>
+</blockquote>
+<p class="p1"><span class="c1">Then make the call to your
+innerMostChild within your GestureDetector:</span></p>
+<blockquote>
+<p class="p1">&nbsp;</p>
+<p class="p1"></p>
+<p class="p1"><span class="c2">@Override</span></p>
+<p class="p2"><span class="s1">public</span> <span class=
+"s1">boolean</span> onSingleTapUp(MotionEvent e) {</p>
+<p class="p2">View child = innerMostChild(e);</p>
+<p class="p2"><span class="s1">if</span> (child != <span class=
+"s1">null</span>) {</p>
+<p class="p2">child.performClick();</p>
+<p class="p3"><span class="s2"></span>return true<span class=
+"s2">;</span></p>
+<p class="p2">}</p>
+<p class="p3">return false<span class="s2">;</span></p>
+<p class="p2">}</p>
+</blockquote>
+<p class="p2"><span class="c3">This isn't quite production ready
+code, so I'll leave refactoring to whoever wants to use
+it.</span></p>
+<p class="p2"><span class="c3">I might post the whole file if some
+one asks nicely.</span></p>
+<p class="p2"><span class="c3">PS. Sorry strange, I couldn't help
+it.</span></p>
+

@@ -1,0 +1,44 @@
+---
+layout: post
+title: Day 9 - Counters and Player Positions
+date: 2011-02-28 22:30:00.000000000 -06:00
+comments: true
+categories: 
+posterous_id: 44513378
+---
+<p>Due to popular demand I added visual count down indicators. The
+feature shows the second remaining on the screen then it explodes
+away like a puff if smoke. This will be done by a nice little shape
+modifier feature built into AndEngine. I want to apply 3 modifiers
+in&nbsp;parallel:&nbsp;change alpha from 1 to 0 (visible to
+invisible), scale 1 to 10 (normal to huge), and rotate 0 to 360.
+This was easier said than done, because of a difference between
+regular shapes and text. Regular shapes use alpha blending by
+default, text <strong>doesn't</strong>. Unfortunately, my first
+suspect was the animation library, instead of blending. After an
+hour troubleshooting I found out setAlpha on text wasn't working
+without any animation. This lead to googling "+AndEngine text
+setAlpha". The first hit saves the day with a one liner that sets
+the blending mode of the
+shape:<code>setBlendFunction(GL10.GL_SRC_ALPHA,
+GL10.GL_ONE_MINUS_SRC_ALPHA)</code></p>
+<p>Why this isn't the default like the other shapes is a mystery to
+me.</p>
+<p>As for the player positions, I learned how bad my geometry is
+again. In four player mode there should be a "Ready?" touch area
+for each player in each corner of the screen. The text should be
+oriented so each player can view the text in the correct
+perspective. This should be as simple as rotating the text in the
+correct 45 degree increment. Sadly, it took me a shameful full hour
+to figure out what those were. I'm sure if I stayed awake in that
+class for the same hour I would have learned more than 4
+numbers.&nbsp;AndEngine rotates clockwise so&nbsp;starting in the
+upper right corner the rotational angles I "discovered" are: 135,
+225, 45, and 315.</p>
+<div class='p_embed p_image_embed'><img alt="4player" height="800"
+src=
+"http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-02-28/vElzCcDfjywpkIaytCiCnAgGxrtewtvCcgvwCxsyqvrdilwaskwthucGEEkx/4player.png.scaled500.png"
+width="480"></div>
+<p>I wish I could make this posting more exciting, but game
+logistics will <em class="c1">always</em>&nbsp;be lame.</p>
+

@@ -1,0 +1,98 @@
+---
+layout: post
+title: How to create human readable randomized passwords?
+date: 2012-07-01 02:51:00.000000000 -05:00
+comments: true
+categories: 
+posterous_id: 142585109
+---
+<p>This issue came up in my day job where the client didn&rsquo;t
+like our password reset passwords. They said it was too random and
+people can&rsquo;t remember it long enough between reading it in
+there email and entering it into our app/website.</p>
+<p>This might be a matter of taste since sending out a password
+change link is another common solution, but we don&rsquo;t have
+that flow in our existing implementation. Generating a less random
+temporary password is the quicker solution.</p>
+<p>So the method we chose was to pick a random 4 letter word from a
+dictionary file and append a number to the end of it.</p>
+<p>We found a hacker&rsquo;s dictionary online and used that as our
+base. To restrict it to just 4 letter words I ran:</p>
+<div class="CodeRay code">
+<pre>
+cat en-<span class=
+"constant">US</span>.dict | ruby -ne <span class="string"><span class="delimiter">'</span><span class="content">t = $_.strip; puts t if t =~ /^</span><span class="content">\w</span><span class="content">{4}$/</span><span class="delimiter">'</span></span> &gt; passwd.dict
+</pre></div>
+<h2>What is this doing?</h2>
+<p>(skip this if your already familiar with Bash and Ruby)</p>
+<ol>
+<li><code>cat en-US.dict</code> print the contents of en-US.dict to
+stdout.</li>
+<li><code>| ruby -ne '...'</code> direct to output of
+<code>cat</code> into <code>ruby</code>. a. <code>-n</code> tells
+<code>ruby</code> to iterate through all the lines and set the
+global <code>$_</code> variable to the current line. b.
+<code>e</code> tells <code>ruby</code> to execute the next argument
+as a <code>ruby</code> script</li>
+<li><code>t = $_.strip</code> remove any leading or trailing
+whitespace and set it to variable <code>t</code></li>
+<li><code>;</code> ruby line separator so we can do this as a one
+liner</li>
+<li><code>puts t</code> print the value of <code>t</code></li>
+<li><code>if t =~</code> only execute the previous line <code>puts
+t</code> if <code>t</code> matches the following regular
+expression.</li>
+<li><code>/^\w{4}$/</code> this is a regular expression that
+matches any <code>t</code> which contains exactly 4 characters
+between [a-z] and [A-Z]</li>
+<li><code>&gt; passwd.dict</code> redirect anything which was
+<code>puts</code> by step 5 into a file named
+<code>passwd.dict</code></li>
+</ol>
+<h2>Random Word Selection</h2>
+<p>The next part was the random selection. It isn&rsquo;t that
+fancy, but I figured I shouldn&rsquo;t leave it out.</p>
+<p>To restrict it to just 4 letter words I ran:</p>
+<div class="CodeRay code">
+<pre>
+<span class="keyword">def</span> <span class=
+"function">random_passwd</span>
+  words = <span class="constant">File</span>.read(<span class=
+"string"><span class="delimiter">'</span><span class=
+"content">passwd.dict</span><span class=
+"delimiter">'</span></span>).split  <span class=
+"comment"># read the contents of passwd.dict and</span>
+                                          <span class=
+"comment"># convert it into an array. 1 element per word.</span>
+
+  word = words[(rand * words.size).to_i]  <span class=
+"comment"># pick a random element.</span>
+  num = (rand * <span class="integer">8</span>).to_i + <span class=
+"integer">2</span>               <span class=
+"comment"># pick number between 2 and 8.</span>
+  word + num.to_s                         <span class=
+"comment"># concatenate the two strings together.</span>
+<span class="keyword">end</span>
+</pre></div>
+<p>That&rsquo;s about it.</p>
+<h2>Misc Points of Interest</h2>
+<ol>
+<li>The file read maybe cached, but all the 4 letter words in the
+English language was only ~2500, and the cost of reading the file
+was less than a a millisecond.</li>
+<li>The passwd.dict file has an extra line feed at the end so we
+took that out manually. We were editing the file anyway to remove
+the potentially offensive 4 letter words.</li>
+<li>The regex can be changed to taste, but we figured 4 letter
+words are easily remembered.</li>
+<li>In our actual implementation, we further restrict the word list
+so the words can&rsquo;t end in &ldquo;l&rdquo; or &ldquo;o&rdquo;
+so the user wouldn&rsquo;t confuse them with numbers. This is the
+same reason we don&rsquo;t pick a random number starting with 0 or
+1.</li>
+<li>You&rsquo;ll most certainly want to force the user to change
+the password after entering this one. The whole point was to have a
+weak password so the user could remember and type it.</li>
+</ol>
+<p>Hope this can be helpful to some one out there.</p>
+

@@ -1,0 +1,50 @@
+---
+layout: post
+title: Day 7 - Finger Physics is Hard
+date: 2011-02-23 23:36:51.000000000 -06:00
+comments: true
+categories: 
+posterous_id: 44012450
+---
+<p>After struggling with this problem for quite some time, I think
+the issue is finally licked. The problem relates to transferring
+you fingers momentum to a virtual object on the screen. The natural
+way to display finger position is to plot a sprite at the touch
+sensors coordinates. The problem with this method is the physics
+engine doesn't think their is any momentum built up. The physics
+engine just thinks your finger teleported there. So if I teleport
+on top of a cow it just explodes. To make things worse if the touch
+events come in too slowly you'll teleport over the cow completely
+missing the free lunch.</p>
+<p>The initial solution I had for the issue was horrible. I figured
+I could plot the sprite at the point of contact like before, then
+calculate a force vector based on the last coordinate form the
+previous touch event, divide by time and then tell the physics
+engine to apply the force to the target. This gave me accurate
+transfer of momentum, but looked ridiculous. The finger sprite kept
+jumping forward as I moved my finger across the screen like a
+horizontal jack hammer. So I thought I could divorce the finger
+sprite from the physics engine, but then I'd have to keep track of
+more objects and states of when to use physics (during a release)
+and when to not use it (during a drag). Anyway, I chose not to go
+down that path mainly because it felt like too many parts and I
+have no time for debugging AND I was still teleporting. Doh!</p>
+<p>The solution ultimately came to something very unnatural, but
+completely sufficient. And it cut down my code significantly.
+Probably in half. The affect I needed was to have the object I'm
+dragging show up at my finger location and have momentum maintained
+at release or collision. Did you catch that word? Dragging? That's
+how it hit me. The previous solution was to push the object, but if
+I drag it things get simpler. In drag mode I just need to apply
+enough force to the object to get it to my finger location. The
+math for that is simple and the same as I mentioned in the first
+solution: (current finger sprite position - current touch position)
+/ time. When I apply the force, the physics engine moves the sprite
+under my finger perfectly, and if it misses the next touch event
+comes in to get it even closer. It a self correcting system.</p>
+<p>The best part of the final solution is no more teleporting. We
+don't do it in real life and we shouldn't do it in our games
+either. Maybe one day I'll add the complexity to push the object
+instead of drag, but for now I'll leave that as an exercise to the
+reader.</p>
+
