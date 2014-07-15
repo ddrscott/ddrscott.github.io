@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2014-07-14T13:46:52-05:00</updated>
+  <updated>2014-07-15T07:52:15-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -55,6 +55,1294 @@ what I would have <em>tried</em> to make if I had time. They seemed to have omit
 as with all Open Source projects it is easy to remedy.</p>
 
 <p>Time to post to do my first deploy&hellip; then convert all the Posterous archives.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Writing stuff for command lines? This is a good place to start.]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo/"/>
+    <updated>2012-08-08T12:49:56-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo</id>
+    <content type="html"><![CDATA[<a href=
+"http://practicingruby.com/articles/shared/qyxvmrgmhuln">http://practicingruby.com/articles/shared/qyxvmrgmhuln</a>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Backpocket 2.0]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/backpocket-20/"/>
+    <updated>2012-08-03T09:07:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/backpocket-20</id>
+    <content type="html"><![CDATA[<p>I&#8217;m sick of small &#8220;sexy&#8221; devices. I want a full screen every
+where I go. So I want some one to make this for us, and get a big
+celebrity to sport it and make it cool. I know I can&#8217;t pull it off
+alone.</p>
+<p>I&#8217;m hoping the future Galaxy Note/Tab 3.0 can be hugged by
+Backpocket 2.0&#8217;s embrace.&nbsp;</p>
+<div class='p_embed p_image_embed'><img alt="Back_pocket_2" height=
+"465" src=
+"http://ddrscott.github.io/images/2012/08/43442282-Back_Pocket_2.0_-_Page_1.jpg"
+width="401"></div>
+(drawn with <a href=
+"https://play.google.com/store/apps/details?id=com.steadfastinnovation.android.projectpapyrus&amp;hl=en"
+title="Papyrus - Google Play" target="_blank">Papyrus</a>&nbsp;on
+my Galaxy Note)
+<p>So what do you think tech boys and girls? Leave your comments
+below.</p>
+<p><strong>[Update]</strong></p>
+<p>Aparently another company has already made a large pocket, but
+hasn&#8217;t put it on the back yet.&nbsp;<a href=
+"http://www.thinkofthe.com/product.php?name=large-pocket-shirt">http://www.thinkofthe.com/product.php?name=large-pocket-shirt</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Measure Linux Manhood using Busybox]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/measure-linux-manhood-using-busybox/"/>
+    <updated>2012-07-11T22:17:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/measure-linux-manhood-using-busybox</id>
+    <content type="html"><![CDATA[<img class="featured" src="http://www.busybox.net/images/busybox1.png" width="164" height="116" title="'Busybox'" >
+
+For those in the embedded Linux world, Busybox seems to be the
+single most important thing to have in their filesystem other than
+OS itself. This is something I just recently discovered as I
+started rooting my Android devices. Prior to Busybox I&rsquo;ve
+been stuck using my laptop to edit files, then using
+<code>adb</code> commands to get things to the right location on
+the device. When I was really stuck, I&rsquo;d end up using
+<code>adb shell</code> and the simplified utilities that are in
+<code>/system/bin</code>. But now with Busybox I have access to all
+the commands I&rsquo;m accustom to using in a full Linux/Unix
+distribution.
+
+<!-- more -->
+<p>What is Busybox, exactly? According to their documentation,
+&ldquo;BusyBox combines tiny versions of many common UNIX utilities
+into a single small executable. It provides minimalist replacements
+for most of the utilities you usually find in GNU coreutils,
+util-linux, etc.&rdquo;</p>
+<p>For years I&rsquo;ve been too lazy or intimidated by Linux and
+its super huge list of programs that I&rsquo;ve never really spent
+the time to figure out which utils I should really know and which
+are just gravy. For instance if I use Ubuntu&rsquo;s package
+manager to install a program, I&rsquo;m bombarded with tens of
+thousands of possibilities. ~38,500 according to this <a href=
+"http://askubuntu.com/questions/111753/how-many-i386-and-amd64-packages-exist">
+answer</a>. Who has time to evaluate all those programs?!?</p>
+<h1>Test of Man/Womanhood</h1>
+<p>So where am I going with all this? What about the Test of
+Manhood? If Busybox is so great and contains commonly used
+functions, then I assert that one of a Linux
+Admins&acirc;&euro;&trade; job interview questions should be,
+&ldquo;Give a short description of each one of these commands and
+when you would use it.&rdquo; Then toss the Busybox command/applet
+list across the table and stare intensely at the candidate.</p>
+<h1>Busybox Test</h1>
+<p>I am not a Linux expert, but I can get a system running in a
+pinch. My rough guess is I have fluency in only 10% of the Busybox
+commands, and the rest I have to Google or take by blind faith when
+I use some online shell snippet. I want to put that 10% to the
+test. I&rsquo;m going to answer my own interview question, and
+you&rsquo;ll just need to trust me that I&rsquo;m not using the
+Busybox <a href="http://www.busybox.net/downloads/BusyBox.html"
+title="Busybox Manual">manual</a> during the test. Actually, I have
+no reason to cheat since I&rsquo;m really doing this to see how
+much I don&rsquo;t know, and as a benchmark for how I can improve
+in the future.</p>
+<ol>
+<li><code>acpid</code> &ndash; ?</li>
+<li><code>addgroup</code> &ndash; add a group by ID or name to a
+user</li>
+<li><code>adduser</code> &ndash; add a user to the system</li>
+<li><code>adjtimex</code> &ndash; adjust time?</li>
+<li><code>ar</code> &ndash; ? archive?</li>
+<li><code>arp</code> &ndash; related to networking, but I have no
+idea</li>
+<li><code>arping</code> &ndash; ?</li>
+<li><code>ash</code> &ndash; huh?</li>
+<li><code>awk</code> &ndash; stream parsing? I&rsquo;ve never used
+it but often hear it mentioned with <code>sed</code></li>
+<li><code>basename</code> &ndash; ?</li>
+<li><code>beep</code> &ndash; make a beep, I&rsquo;ve always used
+<code>echo -e '\07'</code></li>
+<li><code>blkid</code> &ndash; ?</li>
+<li><code>brctl</code> &ndash; ?</li>
+<li><code>bunzip2</code> &ndash; decompress bz2 archive files</li>
+<li><code>bzcat</code> &ndash; send to stdout the decompressed
+contents of a bz2 archive</li>
+<li><code>bzip2</code> &ndash; compress a file using bz2
+format</li>
+<li><code>cal</code> &ndash; show the calendar</li>
+<li><code>cat</code> &ndash; send to stdout the contents of a
+file</li>
+<li><code>catv</code> &ndash; related to cat?</li>
+<li><code>chat</code> &ndash; you can do this?!?</li>
+<li><code>chattr</code> &ndash; ? change file attributes ?</li>
+<li><code>chgrp</code> &ndash; similar to chown, but only affect
+the group portion?</li>
+<li><code>chmod</code> &ndash; change file permissions</li>
+<li><code>chown</code> &ndash; change the owner of a file. can
+change user or group ownership.</li>
+<li><code>chpasswd</code> &ndash; never used, but guessing it would
+change a password. I think <code>passwd</code> does the same
+thing.</li>
+<li><code>chpst</code> &ndash; ?</li>
+<li><code>chroot</code> &ndash; change where &ldquo;/&rdquo; is
+located in the file system. never used. Might be good for
+sandboxing guest users?</li>
+<li><code>chrt</code> &ndash; abbreviation for
+<code>chroot</code>?</li>
+<li><code>chvt</code> &ndash; ?</li>
+<li><code>cksum</code> &ndash; generate a statistically unique
+number based on the contents of the stdin or a file.</li>
+<li><code>clear</code> &ndash; clear the terminal screen</li>
+<li><code>cmp</code> &ndash; ? compare?</li>
+<li><code>comm</code> &ndash; ?</li>
+<li><code>cp</code> &ndash; copy a file</li>
+<li><code>cpio</code> &ndash; ? copy a stream or more low level
+copy ?</li>
+<li><code>crond</code> &ndash; a daemon to run programs according
+to a schedule</li>
+<li><code>crontab</code> &ndash; manage a cron schedule</li>
+<li><code>cryptpw</code> &ndash; ?</li>
+<li><code>cut</code> &ndash; split stdin or a file into an
+array</li>
+<li><code>date</code> &ndash; output system time. can send it
+format args</li>
+<li><code>dc</code> &ndash; ? direct copy? I think I&rsquo;ve run
+into this during disk formatting.</li>
+<li><code>dd</code> &ndash; ? direct device copy? used in
+conjunction with <code>dc</code>?</li>
+<li><code>deallocvt</code> &ndash; ?</li>
+<li><code>delgroup</code> &ndash; remove a group from a user</li>
+<li><code>deluser</code> &ndash; remove a user</li>
+<li><code>depmod</code> &ndash; ?</li>
+<li><code>devmem</code> &ndash; ?</li>
+<li><code>df</code> &ndash; device fullness. (my own way to
+remember it). Display current disk usage.</li>
+<li><code>dhcprelay</code> &ndash; ? something related to dhcp</li>
+<li><code>diff</code> &ndash; show the difference of 2 files</li>
+<li><code>dirname</code> &ndash; never used it, I think
+<code>pwd</code> is more common</li>
+<li><code>dmesg</code> &ndash; ?</li>
+<li><code>dnsd</code> &ndash; DNS daemon</li>
+<li><code>dnsdomainname</code> &ndash; ?</li>
+<li><code>dos2unix</code> &ndash; change the line delimiters of a
+file to/from DOS style <code>\r\n</code> to UNIX
+<code>\n</code></li>
+<li><code>dpkg</code> &ndash; Debian program packaging utility</li>
+<li><code>du</code> &ndash; Disk Usage. How much space is the
+current directory using on disk.</li>
+<li><code>dumpkmap</code> &ndash; ?</li>
+<li><code>dumpleases</code> &ndash; ?</li>
+<li><code>echo</code> &ndash; print to stdout</li>
+<li><code>ed</code> &ndash; old school line editor. I&rsquo;m not
+old enough. Never used it.</li>
+<li><code>egrep</code> &ndash; extended <code>grep</code> which
+allows for more advanced regular expressions</li>
+<li><code>eject</code> &ndash; ? remove a floppy or CD ?</li>
+<li><code>env</code> &ndash; ?</li>
+<li><code>envdir</code> &ndash; ?</li>
+<li><code>envuidgid</code> &ndash; ?</li>
+<li><code>expand</code> &ndash; ?</li>
+<li><code>expr</code> &ndash; ?</li>
+<li><code>fakeidentd</code> &ndash; ?</li>
+<li><code>false</code> &ndash; not true? used in scripting ?</li>
+<li><code>fbset</code> &ndash; ?</li>
+<li><code>fbsplash</code> &ndash; ?</li>
+<li><code>fdflush</code> &ndash; ?</li>
+<li><code>fdformat</code> &ndash; ?</li>
+<li><code>fdisk</code> &ndash; ?</li>
+<li><code>fgrep</code> &ndash; related to grep? what the
+&ldquo;f&rdquo;?</li>
+<li><code>find</code> &ndash; find files based on various
+attributes</li>
+<li><code>findfs</code> &ndash; ? Like find is some way?</li>
+<li><code>flash_lock</code> &ndash; ?</li>
+<li><code>flash_unlock</code> &ndash; ?</li>
+<li><code>fold</code> &ndash; ? Laundry?</li>
+<li><code>free</code> &ndash; ? Disk or memory?</li>
+<li><code>freeramdisk</code> &ndash; ?</li>
+<li><code>fsck</code> &ndash; file system checker</li>
+<li><code>fsck.minix</code> &ndash; ?</li>
+<li><code>fsync</code> &ndash; ?</li>
+<li><code>ftpd</code> &ndash; FTP daemon</li>
+<li><code>ftpget</code> &ndash; get file from FTP server</li>
+<li><code>ftpput</code> &ndash; put a file onto an FTP server</li>
+<li><code>fuser</code> &ndash; ?</li>
+<li><code>getopt</code> &ndash; ? Helper for writing scripts?</li>
+<li><code>getty</code> &ndash; ?</li>
+<li><code>grep</code> &ndash; find text in a file or stdin</li>
+<li><code>gunzip</code> &ndash; decompress a gz archive</li>
+<li><code>gzip</code> &ndash; compress a file into a gz
+archive</li>
+<li><code>hd</code> &ndash; ?</li>
+<li><code>hdparm</code> &ndash; ? get parameters from hard
+drive?</li>
+<li><code>head</code> &ndash; output to N number of lines from a
+file or stdin</li>
+<li><code>hexdump</code> &ndash; ? Dump contents as hex
+characters</li>
+<li><code>hostid</code> &ndash; ?</li>
+<li><code>hostname</code> &ndash; hostname of the machine, and set
+it using the same command</li>
+<li><code>httpd</code> &ndash; webserver daemon, I wonder it is
+Apache</li>
+<li><code>hush</code> &ndash; ?</li>
+<li><code>hwclock</code> &ndash; ? Hardware clock?</li>
+<li><code>id</code> &ndash; ?</li>
+<li><code>ifconfig</code> &ndash; manage network interfaces</li>
+<li><code>ifdown</code> &ndash; turn off a network interface</li>
+<li><code>ifenslave</code> &ndash; ?</li>
+<li><code>ifplugd</code> &ndash; ?</li>
+<li><code>ifup</code> &ndash; turn on a network interface</li>
+<li><code>inetd</code> &ndash; ? I should know this, but I
+don&rsquo;t</li>
+<li><code>init</code> &ndash; ?</li>
+<li><code>inotifyd</code> &ndash; ?</li>
+<li><code>insmod</code> &ndash; ?</li>
+<li><code>install</code> &ndash; ? Install what and where?</li>
+<li><code>ionice</code> &ndash; ?</li>
+<li><code>ip</code> &ndash; ? Related to networking&hellip;</li>
+<li><code>ipaddr</code> &ndash; ?</li>
+<li><code>ipcalc</code> &ndash; ?</li>
+<li><code>ipcrm</code> &ndash; ?</li>
+<li><code>ipcs</code> &ndash; ?</li>
+<li><code>iplink</code> &ndash; ?</li>
+<li><code>iproute</code> &ndash; ?</li>
+<li><code>iprule</code> &ndash; ?</li>
+<li><code>iptunnel</code> &ndash; ?</li>
+<li><code>kbd_mode</code> &ndash; ? Keyboard mode?</li>
+<li><code>kill</code> &ndash; kill a running process</li>
+<li><code>killall</code> &ndash; kill all processes matching a
+criteria</li>
+<li><code>killall5</code> &ndash; ?</li>
+<li><code>klogd</code> &ndash; ?</li>
+<li><code>last</code> &ndash; ? like tail?</li>
+<li><code>length</code> &ndash; ?</li>
+<li><code>less</code> &ndash; file viewer with VI style
+navigation</li>
+<li><code>linux32</code> &ndash; ?</li>
+<li><code>linux64</code> &ndash; ?</li>
+<li><code>linuxrc</code> &ndash; ?</li>
+<li><code>ln</code> &ndash; link a file to another location</li>
+<li><code>loadfont</code> &ndash; ?</li>
+<li><code>loadkmap</code> &ndash; ?</li>
+<li><code>logger</code> &ndash; ?</li>
+<li><code>login</code> &ndash; login as another user</li>
+<li><code>logname</code> &ndash; ?</li>
+<li><code>logread</code> &ndash; ?</li>
+<li><code>losetup</code> &ndash; ?</li>
+<li><code>lpd</code> &ndash; ?</li>
+<li><code>lpq</code> &ndash; ?</li>
+<li><code>lpr</code> &ndash; ?</li>
+<li><code>ls</code> &ndash; list files to stdout</li>
+<li><code>lsattr</code> &ndash;?</li>
+<li><code>lsmod</code> &ndash; ?</li>
+<li><code>lzmacat</code> &ndash; ?</li>
+<li><code>lzop</code> &ndash; ?</li>
+<li><code>lzopcat</code> &ndash; ?</li>
+<li><code>makemime</code> &ndash; ?</li>
+<li><code>man</code> &ndash; view manual of a command. <code>man
+busybox</code></li>
+<li><code>md5sum</code> &ndash; like <code>cksum</code> but more
+commonly used</li>
+<li><code>mdev</code> &ndash; ?</li>
+<li><code>mesg</code> &ndash; ?</li>
+<li><code>microcom</code> &ndash; ?</li>
+<li><code>mkdir</code> &ndash; make a directory</li>
+<li><code>mkdosfs</code> &ndash; ? make DOS file system?</li>
+<li><code>mkfifo</code> &ndash; ?</li>
+<li><code>mkfs.minix</code> &ndash; ?</li>
+<li><code>mkfs.vfat</code> &ndash; ?</li>
+<li><code>mknod</code> &ndash; ?</li>
+<li><code>mkpasswd</code> &ndash; ?</li>
+<li><code>mkswap</code> &ndash; ?</li>
+<li><code>mktemp</code> &ndash; ?</li>
+<li><code>modprobe</code> &ndash; ?</li>
+<li><code>more</code> &ndash; predecessor to <code>less</code> and
+has fewer features. Many systems link <code>more</code> to
+<code>less</code></li>
+<li><code>mount</code> &ndash; mount a device to file system
+path</li>
+<li><code>mountpoint</code> &ndash; ?</li>
+<li><code>mt</code> &ndash; ?</li>
+<li><code>mv</code> &ndash; move file to another path</li>
+<li><code>nameif</code> &ndash; ?</li>
+<li><code>nc</code> &ndash; ?</li>
+<li><code>netstat</code> &ndash; get network statistics</li>
+<li><code>nice</code> &ndash; change CPU priority of a process</li>
+<li><code>nmeter</code> &ndash; ?</li>
+<li><code>nohup</code> &ndash; run process detatched from current
+shell and as system root process</li>
+<li><code>nslookup</code> &ndash; lookup IP address of DNS
+name</li>
+<li><code>od</code> &ndash; ?</li>
+<li><code>openvt</code> &ndash; ?</li>
+<li><code>passwd</code> &ndash; change password</li>
+<li><code>patch</code> &ndash; apply difference file generated by
+<code>diff</code></li>
+<li><code>pgrep</code> &ndash; ? What the &lsquo;p&rsquo;?</li>
+<li><code>pidof</code> &ndash; ?</li>
+<li><code>ping</code> &ndash; check for existence of another
+IP</li>
+<li><code>ping6</code> &ndash; same as <code>ping</code> but for
+IPv6</li>
+<li><code>pipe_progress</code> &ndash; ? sounds interesting</li>
+<li><code>pivot_root</code> &ndash;?</li>
+<li><code>pkill</code> &ndash; kill all processes named X</li>
+<li><code>popmaildir</code> &ndash; ? related to POP mail</li>
+<li><code>printenv</code> &ndash; ?</li>
+<li><code>printf</code> &ndash; ?</li>
+<li><code>ps</code> &ndash; process list, list all currently
+running processes</li>
+<li><code>pscan</code> &ndash; ?</li>
+<li><code>pwd</code> &ndash; current working directory</li>
+<li><code>raidautorun</code> &ndash; ?</li>
+<li><code>rdate</code> &ndash; ?</li>
+<li><code>rdev</code> &ndash; ?</li>
+<li><code>readlink</code> &ndash; ?</li>
+<li><code>readprofile</code> &ndash; ?</li>
+<li><code>realpath</code> &ndash; ?</li>
+<li><code>reformime</code> &ndash; ?</li>
+<li><code>renice</code> &ndash; ?</li>
+<li><code>reset</code> &ndash; ?</li>
+<li><code>resize</code> &ndash; ?</li>
+<li><code>rm</code> &ndash; remove file</li>
+<li><code>rmdir</code> &ndash; remove directory</li>
+<li><code>rmmod</code> &ndash;?</li>
+<li><code>route</code> &ndash; ? related to networking</li>
+<li><code>rpm</code> &ndash; Redhat package manager?</li>
+<li><code>rpm2cpio</code> &ndash; ?</li>
+<li><code>rtcwake</code> &ndash; ?</li>
+<li><code>run-parts</code> &ndash; ?</li>
+<li><code>runlevel</code> &ndash; ?</li>
+<li><code>runsv</code> &ndash; ?</li>
+<li><code>runsvdir</code> &ndash; ?</li>
+<li><code>rx</code> &ndash; ? Prescription Drugs? How
+convienant</li>
+<li><code>script</code> &ndash; ?</li>
+<li><code>scriptreplay</code> &ndash; ?</li>
+<li><code>sed</code> &ndash; stream editor</li>
+<li><code>sendmail</code> &ndash; ? related to email</li>
+<li><code>seq</code> &ndash; ?</li>
+<li><code>setarch</code> &ndash; ?</li>
+<li><code>setconsole</code> &ndash; ?</li>
+<li><code>setfont</code> &ndash; ?</li>
+<li><code>setkeycodes</code> &ndash; ?</li>
+<li><code>setlogcons</code> &ndash; ?</li>
+<li><code>setsid</code> &ndash; ?</li>
+<li><code>setuidgid</code> &ndash; ?</li>
+<li><code>sh</code> &ndash; start a new shell</li>
+<li><code>sha1sum</code> &ndash; check sum generator like
+<code>cksum</code> and <code>md5sum</code> but considered more
+random. This is the 128 bits version.</li>
+<li><code>sha256sum</code> &ndash; same as above but more bits</li>
+<li><code>sha512sum</code> &ndash; even more bits</li>
+<li><code>showkey</code> &ndash; ?</li>
+<li><code>slattach</code> &ndash; ?</li>
+<li><code>sleep</code> &ndash; suspend computer</li>
+<li><code>softlimit</code> &ndash; ?</li>
+<li><code>sort</code> &ndash; sort contents of stdin or file.
+Output to stdout</li>
+<li><code>split</code> &ndash; ? I can guess, but didn&rsquo;t know
+this existed.</li>
+<li><code>start-stop-daemon</code> &ndash; ?</li>
+<li><code>stat</code> &ndash; ?</li>
+<li><code>strings</code> &ndash; ?</li>
+<li><code>stty</code> &ndash; ?</li>
+<li><code>su</code> &ndash; switch user</li>
+<li><code>sulogin</code> &ndash; ?</li>
+<li><code>sum</code> &ndash; ?</li>
+<li><code>sv</code> &ndash; ?</li>
+<li><code>svlogd</code> &ndash; ?</li>
+<li><code>swapoff</code> &ndash; ?</li>
+<li><code>swapon</code> &ndash; ?</li>
+<li><code>switch_root</code> &ndash; ?</li>
+<li><code>sync</code> &ndash; ?</li>
+<li><code>sysctl</code> &ndash; ? Sounds familar</li>
+<li><code>syslogd</code> &ndash; logging daemon</li>
+<li><code>tac</code> &ndash; opposite of <code>cat</code>, will
+print in reverse order</li>
+<li><code>tail</code> &ndash; output end of a file or steam</li>
+<li><code>tar</code> &ndash; create an archive of one or more
+files</li>
+<li><code>taskset</code> &ndash; ?</li>
+<li><code>tcpsvd</code> &ndash; ?</li>
+<li><code>tee</code> &ndash; write stdout to a file and still
+output to screen</li>
+<li><code>telnet</code> &ndash; client to connect to another
+machine/hosts</li>
+<li><code>telnetd</code> &ndash; telnet daemon to allow connections
+from other hosts</li>
+<li><code>test</code> &ndash; ?</li>
+<li><code>tftp</code> &ndash; ? What is the &rsquo;t&#8217;?</li>
+<li><code>tftpd</code> &ndash; ? FTP server daemon. What is the
+&rsquo;t&#8217;?</li>
+<li><code>time</code> &ndash; time how long a program takes to run.
+I often type this instead of <code>date</code> wanting to know what
+time it is on the server, and I&rsquo;m always disappointed by the
+0 result</li>
+<li><code>timeout</code> &ndash; ? sounds interesting</li>
+<li><code>top</code> &ndash; nice UI of top processes</li>
+<li><code>touch</code> &ndash; change to modified timestamp of a
+file to now. Will create an empty file it doesn&rsquo;t exist</li>
+<li><code>tr</code> &ndash; ?</li>
+<li><code>traceroute</code> &ndash; check how many network hops the
+current host is from another host</li>
+<li><code>true</code> &ndash; ?</li>
+<li><code>tty</code> &ndash; ?</li>
+<li><code>ttysize</code> &ndash; ?</li>
+<li><code>udhcpc</code> &ndash; ?</li>
+<li><code>udhcpd</code> &ndash; ?</li>
+<li><code>udpsvd</code> &ndash; ?</li>
+<li><code>umount</code> &ndash; unmount a device from file
+system</li>
+<li><code>uname</code> &ndash; output info about current OS
+installation</li>
+<li><code>uncompress</code> &ndash; ? decompress a file, never used
+before</li>
+<li><code>unexpand</code> &ndash; ? Ditto</li>
+<li><code>uniq</code> &ndash; outputs unique occurrences of a line
+from a file or stdout. Input must already be sorted.</li>
+<li><code>unix2dos</code> &ndash; opposite of
+<code>dos2unix</code></li>
+<li><code>unlzma</code> &ndash; ?</li>
+<li><code>unlzop</code> &ndash; ?</li>
+<li><code>unzip</code> &ndash; decompress a zip archive</li>
+<li><code>uptime</code> &ndash; ?</li>
+<li><code>usleep</code> &ndash; ?</li>
+<li><code>uudecode</code> &ndash; ? What is UU?</li>
+<li><code>uuencode</code> &ndash; ?</li>
+<li><code>vconfig</code> &ndash; ?</li>
+<li><code>vi</code> &ndash; visual editor</li>
+<li><code>vlock</code> &ndash; ?</li>
+<li><code>volname</code> &ndash; ?</li>
+<li><code>watch</code> &ndash; continuously run a program and
+output the results watching for differences</li>
+<li><code>watchdog</code> &ndash;?</li>
+<li><code>wc</code> &ndash; word count, outputs lines then words
+then character count</li>
+<li><code>wget</code> &ndash; pull a HTTP resource into file or
+stdout</li>
+<li><code>which</code> &ndash; output the full path of a
+program</li>
+<li><code>who</code> &ndash; who else is logged into current
+host</li>
+<li><code>whoami</code> &ndash; which user I is my session</li>
+<li><code>xargs</code> &ndash; ? I&#8217;be always wanted to learn this
+one&hellip;</li>
+<li><code>yes</code> &ndash; output &lsquo;y&rsquo; to stdin.
+Useful for automatically confirmation of install prompts</li>
+<li><code>zcat</code> &ndash; <code>cat</code> the contents of a gz
+archive</li>
+<li><code>zcip</code> &ndash; ?</li>
+</ol>
+<h1>Conclusion</h1>
+<p>Three hundred and eight commands later&hellip; I&rsquo;m tired.
+And as you can see, I have a long way to go. 99 commands known, and
+209 commands unknown. 33% is better than the predicted 10%
+<strong>Woohoo!</strong></p>
+<p>Now I have the task of reading the <a href=
+"http://www.busybox.net/downloads/BusyBox.html" title=
+"Busybox Manual">Busybox documentation</a> more thoroughly to see
+what I&rsquo;ve been missing my whole shell life.</p>
+<p>So where do you stand on the Busybox challenge? Are the Busybox
+commands already at your mercy or is it this the missing Linux
+link? Post your percentage in the comments.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[This is a Test Phone Blog]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/this-is-a-test-phone-blog/"/>
+    <updated>2012-07-07T08:23:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/this-is-a-test-phone-blog</id>
+    <content type="html"><![CDATA[<p>The jury is still out on whether I can productively write
+anything on a mobile device. I just received a Galaxy Note,
+installed Hackers Keyboard, and installed Writer app. The Note
+provides nearly an extra inch of keyboard while the Hackers
+Keyboard provides all the typical keys on used to on a desktop.
+Lastly was finding an app that highlights my favorite plain text
+writing language, Markdown.</p>
+<!-- more -->
+<h2>The Galaxy Note</h2>
+<p>The Galaxy Note is an interesting writing device due to its
+size. I did get used to typing on my past Nexus S, but it was
+always difficult to type code snippets. When the Galaxy Note
+arrived the keyboard was comfy-cozzy and the screen could hold
+double the text as my previous phones. I did have to make an
+adjustment before I could make use of all those pixels.</p>
+<h3>Set DPI of Android OS</h3>
+<p>This is a multiple step process consisting of rooting, mounting
+<code>/system</code> as read/write, and editing
+<code>/system/build.info</code>. <a href=
+"http://www.google.com/search?btnG=1&amp;pws=0&amp;q=change+android+dpi">
+http://www.google.com/search?btnG=1&amp;pws=0&amp;q=change+android+dpi</a></p>
+<h2>Hacker&rsquo;s Keyboard</h2>
+<p>This is the keyboard I&rsquo;ve always wanted but don&rsquo;t
+have the time to create myself. It is based off the excellent
+Gingerbread keyboard and adds the other keys to it. It does it in
+such a way that doesn&rsquo;t make the QWERTY keys much small or
+obfuscate the location of the symbol keys. My only complaint is
+finding the &ldquo;/&rdquo; character. It is hidden behind a long
+press of the Speak/Mic key.</p>
+<p>In landscape mode the keyboard can turn into a full desktop
+keyboard. I have it set to also not do amy typing correction and to
+maintain screen overlay mode instead of demoting the screen layout
+to show only the input box and the keyboard. Basically landscape is
+my coding and SSH home, and portrait is for everything else.</p>
+<h2>Writer&rsquo;s App</h2>
+<p><a href=
+"https://play.google.com/store/apps/details?id=com.jamesmc.writer">https://play.google.com/store/apps/details?id=com.jamesmc.writer</a>
+I&rsquo;m writing this whole post in this app while reviewing it. I
+have used other apps to write a substantial amount of text, but
+this app has one feature that makes it worth while: Markdown syntax
+highlighting. It might not mean a lot to most people out there, but
+for me using Markdown means I don&rsquo;t have to worry about
+styling my text are writing HTML tags and I still get to separate
+sections with heads and annotate blocks as code or add
+<strong>emphasis</strong> in an unobtrusive way. Having the syntax
+highlighting humanizes the text into a readable document so I can
+have a preview to how the final audience might see it as I&rsquo;m
+still composing it.</p>
+<h2>Misc Thoughts</h2>
+<ol>
+<li>The Note has a slippery back and makes holding the device over
+45 degrees a difficult task without putting a finger or two under
+the it. My pinky is very tired now and I think I&rsquo;m getting a
+rash fromthw USB slot. A rubberized back is probably in order.</li>
+<li>The Notes screen is too bright. I seldom use the device
+outdoors where the brightness could be useful, but the real
+complaint is I can turn the LCD backlighting low enough at night
+time which is when I&rsquo;m most prone to write something. Using
+an app like Screen Filter [<a href=
+"https://play.google.com/store/apps/details?id=com.haxor">https://play.google.com/store/apps/details?id=com.haxor</a>]
+helps but washes out colors.</li>
+<li>Heat! This might be a feature in the winter, but right now my
+hands are getting sweaty which makes thought #1 even more
+evident.</li>
+<li>Touch typing is possible. I&rsquo;ve been primarily looking a
+the text that I&rsquo;m writing and not the kkeyboard. I occasionly
+look at the ssuggestion strip for longer words, but with the Note I
+finally get to make my high-school typing teacher happy by not
+looking at my hands.</li>
+</ol>
+<h2>Uploading to Posterous</h2>
+<p>Posterous is supposed ti be Blogging for the rest of us. Well it
+isn&rsquo;t easy for me. The basis work flow in Posterous is to
+email the post to <a href=
+"mailto:post@posterous.com">post@posterous.com</a> and it
+automatically gets to the web nicely formatted. This has yet to
+turn out to my satisfaction because it usually messes up the code
+snippets or doesn&rsquo;t feature an image I&rsquo;ve attatched.
+This means I then have to go to there website and fiddle with it in
+the WYSIWYG editor. I&rsquo;ll see what happens when I try to post
+this Markdown heavy text.</p>
+<h2>Final Thoughts</h2>
+<p>Overall, I feel the 3 way combo will allow me to write a bit
+more. By nature, I would love to have more time in front of an IDE,
+but writing English should do me some good, too.</p>
+<p><strong>[Update]</strong> Uploading from Android app still
+didn&rsquo;t format the original text correctly, I still had to
+tweak in a web browser, ugh!</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Random Password Progam Redux]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/random-password-progam-redux/"/>
+    <updated>2012-07-02T08:09:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/random-password-progam-redux</id>
+    <content type="html"><![CDATA[<p>Well this goes to show that I should always Google first, think
+later. The <code>apg</code> program seems to do everything I need
+and with much more flexibility.</p>
+<!-- more -->
+<p>First install <code>apg</code></p>
+<div class="CodeRay code">
+<pre>
+apt-get install apg
+</pre></div>
+<p>Then the ruby code becomes:</p>
+<div class="CodeRay code">
+<pre>
+def random_passwd
+  `apg -m 5 -x 5 -M LN -E oO0lL -n 1`
+end
+</pre></div>
+<h2><code>apg</code> Options Used</h2>
+<p><a href="http://linux.die.net/man/1/apg">Linux Manual for
+<code>apg</code></a></p>
+<ol>
+<li><code>-m 5</code> &ndash; minimum length of 5 characters</li>
+<li><code>-X 5</code> &ndash; maximum length of 5 characters</li>
+<li><code>-M LN</code> &ndash; mode L &ndash; must be all lowercase
+letters. Mode N &ndash; must use a number</li>
+<li><code>-E oO0lL</code> &ndash; exclude lower case
+&lsquo;oh&rsquo;, upper case &lsquo;oh&rsquo;, zero, lower
+&lsquo;el&rsquo;, and upper &lsquo;el&rsquo;</li>
+<li><code>-n 1</code> &ndash; only generate 1 password.</li>
+</ol>
+<p>Example output:</p>
+<div class="CodeRay code">
+<pre>
+ruby -e '20.times{ puts `apg -m 5 -x 5 -M LN -E oO0lL -n 1` }'
+ugof7
+skyn1
+6glel
+zonn3
+vawl4
+worg7
+2drov
+jops3
+9oshk
+pram1
+tork6
+riad1
+myaj9
+reft6
+on4ax
+ojej5
+rhim2
+glok2
+yeac1
+wuev5
+</pre></div>
+<h2>Points of interest</h2>
+<ol>
+<li>It could take <code>apg</code> up to a second to generate a
+single password. This could be due subprocess startup, or the
+generator. I don&rsquo;t know.</li>
+<li>The algorithm it uses creates pronounceable passwords.
+It&rsquo;s unlikely for it to generate a real words.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to create human readable randomized passwords?]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/how-to-create-human-readable-randomized-passw/"/>
+    <updated>2012-07-01T02:51:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/how-to-create-human-readable-randomized-passw</id>
+    <content type="html"><![CDATA[<p>This issue came up in my day job where the client didn&rsquo;t
+like our password reset passwords. They said it was too random and
+people can&rsquo;t remember it long enough between reading it in
+there email and entering it into our app/website.</p>
+<!-- more -->
+<p>This might be a matter of taste since sending out a password
+change link is another common solution, but we don&rsquo;t have
+that flow in our existing implementation. Generating a less random
+temporary password is the quicker solution.</p>
+<p>So the method we chose was to pick a random 4 letter word from a
+dictionary file and append a number to the end of it.</p>
+<p>We found a hacker&rsquo;s dictionary online and used that as our
+base. To restrict it to just 4 letter words I ran:</p>
+<div class="CodeRay code">
+<pre>
+cat en-<span class=
+"constant">US</span>.dict | ruby -ne <span class="string"><span class="delimiter">'</span><span class="content">t = $_.strip; puts t if t =~ /^</span><span class="content">\w</span><span class="content">{4}$/</span><span class="delimiter">'</span></span> &gt; passwd.dict
+</pre></div>
+<h2>What is this doing?</h2>
+<p>(skip this if your already familiar with Bash and Ruby)</p>
+<ol>
+<li><code>cat en-US.dict</code> print the contents of en-US.dict to
+stdout.</li>
+<li><code>| ruby -ne '...'</code> direct to output of
+<code>cat</code> into <code>ruby</code>. a. <code>-n</code> tells
+<code>ruby</code> to iterate through all the lines and set the
+global <code>$_</code> variable to the current line. b.
+<code>e</code> tells <code>ruby</code> to execute the next argument
+as a <code>ruby</code> script</li>
+<li><code>t = $_.strip</code> remove any leading or trailing
+whitespace and set it to variable <code>t</code></li>
+<li><code>;</code> ruby line separator so we can do this as a one
+liner</li>
+<li><code>puts t</code> print the value of <code>t</code></li>
+<li><code>if t =~</code> only execute the previous line <code>puts
+t</code> if <code>t</code> matches the following regular
+expression.</li>
+<li><code>/^\w{4}$/</code> this is a regular expression that
+matches any <code>t</code> which contains exactly 4 characters
+between [a-z] and [A-Z]</li>
+<li><code>&gt; passwd.dict</code> redirect anything which was
+<code>puts</code> by step 5 into a file named
+<code>passwd.dict</code></li>
+</ol>
+<h2>Random Word Selection</h2>
+<p>The next part was the random selection. It isn&rsquo;t that
+fancy, but I figured I shouldn&rsquo;t leave it out.</p>
+<p>To restrict it to just 4 letter words I ran:</p>
+<div class="CodeRay code">
+<pre>
+<span class="keyword">def</span> <span class=
+"function">random_passwd</span>
+  words = <span class="constant">File</span>.read(<span class=
+"string"><span class="delimiter">'</span><span class=
+"content">passwd.dict</span><span class=
+"delimiter">'</span></span>).split  <span class=
+"comment"># read the contents of passwd.dict and</span>
+                                          <span class=
+"comment"># convert it into an array. 1 element per word.</span>
+
+  word = words[(rand * words.size).to_i]  <span class=
+"comment"># pick a random element.</span>
+  num = (rand * <span class="integer">8</span>).to_i + <span class=
+"integer">2</span>               <span class=
+"comment"># pick number between 2 and 8.</span>
+  word + num.to_s                         <span class=
+"comment"># concatenate the two strings together.</span>
+<span class="keyword">end</span>
+</pre></div>
+<p>That&rsquo;s about it.</p>
+<h2>Misc Points of Interest</h2>
+<ol>
+<li>The file read maybe cached, but all the 4 letter words in the
+English language was only ~2500, and the cost of reading the file
+was less than a a millisecond.</li>
+<li>The passwd.dict file has an extra line feed at the end so we
+took that out manually. We were editing the file anyway to remove
+the potentially offensive 4 letter words.</li>
+<li>The regex can be changed to taste, but we figured 4 letter
+words are easily remembered.</li>
+<li>In our actual implementation, we further restrict the word list
+so the words can&rsquo;t end in &ldquo;l&rdquo; or &ldquo;o&rdquo;
+so the user wouldn&rsquo;t confuse them with numbers. This is the
+same reason we don&rsquo;t pick a random number starting with 0 or
+1.</li>
+<li>You&rsquo;ll most certainly want to force the user to change
+the password after entering this one. The whole point was to have a
+weak password so the user could remember and type it.</li>
+</ol>
+<p>Hope this can be helpful to some one out there.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[9 Year Old Developer]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/9-year-old-developer-58060/"/>
+    <updated>2012-04-20T07:43:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/9-year-old-developer-58060</id>
+    <content type="html"><![CDATA[<p>I just found out about this story this morning, and it warmed up
+my day.</p>
+It supports my belief that we&#8217;re all born with the yearning to
+create stuff.Cheers to the supportive father that didn&#8217;t minimize
+his efforts or force him to do what others expect of him.
+<!-- more -->
+<div class="c6">
+<div class="c1"><a href=
+"http://feedproxy.google.com/~r/readwriteweb/~3/a4pLyY2ZWlQ/how-a-9-year-old-boy-became-th.php">
+How a 9-Year-Old Boy Became the Latest Internet Meme</a></div>
+<div class="c2">via <a href="http://www.readwriteweb.com/" class=
+"f">ReadWriteWeb</a> by David Strom on 4/19/12</div>
+<br class="c3">
+<p class="c4"><a href=
+"http://www.readwriteweb.com/start/caine-mullick.jpg"><span><img src="http://www.readwriteweb.com/files/styles/150_150/public/files/start/assets_c/2012/04/caine-mullick-thumb-609x414-40488.jpg"
+alt="" width="150"></span></a> If you&#8217;re looking for a warm,
+heart-rending story for today, look no further than how Caine
+Monroy became the latest YouTube viral sensation, with more than
+2.4 million views and counting since it was posted last week.</p>
+<p class="c4">Thanks to a loyal customer, Nirvan Mullick (pictured
+with Monroy), the schoolboy now has a $150,000 scholarship fund and
+fans all over the world. And the story holds lessons for budding
+online entrepreneurs, too. How did all this happen?</p>
+<p class="c4">Last year, Monroy was just another nine-year-old kid
+from East Los Angeles trying to figure out what to do with his
+summer, when one day he went to his dad&#8217;s auto parts store. The
+store was largely devoid of customers, as Dad does most of his
+business online. Caine asked if he could play with the cardboard
+boxes that the parts came in, and before you could say &#8220;Zoltar,&#8221; he
+had constructed his own cardboard replica of several arcade-style
+games, such as miniature pop-shot basketball and ring toss. He then
+proceeded to sit in the store and wait for customers to play at his
+arcade.</p>
+<p class="c4">There weren&#8217;t many since foot traffic to the store
+was sparse. One day, Mullick happened to stop by and became
+entranced. He bought Caine&#8217;s premium &#8220;Fun Pass&#8221; and started coming
+back for more games. He thought about a way to market the arcade
+and put together a flash mob meet-up at the auto parts store, along
+with a short 10-minute documentary video. The rest is thanks to the
+Internet and a lot of people. You can watch the movie here:</p>
+<p><span class="c5"><iframe src=
+"http://www.youtube.com/embed/faIFNkdq96U?wmode=transparent"
+allowfullscreen="" frameborder="0" height="417" width=
+"500"></iframe></span></p>
+<p class="c4">In the video, you&#8217;ll note that Caine has implemented
+a sophisticated algorithm to ensure that his &#8220;Fun Pass&#8221; tickets are
+authentic, using the square root function of a pocket calculator.
+You&#8217;ve got to hand it to the kid. He has plenty of pluck.</p>
+<p class="c4"><a href="http://CainesArcade.com">Mullick started a
+scholarship fund</a>, which has already topped $175,000 and is
+still growing. And that doesn&#8217;t include a matching grant from the
+Goldhirsh Foundation. Caine also has a Facebook fan page with
+100,000 fans and a Twitter account with more than 6,000 followers.
+To give his arcade an element of authenticity, Caine made his own
+special logo T-shirt and is now selling it on the site. The movie
+even has a theme song that you can download from iTunes (and it&#8217;s
+another way to support the fund).</p>
+<p class="c4">Plenty of media outlets have given Caine coverage,
+including today&#8217;s New York Times and dozens of TV stations.
+<a href="http://www.forbes.com/sites/tjmccue/2012/04/16/9-hidden-factors-of-caines-arcade-success/">
+Forbes did a story earlier this week</a> that details nine factors
+of Caine and Mullick&#8217;s success that other entrepreneurs should
+review. TJ McCue writes, &#8220;There is a certain allure in American
+entrepreneur circles for turning waste in[to] wonder, of finding a
+diamond in the rough, so to speak.&#8221; Another <a href=
+"http://www.forbes.com/sites/calebmelby/2012/04/12/9-reasons-why-the-9-year-old-founder-of-caines-arcade-will-be-a-billionaire-in-30-years/">
+Forbes columnist thinks Caine will be a billionaire in 30
+years.</a> Certainly, his star is rising. Another meme is born.</p>
+<p class="c4">But more than a meme is what startups can learn from
+this experience: Just because you only have one customer doesn&#8217;t
+mean you aren&#8217;t in business, and you should treat every customer as
+carefully as Caine did. The care he took in realizing his vision is
+extraordinary, especially for someone so young. And understanding
+the power of just one person to leverage various social media is
+also key.</p>
+<p class="c4">So if you are an entrepreneur looking for inspiration
+today, check out the short video and read up on Caine&#8217;s Arcade. It
+should get you thinking on how you too can create something from
+your own passion, even if you are just nine years old.</p>
+<p class="c4">As the lyrics to the theme song say, &#8220;It&#8217;s the best
+cardboard arcade that has ever been made.&#8221; And that is something to
+which we can all aspire.</p>
+<p class="c4">&nbsp;</p>
+<span class="c5"><img src=
+"http://feeds.feedburner.com/~r/readwriteweb/~4/a4pLyY2ZWlQ"
+height="1" alt="" width="1"></span></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Lets build one together ]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/lets-build-one-together/"/>
+    <updated>2011-07-14T08:01:25-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/lets-build-one-together</id>
+    <content type="html"><![CDATA[<a href=
+"http://m.spectrum.ieee.org/automaton/robotics/diy/youve-never-seen-a-drive-system-like-this-before">
+http://m.spectrum.ieee.org/automaton/robotics/diy/youve-never-seen-a-drive-sy&#8230;</a>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Another big system ]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/another-big-system/"/>
+    <updated>2011-06-29T08:23:24-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/another-big-system</id>
+    <content type="html"><![CDATA[<a href=
+"http://highscalability.com/blog/2011/6/27/tripadvisor-architecture-40m-visitors-200m-dynamic-page-view.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+HighScalability+%28High+Scalability%29">
+http://highscalability.com/blog/2011/6/27/tripadvisor-architecture-40m-visito&#8230;</a>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Where does the time go?]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/where-does-the-time-go/"/>
+    <updated>2011-06-04T13:00:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/where-does-the-time-go</id>
+    <content type="html"><![CDATA[<p><span class="c8"><img title=
+"where does the time go - photo by: cmcbrown, Source: Flickr, found with Wylio.com"
+src="http://img.wylio.com/flickr/1062392/404/2564510004" height=
+"302" alt="where does the time go" class="c1" width=
+"404"><span class="wylio-credits c7"><span class=
+"photoby c6"><span class="c3">photo &copy; 2008 <a href=
+"http://www.flickr.com/people/cmcbrown/" title=
+"click to visit the Flickr profile page for cmcbrown" target=
+"_blank" class="c2">cmcbrown</a> | <a href=
+"http://www.flickr.com/photos/58368629@N00/2564510004" title=
+"get more information about the photo 'where does the time go'"
+target="_blank" class="c2">more info</a></span> <span class=
+"c5"><strong class="c4">(via: <a href="http://www.wylio.com" title=
+"free pictures" target="_blank" class=
+"c2">Wylio</a>)</strong></span></span></span></span></p>
+<p>It&#8217;s been a while since I&#8217;ve posted anything real. I started on
+a couple articles thinking I didn&#8217;t have time to update Thumb War,
+but in the end didn&#8217;t have time to finish those articles
+either.</p>
+<p>Which brings me to the simple question. Where does the time go?
+My guess is work and family. I found the above image free online,
+so I cannot really vouch for it&#8217;s accuracy, but it sure looks
+pretty.</p>
+<p>On the Thumb War to-do list is:</p>
+<ol>
+<li>Provide Tablet layouts for those who play on Landscape style
+devices (Xoom, ASUS Tab, Playbook, HP Slate, etc&#8230;)</li>
+<li>Update to latest AndEngine to get some critical fixes
+orientation issues</li>
+<li>Add video of game play to help those who don&#8217;t &#8220;get it&#8221;.</li>
+</ol>
+<p>As for the articles that I&#8217;ve started but didn&#8217;t finish:</p>
+<ol>
+<li>Closures: Ruby vs Groovy - Fight!</li>
+<li>Ghetto Graphs: Too cool for Excel</li>
+</ol>
+<p>Enjoy your summer!</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Run Linux on... JavaScript?!]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/run-linux-on-javascript/"/>
+    <updated>2011-05-19T14:08:58-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/run-linux-on-javascript</id>
+    <content type="html"><![CDATA[Javascript has finally arrived. Ruby watch out!
+<div class="c5">
+<h2 class="c1">
+<div class=""><a href=
+"http://feedproxy.google.com/~r/readwriteweb/~3/eHz7ZuCy7e4/run-linux-on-javascript.php">
+Run Linux on&#8230; JavaScript?!</a></div>
+<div class="c2">via <a href="http://www.readwriteweb.com/" class=
+"f">ReadWriteWeb</a> by Klint Finley on 5/17/11</div>
+<br class="c3">
+<p><img src=
+"http://www.readwriteweb.com/hack/images/javascript_logo_1210.png"
+height="150" alt="JavaScript logo 150x150" width="150"> <a href=
+"http://bellard.org/jslinux/tech.html">Fabrice Bellard built an x86
+PC emulator</a> using JavaScript. He&#8217;s even gone so far as to
+install Linux kernel 2.6.20 on top of it. &#8220;The code is written in
+pure Javascript using Typed Arrays which are available in recent
+browsers,&#8221; Bellard wrote. It works in Firefox and Chrome 11, but
+not not Chrome 12.</p>
+<p>As for the Linux instance, Bellard wrote: &#8220;The disk image is
+just a ram disk image loaded at boot time. It contains a filesystem
+generated with <a href="http://buildroot.uclibc.org/">Buildroot</a>
+containing <a href="http://www.busybox.net/">BusyBox</a>. I added
+my toy C compiler <a href="http://bellard.org/tcc">TinyCC</a> and
+my unfinished but usable emacs clone <a href=
+"http://bellard.org/qemacs">QEmacs</a>.&#8221; You can see Linux running
+JavaScript <a href="http://bellard.org/jslinux/">here</a>.</p>
+<p class="c4"><em>Sponsor</em><br>
+<a href=
+"http://d.ads.readwriteweb.com/ck.php?n=26689&amp;cb=26689"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=26689&amp;n=26689"
+border="0" alt=""></a></p>
+<p><img src=
+"http://www.readwriteweb.com/hack/images/jslinux_screenshot_0511.png"
+height="489" alt="JS/Linux screenshot" width="610"></p>
+<p>Bellard did it just for fun, but he speculates that it could be
+useful for the following purposes:</p>
+<ul>
+<li>Benchmarking of Javascript engines (how much time takes your
+Javascript engine to boot Linux ?). For this particular
+application, efficient handling of 32 bit signed and unsigned
+integers and of typed arrays is important.</li>
+<li>Client side processing using an x86 library, for example for
+cryptographic purposes. For such application, the x86 emulator can
+be modified to provide an API to load x86 dynamic libraries and to
+provide a js-ctypes like API to call the C/C++ functions from
+javascript.</li>
+<li>A more advanced version would allow to use old DOS PC software
+such as games.</li>
+</ul>
+<p>Oddly enough, he found that Linux ran twice as fast on Jaeger
+Monkey as it did on V8. He&#8217;s not sure why.</p>
+<strong><a href=
+"http://www.readwriteweb.com/hack/2011/05/run-linux-on-javascript.php#comments-open">Discuss</a></strong>
+<p><iframe marginheight="0" scrolling="no" marginwidth="0" src=
+"http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/300/250?ca=1&amp;fh=280#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2011%2F05%2Frun-linux-on-javascript.php"
+frameborder="0" height="280" width="100%"></iframe></p>
+<div><a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:FFnlKYwJmN0">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:Ij26kaj3iuU">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:C2pbw5bZMiI">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:yIl2AUoC8zA">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:OqabYuBsmOY">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
+border="0"></a></div>
+<img src=
+"http://feeds.feedburner.com/~r/readwriteweb/~4/eHz7ZuCy7e4"
+height="1" width="1"></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[When “Free” in Free Software doesn’t matter]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/when-free-in-free-software-doesnt-matter/"/>
+    <updated>2011-05-02T07:13:12-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/when-free-in-free-software-doesnt-matter</id>
+    <content type="html"><![CDATA[<p><a href=
+"http://feedproxy.google.com/~r/d0od/~3/aS3EIDQEq6Y/">http://feedproxy.google.com/~r/d0od/~3/aS3EIDQEq6Y/</a></p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to make a lite version of an Android game]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/how-to-make-a-lite-version-of-an-android-game/"/>
+    <updated>2011-04-07T22:51:03-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/how-to-make-a-lite-version-of-an-android-game</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve discovered that no amount of screenshots or marketing speak
+will ever get someone past the $1.99 price point. So with a bit of
+research and rework a free version Thumb War is now
+available&nbsp;<a href=
+"https://market.android.com/details?id=com.thethumbwar.lite"><span class="s1">here</span></a>.</p>
+<p class="p1">For a while I thought the process of making 1 project
+into 2 was going to break the time bank, but after running
+into&nbsp;<a href=
+"http://developer.android.com/guide/developing/projects/projects-eclipse.html"><span class="s1">this</span></a>&nbsp;article
+on the Android Developer site the pieces fit together quite
+nicely.</p>
+<p class="p1">The secret is in one property setting of an Eclipse
+project which allows a project to be shared by another. The setting
+is &#8220;Is Library&#8221;. Once enabled all classes and resources (drawable,
+layouts, strings, etc) are available to users of the library. The
+activities can be addressed in the manifest with absolute package
+names instead of the relative package names.</p>
+<p><img src=
+"http://developer.android.com/images/developing/adt-props-isLib.png"
+alt=""></p>
+<p>The best part of the whole thing is I don&#8217;t need to create a
+separate jar build process to make it all work. Now, if you&#8217;re the
+type that likes everything automated, I&#8217;m leaving that as an
+exercise to the reader.</p>
+<p class="p2">After changing the original project a library, I did
+the following to get the paid version working again.</p>
+<ol class="ol1">
+<li class="li1">create new Android project in Eclipse with the same
+package name as my library.</li>
+<li class="li1">edit Android properties and added a reference to
+the newly converted library project.</li>
+<li class="li1">copied the Android Manifest from the library
+project into the paid project.</li>
+<li class="li1">changed the activity packages in the paid manifest
+to use the full absolute package names.</li>
+<li class="li1">removed all drawable in paid project</li>
+<li class="li1">removed hello world in string.xml and updated
+app_name</li>
+<li class="li1">set svn:externals to the library project&#8217;s assets
+directory into the paid projects assets directory, then svn
+update</li>
+<li class="li1">run</li>
+</ol>
+<p class="p2">Surprisingly everything just worked.</p>
+<p class="p1">The next step was to actually create the free
+project. This is pretty much the same as the paid project so I
+started with the paid project as the base.</p>
+<ol class="ol1">
+<li class="li1">copy paid project and rename to lite</li>
+<li class="li1">change package name to com.thethumbwar.lite</li>
+<li class="li1">run</li>
+</ol>
+<p class="p1">This also worked. It was functionally the same as the
+paid project and the original pre-library-itized project and both
+were on my device at the same time. Which means it meets Androids
+unique package restrictions, too.</p>
+<p class="p1">The final step in the free project was to add a few
+restrictions to it and add a few dialogs to encourage the players
+to purchase the paid version. That fortunately was the trivial
+work, phew! In case you&#8217;re curious, I&#8217;ve restricted 3 of the 5
+games and if a user selects a restricted game from the menu a
+dialog will tell them that it&#8217;s unavailable in the lite and
+provides a button to go to the Android Market to purchase the full
+version.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sumo mini-game notes]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/IpgnnyyqiA/"/>
+    <updated>2011-03-15T23:03:33-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/IpgnnyyqiA</id>
+    <content type="html"><![CDATA[I&#8217;ve created a working version of the sumo and it is revealing some
+overall bugs for the game engine at large.<br>
+First the precision of two touch points greatly decreases when they
+are close together I presume this is an issue with capacitive
+screens and not a software issue. This issue hasn&#8217;t shown itself
+till now since the other games are faster paced and acurracy is
+less important.<br>
+Second issue is motion jitters. This occurs when hold a target
+object in place. One would expect the item to never move, but thats
+not what happens. After a few seconds the held piece will violently
+spring around the touch point. This happens due to how the touch
+sensor provides me the information. I get touch events in 3 main
+categories: down, move, and up. (I&#8217;m specifically ignoring cancel
+for now.) On down I add a heavy mass to the touched object. This
+makes it practically immobile from impacts by other objects. When I
+get a move event I add linear velocity to the object so it can
+shift to the touched coordinate. If the finger is down and but
+never moves, I don&#8217;t get any other events from the sensor which
+tell me that it&#8217;s still down. I need to rely on an up event to
+negate the down. Unfortunately, I don&#8217;t always get the up event or
+even the cancel &#8230;&#8230;.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AndEngine. Living on the Edge.]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/andengine-living-on-the-edge/"/>
+    <updated>2011-03-15T22:40:16-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/andengine-living-on-the-edge</id>
+    <content type="html"><![CDATA[Just updated to the trunk build of AndEngine which broke almost
+every line of code I had. There were a bunch of renamings that
+occurred to replace the concept of scene layers with a more generic
+child entity structure. The shape modifiers also got moved to
+another package to differentiate from particle modifiers.<br>
+All in all, the transition was smooth and I will now be able to
+contribute to code back into the main source tree without as many
+conflicts.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Finger Mechanics. Help!]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/finger-mechanics-help/"/>
+    <updated>2011-03-14T22:59:51-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/finger-mechanics-help</id>
+    <content type="html"><![CDATA[I am finding it near impossible to get a perfect simulation of
+finger to table top physics. I&#8217;m not sure if this is a hardware
+limitation or just my bad algorithm. In a previous post I had a
+workable solution by dragging pieces around instead of teleporting,
+and that does work enough. But now that the game is released I feel
+the need to make is better.<br>
+The issue with dragging is the delay that is percieved when moving
+the object around very quickly. It looks like the object is chasing
+your finger which breaks the illusion. Fortunately, none of the
+mini-games use swirling but it bugs me in the Free Play mode.<br>
+In the real world, we can put two coins on a table and push one
+coins into the other. On a touch screen the coordinates come in
+after the push which is already too late for a perfect sim. So I
+think some predictive algorithm is in need.<br>
+If I can take a previous position and the current I should be able
+to predict the next and push the object there directly. Sadly, this
+type of math is my worst suit and I don&#8217;t have the time to figure
+it out. If anyone out there lives and breathes math, feel free to
+comment with a solution. Otherwise the whole word will have to play
+with drag physics or play a different game. Sad.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Finished - 22 Days Later]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/finished-22-days-later/"/>
+    <updated>2011-03-08T03:06:00-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/finished-22-days-later</id>
+    <content type="html"><![CDATA[<p>Too tired to give any details, but here&#8217;s a screen for the
+curious.</p>
+<div class='p_embed p_image_embed'><img alt="Screen1" height="800"
+src=
+"http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-03-08/ngpdIyHkHrtnkeumCemrzehbByfIoblEppnyIatrvslnIJGudJnCBlAtoatH/screen1.png.scaled500.png"
+width="480"></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Day 9+X, 1 More Session and I'm done!]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/day-9x-1-more-session-and-im-done/"/>
+    <updated>2011-03-07T00:51:00-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/day-9x-1-more-session-and-im-done</id>
+    <content type="html"><![CDATA[<p>I believe I&#8217;m almost finished with some thing that I wouldn&#8217;t
+hate being in the market. I know that standard seems a bit low, but
+if I don&#8217;t release this thing soon it won&#8217;t ever get released.</p>
+<p>The past sessions were all about artwork. This could have been a
+long rabbit trail, but my wife reminded me to get this thing done.
+And that every minute I send on this creation, I lose with my son.
+Anyway, artwork is basically done. I have to crop here and there.
+But I think it&#8217;s workable.</p>
+<p>Here&#8217;s some things that are completed:</p>
+<ol>
+<li>game play of 2.5 mini games (2 full game, and a variation of
+one of them)&nbsp;</li>
+<li>working menus, even replaying a game</li>
+<li>sound feed back for points in 1.5 of the games</li>
+<li>theme and art work - most from&nbsp;<a href=
+"http://www.lostgarden.com/search/label/free%20game%20graphics">http://www.lostgarden.com/search/label/free%20game%20graphics</a>
+who has an amazingly flexible license which I couldn&#8217;t release this
+thing without.</li>
+<li>winning scenes and anxiety inducing count down when game is
+about to end.</li>
+</ol>
+<p>Stuff yet to do before release:</p>
+<ol>
+<li>add credits scene to fulfill free licensing.</li>
+<li>add sound to game 1</li>
+<li>make replay more obvious on winning scene.</li>
+</ol>
+<p>Stuff to finish after release:</p>
+<ol>
+<li>More games</li>
+<li>More sound effects</li>
+<li>refactor code base so game 3 is easier</li>
+<li>respond to user feed back</li>
+<li>(never ending list)</li>
+</ol>
+<p>After release I&#8217;ll post images of the game&#8230;</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Day 9 - Counters and Player Positions]]></title>
+    <link href="http://ddrscott.github.io/blog/2011/day-9-counters-and-player-positions/"/>
+    <updated>2011-02-28T22:30:00-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2011/day-9-counters-and-player-positions</id>
+    <content type="html"><![CDATA[<p>Due to popular demand I added visual count down indicators. The
+feature shows the second remaining on the screen then it explodes
+away like a puff if smoke. This will be done by a nice little shape
+modifier feature built into AndEngine. I want to apply 3 modifiers
+in&nbsp;parallel:&nbsp;change alpha from 1 to 0 (visible to
+invisible), scale 1 to 10 (normal to huge), and rotate 0 to 360.
+This was easier said than done, because of a difference between
+regular shapes and text. Regular shapes use alpha blending by
+default, text <strong>doesn&#8217;t</strong>. Unfortunately, my first
+suspect was the animation library, instead of blending. After an
+hour troubleshooting I found out setAlpha on text wasn&#8217;t working
+without any animation. This lead to googling &#8220;+AndEngine text
+setAlpha&#8221;. The first hit saves the day with a one liner that sets
+the blending mode of the
+shape:<code>setBlendFunction(GL10.GL_SRC_ALPHA,
+GL10.GL_ONE_MINUS_SRC_ALPHA)</code></p>
+<p>Why this isn&#8217;t the default like the other shapes is a mystery to
+me.</p>
+<p>As for the player positions, I learned how bad my geometry is
+again. In four player mode there should be a &#8220;Ready?&#8221; touch area
+for each player in each corner of the screen. The text should be
+oriented so each player can view the text in the correct
+perspective. This should be as simple as rotating the text in the
+correct 45 degree increment. Sadly, it took me a shameful full hour
+to figure out what those were. I&#8217;m sure if I stayed awake in that
+class for the same hour I would have learned more than 4
+numbers.&nbsp;AndEngine rotates clockwise so&nbsp;starting in the
+upper right corner the rotational angles I &#8220;discovered&#8221; are: 135,
+225, 45, and 315.</p>
+<div class='p_embed p_image_embed'><img alt="4player" height="800"
+src=
+"http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-02-28/vElzCcDfjywpkIaytCiCnAgGxrtewtvCcgvwCxsyqvrdilwaskwthucGEEkx/4player.png.scaled500.png"
+width="480"></div>
+<p>I wish I could make this posting more exciting, but game
+logistics will <em class="c1">always</em>&nbsp;be lame.</p>
+
 ]]></content>
   </entry>
   

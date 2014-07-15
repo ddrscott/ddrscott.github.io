@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Run Linux on... JavaScript?! - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="Run Linux on... JavaScript?! written May 19th, 2011 Javascript has finally arrived. Ruby watch out! <a href=
+"http://feedproxy.google.com/~r/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2011/run-linux-on-javascript">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Run Linux on... JavaScript?!</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-05-19T14:08:58-05:00" pubdate data-updated="true">May 19<sup>th</sup>, 2011</time>
+          
+
+
+        </div>
+        Javascript has finally arrived. Ruby watch out!
+<div class="c5">
+<h2 class="c1">
+<div class=""><a href=
+"http://feedproxy.google.com/~r/readwriteweb/~3/eHz7ZuCy7e4/run-linux-on-javascript.php">
+Run Linux on&#8230; JavaScript?!</a></div>
+<div class="c2">via <a href="http://www.readwriteweb.com/" class=
+"f">ReadWriteWeb</a> by Klint Finley on 5/17/11</div>
+<br class="c3">
+<p><img src=
+"http://www.readwriteweb.com/hack/images/javascript_logo_1210.png"
+height="150" alt="JavaScript logo 150x150" width="150"> <a href=
+"http://bellard.org/jslinux/tech.html">Fabrice Bellard built an x86
+PC emulator</a> using JavaScript. He&#8217;s even gone so far as to
+install Linux kernel 2.6.20 on top of it. &#8220;The code is written in
+pure Javascript using Typed Arrays which are available in recent
+browsers,&#8221; Bellard wrote. It works in Firefox and Chrome 11, but
+not not Chrome 12.</p>
+<p>As for the Linux instance, Bellard wrote: &#8220;The disk image is
+just a ram disk image loaded at boot time. It contains a filesystem
+generated with <a href="http://buildroot.uclibc.org/">Buildroot</a>
+containing <a href="http://www.busybox.net/">BusyBox</a>. I added
+my toy C compiler <a href="http://bellard.org/tcc">TinyCC</a> and
+my unfinished but usable emacs clone <a href=
+"http://bellard.org/qemacs">QEmacs</a>.&#8221; You can see Linux running
+JavaScript <a href="http://bellard.org/jslinux/">here</a>.</p>
+<p class="c4"><em>Sponsor</em><br>
+<a href=
+"http://d.ads.readwriteweb.com/ck.php?n=26689&amp;cb=26689"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=26689&amp;n=26689"
+border="0" alt=""></a></p>
+<p><img src=
+"http://www.readwriteweb.com/hack/images/jslinux_screenshot_0511.png"
+height="489" alt="JS/Linux screenshot" width="610"></p>
+<p>Bellard did it just for fun, but he speculates that it could be
+useful for the following purposes:</p>
+<ul>
+<li>Benchmarking of Javascript engines (how much time takes your
+Javascript engine to boot Linux ?). For this particular
+application, efficient handling of 32 bit signed and unsigned
+integers and of typed arrays is important.</li>
+<li>Client side processing using an x86 library, for example for
+cryptographic purposes. For such application, the x86 emulator can
+be modified to provide an API to load x86 dynamic libraries and to
+provide a js-ctypes like API to call the C/C++ functions from
+javascript.</li>
+<li>A more advanced version would allow to use old DOS PC software
+such as games.</li>
+</ul>
+<p>Oddly enough, he found that Linux ran twice as fast on Jaeger
+Monkey as it did on V8. He&#8217;s not sure why.</p>
+<strong><a href=
+"http://www.readwriteweb.com/hack/2011/05/run-linux-on-javascript.php#comments-open">Discuss</a></strong>
+<p><iframe marginheight="0" scrolling="no" marginwidth="0" src=
+"http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/300/250?ca=1&amp;fh=280#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2011%2F05%2Frun-linux-on-javascript.php"
+frameborder="0" height="280" width="100%"></iframe></p>
+<div><a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:FFnlKYwJmN0">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:Ij26kaj3iuU">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:C2pbw5bZMiI">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:yIl2AUoC8zA">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo"
+border="0"></a> <a href=
+"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:OqabYuBsmOY">
+<img src=
+"http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
+border="0"></a></div>
+<img src=
+"http://feeds.feedburner.com/~r/readwriteweb/~4/eHz7ZuCy7e4"
+height="1" width="1"></div>
+
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2011/when-free-in-free-software-doesnt-matter/" title="Previous Post: When “Free” in Free Software doesn’t matter">&laquo; Previous: When “Free” in Free Software doesn’t matter</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2011/where-does-the-time-go/" title="Next Post: Where does the time go?">Next: Where does the time go? &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50126719-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2011/run-linux-on-javascript/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2011/run-linux-on-javascript/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
