@@ -3,7 +3,7 @@ layout: post
 title: "Tech stack 2014 Edition"
 date: 2014-05-09 09:17:02 -0500
 comments: true
-categories: architecture full-stack infrastructure
+categories: [architecture, full-stack, infrastructure]
 published: false
 ---
 I've built a lot of things, but the most interesting thing is usually what I'm currently working on or have
