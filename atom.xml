@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2014-07-15T07:52:15-05:00</updated>
+  <updated>2014-07-18T07:03:24-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -59,12 +59,16 @@ as with all Open Source projects it is easy to remedy.</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Writing stuff for command lines? This is a good place to start.]]></title>
+    <title type="html"><![CDATA[Building Unix-style command line applications]]></title>
     <link href="http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo/"/>
     <updated>2012-08-08T12:49:56-05:00</updated>
     <id>http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo</id>
-    <content type="html"><![CDATA[<a href=
-"http://practicingruby.com/articles/shared/qyxvmrgmhuln">http://practicingruby.com/articles/shared/qyxvmrgmhuln</a>
+    <content type="html"><![CDATA[Writing stuff for command lines? This is a good place to start.
+Covers Ruby&#8217;s `ARGF` and standard library `optparse`.
+
+<h6>Source: practicingruby.com</h6>
+<a href=
+"http://practicingruby.com/articles/shared/qyxvmrgmhuln">Building Unix-style command line applications</a>
 ]]></content>
   </entry>
   
@@ -89,6 +93,7 @@ title="Papyrus - Google Play" target="_blank">Papyrus</a>&nbsp;on
 my Galaxy Note)
 <p>So what do you think tech boys and girls? Leave your comments
 below.</p>
+<!-- more -->
 <p><strong>[Update]</strong></p>
 <p>Aparently another company has already made a large pocket, but
 hasn&#8217;t put it on the back yet.&nbsp;<a href=
@@ -833,16 +838,16 @@ It supports my belief that we&#8217;re all born with the yearning to
 create stuff.Cheers to the supportive father that didn&#8217;t minimize
 his efforts or force him to do what others expect of him.
 <!-- more -->
-<div class="c6">
+
 <div class="c1"><a href=
-"http://feedproxy.google.com/~r/readwriteweb/~3/a4pLyY2ZWlQ/how-a-9-year-old-boy-became-th.php">
-How a 9-Year-Old Boy Became the Latest Internet Meme</a></div>
+    "http://feedproxy.google.com/~r/readwriteweb/~3/a4pLyY2ZWlQ/how-a-9-year-old-boy-became-th.php">
+    How a 9-Year-Old Boy Became the Latest Internet Meme</a></div>
 <div class="c2">via <a href="http://www.readwriteweb.com/" class=
-"f">ReadWriteWeb</a> by David Strom on 4/19/12</div>
+    "f">ReadWriteWeb</a> by David Strom on 4/19/12</div>
 <br class="c3">
 <p class="c4"><a href=
-"http://www.readwriteweb.com/start/caine-mullick.jpg"><span><img src="http://www.readwriteweb.com/files/styles/150_150/public/files/start/assets_c/2012/04/caine-mullick-thumb-609x414-40488.jpg"
-alt="" width="150"></span></a> If you&#8217;re looking for a warm,
+  "http://www.readwriteweb.com/start/caine-mullick.jpg"><span><img src="http://www.readwriteweb.com/files/styles/150_150/public/files/start/assets_c/2012/04/caine-mullick-thumb-609x414-40488.jpg"
+    alt="" width="150"></span></a> If you&#8217;re looking for a warm,
 heart-rending story for today, look no further than how Caine
 Monroy became the latest YouTube viral sensation, with more than
 2.4 million views and counting since it was posted last week.</p>
@@ -868,15 +873,15 @@ and put together a flash mob meet-up at the auto parts store, along
 with a short 10-minute documentary video. The rest is thanks to the
 Internet and a lot of people. You can watch the movie here:</p>
 <p><span class="c5"><iframe src=
-"http://www.youtube.com/embed/faIFNkdq96U?wmode=transparent"
-allowfullscreen="" frameborder="0" height="417" width=
-"500"></iframe></span></p>
+    "http://www.youtube.com/embed/faIFNkdq96U?wmode=transparent"
+    allowfullscreen="" frameborder="0" height="417" width=
+    "500"></iframe></span></p>
 <p class="c4">In the video, you&#8217;ll note that Caine has implemented
 a sophisticated algorithm to ensure that his &#8220;Fun Pass&#8221; tickets are
 authentic, using the square root function of a pocket calculator.
 You&#8217;ve got to hand it to the kid. He has plenty of pluck.</p>
 <p class="c4"><a href="http://CainesArcade.com">Mullick started a
-scholarship fund</a>, which has already topped $175,000 and is
+  scholarship fund</a>, which has already topped $175,000 and is
 still growing. And that doesn&#8217;t include a matching grant from the
 Goldhirsh Foundation. Caine also has a Facebook fan page with
 100,000 fans and a Twitter account with more than 6,000 followers.
@@ -887,14 +892,14 @@ another way to support the fund).</p>
 <p class="c4">Plenty of media outlets have given Caine coverage,
 including today&#8217;s New York Times and dozens of TV stations.
 <a href="http://www.forbes.com/sites/tjmccue/2012/04/16/9-hidden-factors-of-caines-arcade-success/">
-Forbes did a story earlier this week</a> that details nine factors
+  Forbes did a story earlier this week</a> that details nine factors
 of Caine and Mullick&#8217;s success that other entrepreneurs should
 review. TJ McCue writes, &#8220;There is a certain allure in American
 entrepreneur circles for turning waste in[to] wonder, of finding a
 diamond in the rough, so to speak.&#8221; Another <a href=
-"http://www.forbes.com/sites/calebmelby/2012/04/12/9-reasons-why-the-9-year-old-founder-of-caines-arcade-will-be-a-billionaire-in-30-years/">
-Forbes columnist thinks Caine will be a billionaire in 30
-years.</a> Certainly, his star is rising. Another meme is born.</p>
+  "http://www.forbes.com/sites/calebmelby/2012/04/12/9-reasons-why-the-9-year-old-founder-of-caines-arcade-will-be-a-billionaire-in-30-years/">
+  Forbes columnist thinks Caine will be a billionaire in 30
+  years.</a> Certainly, his star is rising. Another meme is born.</p>
 <p class="c4">But more than a meme is what startups can learn from
 this experience: Just because you only have one customer doesn&#8217;t
 mean you aren&#8217;t in business, and you should treat every customer as
@@ -909,11 +914,6 @@ your own passion, even if you are just nine years old.</p>
 <p class="c4">As the lyrics to the theme song say, &#8220;It&#8217;s the best
 cardboard arcade that has ever been made.&#8221; And that is something to
 which we can all aspire.</p>
-<p class="c4">&nbsp;</p>
-<span class="c5"><img src=
-"http://feeds.feedburner.com/~r/readwriteweb/~4/a4pLyY2ZWlQ"
-height="1" alt="" width="1"></span></div>
-
 ]]></content>
   </entry>
   
@@ -940,11 +940,17 @@ http://highscalability.com/blog/2011/6/27/tripadvisor-architecture-40m-visito&#8
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Where does the time go?]]></title>
+    <title type="html"><![CDATA[Where Does The Time Go]]></title>
     <link href="http://ddrscott.github.io/blog/2011/where-does-the-time-go/"/>
-    <updated>2011-06-04T13:00:00-05:00</updated>
+    <updated>2011-06-04T00:00:00-05:00</updated>
     <id>http://ddrscott.github.io/blog/2011/where-does-the-time-go</id>
-    <content type="html"><![CDATA[<p><span class="c8"><img title=
+    <content type="html"><![CDATA[title: Where does the time go?
+date: 2011-06-04 13:00:00 -05:00
+comments: true
+categories: 
+posterous_id: 55640459
+&#8212;
+<p><span class="c8"><img title=
 "where does the time go - photo by: cmcbrown, Source: Flickr, found with Wylio.com"
 src="http://img.wylio.com/flickr/1062392/404/2564510004" height=
 "302" alt="where does the time go" class="c1" width=
@@ -963,6 +969,7 @@ target="_blank" class="c2">more info</a></span> <span class=
 a couple articles thinking I didn&#8217;t have time to update Thumb War,
 but in the end didn&#8217;t have time to finish those articles
 either.</p>
+<!-- more -->
 <p>Which brings me to the simple question. Where does the time go?
 My guess is work and family. I found the above image free online,
 so I cannot really vouch for it&#8217;s accuracy, but it sure looks
@@ -991,19 +998,18 @@ orientation issues</li>
     <updated>2011-05-19T14:08:58-05:00</updated>
     <id>http://ddrscott.github.io/blog/2011/run-linux-on-javascript</id>
     <content type="html"><![CDATA[Javascript has finally arrived. Ruby watch out!
-<div class="c5">
-<h2 class="c1">
+<!-- more -->
 <div class=""><a href=
-"http://feedproxy.google.com/~r/readwriteweb/~3/eHz7ZuCy7e4/run-linux-on-javascript.php">
-Run Linux on&#8230; JavaScript?!</a></div>
+    "http://feedproxy.google.com/~r/readwriteweb/~3/eHz7ZuCy7e4/run-linux-on-javascript.php">
+    Run Linux on&#8230; JavaScript?!</a></div>
 <div class="c2">via <a href="http://www.readwriteweb.com/" class=
-"f">ReadWriteWeb</a> by Klint Finley on 5/17/11</div>
+    "f">ReadWriteWeb</a> by Klint Finley on 5/17/11</div>
 <br class="c3">
 <p><img src=
 "http://www.readwriteweb.com/hack/images/javascript_logo_1210.png"
 height="150" alt="JavaScript logo 150x150" width="150"> <a href=
-"http://bellard.org/jslinux/tech.html">Fabrice Bellard built an x86
-PC emulator</a> using JavaScript. He&#8217;s even gone so far as to
+  "http://bellard.org/jslinux/tech.html">Fabrice Bellard built an x86
+  PC emulator</a> using JavaScript. He&#8217;s even gone so far as to
 install Linux kernel 2.6.20 on top of it. &#8220;The code is written in
 pure Javascript using Typed Arrays which are available in recent
 browsers,&#8221; Bellard wrote. It works in Firefox and Chrome 11, but
@@ -1014,73 +1020,73 @@ generated with <a href="http://buildroot.uclibc.org/">Buildroot</a>
 containing <a href="http://www.busybox.net/">BusyBox</a>. I added
 my toy C compiler <a href="http://bellard.org/tcc">TinyCC</a> and
 my unfinished but usable emacs clone <a href=
-"http://bellard.org/qemacs">QEmacs</a>.&#8221; You can see Linux running
+  "http://bellard.org/qemacs">QEmacs</a>.&#8221; You can see Linux running
 JavaScript <a href="http://bellard.org/jslinux/">here</a>.</p>
 <p class="c4"><em>Sponsor</em><br>
 <a href=
-"http://d.ads.readwriteweb.com/ck.php?n=26689&amp;cb=26689"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=26689&amp;n=26689"
-border="0" alt=""></a></p>
+  "http://d.ads.readwriteweb.com/ck.php?n=26689&amp;cb=26689"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=26689&amp;n=26689"
+  border="0" alt=""></a></p>
 <p><img src=
 "http://www.readwriteweb.com/hack/images/jslinux_screenshot_0511.png"
 height="489" alt="JS/Linux screenshot" width="610"></p>
 <p>Bellard did it just for fun, but he speculates that it could be
 useful for the following purposes:</p>
 <ul>
-<li>Benchmarking of Javascript engines (how much time takes your
-Javascript engine to boot Linux ?). For this particular
-application, efficient handling of 32 bit signed and unsigned
-integers and of typed arrays is important.</li>
-<li>Client side processing using an x86 library, for example for
-cryptographic purposes. For such application, the x86 emulator can
-be modified to provide an API to load x86 dynamic libraries and to
-provide a js-ctypes like API to call the C/C++ functions from
-javascript.</li>
-<li>A more advanced version would allow to use old DOS PC software
-such as games.</li>
+  <li>Benchmarking of Javascript engines (how much time takes your
+  Javascript engine to boot Linux ?). For this particular
+  application, efficient handling of 32 bit signed and unsigned
+  integers and of typed arrays is important.</li>
+  <li>Client side processing using an x86 library, for example for
+  cryptographic purposes. For such application, the x86 emulator can
+  be modified to provide an API to load x86 dynamic libraries and to
+  provide a js-ctypes like API to call the C/C++ functions from
+  javascript.</li>
+  <li>A more advanced version would allow to use old DOS PC software
+  such as games.</li>
 </ul>
 <p>Oddly enough, he found that Linux ran twice as fast on Jaeger
 Monkey as it did on V8. He&#8217;s not sure why.</p>
 <strong><a href=
-"http://www.readwriteweb.com/hack/2011/05/run-linux-on-javascript.php#comments-open">Discuss</a></strong>
+    "http://www.readwriteweb.com/hack/2011/05/run-linux-on-javascript.php#comments-open">Discuss</a></strong>
 <p><iframe marginheight="0" scrolling="no" marginwidth="0" src=
-"http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/300/250?ca=1&amp;fh=280#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2011%2F05%2Frun-linux-on-javascript.php"
-frameborder="0" height="280" width="100%"></iframe></p>
+  "http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/300/250?ca=1&amp;fh=280#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2011%2F05%2Frun-linux-on-javascript.php"
+  frameborder="0" height="280" width="100%"></iframe></p>
 <div><a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:FFnlKYwJmN0">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
-border="0"></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:Ij26kaj3iuU">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
-border="0"></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:C2pbw5bZMiI">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
-border="0"></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:yIl2AUoC8zA">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
-border="0"></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU"
-border="0"></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ"
-border="0"></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo"
-border="0"></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:OqabYuBsmOY">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
-border="0"></a></div>
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:FFnlKYwJmN0">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
+    border="0"></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:Ij26kaj3iuU">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
+    border="0"></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:C2pbw5bZMiI">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
+    border="0"></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:yIl2AUoC8zA">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
+    border="0"></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU"
+    border="0"></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ"
+    border="0"></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo"
+    border="0"></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:OqabYuBsmOY">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
+    border="0"></a></div>
 <img src=
 "http://feeds.feedburner.com/~r/readwriteweb/~4/eHz7ZuCy7e4"
-height="1" width="1"></div>
+height="1" width="1">
 
 ]]></content>
   </entry>
@@ -1112,6 +1118,7 @@ into&nbsp;<a href=
 "http://developer.android.com/guide/developing/projects/projects-eclipse.html"><span class="s1">this</span></a>&nbsp;article
 on the Android Developer site the pieces fit together quite
 nicely.</p>
+<!-- more -->
 <p class="p1">The secret is in one property setting of an Eclipse
 project which allows a project to be shared by another. The setting
 is &#8220;Is Library&#8221;. Once enabled all classes and resources (drawable,
@@ -1180,7 +1187,8 @@ First the precision of two touch points greatly decreases when they
 are close together I presume this is an issue with capacitive
 screens and not a software issue. This issue hasn&#8217;t shown itself
 till now since the other games are faster paced and acurracy is
-less important.<br>
+less important.
+<!-- more -->
 Second issue is motion jitters. This occurs when hold a target
 object in place. One would expect the item to never move, but thats
 not what happens. After a few seconds the held piece will violently
@@ -1224,7 +1232,8 @@ finger to table top physics. I&#8217;m not sure if this is a hardware
 limitation or just my bad algorithm. In a previous post I had a
 workable solution by dragging pieces around instead of teleporting,
 and that does work enough. But now that the game is released I feel
-the need to make is better.<br>
+the need to make is better.
+<!-- more -->
 The issue with dragging is the delay that is percieved when moving
 the object around very quickly. It looks like the object is chasing
 your finger which breaks the illusion. Fortunately, none of the
@@ -1270,6 +1279,7 @@ long rabbit trail, but my wife reminded me to get this thing done.
 And that every minute I send on this creation, I lose with my son.
 Anyway, artwork is basically done. I have to crop here and there.
 But I think it&#8217;s workable.</p>
+<!-- more -->
 <p>Here&#8217;s some things that are completed:</p>
 <ol>
 <li>game play of 2.5 mini games (2 full game, and a variation of
@@ -1315,7 +1325,9 @@ in&nbsp;parallel:&nbsp;change alpha from 1 to 0 (visible to
 invisible), scale 1 to 10 (normal to huge), and rotate 0 to 360.
 This was easier said than done, because of a difference between
 regular shapes and text. Regular shapes use alpha blending by
-default, text <strong>doesn&#8217;t</strong>. Unfortunately, my first
+default, text <strong>doesn&#8217;t</strong>. </p>
+<!-- more -->
+<p>Unfortunately, my first
 suspect was the animation library, instead of blending. After an
 hour troubleshooting I found out setAlpha on text wasn&#8217;t working
 without any animation. This lead to googling &#8220;+AndEngine text

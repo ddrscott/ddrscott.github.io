@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | @_ddrscott_]]></title>
+  <link href="http://ddrscott.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://ddrscott.github.io/"/>
+  <updated>2014-07-18T07:03:24-05:00</updated>
+  <id>http://ddrscott.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Pierce]]></name>
+    <email><![CDATA[ddrscott@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Building Unix-style command line applications]]></title>
+    <link href="http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo/"/>
+    <updated>2012-08-08T12:49:56-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo</id>
+    <content type="html"><![CDATA[<p>Writing stuff for command lines? This is a good place to start.
+Covers Ruby&rsquo;s <code>ARGF</code> and standard library <code>optparse</code>.</p>
+
+<h6>Source: practicingruby.com</h6>
+
+
+<p><a href=
+"http://practicingruby.com/articles/shared/qyxvmrgmhuln">Building Unix-style command line applications</a></p>
+]]></content>
+  </entry>
+  
+</feed>

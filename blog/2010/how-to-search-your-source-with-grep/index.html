@@ -13,8 +13,7 @@
   <meta name="author" content="Scott Pierce">
 
   
-  <meta name="description" content="How To Search Your Source With Grep written Nov 12th, 2010 <a href=
-"http://feedproxy.google.com/~r/readwriteweb/~3/MdOd_lM1lhI/how-to-search-your- &hellip;">
+  <meta name="description" content="How To Search Your Source With Grep written Nov 12th, 2010 First lession in Unix 101 <a href= "http://feedproxy.google.com/~r/readwriteweb/~3/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,13 +61,13 @@
 
 
         </div>
-        <div class="c4">
-<h2 class="c1"></h2>
+        First lession in Unix 101
+<!-- more -->
 <div><a href=
-"http://feedproxy.google.com/~r/readwriteweb/~3/MdOd_lM1lhI/how-to-search-your-source-with.php">
-How To Search Your Source With Grep</a></div>
+    "http://feedproxy.google.com/~r/readwriteweb/~3/MdOd_lM1lhI/how-to-search-your-source-with.php">
+    How To Search Your Source With Grep</a></div>
 <div class="c2">via <a href="http://www.readwriteweb.com/" class=
-"f">ReadWriteWeb</a> by Pete Warden on 11/10/10</div>
+    "f">ReadWriteWeb</a> by Pete Warden on 11/10/10</div>
 <br class="c3">
 <p><img src="http://www.readwriteweb.com/hack/grepshot_main.png"
 height="88" alt="grepshot_main.png" width="150">One of the joys of
@@ -80,14 +79,14 @@ It&#8217;s not always obvious how to access all that power though, so
 I&#8217;ll show you some of my favorite techniques. The examples have
 been tested on OS X&#8217;s GNU grep, but should be applicable to most
 versions. You can download <a href=
-"http://www.cygwin.com/">Cygwin</a> if you want to run this and
+  "http://www.cygwin.com/">Cygwin</a> if you want to run this and
 other Unix tools on Windows.</p>
 <p><em>Sponsor</em><br>
 <a href=
-"http://d.ads.readwriteweb.com/ck.php?n=22975&amp;cb=22975"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=22975&amp;n=22975"
-border="0" alt=""></a></p>
+  "http://d.ads.readwriteweb.com/ck.php?n=22975&amp;cb=22975"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=22975&amp;n=22975"
+  border="0" alt=""></a></p>
 <p><strong><em>grep -inIEr &#8211;color=ALWAYS &#8220;Foo.*=&#8221;
-source/code/directory/</em></strong></p>
+    source/code/directory/</em></strong></p>
 <p>This is the way I use grep most frequently, and first here&#8217;s
 what those cryptic options mean. The lower-case &#8220;i&#8221; means that the
 search is going to be case-insensitive, and the &#8220;n&#8221; asks the tool
@@ -95,8 +94,8 @@ to print the line number next to each match. The big &#8220;I&#8221; means grep
 uses some impressive guesswork to figure out which files are binary
 not text, and skips matching those. The upper-case &#8220;E&#8221; tells the
 tool to treat the pattern as a <a href=
-"http://www.regular-expressions.info/posix.html">Posix extended
-regular expression</a>, since the default of basic is very limited
+  "http://www.regular-expressions.info/posix.html">Posix extended
+  regular expression</a>, since the default of basic is very limited
 in what you can express. Finally the lower &#8220;r&#8221; prepares the tool to
 look at all the files and sub-folders within the main directory you
 specify. The last option switch causes the matched parts of the
@@ -125,7 +124,7 @@ a number of lines to show before and after the match, which gives
 you something a bit more like the webpage snippets search engines
 show for each result:</p>
 <p><strong><em>grep -inIEr &#8211;color=ALWAYS -C1 &#8220;Foo.*=&#8221;
-source/code/directory/</em></strong></p>
+    source/code/directory/</em></strong></p>
 <img src="http://www.readwriteweb.com/hack/grepshot2.png" height=
 "282" alt="grepshot2.png" width="610">
 <h2>File types</h2>
@@ -133,63 +132,63 @@ source/code/directory/</em></strong></p>
 particular language, and this is where you need the
 <strong><em>&#8211;include</em></strong> option. You specify another
 pattern (confusingly it&#8217;s a <a href=
-"http://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> not
+  "http://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> not
 a full regular expression), and only files with names that match it
 are searched.</p>
 <p><strong><em>grep -inIEr &#8211;color=ALWAYS &#8211;include=&#8221;*.php&#8221;
-&#8220;Foo.*=&#8221; source/code/directory/</em></strong></p>
+    &#8220;Foo.*=&#8221; source/code/directory/</em></strong></p>
 <h2>Tell me more!</h2>
 <p>This is only scratching the surface of what you can do with
 grep, so here&#8217;s some further reading:</p>
 <p><a href=
-"http://www.gnu.org/software/grep/manual/html_node/index.html">The
-GNU Grep Manual</a></p>
+  "http://www.gnu.org/software/grep/manual/html_node/index.html">The
+  GNU Grep Manual</a></p>
 <p><a href="http://www.panix.com/~elflord/unix/grep.html">A
-fantastic Grep Tutorial</a></p>
+  fantastic Grep Tutorial</a></p>
 <p><a href=
-"http://arstechnica.com/open-source/news/2009/05/command-line-made-easy-five-simple-recipes-for-grep.ars">
-Five simple recipes for Grep</a></p>
+  "http://arstechnica.com/open-source/news/2009/05/command-line-made-easy-five-simple-recipes-for-grep.ars">
+  Five simple recipes for Grep</a></p>
 <strong><a href=
-"http://www.readwriteweb.com/hack/2010/11/how-to-search-your-source-with.php#comments-open">Discuss</a></strong>
+    "http://www.readwriteweb.com/hack/2010/11/how-to-search-your-source-with.php#comments-open">Discuss</a></strong>
 <p><iframe scrolling="no" marginheight="0" marginwidth="0" src=
-"http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/468/60#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2010%2F11%2Fhow-to-search-your-source-with.php"
-frameborder="0" height="60" width="100%"></iframe></p>
+  "http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/468/60#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2010%2F11%2Fhow-to-search-your-source-with.php"
+  frameborder="0" height="60" width="100%"></iframe></p>
 <div><a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:FFnlKYwJmN0">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
-border="0" alt=""></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:Ij26kaj3iuU">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
-border="0" alt=""></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:C2pbw5bZMiI">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
-border="0" alt=""></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:yIl2AUoC8zA">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
-border="0" alt=""></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:V_sGLiPBpWU">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:V_sGLiPBpWU"
-border="0" alt=""></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:gIN9vFwOqvQ">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:gIN9vFwOqvQ"
-border="0" alt=""></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:F7zBnMyn0Lo">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:F7zBnMyn0Lo"
-border="0" alt=""></a> <a href=
-"http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:OqabYuBsmOY">
-<img src=
-"http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
-border="0" alt=""></a></div>
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:FFnlKYwJmN0">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:Ij26kaj3iuU">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:C2pbw5bZMiI">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:yIl2AUoC8zA">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:V_sGLiPBpWU">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:V_sGLiPBpWU"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:gIN9vFwOqvQ">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:gIN9vFwOqvQ"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:F7zBnMyn0Lo">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:F7zBnMyn0Lo"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:OqabYuBsmOY">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
+    border="0" alt=""></a></div>
 <img src=
 "http://feeds.feedburner.com/~r/readwriteweb/~4/MdOd_lM1lhI"
-height="1" alt="" width="1"></div>
+height="1" alt="" width="1">
 
 
       </div>
@@ -204,7 +203,7 @@ height="1" alt="" width="1"></div>
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         
-          <a class="pull-left" href="/blog/2010/need-text-editor-for-ipad/" title="Previous Post: Need Text Editor for iPad">&laquo; Previous: Need Text Editor for iPad</a>
+          <a class="pull-left" href="/blog/2010/battle-against-unattended-children-escalating-0/" title="Previous Post: Battle Against Unattended Children Escalating In Passive-Aggressive Fashion">&laquo; Previous: Battle Against Unattended Children Escalating In Passive-Aggressive Fashion</a>
         
 
         
