@@ -1,26 +1,25 @@
 ---
 layout: post
 title: Better Ruby Idioms
-date: 2009-11-12 11:14:00.000000000 -06:00
+date: 2009-11-12 11:14:00 -06:00
 comments: true
 categories: 
 posterous_id: 7418646
 ---
 <p>Finally, some one else (and a more reputable one), shares my
-Rails plug in pain. Lets make Ruby fun again, and less
-magical.<br></p>
-<div class="c4">
-<h2 class="c1"></h2>
+Rails plugin pain. Let's make Ruby fun again, and less
+magical.</p>
+<!-- more -->
 <div><a href=
-"http://feedproxy.google.com/~r/KatzGotYourTongue/~3/VWgrh-jlpA4/">Better
-Ruby Idioms</a></div>
+    "http://feedproxy.google.com/~r/KatzGotYourTongue/~3/VWgrh-jlpA4/">Better
+    Ruby Idioms</a></div>
 <div class="c2">via <a href="http://yehudakatz.com/" class="f">Katz
-Got Your Tongue?</a> by wycats on 11/12/09</div>
+    Got Your Tongue?</a> by wycats on 11/12/09</div>
 <br class="c3">
 <p>Carl and I have been working on the plugins system over the past
 few days. As part of that process, we read through the <a href=
-"http://guides.rubyonrails.org/plugins.html">Rails Plugin
-Guide</a>. While reading through the guide, we noticed a number of
+  "http://guides.rubyonrails.org/plugins.html">Rails Plugin
+  Guide</a>. While reading through the guide, we noticed a number of
 idioms presented in the guide that are serious overkill for the
 task at hand.</p>
 <p>I don&rsquo;t blame the author of the guide; the idioms
@@ -31,7 +30,7 @@ was full of magic incantations and ceremony to accomplish
 relatively simple things.</p>
 <p>Here&rsquo;s an example:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle def self.included(base) base.send :extend, ClassMethods end &Acirc;  module ClassMethods # any method placed here will apply to classes, like Hickwall def acts_as_something send :include, InstanceMethods end end &Acirc;  module InstanceMethods # any method placed here will apply to instaces, like @hickwall end end
 </pre></div>
 <p>To begin with, the <code>send</code> is completely unneeded. The
@@ -40,28 +39,28 @@ itself, giving the method access to <code>include</code>, a private
 method.</p>
 <p>This code intended to be used as follows:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 class ActiveRecord::Base include Yaffle end &Acirc;  class Article &lt; ActiveRecord::Base acts_as_yaffle end
 </pre></div>
 <p>What the code does is:</p>
 <ol>
-<li>Register a hook so that when the module is included, the
-ClassMethods are extended onto the class</li>
-<li>In that module, define a method that includes the
-InstanceMethods</li>
-<li>So that you can say <code>acts_as_something</code> in your
-code</li>
+  <li>Register a hook so that when the module is included, the
+  ClassMethods are extended onto the class</li>
+  <li>In that module, define a method that includes the
+  InstanceMethods</li>
+  <li>So that you can say <code>acts_as_something</code> in your
+  code</li>
 </ol>
 <p>The crazy thing about all of this is that it&rsquo;s completely
 reinventing the module system that Ruby already has. This would be
 exactly identical:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle # any method placed here will apply to classes, like Hickwall def acts_as_something send :include, InstanceMethods end &Acirc;  module InstanceMethods # any method placed here will apply to instances, like @hickwall end end
 </pre></div>
 <p>To be used via:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 class ActiveRecord::Base extend Yaffle end &Acirc;  class Article &lt; ActiveRecord::Base acts_as_yaffle end
 </pre></div>
 <p>In a nutshell, there&rsquo;s no point in overriding
@@ -69,12 +68,12 @@ class ActiveRecord::Base extend Yaffle end &Acirc;  class Article &lt; ActiveRec
 provides both!</p>
 <p>To take this a bit further, you could do:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle # any method placed here will apply to instances, like @hickwall,  # because that's how modules work! end
 </pre></div>
 <p>To be used via:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 class Article &lt; ActiveRecord::Base include Yaffle end
 </pre></div>
 <p>In effect, the initial code (override included hook to extend a
@@ -82,7 +81,7 @@ method on, which then includes a module) is two layers of
 abstraction around a simple Ruby include!</p>
 <p>Let&rsquo;s look at a few more examples:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle def self.included(base) base.send :extend, ClassMethods end &Acirc;  module ClassMethods def acts_as_yaffle(options = {}) cattr_accessor :yaffle_text_field self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s end end end &Acirc;  ActiveRecord::Base.send :include, Yaffle
 </pre></div>
 <p>Again, we have the idiom of overriding <code>include</code> to
@@ -90,7 +89,7 @@ behave like <code>extend</code> (instead of just using
 <code>extend</code>!).</p>
 <p>A better solution:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle def acts_as_yaffle(options = {}) cattr_accessor :yaffle_text_field self.yaffle_text_field = options[:yaffle_text_field].to_s || "last_squawk" end end &Acirc;  ActiveRecord::Base.extend Yaffle
 </pre></div>
 <p>In this case, it&rsquo;s appropriate to use an
@@ -99,19 +98,19 @@ additional options which could not be encapsulated using the normal
 Ruby <code>extend</code>.</p>
 <p>Another &ldquo;more advanced&rdquo; case:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle def self.included(base) base.send :extend, ClassMethods end &Acirc;  module ClassMethods def acts_as_yaffle(options = {}) cattr_accessor :yaffle_text_field self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s send :include, InstanceMethods end end &Acirc;  module InstanceMethods def squawk(string) write_attribute(self.class.yaffle_text_field, string.to_squawk) end end end &Acirc;  ActiveRecord::Base.send :include, Yaffle
 </pre></div>
 <p>Again, we have the idiom of overriding include to pretend to be
 an extend, and a <code>send</code> where it is not needed.
 Identical functionality:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle def acts_as_yaffle(options = {}) cattr_accessor :yaffle_text_field self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s include InstanceMethods end &Acirc;  module InstanceMethods def squawk(string) write_attribute(self.class.yaffle_text_field, string.to_squawk) end end end &Acirc;  ActiveRecord::Base.extend Yaffle
 </pre></div>
 <p>Of course, it is also possible to do:</p>
 <div class="CodeRay code">
-<pre>
+  <pre>
 module Yaffle def squawk(string) write_attribute(self.class.yaffle_text_field, string.to_squawk) end end &Acirc;  class ActiveRecord::Base def self.acts_as_yaffle(options = {}) cattr_accessor :yaffle_text_field self.yaffle_text_field = (options[:yaffle_text_field] || :last_squawk).to_s include Yaffle end end
 </pre></div>
 <p>Since the module is <strong>always</strong> included in
@@ -134,11 +133,11 @@ sometimes needed in special, advanced cases. However, I am saying
 that in the most common cases, they&rsquo;re huge overkill that
 obscures the real functionality and confuses users.</p>
 <div><a href=
-"http://feeds.feedburner.com/~ff/KatzGotYourTongue?a=VWgrh-jlpA4:doJ5NIDm5Uw:yIl2AUoC8zA">
-<img src=
-"http://feeds.feedburner.com/~ff/KatzGotYourTongue?d=yIl2AUoC8zA"
-border="0" alt=""></a></div>
+    "http://feeds.feedburner.com/~ff/KatzGotYourTongue?a=VWgrh-jlpA4:doJ5NIDm5Uw:yIl2AUoC8zA">
+    <img src=
+    "http://feeds.feedburner.com/~ff/KatzGotYourTongue?d=yIl2AUoC8zA"
+    border="0" alt=""></a></div>
 <img src=
 "http://feeds.feedburner.com/~r/KatzGotYourTongue/~4/VWgrh-jlpA4"
-height="1" alt="" width="1"></div>
+height="1" alt="" width="1">
 

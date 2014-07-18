@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Day 9 - Counters and Player Positions
-date: 2011-02-28 22:30:00.000000000 -06:00
+date: 2011-02-28 22:30:00 -06:00
 comments: true
 categories: 
 posterous_id: 44513378
@@ -14,7 +14,9 @@ in&nbsp;parallel:&nbsp;change alpha from 1 to 0 (visible to
 invisible), scale 1 to 10 (normal to huge), and rotate 0 to 360.
 This was easier said than done, because of a difference between
 regular shapes and text. Regular shapes use alpha blending by
-default, text <strong>doesn't</strong>. Unfortunately, my first
+default, text <strong>doesn't</strong>. </p>
+<!-- more -->
+<p>Unfortunately, my first
 suspect was the animation library, instead of blending. After an
 hour troubleshooting I found out setAlpha on text wasn't working
 without any animation. This lead to googling "+AndEngine text
