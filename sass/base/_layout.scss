@@ -164,14 +164,12 @@ article {
   }
 }
 
-.archive-link {
+.archive-link,
+nav {
   text-align: center;
-  padding-bottom: 40px;
-
-  h* {
-    padding: 0px;
-    margin: 0px;
-  }
+  padding-bottom: 2em;
+  font-size: 1.25em;
+  font-weight: 500;
 }
 
 .list-title {

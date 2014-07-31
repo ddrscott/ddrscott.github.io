@@ -31,8 +31,13 @@ layout: default
 
     <hr class="divider-short"/>
 
-    <div class="archive-link">
-      <h3><a href="/posts/">All Posts</a></h3>
-    </div>
+    <nav class="container">
+      {% if paginator.next_page %}
+        <a class="prev pull-left" href="{{paginator.next_page_path}}">&larr; Older</a>
+      {% endif %}
+      {% if paginator.previous_page %}
+        <a class="next pull-right" href="{{paginator.previous_page_path}}">Newer &rarr;</a>
+      {% endif %}
+    </nav>
   </div>
 </div>
