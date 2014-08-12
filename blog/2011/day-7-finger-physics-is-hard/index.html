@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Day 7 - Finger Physics is Hard - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="Day 7 - Finger Physics is Hard written Feb 23rd, 2011 After struggling with this problem for quite some time, I think
+the issue is finally licked. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2011/day-7-finger-physics-is-hard">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Day 7 - Finger Physics is Hard</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-02-23T23:36:51-06:00" pubdate data-updated="true">Feb 23<sup>rd</sup>, 2011</time>
+          
+
+
+        </div>
+        <p>After struggling with this problem for quite some time, I think
+the issue is finally licked. The problem relates to transferring
+you fingers momentum to a virtual object on the screen. The natural
+way to display finger position is to plot a sprite at the touch
+sensors coordinates. The problem with this method is the physics
+engine doesn&#8217;t think their is any momentum built up. The physics
+engine just thinks your finger teleported there. So if I teleport
+on top of a cow it just explodes. To make things worse if the touch
+events come in too slowly you&#8217;ll teleport over the cow completely
+missing the free lunch.</p>
+<!-- more -->
+<p>The initial solution I had for the issue was horrible. I figured
+I could plot the sprite at the point of contact like before, then
+calculate a force vector based on the last coordinate form the
+previous touch event, divide by time and then tell the physics
+engine to apply the force to the target. This gave me accurate
+transfer of momentum, but looked ridiculous. The finger sprite kept
+jumping forward as I moved my finger across the screen like a
+horizontal jack hammer. So I thought I could divorce the finger
+sprite from the physics engine, but then I&#8217;d have to keep track of
+more objects and states of when to use physics (during a release)
+and when to not use it (during a drag). Anyway, I chose not to go
+down that path mainly because it felt like too many parts and I
+have no time for debugging AND I was still teleporting. Doh!</p>
+<p>The solution ultimately came to something very unnatural, but
+completely sufficient. And it cut down my code significantly.
+Probably in half. The affect I needed was to have the object I&#8217;m
+dragging show up at my finger location and have momentum maintained
+at release or collision. Did you catch that word? Dragging? That&#8217;s
+how it hit me. The previous solution was to push the object, but if
+I drag it things get simpler. In drag mode I just need to apply
+enough force to the object to get it to my finger location. The
+math for that is simple and the same as I mentioned in the first
+solution: (current finger sprite position - current touch position)
+/ time. When I apply the force, the physics engine moves the sprite
+under my finger perfectly, and if it misses the next touch event
+comes in to get it even closer. It a self correcting system.</p>
+<p>The best part of the final solution is no more teleporting. We
+don&#8217;t do it in real life and we shouldn&#8217;t do it in our games
+either. Maybe one day I&#8217;ll add the complexity to push the object
+instead of drag, but for now I&#8217;ll leave that as an exercise to the
+reader.</p>
+
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2011/day-6-ish/" title="Previous Post: Day 6-ish">&laquo; Previous: Day 6-ish</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2011/day-9-counters-and-player-positions/" title="Next Post: Day 9 - Counters and Player Positions">Next: Day 9 - Counters and Player Positions &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50126719-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2011/day-7-finger-physics-is-hard/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2011/day-7-finger-physics-is-hard/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

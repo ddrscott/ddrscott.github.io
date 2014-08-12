@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How To Search Your Source With Grep - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="How To Search Your Source With Grep written Nov 12th, 2010 First lession in Unix 101 <a href= "http://feedproxy.google.com/~r/readwriteweb/~3/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2010/how-to-search-your-source-with-grep">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>How To Search Your Source With Grep</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2010-11-12T16:44:00-06:00" pubdate data-updated="true">Nov 12<sup>th</sup>, 2010</time>
+          
+
+
+        </div>
+        First lession in Unix 101
+<!-- more -->
+<div><a href=
+    "http://feedproxy.google.com/~r/readwriteweb/~3/MdOd_lM1lhI/how-to-search-your-source-with.php">
+    How To Search Your Source With Grep</a></div>
+<div class="c2">via <a href="http://www.readwriteweb.com/" class=
+    "f">ReadWriteWeb</a> by Pete Warden on 11/10/10</div>
+<br class="c3">
+<p><img src="http://www.readwriteweb.com/hack/grepshot_main.png"
+height="88" alt="grepshot_main.png" width="150">One of the joys of
+the last decade has been the growing ubiquity of Unix, and one of
+its most useful tools is grep. Even if you&#8217;re using an IDE for your
+development, the odds are that you&#8217;ll be able to search your code
+faster and more flexibly once you learn this command line tool.
+It&#8217;s not always obvious how to access all that power though, so
+I&#8217;ll show you some of my favorite techniques. The examples have
+been tested on OS X&#8217;s GNU grep, but should be applicable to most
+versions. You can download <a href=
+  "http://www.cygwin.com/">Cygwin</a> if you want to run this and
+other Unix tools on Windows.</p>
+<p><em>Sponsor</em><br>
+<a href=
+  "http://d.ads.readwriteweb.com/ck.php?n=22975&amp;cb=22975"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=22975&amp;n=22975"
+  border="0" alt=""></a></p>
+<p><strong><em>grep -inIEr &#8211;color=ALWAYS &#8220;Foo.*=&#8221;
+    source/code/directory/</em></strong></p>
+<p>This is the way I use grep most frequently, and first here&#8217;s
+what those cryptic options mean. The lower-case &#8220;i&#8221; means that the
+search is going to be case-insensitive, and the &#8220;n&#8221; asks the tool
+to print the line number next to each match. The big &#8220;I&#8221; means grep
+uses some impressive guesswork to figure out which files are binary
+not text, and skips matching those. The upper-case &#8220;E&#8221; tells the
+tool to treat the pattern as a <a href=
+  "http://www.regular-expressions.info/posix.html">Posix extended
+  regular expression</a>, since the default of basic is very limited
+in what you can express. Finally the lower &#8220;r&#8221; prepares the tool to
+look at all the files and sub-folders within the main directory you
+specify. The last option switch causes the matched parts of the
+result lines to be highlighted in color.</p>
+<p>The third argument is the pattern you want to match, and the
+only gotcha to watch out for here is that you need to enclose it in
+either single or double quotes to make sure none of the characters
+are misinterpreted as shell commands. Learning regular expressions
+can be daunting, but knowing that &#8220;.&#8221; matches any single character
+and &#8220;.*&#8221; matches zero or more of any character can get you
+surprisingly far. The last argument is the directory that contains
+your source code. Here&#8217;s an example:</p>
+<img src="http://www.readwriteweb.com/hack/grepshot.png" height=
+"87" alt="grepshot.png" width="610">
+<p>The results are all the matching lines in the source code files,
+with the file name and line number at the start of each line. On OS
+X you can then open them up in your favorite editor by cutting and
+pasting the file name into the <strong><em>open</em></strong>
+command, eg</p>
+<p><strong><em>open maprender/src/maprender.mxml</em></strong></p>
+<h2>Context</h2>
+<p>Sometimes just seeing a single line isn&#8217;t enough context to
+understand if it&#8217;s a match you&#8217;re interested in, and that&#8217;s where
+the <strong><em>-C</em></strong> option comes in handy. You specify
+a number of lines to show before and after the match, which gives
+you something a bit more like the webpage snippets search engines
+show for each result:</p>
+<p><strong><em>grep -inIEr &#8211;color=ALWAYS -C1 &#8220;Foo.*=&#8221;
+    source/code/directory/</em></strong></p>
+<img src="http://www.readwriteweb.com/hack/grepshot2.png" height=
+"282" alt="grepshot2.png" width="610">
+<h2>File types</h2>
+<p>Often you want to narrow down your search to files written in a
+particular language, and this is where you need the
+<strong><em>&#8211;include</em></strong> option. You specify another
+pattern (confusingly it&#8217;s a <a href=
+  "http://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> not
+a full regular expression), and only files with names that match it
+are searched.</p>
+<p><strong><em>grep -inIEr &#8211;color=ALWAYS &#8211;include=&#8221;*.php&#8221;
+    &#8220;Foo.*=&#8221; source/code/directory/</em></strong></p>
+<h2>Tell me more!</h2>
+<p>This is only scratching the surface of what you can do with
+grep, so here&#8217;s some further reading:</p>
+<p><a href=
+  "http://www.gnu.org/software/grep/manual/html_node/index.html">The
+  GNU Grep Manual</a></p>
+<p><a href="http://www.panix.com/~elflord/unix/grep.html">A
+  fantastic Grep Tutorial</a></p>
+<p><a href=
+  "http://arstechnica.com/open-source/news/2009/05/command-line-made-easy-five-simple-recipes-for-grep.ars">
+  Five simple recipes for Grep</a></p>
+<strong><a href=
+    "http://www.readwriteweb.com/hack/2010/11/how-to-search-your-source-with.php#comments-open">Discuss</a></strong>
+<p><iframe scrolling="no" marginheight="0" marginwidth="0" src=
+  "http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/468/60#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2010%2F11%2Fhow-to-search-your-source-with.php"
+  frameborder="0" height="60" width="100%"></iframe></p>
+<div><a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:FFnlKYwJmN0">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:Ij26kaj3iuU">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:C2pbw5bZMiI">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:yIl2AUoC8zA">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:V_sGLiPBpWU">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:V_sGLiPBpWU"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:gIN9vFwOqvQ">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:gIN9vFwOqvQ"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:F7zBnMyn0Lo">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?i=MdOd_lM1lhI:aQm0BBzM5Uo:F7zBnMyn0Lo"
+    border="0" alt=""></a> <a href=
+    "http://feeds.feedburner.com/~ff/readwriteweb?a=MdOd_lM1lhI:aQm0BBzM5Uo:OqabYuBsmOY">
+    <img src=
+    "http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
+    border="0" alt=""></a></div>
+<img src=
+"http://feeds.feedburner.com/~r/readwriteweb/~4/MdOd_lM1lhI"
+height="1" alt="" width="1">
+
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2010/battle-against-unattended-children-escalating-0/" title="Previous Post: Battle Against Unattended Children Escalating In Passive-Aggressive Fashion">&laquo; Previous: Battle Against Unattended Children Escalating In Passive-Aggressive Fashion</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2010/how-to-pass-click-events-to-android-child-vie/" title="Next Post: How to pass click events to Android child views">Next: How to pass click events to Android child views &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50126719-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2010/how-to-search-your-source-with-grep/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2010/how-to-search-your-source-with-grep/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

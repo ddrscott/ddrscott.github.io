@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Day 9 - Counters and Player Positions - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="Day 9 - Counters and Player Positions written Feb 28th, 2011 Due to popular demand I added visual count down indicators. The
+feature shows the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2011/day-9-counters-and-player-positions">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Day 9 - Counters and Player Positions</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-02-28T22:30:00-06:00" pubdate data-updated="true">Feb 28<sup>th</sup>, 2011</time>
+          
+
+
+        </div>
+        <p>Due to popular demand I added visual count down indicators. The
+feature shows the second remaining on the screen then it explodes
+away like a puff if smoke. This will be done by a nice little shape
+modifier feature built into AndEngine. I want to apply 3 modifiers
+in&nbsp;parallel:&nbsp;change alpha from 1 to 0 (visible to
+invisible), scale 1 to 10 (normal to huge), and rotate 0 to 360.
+This was easier said than done, because of a difference between
+regular shapes and text. Regular shapes use alpha blending by
+default, text <strong>doesn&#8217;t</strong>. </p>
+<!-- more -->
+<p>Unfortunately, my first
+suspect was the animation library, instead of blending. After an
+hour troubleshooting I found out setAlpha on text wasn&#8217;t working
+without any animation. This lead to googling &#8220;+AndEngine text
+setAlpha&#8221;. The first hit saves the day with a one liner that sets
+the blending mode of the
+shape:<code>setBlendFunction(GL10.GL_SRC_ALPHA,
+GL10.GL_ONE_MINUS_SRC_ALPHA)</code></p>
+<p>Why this isn&#8217;t the default like the other shapes is a mystery to
+me.</p>
+<p>As for the player positions, I learned how bad my geometry is
+again. In four player mode there should be a &#8220;Ready?&#8221; touch area
+for each player in each corner of the screen. The text should be
+oriented so each player can view the text in the correct
+perspective. This should be as simple as rotating the text in the
+correct 45 degree increment. Sadly, it took me a shameful full hour
+to figure out what those were. I&#8217;m sure if I stayed awake in that
+class for the same hour I would have learned more than 4
+numbers.&nbsp;AndEngine rotates clockwise so&nbsp;starting in the
+upper right corner the rotational angles I &#8220;discovered&#8221; are: 135,
+225, 45, and 315.</p>
+<div class='p_embed p_image_embed'><img alt="4player" height="800"
+src=
+"http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-02-28/vElzCcDfjywpkIaytCiCnAgGxrtewtvCcgvwCxsyqvrdilwaskwthucGEEkx/4player.png.scaled500.png"
+width="480"></div>
+<p>I wish I could make this posting more exciting, but game
+logistics will <em class="c1">always</em>&nbsp;be lame.</p>
+
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2011/day-7-finger-physics-is-hard/" title="Previous Post: Day 7 - Finger Physics is Hard">&laquo; Previous: Day 7 - Finger Physics is Hard</a>
+        
+
+        
+          <a class="pull-right" href="/blog/2011/day-9x-1-more-session-and-im-done/" title="Next Post: Day 9+X, 1 More Session and I'm done!">Next: Day 9+X, 1 More Session and I'm done! &raquo;</a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50126719-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2011/day-9-counters-and-player-positions/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2011/day-9-counters-and-player-positions/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
