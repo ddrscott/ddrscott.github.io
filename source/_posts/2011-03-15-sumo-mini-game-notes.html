@@ -1,0 +1,30 @@
+---
+layout: post
+title: Sumo mini-game notes
+date: 2011-03-15 23:03:33 -05:00
+comments: true
+categories: 
+posterous_id: 46126280
+---
+I've created a working version of the sumo and it is revealing some
+overall bugs for the game engine at large.<br>
+First the precision of two touch points greatly decreases when they
+are close together I presume this is an issue with capacitive
+screens and not a software issue. This issue hasn't shown itself
+till now since the other games are faster paced and acurracy is
+less important.
+<!-- more -->
+Second issue is motion jitters. This occurs when hold a target
+object in place. One would expect the item to never move, but thats
+not what happens. After a few seconds the held piece will violently
+spring around the touch point. This happens due to how the touch
+sensor provides me the information. I get touch events in 3 main
+categories: down, move, and up. (I'm specifically ignoring cancel
+for now.) On down I add a heavy mass to the touched object. This
+makes it practically immobile from impacts by other objects. When I
+get a move event I add linear velocity to the object so it can
+shift to the touched coordinate. If the finger is down and but
+never moves, I don't get any other events from the sensor which
+tell me that it's still down. I need to rely on an up event to
+negate the down. Unfortunately, I don't always get the up event or
+even the cancel .......
