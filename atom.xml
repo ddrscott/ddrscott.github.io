@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2014-08-01T16:37:31-05:00</updated>
+  <updated>2014-08-13T05:18:14-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -1178,9 +1178,9 @@ version.</p>
   
   <entry>
     <title type="html"><![CDATA[Sumo mini-game notes]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/IpgnnyyqiA/"/>
+    <link href="http://ddrscott.github.io/blog/2011/sumo-mini-game-notes/"/>
     <updated>2011-03-15T23:03:33-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/IpgnnyyqiA</id>
+    <id>http://ddrscott.github.io/blog/2011/sumo-mini-game-notes</id>
     <content type="html"><![CDATA[I&#8217;ve created a working version of the sumo and it is revealing some
 overall bugs for the game engine at large.<br>
 First the precision of two touch points greatly decreases when they
