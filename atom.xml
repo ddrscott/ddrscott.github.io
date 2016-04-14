@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-04-14T05:41:34-05:00</updated>
+  <updated>2016-04-14T09:05:54-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,174 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Vim Toggle Movement: I Just Want to Go Home]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/vim-toggle-movement/"/>
+    <updated>2016-04-14T05:51:11-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/vim-toggle-movement</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/i_just_want_to_go_home.png" width="600" height="255" title="'I just want to go home'" ></p>
+
+<p>I have a problem with the <code>^</code> key. I need its functionality, but its proximity is
+too far for either of my stubby index fingers. No vimrc change can physically move it
+closer to me, but I have found a way to move its funtionality to another a key.
+A key which already knows how to go home. An alternate home. A home where my
+heart isn&rsquo;t. Enough drama, what&rsquo;s the problem?!?</p>
+
+<!-- more -->
+
+
+<h2>The Problem</h2>
+
+<p>In my daily coding, I have a deep seeded need to go to the first non-blank
+character of a line. The only key that Vim provides for that functionality is <code>^</code>,
+the hardest key to reach from the home row. A much more comfortable key to reach
+is <code>0</code>, but that shoots us past the first non-blank character all the way to
+the left edge of the window. <code>&lt;Home&gt;</code> is the ugly step child of either option
+since it&rsquo;s even harder to reach and takes us to the first column, too.</p>
+
+<p>In case you don&rsquo;t believe me. Here&rsquo;s what the Vim document says:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>  0          To the first character of the line.  |exclusive|
+</span><span class='line'>        motion.
+</span><span class='line'>
+</span><span class='line'>                *&lt;Home&gt;* *&lt;kHome&gt;*
+</span><span class='line'>  &lt;Home&gt;  To the first character of the line.  |exclusive|
+</span><span class='line'>        motion.  When moving up or down next, stay in same
+</span><span class='line'>        TEXT column (if possible).  Most other commands stay
+</span><span class='line'>        in the same SCREEN column.  &lt;Home&gt; works like &quot;1|&quot;,
+</span><span class='line'>        which differs from &quot;0&quot; when the line starts with a
+</span><span class='line'>        &lt;Tab&gt;.
+</span><span class='line'>
+</span><span class='line'>                *^*
+</span><span class='line'>  ^           To the first non-blank character of the line. |exclusive| motion.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why can&rsquo;t I have a key that is easy to reach and takes me to the first
+non-blank?!?</p>
+
+<p><img src="http://ddrscott.github.io/images/venn_home_0.png" width="552" height="475" title="'venn diagram - home, caret, and 0'" ></p>
+
+<p>I could swap the functionality of <code>0</code> and <code>^</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>nnoremap 0 ^
+</span><span class='line'>nnoremap ^ 0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This still forces me to reach for <code>^</code> when I need to need to get to that left
+edge. There must be a better way!</p>
+
+<h2>The Solution</h2>
+
+<p>Let&rsquo;s give <code>0</code> some super toggling powers. When I hit it the first time, I want it be
+be like <code>^</code>. If I hit it again, I want it to finish its travels and go to the
+first column.</p>
+
+<h3>Solution A</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">function</span><span class="p">!</span> ToggleHomeZero<span class="p">()</span>
+</span><span class='line'>  <span class="k">let</span> pos <span class="p">=</span> getpos<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class='line'>  execute <span class="s2">&quot;normal! ^&quot;</span>
+</span><span class='line'>  <span class="k">if</span> pos <span class="p">==</span> getpos<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class='line'>    execute <span class="s2">&quot;normal! 0&quot;</span>
+</span><span class='line'>  <span class="k">endif</span>
+</span><span class='line'><span class="k">endfunction</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="m">0</span> :<span class="k">call</span> ToggleHome<span class="p">()&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This gets us exactly to the center of Venn diagrams heart:</p>
+
+<p><strong>Easy to reach + First non-blank character + First column = Rainbow Colored Unicorn!</strong></p>
+
+<h3>Solution B</h3>
+
+<p>After enjoying staring at the function for a while, I realized we could add
+super toggling powers to other movements. Lets extract the <code>normal</code> commands
+into arguments and share the love with other keys!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">function</span><span class="p">!</span> ToggleMovement<span class="p">(</span>firstOp<span class="p">,</span> thenOp<span class="p">)</span>
+</span><span class='line'>  <span class="k">let</span> pos <span class="p">=</span> getpos<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class='line'>  execute <span class="s2">&quot;normal! &quot;</span> . <span class="k">a</span>:firstOp
+</span><span class='line'>  <span class="k">if</span> pos <span class="p">==</span> getpos<span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class='line'>    execute <span class="s2">&quot;normal! &quot;</span> . <span class="k">a</span>:thenOp
+</span><span class='line'>  <span class="k">endif</span>
+</span><span class='line'><span class="k">endfunction</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; The original carat 0 swap</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="m">0</span> :<span class="k">call</span> ToggleMovement<span class="p">(</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; How about ; and ,</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> ; :<span class="k">call</span> ToggleMovement<span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">,</span> :<span class="k">call</span> ToggleMovement<span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; How about H and L</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> H :<span class="k">call</span> ToggleMovement<span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;L&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> L :<span class="k">call</span> ToggleMovement<span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; How about G and gg</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> G :<span class="k">call</span> ToggleMovement<span class="p">(</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;gg&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> gg :<span class="k">call</span> ToggleMovement<span class="p">(</span><span class="s1">&#39;gg&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p><code>ToggleMovement</code> is the gift that keeps on giving!</p>
+
+<p>What other movement can we add to the list?
+Let me know in the comments below.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[BS to the Black Hole]]></title>
@@ -1359,52 +1527,6 @@ curious.</p>
 src=
 "http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-03-08/ngpdIyHkHrtnkeumCemrzehbByfIoblEppnyIatrvslnIJGudJnCBlAtoatH/screen1.png.scaled500.png"
 width="480"></div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Day 9+X, 1 More Session and I'm done!]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/day-9x-1-more-session-and-im-done/"/>
-    <updated>2011-03-07T00:51:00-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/day-9x-1-more-session-and-im-done</id>
-    <content type="html"><![CDATA[<p>I believe I&#8217;m almost finished with some thing that I wouldn&#8217;t
-hate being in the market. I know that standard seems a bit low, but
-if I don&#8217;t release this thing soon it won&#8217;t ever get released.</p>
-<p>The past sessions were all about artwork. This could have been a
-long rabbit trail, but my wife reminded me to get this thing done.
-And that every minute I send on this creation, I lose with my son.
-Anyway, artwork is basically done. I have to crop here and there.
-But I think it&#8217;s workable.</p>
-<!-- more -->
-<p>Here&#8217;s some things that are completed:</p>
-<ol>
-<li>game play of 2.5 mini games (2 full game, and a variation of
-one of them)&nbsp;</li>
-<li>working menus, even replaying a game</li>
-<li>sound feed back for points in 1.5 of the games</li>
-<li>theme and art work - most from&nbsp;<a href=
-"http://www.lostgarden.com/search/label/free%20game%20graphics">http://www.lostgarden.com/search/label/free%20game%20graphics</a>
-who has an amazingly flexible license which I couldn&#8217;t release this
-thing without.</li>
-<li>winning scenes and anxiety inducing count down when game is
-about to end.</li>
-</ol>
-<p>Stuff yet to do before release:</p>
-<ol>
-<li>add credits scene to fulfill free licensing.</li>
-<li>add sound to game 1</li>
-<li>make replay more obvious on winning scene.</li>
-</ol>
-<p>Stuff to finish after release:</p>
-<ol>
-<li>More games</li>
-<li>More sound effects</li>
-<li>refactor code base so game 3 is easier</li>
-<li>respond to user feed back</li>
-<li>(never ending list)</li>
-</ol>
-<p>After release I&#8217;ll post images of the game&#8230;</p>
 
 ]]></content>
   </entry>

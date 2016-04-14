@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vim | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-04-14T05:41:34-05:00</updated>
+  <updated>2016-04-14T09:05:54-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,140 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Vim Toggle Movement: I Just Want to Go Home]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/vim-toggle-movement/"/>
+    <updated>2016-04-14T05:51:11-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/vim-toggle-movement</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="/images/i_just_want_to_go_home.png" width="600" height="255" title="&lsquo;I just want to go home&rsquo;" ></p>
+
+<p>I have a problem with the <code>^</code> key. I need its functionality, but its proximity is
+too far for either of my stubby index fingers. No vimrc change can physically move it
+closer to me, but I have found a way to move its funtionality to another a key.
+A key which already knows how to go home. An alternate home. A home where my
+heart isn&rsquo;t. Enough drama, what&rsquo;s the problem?!?</p>
+
+<!-- more -->
+
+
+<h2>The Problem</h2>
+
+<p>In my daily coding, I have a deep seeded need to go to the first non-blank
+character of a line. The only key that Vim provides for that functionality is <code>^</code>,
+the hardest key to reach from the home row. A much more comfortable key to reach
+is <code>0</code>, but that shoots us past the first non-blank character all the way to
+the left edge of the window. <code>&lt;Home&gt;</code> is the ugly step child of either option
+since it&rsquo;s even harder to reach and takes us to the first column, too.</p>
+
+<p>In case you don&rsquo;t believe me. Here&rsquo;s what the Vim document says:</p>
+
+<p>```text
+  0         To the first character of the line.  |exclusive|</p>
+
+<pre><code>    motion.
+
+            *&lt;Home&gt;* *&lt;kHome&gt;*
+</code></pre>
+
+<p>  <Home>  To the first character of the line.  |exclusive|</p>
+
+<pre><code>    motion.  When moving up or down next, stay in same
+    TEXT column (if possible).  Most other commands stay
+    in the same SCREEN column.  &lt;Home&gt; works like "1|",
+    which differs from "0" when the line starts with a
+    &lt;Tab&gt;.
+
+            *^*
+</code></pre>
+
+<p>  ^         To the first non-blank character of the line. |exclusive| motion.
+```</p>
+
+<p>Why can&rsquo;t I have a key that is easy to reach and takes me to the first
+non-blank?!?</p>
+
+<p><img src="/images/venn_home_0.png" width="552" height="475" title="&lsquo;venn diagram &ndash; home, caret, and 0&rsquo;" ></p>
+
+<p>I could swap the functionality of <code>0</code> and <code>^</code>:</p>
+
+<p><code>
+nnoremap 0 ^
+nnoremap ^ 0
+</code></p>
+
+<p>This still forces me to reach for <code>^</code> when I need to need to get to that left
+edge. There must be a better way!</p>
+
+<h2>The Solution</h2>
+
+<p>Let&rsquo;s give <code>0</code> some super toggling powers. When I hit it the first time, I want it be
+be like <code>^</code>. If I hit it again, I want it to finish its travels and go to the
+first column.</p>
+
+<h3>Solution A</h3>
+
+<p>```vim
+function! ToggleHomeZero()
+  let pos = getpos(&lsquo;.&rsquo;)
+  execute &ldquo;normal! ^&rdquo;
+  if pos == getpos(&lsquo;.&rsquo;)</p>
+
+<pre><code>execute "normal! 0"
+</code></pre>
+
+<p>  endif
+endfunction</p>
+
+<p>nnoremap 0 :call ToggleHome()<CR>
+```</p>
+
+<p>This gets us exactly to the center of Venn diagrams heart:</p>
+
+<p><strong>Easy to reach + First non-blank character + First column = Rainbow Colored Unicorn!</strong></p>
+
+<h3>Solution B</h3>
+
+<p>After enjoying staring at the function for a while, I realized we could add
+super toggling powers to other movements. Lets extract the <code>normal</code> commands
+into arguments and share the love with other keys!</p>
+
+<p>```vim
+function! ToggleMovement(firstOp, thenOp)
+  let pos = getpos(&lsquo;.&rsquo;)
+  execute &ldquo;normal! &rdquo; . a:firstOp
+  if pos == getpos(&lsquo;.&rsquo;)</p>
+
+<pre><code>execute "normal! " . a:thenOp
+</code></pre>
+
+<p>  endif
+endfunction</p>
+
+<p>&ldquo; The original carat 0 swap
+nnoremap <silent> 0 :call ToggleMovement(&lsquo;^&rsquo;, &lsquo;0&rsquo;)<CR></p>
+
+<p>&ldquo; How about ; and ,
+nnoremap <silent> ; :call ToggleMovement(&lsquo;;&rsquo;, &lsquo;,&rsquo;)<CR>
+nnoremap <silent> , :call ToggleMovement(&lsquo;,&rsquo;, &lsquo;;&rsquo;)<CR></p>
+
+<p>&ldquo; How about H and L
+nnoremap <silent> H :call ToggleMovement(&lsquo;H&rsquo;, &lsquo;L&rsquo;)<CR>
+nnoremap <silent> L :call ToggleMovement(&lsquo;L&rsquo;, &lsquo;H&rsquo;)<CR></p>
+
+<p>&ldquo; How about G and gg
+nnoremap <silent> G :call ToggleMovement(&lsquo;G&rsquo;, &lsquo;gg&rsquo;)<CR>
+nnoremap <silent> gg :call ToggleMovement(&lsquo;gg&rsquo;, &lsquo;G&rsquo;)<CR>
+```</p>
+
+<h2>Conclusion</h2>
+
+<p><code>ToggleMovement</code> is the gift that keeps on giving!</p>
+
+<p>What other movement can we add to the list?
+Let me know in the comments below.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[BS to the Black Hole]]></title>

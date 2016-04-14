@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://ddrscott.github.io/blog/2016/vim-toggle-movement/</loc>
+    <lastmod>2016-04-14T05:51:11-05:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://ddrscott.github.io/blog/2016/bs-to-the-black-hole/</loc>
     <lastmod>2016-04-13T00:48:47-05:00</lastmod>
     <priority>0.8</priority>
@@ -491,14 +497,14 @@
   
   <url>
     <loc>http://ddrscott.github.io/</loc>
-    <lastmod>2016-04-14T05:41:34-05:00</lastmod>
+    <lastmod>2016-04-14T09:05:54-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://ddrscott.github.io/posts/</loc>
-    <lastmod>2016-04-14T05:41:34-05:00</lastmod>
+    <lastmod>2016-04-14T09:05:54-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
