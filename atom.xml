@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2014-08-13T05:18:14-05:00</updated>
+  <updated>2016-04-13T19:39:57-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,103 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[BS to the black hole]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/bs-to-the-black-hole/"/>
+    <updated>2016-04-13T00:48:47-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/bs-to-the-black-hole</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/blackhole_bs.png" width="800" height="469" title="'BS to Blackhole'" ></p>
+
+<h2>We meet again</h2>
+
+<p>First post in 4 years. Sorry to keep you waiting.</p>
+
+<p>I&rsquo;ve been playing with Vim again, more specifically NeoVim
+<a href="https://neovim.io/,">https://neovim.io/,</a> and this time I think it&rsquo;s going to stick.</p>
+
+<p>Here&rsquo;s the latest addition to $MYVIMRC which can be found at
+<a href="https://github.com/ddrscott/config-nvim.">https://github.com/ddrscott/config-nvim.</a></p>
+
+<h2>Problem</h2>
+
+<p>Sometimes I want to delete text without worrying about blowing away the unnamed
+register. This can be done by prefixing a normal or visual delete with <code>"_</code>,
+but thats way too pinky/ring finger contortions for me.</p>
+
+<!-- more -->
+
+
+<h2>Solution</h2>
+
+<p>Setup a single key to do that <code>"_</code> thing for me. So my naive approach was to add
+the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> <span class="c">&quot;_</span>
+</span><span class='line'><span class="nb">vnoremap</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> <span class="c">&quot;_</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This was fine for 32.1 seconds of usability testing. It did the job, but what
+comes after a <code>"_</code> is a always a <code>delete</code> operator. I said the &ldquo;o&rdquo; word. That
+means I have to make a <code>opfunc</code>. (Who makes these rules?!?)</p>
+
+<p>So what is this operator going to let us do? How about <code>&lt;BS&gt;iw</code> or <code>&lt;BS&gt;ap</code> or
+<code>v{motion around something you hate}&lt;BS&gt;</code>? If any of those seem awesome, heres
+how to get in on the hot action!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Add to your .vimrc or init.vim or vim.after or :e $MYVIMRC</span>
+</span><span class='line'>func<span class="p">!</span> BlackHoleDeleteOperator<span class="p">(</span>type<span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="k">a</span>:type <span class="p">==</span># <span class="s1">&#39;char&#39;</span>
+</span><span class='line'>    execute <span class="s1">&#39;normal! `[v`]&quot;_d&#39;</span>
+</span><span class='line'>  <span class="k">elseif</span> <span class="k">a</span>:type <span class="p">==</span># <span class="s1">&#39;line&#39;</span>
+</span><span class='line'>    execute <span class="s1">&#39;normal! `[V`]&quot;_d&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    execute <span class="s1">&#39;normal! `&lt;&#39;</span> . <span class="k">a</span>:type . <span class="s1">&#39;`&gt;&quot;_d&#39;</span>
+</span><span class='line'>  <span class="k">endif</span>
+</span><span class='line'><span class="k">endf</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Map to something else if &lt;BS&gt; is used for something else. (Really?!?)</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> <span class="p">&lt;</span>Esc<span class="p">&gt;</span>:<span class="k">set</span> <span class="nb">opfunc</span><span class="p">=</span>BlackHoleDeleteOperator<span class="p">&lt;</span>CR<span class="p">&gt;</span><span class="k">g</span>@
+</span><span class='line'><span class="nb">vnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> :<span class="p">&lt;</span>C<span class="p">-</span><span class="k">u</span><span class="p">&gt;</span><span class="k">call</span> BlackHoleDeleteOperator<span class="p">(</span>visualmode<span class="p">())&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>But how does it work?</h2>
+
+<p>Honestly, I don&rsquo;t really know. It&rsquo;s only my second Vim function every. EVER!
+<code>opfunc</code> is best explained in Vim help (<code>:help opfunc</code> and follow the <code>&lt;C-]&gt;</code>
+until clarity is achieved).</p>
+
+<p>Points of interest:</p>
+
+<ul>
+<li><code>:help normal</code> &ndash; evaluates the following characters as if they were typed.</li>
+<li><code>:help marks</code> &ndash; page down a bit to get the list of automatic marks based on
+ last positions of various changes, jumps, and actions.</li>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/33.html">http://learnvimscriptthehardway.stevelosh.com/chapters/33.html</a> &ndash; seriously,
+ this guy does a lot better explaining than me. Learn it the hard way, first,
+ ask questions later.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Octopress to the Rescue]]></title>
@@ -1308,52 +1405,6 @@ about to end.</li>
 <li>(never ending list)</li>
 </ol>
 <p>After release I&#8217;ll post images of the game&#8230;</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Day 9 - Counters and Player Positions]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/day-9-counters-and-player-positions/"/>
-    <updated>2011-02-28T22:30:00-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/day-9-counters-and-player-positions</id>
-    <content type="html"><![CDATA[<p>Due to popular demand I added visual count down indicators. The
-feature shows the second remaining on the screen then it explodes
-away like a puff if smoke. This will be done by a nice little shape
-modifier feature built into AndEngine. I want to apply 3 modifiers
-in&nbsp;parallel:&nbsp;change alpha from 1 to 0 (visible to
-invisible), scale 1 to 10 (normal to huge), and rotate 0 to 360.
-This was easier said than done, because of a difference between
-regular shapes and text. Regular shapes use alpha blending by
-default, text <strong>doesn&#8217;t</strong>. </p>
-<!-- more -->
-<p>Unfortunately, my first
-suspect was the animation library, instead of blending. After an
-hour troubleshooting I found out setAlpha on text wasn&#8217;t working
-without any animation. This lead to googling &#8220;+AndEngine text
-setAlpha&#8221;. The first hit saves the day with a one liner that sets
-the blending mode of the
-shape:<code>setBlendFunction(GL10.GL_SRC_ALPHA,
-GL10.GL_ONE_MINUS_SRC_ALPHA)</code></p>
-<p>Why this isn&#8217;t the default like the other shapes is a mystery to
-me.</p>
-<p>As for the player positions, I learned how bad my geometry is
-again. In four player mode there should be a &#8220;Ready?&#8221; touch area
-for each player in each corner of the screen. The text should be
-oriented so each player can view the text in the correct
-perspective. This should be as simple as rotating the text in the
-correct 45 degree increment. Sadly, it took me a shameful full hour
-to figure out what those were. I&#8217;m sure if I stayed awake in that
-class for the same hour I would have learned more than 4
-numbers.&nbsp;AndEngine rotates clockwise so&nbsp;starting in the
-upper right corner the rotational angles I &#8220;discovered&#8221; are: 135,
-225, 45, and 315.</p>
-<div class='p_embed p_image_embed'><img alt="4player" height="800"
-src=
-"http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-02-28/vElzCcDfjywpkIaytCiCnAgGxrtewtvCcgvwCxsyqvrdilwaskwthucGEEkx/4player.png.scaled500.png"
-width="480"></div>
-<p>I wish I could make this posting more exciting, but game
-logistics will <em class="c1">always</em>&nbsp;be lame.</p>
 
 ]]></content>
   </entry>

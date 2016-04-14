@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>BS to the black hole - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="BS to the black hole written Apr 13th, 2016 in vim We meet again First post in 4 years. Sorry to keep you waiting. I&rsquo;ve been playing with Vim &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2016/bs-to-the-black-hole">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>BS to the black hole</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-04-13T00:48:47-05:00" pubdate data-updated="true">Apr 13<sup>th</sup>, 2016</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/vim/'>vim</a>
+  
+</span>
+
+
+        </div>
+        <p><img class="featured" src="/images/blackhole_bs.png" width="800" height="469" title="'BS to Blackhole'" ></p>
+
+<h2>We meet again</h2>
+
+<p>First post in 4 years. Sorry to keep you waiting.</p>
+
+<p>I&rsquo;ve been playing with Vim again, more specifically NeoVim
+<a href="https://neovim.io/,">https://neovim.io/,</a> and this time I think it&rsquo;s going to stick.</p>
+
+<p>Here&rsquo;s the latest addition to $MYVIMRC which can be found at
+<a href="https://github.com/ddrscott/config-nvim.">https://github.com/ddrscott/config-nvim.</a></p>
+
+<h2>Problem</h2>
+
+<p>Sometimes I want to delete text without worrying about blowing away the unnamed
+register. This can be done by prefixing a normal or visual delete with <code>"_</code>,
+but thats way too pinky/ring finger contortions for me.</p>
+
+<!-- more -->
+
+
+<h2>Solution</h2>
+
+<p>Setup a single key to do that <code>"_</code> thing for me. So my naive approach was to add
+the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> <span class="c">&quot;_</span>
+</span><span class='line'><span class="nb">vnoremap</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> <span class="c">&quot;_</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This was fine for 32.1 seconds of usability testing. It did the job, but what
+comes after a <code>"_</code> is a always a <code>delete</code> operator. I said the &ldquo;o&rdquo; word. That
+means I have to make a <code>opfunc</code>. (Who makes these rules?!?)</p>
+
+<p>So what is this operator going to let us do? How about <code>&lt;BS&gt;iw</code> or <code>&lt;BS&gt;ap</code> or
+<code>v{motion around something you hate}&lt;BS&gt;</code>? If any of those seem awesome, heres
+how to get in on the hot action!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Add to your .vimrc or init.vim or vim.after or :e $MYVIMRC</span>
+</span><span class='line'>func<span class="p">!</span> BlackHoleDeleteOperator<span class="p">(</span>type<span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="k">a</span>:type <span class="p">==</span># <span class="s1">&#39;char&#39;</span>
+</span><span class='line'>    execute <span class="s1">&#39;normal! `[v`]&quot;_d&#39;</span>
+</span><span class='line'>  <span class="k">elseif</span> <span class="k">a</span>:type <span class="p">==</span># <span class="s1">&#39;line&#39;</span>
+</span><span class='line'>    execute <span class="s1">&#39;normal! `[V`]&quot;_d&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    execute <span class="s1">&#39;normal! `&lt;&#39;</span> . <span class="k">a</span>:type . <span class="s1">&#39;`&gt;&quot;_d&#39;</span>
+</span><span class='line'>  <span class="k">endif</span>
+</span><span class='line'><span class="k">endf</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Map to something else if &lt;BS&gt; is used for something else. (Really?!?)</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> <span class="p">&lt;</span>Esc<span class="p">&gt;</span>:<span class="k">set</span> <span class="nb">opfunc</span><span class="p">=</span>BlackHoleDeleteOperator<span class="p">&lt;</span>CR<span class="p">&gt;</span><span class="k">g</span>@
+</span><span class='line'><span class="nb">vnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> :<span class="p">&lt;</span>C<span class="p">-</span><span class="k">u</span><span class="p">&gt;</span><span class="k">call</span> BlackHoleDeleteOperator<span class="p">(</span>visualmode<span class="p">())&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>But how does it work?</h2>
+
+<p>Honestly, I don&rsquo;t really know. It&rsquo;s only my second Vim function every. EVER!
+<code>opfunc</code> is best explained in Vim help (<code>:help opfunc</code> and follow the <code>&lt;C-]&gt;</code>
+until clarity is achieved).</p>
+
+<p>Points of interest:</p>
+
+<ul>
+<li><code>:help normal</code> &ndash; evaluates the following characters as if they were typed.</li>
+<li><code>:help marks</code> &ndash; page down a bit to get the list of automatic marks based on
+ last positions of various changes, jumps, and actions.</li>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/33.html">http://learnvimscriptthehardway.stevelosh.com/chapters/33.html</a> &ndash; seriously,
+ this guy does a lot better explaining than me. Learn it the hard way, first,
+ ask questions later.</li>
+</ul>
+
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2014/octopress-to-the-rescue/" title="Previous Post: Octopress to the Rescue">&laquo; Previous: Octopress to the Rescue</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50126719-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2016/bs-to-the-black-hole/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2016/bs-to-the-black-hole/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

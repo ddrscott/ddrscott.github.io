@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vim | @_ddrscott_]]></title>
+  <link href="http://ddrscott.github.io/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://ddrscott.github.io/"/>
+  <updated>2016-04-13T19:39:57-05:00</updated>
+  <id>http://ddrscott.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Pierce]]></name>
+    <email><![CDATA[ddrscott@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[BS to the black hole]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/bs-to-the-black-hole/"/>
+    <updated>2016-04-13T00:48:47-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/bs-to-the-black-hole</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="/images/blackhole_bs.png" width="800" height="469" title="&lsquo;BS to Blackhole&rsquo;" ></p>
+
+<h2>We meet again</h2>
+
+<p>First post in 4 years. Sorry to keep you waiting.</p>
+
+<p>I&rsquo;ve been playing with Vim again, more specifically NeoVim
+<a href="https://neovim.io/,">https://neovim.io/,</a> and this time I think it&rsquo;s going to stick.</p>
+
+<p>Here&rsquo;s the latest addition to $MYVIMRC which can be found at
+<a href="https://github.com/ddrscott/config-nvim.">https://github.com/ddrscott/config-nvim.</a></p>
+
+<h2>Problem</h2>
+
+<p>Sometimes I want to delete text without worrying about blowing away the unnamed
+register. This can be done by prefixing a normal or visual delete with <code>"_</code>,
+but thats way too pinky/ring finger contortions for me.</p>
+
+<!-- more -->
+
+
+<h2>Solution</h2>
+
+<p>Setup a single key to do that <code>"_</code> thing for me. So my naive approach was to add
+the following:</p>
+
+<p><code>vim
+nnoremap &lt;BS&gt; "_
+vnoremap &lt;BS&gt; "_
+</code></p>
+
+<p>This was fine for 32.1 seconds of usability testing. It did the job, but what
+comes after a <code>"_</code> is a always a <code>delete</code> operator. I said the &ldquo;o&rdquo; word. That
+means I have to make a <code>opfunc</code>. (Who makes these rules?!?)</p>
+
+<p>So what is this operator going to let us do? How about <code>&lt;BS&gt;iw</code> or <code>&lt;BS&gt;ap</code> or
+<code>v{motion around something you hate}&lt;BS&gt;</code>? If any of those seem awesome, heres
+how to get in on the hot action!</p>
+
+<p>```vim
+&ldquo; Add to your .vimrc or init.vim or vim.after or :e $MYVIMRC
+func! BlackHoleDeleteOperator(type)
+  if a:type ==# &lsquo;char&rsquo;</p>
+
+<pre><code>execute 'normal! `[v`]"_d'
+</code></pre>
+
+<p>  elseif a:type ==# &lsquo;line&rsquo;</p>
+
+<pre><code>execute 'normal! `[V`]"_d'
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>execute 'normal! `&lt;' . a:type . '`&gt;"_d'
+</code></pre>
+
+<p>  endif
+endf</p>
+
+<p>&ldquo; Map to something else if <BS> is used for something else. (Really?!?)
+nnoremap <silent> <BS> <Esc>:set opfunc=BlackHoleDeleteOperator<CR>g@
+vnoremap <silent> <BS> :&lt;C-u>call BlackHoleDeleteOperator(visualmode())<CR>
+```</p>
+
+<h2>But how does it work?</h2>
+
+<p>Honestly, I don&rsquo;t really know. It&rsquo;s only my second Vim function every. EVER!
+<code>opfunc</code> is best explained in Vim help (<code>:help opfunc</code> and follow the <code>&lt;C-]&gt;</code>
+until clarity is achieved).</p>
+
+<p>Points of interest:</p>
+
+<ul>
+<li><code>:help normal</code> &ndash; evaluates the following characters as if they were typed.</li>
+<li><code>:help marks</code> &ndash; page down a bit to get the list of automatic marks based on
+ last positions of various changes, jumps, and actions.</li>
+<li><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/33.html">http://learnvimscriptthehardway.stevelosh.com/chapters/33.html</a> &ndash; seriously,
+ this guy does a lot better explaining than me. Learn it the hard way, first,
+ ask questions later.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
