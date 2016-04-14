@@ -9,11 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>BS to the black hole - @_ddrscott_</title>
+  <title>BS to the Black Hole - @_ddrscott_</title>
   <meta name="author" content="Scott Pierce">
 
   
-  <meta name="description" content="BS to the black hole written Apr 13th, 2016 in vim We meet again First post in 4 years. Sorry to keep you waiting. I&rsquo;ve been playing with Vim &hellip;">
+  <meta name="description" content="BS to the Black Hole written Apr 13th, 2016 in vim First post in 2 years. Sorry to keep you waiting. I&rsquo;ve been playing with Vim again, more &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -41,7 +41,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <h1>BS to the black hole</h1>
+        <h1>BS to the Black Hole</h1>
         <div class="meta">
           written 
 
@@ -68,28 +68,24 @@ in
 
 
         </div>
-        <p><img class="featured" src="/images/blackhole_bs.png" width="800" height="469" title="'BS to Blackhole'" ></p>
+        <p><img class="featured" src="/images/blackhole_bs.png" width="800" height="469" title="'BS to Black Hole'" ></p>
 
-<h2>We meet again</h2>
-
-<p>First post in 4 years. Sorry to keep you waiting.</p>
+<p>First post in 2 years. Sorry to keep you waiting.</p>
 
 <p>I&rsquo;ve been playing with Vim again, more specifically NeoVim
 <a href="https://neovim.io/,">https://neovim.io/,</a> and this time I think it&rsquo;s going to stick.</p>
 
-<p>Here&rsquo;s the latest addition to $MYVIMRC which can be found at
-<a href="https://github.com/ddrscott/config-nvim.">https://github.com/ddrscott/config-nvim.</a></p>
+<h2>The Problem</h2>
 
-<h2>Problem</h2>
-
-<p>Sometimes I want to delete text without worrying about blowing away the unnamed
+<p>Sometimes, I want to delete text without worrying about blowing away the <code>unnamed</code>
 register. This can be done by prefixing a normal or visual delete with <code>"_</code>,
-but thats way too pinky/ring finger contortions for me.</p>
+but that&rsquo;s an awkward dance for my pinky and ring finger. Go ahead, try it.
+You&rsquo;ll feel like you&rsquo;re in junior high again.</p>
 
 <!-- more -->
 
 
-<h2>Solution</h2>
+<h2>Solution #1</h2>
 
 <p>Setup a single key to do that <code>"_</code> thing for me. So my naive approach was to add
 the following:</p>
@@ -102,11 +98,13 @@ the following:</p>
 
 
 <p>This was fine for 32.1 seconds of usability testing. It did the job, but what
-comes after a <code>"_</code> is a always a <code>delete</code> operator. I said the &ldquo;o&rdquo; word. That
-means I have to make a <code>opfunc</code>. (Who makes these rules?!?)</p>
+cames after a <code>"_</code> was usually a <code>dw</code> or <code>db</code> operator. Ah oh, I said the &ldquo;o&rdquo;
+word. That means I have to make a <code>opfunc</code>. (Who makes these rules?!?)</p>
+
+<h2>Solution #2</h2>
 
 <p>So what is this operator going to let us do? How about <code>&lt;BS&gt;iw</code> or <code>&lt;BS&gt;ap</code> or
-<code>v{motion around something you hate}&lt;BS&gt;</code>? If any of those seem awesome, heres
+<code>v{motion around something you hate}&lt;BS&gt;</code>? If any of those seem awesome, here&rsquo;s
 how to get in on the hot action!</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -134,29 +132,31 @@ how to get in on the hot action!</p>
 </span><span class='line'>  <span class="k">endif</span>
 </span><span class='line'><span class="k">endf</span>
 </span><span class='line'>
-</span><span class='line'><span class="c">&quot; Map to something else if &lt;BS&gt; is used for something else. (Really?!?)</span>
+</span><span class='line'><span class="c">&quot; Map to &lt;BS&gt; because it&#39;s under worked in Vim.</span>
 </span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> <span class="p">&lt;</span>Esc<span class="p">&gt;</span>:<span class="k">set</span> <span class="nb">opfunc</span><span class="p">=</span>BlackHoleDeleteOperator<span class="p">&lt;</span>CR<span class="p">&gt;</span><span class="k">g</span>@
 </span><span class='line'><span class="nb">vnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>BS<span class="p">&gt;</span> :<span class="p">&lt;</span>C<span class="p">-</span><span class="k">u</span><span class="p">&gt;</span><span class="k">call</span> BlackHoleDeleteOperator<span class="p">(</span>visualmode<span class="p">())&lt;</span>CR<span class="p">&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>But how does it work?</h2>
-
-<p>Honestly, I don&rsquo;t really know. It&rsquo;s only my second Vim function every. EVER!
-<code>opfunc</code> is best explained in Vim help (<code>:help opfunc</code> and follow the <code>&lt;C-]&gt;</code>
-until clarity is achieved).</p>
-
-<p>Points of interest:</p>
+<h2>How Does it Work?</h2>
 
 <ul>
-<li><code>:help normal</code> &ndash; evaluates the following characters as if they were typed.</li>
-<li><code>:help marks</code> &ndash; page down a bit to get the list of automatic marks based on
- last positions of various changes, jumps, and actions.</li>
-<li><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/33.html">http://learnvimscriptthehardway.stevelosh.com/chapters/33.html</a> &ndash; seriously,
+<li><p><code>opfunc</code> is best explained in Vim help. Use <code>:help opfunc</code> and follow the <code>&lt;C-]&gt;</code>
+ until clarity is achieved.</p></li>
+<li><p><code>:help normal</code> &ndash; evaluates the following characters as if they were typed.</p></li>
+<li><p><code>:help marks</code> &ndash; page down a bit to get the list of automatic marks based on
+ last positions of various changes, jumps, and actions.</p></li>
+<li><p><a href="http://learnvimscriptthehardway.stevelosh.com/chapters/33.html">http://learnvimscriptthehardway.stevelosh.com/chapters/33.html</a> &ndash; seriously,
  this guy does a lot better explaining than me. Learn it the hard way, first,
- ask questions later.</li>
+ ask questions later.</p></li>
 </ul>
 
+
+<h2>Closing</h2>
+
+<p>Thanks for getting this far. Do you have a better mapping for <code>&lt;BS&gt;</code>? Do you
+have a more creative solution than typing <code>"_</code> to access the black hole
+register? Let me know by commenting or share this post to some one who does.</p>
 
       </div>
     </div>
