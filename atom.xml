@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-04-14T09:05:54-05:00</updated>
+  <updated>2016-04-25T04:42:17-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Yank Without Jank]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/yank-without-jank/"/>
+    <updated>2016-04-20T21:51:11-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/yank-without-jank</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/yank-default.gif" width="234" height="130" title="'Yank default jump'" ></p>
+
+<p>For all the great things Vim has to offer, it still has some inconsistencies with
+basic editors that I simply can&rsquo;t unlearn. One of these nasties is moving the cursor
+after a visual yank. Go ahead, try it: <code>vipy</code>. Where&rsquo;s your cursor? Where did
+you expect it to be located? When you&rsquo;re in a boring editor and do
+<code>shift-down-down-down &lt;Cmd-c&gt;</code>, where&rsquo;s your cursor?  Where did you expect it
+to be located? This janky behaviour always throws me off for a moment, then I
+compose myself, do a <code>&lt;backtick&gt;&lt;greaterthan&gt;</code> to jump to the end of my selection, and <code>p</code>.</p>
+
+<p>There must be a better way!</p>
+
+<!-- more -->
+
+
+<h2>Solution A</h2>
+
+<p>Rebind <code>y</code> to do exactly what we did above:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">vnoremap</span> <span class="k">y</span> <span class="k">y</span>`<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This work and I lived with it for a few minutes, but it still wasn&rsquo;t perfect. I
+noticed when I do line select using capital <code>V</code> the cursor would still move. The
+vertical motion was perfect, but horizontal motion was still jarring.</p>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/yank-solution-a.gif" width="234" height="130" title="'Yank tick greater than'" ></p>
+
+<h2>Solution B</h2>
+
+<p>Let&rsquo;s try using marks to keep things in place:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">vnoremap</span> <span class="k">y</span> myy`<span class="k">y</span>
+</span><span class='line'><span class="nb">vnoremap</span> Y myY`<span class="k">y</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="featured" src="http://ddrscott.github.io/images/2016-04-15-yank-without-jank_markdown.png" width="600" height="379" title="'Yank Without Jank Annotation'" >
+The capital <code>Y</code> mapping is just in case we want to do a line wise yank from a
+character wise selection.</p>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/yank-solution-b.gif" width="234" height="130" title="'Yank mark y'" ></p>
+
+<p>Like a well trained dog, the cursor stays even though you yank it.</p>
+
+<p><strong>BONUS</strong> This snippet also takes over the <code>y</code> marker, so you can manually
+<code>&lt;backtick&gt;y</code> at a later time to continue yanking where you left off. This is great when
+you&rsquo;re moving a lot of stuff around and want pick up where you last were. You
+can also change the mark to capitals in the binding so it spans buffers, too.</p>
+
+<h2>Closing</h2>
+
+<p>I&rsquo;ve been using this setting for a while and noticed my blood pressure is way
+down. No more yank anxiety means I&rsquo;m a step closer to editing utopia!</p>
+
+<p>Let me know how this goes for you in the comments below.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Vim Toggle Movement: I Just Want to Go Home]]></title>
@@ -1513,21 +1581,6 @@ type of math is my worst suit and I don&#8217;t have the time to figure
 it out. If anyone out there lives and breathes math, feel free to
 comment with a solution. Otherwise the whole word will have to play
 with drag physics or play a different game. Sad.
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Finished - 22 Days Later]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/finished-22-days-later/"/>
-    <updated>2011-03-08T03:06:00-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/finished-22-days-later</id>
-    <content type="html"><![CDATA[<p>Too tired to give any details, but here&#8217;s a screen for the
-curious.</p>
-<div class='p_embed p_image_embed'><img alt="Screen1" height="800"
-src=
-"http://getfile3.posterous.com/getfile/files.posterous.com/temp-2011-03-08/ngpdIyHkHrtnkeumCemrzehbByfIoblEppnyIatrvslnIJGudJnCBlAtoatH/screen1.png.scaled500.png"
-width="480"></div>
-
 ]]></content>
   </entry>
   

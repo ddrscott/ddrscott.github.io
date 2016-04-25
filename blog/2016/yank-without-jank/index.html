@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Yank Without Jank - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="Yank Without Jank written Apr 20th, 2016 in vim For all the great things Vim has to offer, it still has some inconsistencies with
+basic editors that &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2016/yank-without-jank">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Yank Without Jank</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-04-20T21:51:11-05:00" pubdate data-updated="true">Apr 20<sup>th</sup>, 2016</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/vim/'>vim</a>
+  
+</span>
+
+
+        </div>
+        <p><img class="featured" src="/images/yank-default.gif" width="234" height="130" title="'Yank default jump'" ></p>
+
+<p>For all the great things Vim has to offer, it still has some inconsistencies with
+basic editors that I simply can&rsquo;t unlearn. One of these nasties is moving the cursor
+after a visual yank. Go ahead, try it: <code>vipy</code>. Where&rsquo;s your cursor? Where did
+you expect it to be located? When you&rsquo;re in a boring editor and do
+<code>shift-down-down-down &lt;Cmd-c&gt;</code>, where&rsquo;s your cursor?  Where did you expect it
+to be located? This janky behaviour always throws me off for a moment, then I
+compose myself, do a <code>&lt;backtick&gt;&lt;greaterthan&gt;</code> to jump to the end of my selection, and <code>p</code>.</p>
+
+<p>There must be a better way!</p>
+
+<!-- more -->
+
+
+<h2>Solution A</h2>
+
+<p>Rebind <code>y</code> to do exactly what we did above:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">vnoremap</span> <span class="k">y</span> <span class="k">y</span>`<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This work and I lived with it for a few minutes, but it still wasn&rsquo;t perfect. I
+noticed when I do line select using capital <code>V</code> the cursor would still move. The
+vertical motion was perfect, but horizontal motion was still jarring.</p>
+
+<p><img class="featured" src="/images/yank-solution-a.gif" width="234" height="130" title="'Yank tick greater than'" ></p>
+
+<h2>Solution B</h2>
+
+<p>Let&rsquo;s try using marks to keep things in place:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">vnoremap</span> <span class="k">y</span> myy`<span class="k">y</span>
+</span><span class='line'><span class="nb">vnoremap</span> Y myY`<span class="k">y</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img class="featured" src="/images/2016-04-15-yank-without-jank_markdown.png" width="600" height="379" title="'Yank Without Jank Annotation'" >
+The capital <code>Y</code> mapping is just in case we want to do a line wise yank from a
+character wise selection.</p>
+
+<p><img class="featured" src="/images/yank-solution-b.gif" width="234" height="130" title="'Yank mark y'" ></p>
+
+<p>Like a well trained dog, the cursor stays even though you yank it.</p>
+
+<p><strong>BONUS</strong> This snippet also takes over the <code>y</code> marker, so you can manually
+<code>&lt;backtick&gt;y</code> at a later time to continue yanking where you left off. This is great when
+you&rsquo;re moving a lot of stuff around and want pick up where you last were. You
+can also change the mark to capitals in the binding so it spans buffers, too.</p>
+
+<h2>Closing</h2>
+
+<p>I&rsquo;ve been using this setting for a while and noticed my blood pressure is way
+down. No more yank anxiety means I&rsquo;m a step closer to editing utopia!</p>
+
+<p>Let me know how this goes for you in the comments below.</p>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2016/vim-toggle-movement/" title="Previous Post: Vim Toggle Movement: I Just Want to Go Home">&laquo; Previous: Vim Toggle Movement: I Just Want to Go Home</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50126719-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2016/yank-without-jank/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2016/yank-without-jank/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
