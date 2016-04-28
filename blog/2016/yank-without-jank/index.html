@@ -130,6 +130,20 @@ down. No more yank anxiety means I&rsquo;m a step closer to editing utopia!</p>
 
 <p>Let me know how this goes for you in the comments below.</p>
 
+<h2>Updates from Comments</h2>
+
+<p>Commenter @Krzysztof noticed Solution B wasn&rsquo;t allowing the user to specify
+the target register. He was awesome enough to update the solution. Here&rsquo;s his
+solution:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">vnoremap</span> <span class="p">&lt;</span>expr<span class="p">&gt;</span><span class="k">y</span> <span class="s2">&quot;my\&quot;&quot;</span> . <span class="k">v</span>:<span class="k">register</span> . <span class="s2">&quot;y`y&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ve updated <code>$MYVIMRC</code> and it works great.
+Thanks @Krzysztof for being awesome!</p>
+
       </div>
     </div>
   </div>

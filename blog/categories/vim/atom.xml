@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vim | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-04-25T04:43:47-05:00</updated>
+  <updated>2016-04-28T07:11:32-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -74,6 +74,19 @@ can also change the mark to capitals in the binding so it spans buffers, too.</p
 down. No more yank anxiety means I&rsquo;m a step closer to editing utopia!</p>
 
 <p>Let me know how this goes for you in the comments below.</p>
+
+<h2>Updates from Comments</h2>
+
+<p>Commenter @Krzysztof noticed Solution B wasn&rsquo;t allowing the user to specify
+the target register. He was awesome enough to update the solution. Here&rsquo;s his
+solution:</p>
+
+<p><code>vim
+vnoremap &lt;expr&gt;y "my\"" . v:register . "y`y"
+</code></p>
+
+<p>I&rsquo;ve updated <code>$MYVIMRC</code> and it works great.
+Thanks @Krzysztof for being awesome!</p>
 ]]></content>
   </entry>
   
