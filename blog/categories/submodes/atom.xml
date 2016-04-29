@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: vim, | @_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/blog/categories/vim/atom.xml" rel="self"/>
+  <title><![CDATA[Category: submodes | @_ddrscott_]]></title>
+  <link href="http://ddrscott.github.io/blog/categories/submodes/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
   <updated>2016-04-29T01:41:21-05:00</updated>
   <id>http://ddrscott.github.io/</id>

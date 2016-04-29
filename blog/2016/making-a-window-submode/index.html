@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Making a Window Submode in Vim - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="Making a Window Submode in Vim written Apr 29th, 2016 in submodes, vim, I found a plugin that is changing my Vim-tire life! This
+plugin is so &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2016/making-a-window-submode">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Making a Window Submode in Vim</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-04-29T09:00:00-05:00" pubdate data-updated="true">Apr 29<sup>th</sup>, 2016</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/submodes/'>submodes</a>, <a class='category' href='/blog/categories/vim/'>vim,</a>
+  
+</span>
+
+
+        </div>
+        <p><img class="featured" src="/images/window-mode-feature.png" width="1280" height="380" title="'Header Image'" >
+I found a plugin that is changing my Vim-tire life! This
+<a href="https://github.com/kana/submodes.vim">plugin</a> is so awesome it should be
+built into default Vim. What does the <a href="https://github.com/kana/submodes.vim">plugin</a>
+do? It enables the creation of new submodes. Why would a person want <em>more</em> modes?!?
+Isn&rsquo;t dealing with modes the main deterrent for new Vim users? Isn&rsquo;t Normal,
+Insert, Command-line, Visual, Select, and Operator-pending enough? (Did I miss one?)
+Let&rsquo;s try out a new submode and see what happens.</p>
+
+<!-- more -->
+
+
+<h2>Problem</h2>
+
+<p>Window commands are prefixed with <code>&lt;C-w&gt;</code>. Want to create a horizontal split?
+Try <code>&lt;C-w&gt;s</code>, didn&rsquo;t mean to do that and want to do vertical split? <code>&lt;C-w&gt;q&lt;C-w&gt;v</code>.
+Want to resize the vertical split <code>50&lt;C-w&gt;&gt;</code>? Too wide? Narrow it with <code>5&lt;C-w&gt;&lt;</code>.
+Move back to the other window? <code>&lt;C-w&gt;p</code> or <code>&lt;C-w&gt;w</code>.</p>
+
+<p>Are your fingers getting tired? After I get the windows just right using default
+mappings my fingers are crying for mercy.</p>
+
+<p>Here&rsquo;s a short list of common default window commands:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Change window focus</span>
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">h</span>   move cursor <span class="k">left</span>  {<span class="k">n</span>} <span class="nb">window</span>
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">l</span>   move cursor <span class="k">right</span> {<span class="k">n</span>} <span class="nb">window</span>
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">j</span>   move cursor down  {<span class="k">n</span>} <span class="nb">window</span>
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">k</span>   move cursor <span class="k">up</span>    {<span class="k">n</span>} <span class="nb">window</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Move window</span>
+</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>H   move <span class="nb">window</span> far <span class="k">left</span>
+</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>L   move <span class="nb">window</span> far <span class="k">right</span>
+</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>J   move <span class="nb">window</span> far bottom
+</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>K   move <span class="nb">window</span> far <span class="k">top</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Change size</span>
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;+</span>  increase height by {<span class="k">n</span>} rows
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;-</span>  decrease height by {<span class="k">n</span>} rows
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&lt;</span>  decrease width by {<span class="k">n</span>} <span class="nb">columns</span>
+</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&gt;</span>  increase width by {<span class="k">n</span>} <span class="nb">columns</span>
+</span><span class='line'>   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;|</span>  maximize width
+</span><span class='line'>   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>_  maximize height
+</span><span class='line'>   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;=</span>  equalize sizes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For a comprehensive list of window commands try <code>:help windows.txt</code>.</p>
+
+<h2>Solution A</h2>
+
+<p>The most common solution to window-command-itis is to map other keys to these
+common actions so to include the <code>&lt;C-w&gt;</code> prefix.</p>
+
+<p>From <a href="https://github.com/spf13/spf13-vim/blob/3.0/.vimrc">spf13-vim</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">j</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+</span><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">k</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+</span><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">l</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+</span><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">h</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+</span><span class='line'><span class="c">&quot; Note: They go one extra by maximizing the height after entering the split.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>From <a href="https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally">Thoughbot</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This has been the accepted solution for most, but it takes away so many
+convenient keys. And in some cases, it even overrides default behaviour.
+<code>&lt;C-L&gt;</code>, I miss you. <code>C-H</code>, isn&rsquo;t that also <code>&lt;BS&gt;</code>? Guess I won&rsquo;t be using
+you either.</p>
+
+<h2>Solution B &ndash; Submode to the Rescue</h2>
+
+<p>This entire solution depends on <a href="https://github.com/kana/vim-submode.git">kana/vim-submode</a>,
+I consider it one of Japan&rsquo;s national treasures along with ninjas and ramen.
+Unfortunately, Kana&rsquo;s example use of submodes is a little underwhelming:
+undo/redo using <code>g-</code> and <code>g+</code>. I agree with the author that using <code>g-</code> and
+<code>g+</code> is not convenient, and using <code>g++++-++-+</code> is easier, but the solution
+for that was simply <code>u</code> and <code>&lt;C-R&gt;</code>. I feel a better application for a new
+submode is window management. Imagine if resizing a split was <code>&lt;C-w&gt;++++++++</code>
+or <code>&lt;C-w&gt;------=-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&lt;&gt;</code> or changing cursor location was <code>&lt;C-w&gt;hjlll</code>
+or moving was <code>&lt;C-w&gt;HjKLkjh</code>. Imagine no more!</p>
+
+<p>First, install the plugin. If you&rsquo;re not sure how to install a plugin, try
+<a href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a>. Next, add the
+following to your <code>$MYVIMRC</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; A message will appear in the message line when you&#39;re in a submode</span>
+</span><span class='line'><span class="c">&quot; and stay there until the mode has existed.</span>
+</span><span class='line'><span class="k">let</span> <span class="k">g</span>:submode_always_show_submode <span class="p">=</span> <span class="m">1</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; We&#39;re taking over the default &lt;C-w&gt; setting. Don&#39;t worry we&#39;ll do</span>
+</span><span class='line'><span class="c">&quot; our best to put back the default functionality.</span>
+</span><span class='line'><span class="k">call</span> submode#enter_with<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Note: &lt;C-c&gt; will also get you out to the mode without this mapping.</span>
+</span><span class='line'><span class="c">&quot; Note: &lt;C-[&gt; also behaves as &lt;ESC&gt;</span>
+</span><span class='line'><span class="k">call</span> submode#leave_with<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;ESC&gt;&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Go through every letter</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">key</span> <span class="k">in</span> [<span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="s1">&#39;h&#39;</span><span class="p">,</span><span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;j&#39;</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span>
+</span><span class='line'>\           <span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;u&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span>]
+</span><span class='line'><span class="c">  &quot; maps lowercase, uppercase and &lt;C-key&gt;</span>
+</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">key</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="nb">key</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> toupper<span class="p">(</span><span class="nb">key</span><span class="p">),</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . toupper<span class="p">(</span><span class="nb">key</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-&#39;</span> . <span class="nb">key</span> . <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="s1">&#39;&lt;C-&#39;</span>.<span class="nb">key</span> . <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">endfor</span>
+</span><span class='line'><span class="c">&quot; Go through symbols. Sadly, &#39;|&#39;, not supported in submode plugin.</span>
+</span><span class='line'><span class="k">for</span> <span class="nb">key</span> <span class="k">in</span> [<span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span><span class="s1">&#39;&gt;&#39;</span>]
+</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">key</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="nb">key</span><span class="p">)</span>
+</span><span class='line'><span class="k">endfor</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Old way, just in case.</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">w</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After <code>:source $MYVIMRC</code>, you&rsquo;ll have a glorious new submode in Vim.
+You can see I named it <em>window</em> mode. Can you guess how to get into <em>window</em> mode?
+<code>&lt;C-w&gt;</code>, the normal prefix used to do any <code>wincmd</code>. If this is too drastic, feel
+free to change line #7 to something else. Just replace <code>&lt;C-w&gt;</code> with a different
+normal mapping.</p>
+
+<p>Let&rsquo;s give it a test drive.
+<img class="featured" src="/images/window-submode.gif" width="1142" height="719" title="'window mode in action'" >
+I know you can&rsquo;t see what keys I&rsquo;m pressing, but I guarantee I only pressed
+<code>&lt;C-w&gt;</code> once. I also didn&rsquo;t have to remember any new key bindings. The
+hesitation in the demo is the resistance to hitting <code>&lt;C-w&gt;</code> every time, which
+I&rsquo;ll get over soon enough.</p>
+
+<h2>Bonus Mappings</h2>
+
+<p>But wait there&rsquo;s more! In case I haven&rsquo;t provided enough tips for one post,
+here&rsquo;s the overrides I have in <code>$MYVIMRC</code> to make windowing even better.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; I don&#39;t like &lt;C-w&gt;q, &lt;C-w&gt;c won&#39;t exit Vim when it&#39;s the last window.</span>
+</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;c&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-q&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;c&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; &lt;lowercase-pipe&gt; sets the width to 80 columns, pipe (&lt;S-\&gt;) by default</span>
+</span><span class='line'><span class="c">&quot; maximizes the width.</span>
+</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\&#39;, &#39;</span>:<span class="k">vertical</span> <span class="k">resize</span> <span class="m">80</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>&#39;<span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Resize faster</span>
+</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;3&lt;C-w&gt;+&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;3&lt;C-w&gt;-&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;10&lt;C-w&gt;&lt;&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;10&lt;C-w&gt;&gt;&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Rainbows without Unicorns</h2>
+
+<p>While learning this new way of windowing, there have been a few negatives:</p>
+
+<ol>
+<li><p>I forget that I&rsquo;m in window mode and get disoriented when I think I&rsquo;m moving
+the cursor within a buffer, but it jumps around to other splits.</p></li>
+<li><p>For one off window commands, I have to hit an extra key to get out of window
+mode or wait for the timeout.</p></li>
+<li><p>When I use some one else&rsquo;s computer, I&rsquo;m useless.</p></li>
+</ol>
+
+
+<p>I think most of these annoyances will go away with time, and the benefits
+overtime in keystroke savings are non-trivial. As for #3, regardless of submodes,
+the brain freeze will never go away, because no one thinks as strangely as me,
+and that&rsquo;s a Good Thing™.</p>
+
+<h2>Thanks</h2>
+
+<p>Shout-out to Kana Natsuno, @kana1, <a href="http://whileimautomaton.net/,">http://whileimautomaton.net/,</a> <a href="https://github.com/kana.">https://github.com/kana.</a> None
+of this awesomeness would be possible without <a href="https://github.com/kana/vim-submode.">https://github.com/kana/vim-submode.</a> She
+makes some totally sweet plug-ins. Check out her stuff. You won&rsquo;t regret it!</p>
+
+<p>Let me know what you think. Am I crazy? What other things deserve a submode?
+Hit me up in the comments below! Thanks for reading!</p>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2016/yank-without-jank/" title="Previous Post: Yank Without Jank">&laquo; Previous: Yank Without Jank</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-50126719-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2016/making-a-window-submode/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2016/making-a-window-submode/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
