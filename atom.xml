@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-04-29T17:28:44-05:00</updated>
+  <updated>2016-05-05T03:16:43-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,146 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sensible Horizontal Scroll in Vim]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/sidescroll/"/>
+    <updated>2016-05-05T09:00:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/sidescroll</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/sidescroll-feature.png" width="1280" height="971" title="'I heart sidescroll'" ></p>
+
+<p>Sometimes it&rsquo;s the little things that make a big difference, and this is about
+as small as it can get. Occasionally, I hold down <code>l</code>, <code>w</code>, or <code>e</code> to view long
+lines which have disappeared off the window. It&rsquo;s a bad habit and the penalty
+always ruins my concentration. But after I found this setting, I&rsquo;m free
+to cursor around like an innocent child unaware of death.</p>
+
+<!-- more -->
+
+
+<p><em>TL;DR</em> &mdash; <code>set sidescroll=1</code></p>
+
+<h2>Problem</h2>
+
+<p>When <code>set wrap</code> is off, otherwise known as <code>set nowrap</code>, and a line is longer
+than the window can handle, you&rsquo;ll need to scroll to see more of the line.
+<code>{x}zl</code> and <code>{x}zh</code> will scroll the screen right and left respectively.
+That&rsquo;s a lot to remember to see some more text. Which leads me to hold
+down <code>w</code> or <code>e</code> to get it done followed by janky behavior when the
+cursor gets to the edge of the window. The default behavior of revealing more
+text is &frac12; a window width at a time. This abrupt jump throws off my fragile
+concentration.</p>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/sidescroll-off.gif" width="635" height="337" title="'Demo Sidescroll Off'" ></p>
+
+<h2>Solution A</h2>
+
+<p>Turn on word wrapping. <code>set wrap</code>. Boring, but effective. You might also want
+to make word wrapping look nicer. I do that with the following settings.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> breakindent
+</span><span class='line'><span class="k">set</span> breakindentopt<span class="p">=</span><span class="k">sbr</span>
+</span><span class='line'><span class="c">&quot; I use a unicode curly array with a &lt;backslash&gt;&lt;space&gt;</span>
+</span><span class='line'><span class="k">set</span> <span class="nb">showbreak</span><span class="p">=</span>↪<span class="p">&gt;</span>\
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This of course doesn&rsquo;t solve the problem if, in fact, we want wrapping off.</p>
+
+<h2>Solution B</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> <span class="nb">sidescroll</span><span class="p">=</span><span class="m">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This simple setting makes Vim behave like every other plain editor. It will
+incrementally scroll one character at a time to reveal more text as needed.</p>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/sidescroll-on.gif" width="635" height="337" title="'Demo Sidescroll On'" ></p>
+
+<p>Here&rsquo;s the help doc to clear things up:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>'sidescroll' 'ss'    number  (default 0)
+</span><span class='line'>                  global
+</span><span class='line'>        The minimal number of columns to scroll horizontally.  Used only when
+</span><span class='line'>        the 'wrap' option is off and the cursor is moved off of the screen.
+</span><span class='line'>        When it is zero the cursor will be put in the middle of the screen.
+</span><span class='line'>        When using a slow terminal set it to a large number or 0.  When using
+</span><span class='line'>        a fast terminal use a small number or 1.  Not used for "zh" and "zl"
+</span><span class='line'>        commands.
+</span><span class='line'>
+</span><span class='line'>'sidescrolloff' 'siso'    number (default 0)
+</span><span class='line'>global
+</span><span class='line'>        The minimal number of screen columns to keep to the left and to the
+</span><span class='line'>        right of the cursor if 'nowrap' is set.  Setting this option to a
+</span><span class='line'>        value greater than 0 while having |'sidescroll'| also at a non-zero
+</span><span class='line'>        value makes some context visible in the line you are scrolling in
+</span><span class='line'>        horizontally (except at beginning of the line).  Setting this option
+</span><span class='line'>        to a large value (like 999) has the effect of keeping the cursor
+</span><span class='line'>        horizontally centered in the window, as long as one does not come too
+</span><span class='line'>        close to the beginning of the line.
+</span><span class='line'>
+</span><span class='line'>        Example: Try this together with 'sidescroll' and 'listchars' as
+</span><span class='line'>                 in the following example to never allow the cursor to move
+</span><span class='line'>                 onto the "extends" character:
+</span><span class='line'>
+</span><span class='line'>                 :set nowrap sidescroll=1 listchars=extends:&gt;,precedes:&lt;
+</span><span class='line'>                 :set sidescrolloff=1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Seems like the default was intended for a &ldquo;slow terminal&rdquo;. If you&rsquo;re using a
+slow terminal while editing a large amount of unwrapped text, I&rsquo;d recommend
+getting a computer from this millennia and enabling <code>sidescroll</code>.
+Also note that a sensible example is shown in the <code>sidescrolloff</code> section.</p>
+
+<h1>Off Topic&hellip;</h1>
+
+<p>It&rsquo;s interesting to study all the decisions made due to slow terminals.
+Try <code>:help slow-terminal</code> for a quick look and try <code>:helpgrep slow</code> to see way
+more mentions. Use <code>:help helpgrep</code> if you didn&rsquo;t know about <code>helpgrep</code> :)</p>
+
+<h1>Closing</h1>
+
+<p>I&rsquo;m sure you&rsquo;re thinking why so many words were written for a single setting.
+Similar to my previous post about <a href="http://ddrscott.github.io/blog/2016/yank-without-jank/">Yank without Jank</a>,
+these unexpected janky behaviors cause anxiety. Anxiety that usually can&rsquo;t be
+identified or resolved in the heat of a coding session, but is there, wading in
+the weeds, ready to pounce at your next stray keystroke. As a student of Vim, I
+want identify and resolve these issues so I can get back to why I like Vim;
+using the dot operator.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Making a Window Submode in Vim]]></title>
@@ -1811,22 +1951,6 @@ never moves, I don&#8217;t get any other events from the sensor which
 tell me that it&#8217;s still down. I need to rely on an up event to
 negate the down. Unfortunately, I don&#8217;t always get the up event or
 even the cancel &#8230;&#8230;.
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AndEngine. Living on the Edge.]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/andengine-living-on-the-edge/"/>
-    <updated>2011-03-15T22:40:16-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/andengine-living-on-the-edge</id>
-    <content type="html"><![CDATA[Just updated to the trunk build of AndEngine which broke almost
-every line of code I had. There were a bunch of renamings that
-occurred to replace the concept of scene layers with a more generic
-child entity structure. The shape modifiers also got moved to
-another package to differentiate from particle modifiers.<br>
-All in all, the transition was smooth and I will now be able to
-contribute to code back into the main source tree without as many
-conflicts.
 ]]></content>
   </entry>
   
