@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-05-27T10:32:42-05:00</updated>
+  <updated>2016-05-27T10:54:16-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Vim Side Search: Making Search Fun Again]]></title>
     <link href="http://ddrscott.github.io/blog/2016/side-search/"/>
-    <updated>2016-05-25T09:00:00-05:00</updated>
+    <updated>2016-05-27T09:00:00-05:00</updated>
     <id>http://ddrscott.github.io/blog/2016/side-search</id>
     <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/vim_ag_unicorn.png" width="699" height="453" title="'Vim + Ag = Unicorn'" ></p>
 
