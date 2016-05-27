@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-05-05T03:16:43-05:00</updated>
+  <updated>2016-05-27T10:32:42-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,156 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Vim Side Search: Making Search Fun Again]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/side-search/"/>
+    <updated>2016-05-25T09:00:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/side-search</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/vim_ag_unicorn.png" width="699" height="453" title="'Vim + Ag = Unicorn'" ></p>
+
+<p>The <code>quickfix</code> feature is nice, but it doesn&rsquo;t give enough context around the
+search term that leads to use <code>ag</code> from terminal and switch back and forth
+between programs. I do this search dance every day and I&rsquo;ve had it! There must
+be better way!</p>
+
+<!-- more -->
+
+
+<h2>Problem</h2>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/side-search-a.png" width="1280" height="1009" title="'Quickfix for help'" >
+Look at the <code>quickfix</code> window above. It spends most of its space showing the file name
+of the hit, then the remainder is spent on text around it. In projects using
+<a href="http://guides.rubyonrails.org/engines.html">Rails Engines</a> with deeply nested
+directory structures, this often leaves me with just a bunch of paths in the <code>quickfix</code>.</p>
+
+<h2>Solution A &ndash; The Unix Way</h2>
+
+<p>Some may argue Vim isn&rsquo;t suppose to do search. Vim rightly delegates to the
+<a href="http://www.catb.org/esr/writings/taoup/html/ch01s06.html">Unix philosophy</a> by
+allowing an external program do its searching. Let&rsquo;s try that for this
+solution using <code>grep</code>, <code>ack</code>, and <code>ag</code>.</p>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/side-search-compare.png" width="1280" height="822" title="'grep vs ack vs ag'" ></p>
+
+<p>We&rsquo;ve run the 3 separate programs (normally, I would only use <code>ag</code>) then
+browse the results to see if there&rsquo;s an interesting file. At this point I start
+using my handy-dandy mouse to scroll around, precisely highlight the path of
+interest, copy, and type <code>vim &lt;Paste&gt;</code>. Intuitive? Yes. Fast? No!</p>
+
+<p>Maybe I should use <code>tmux</code> or <code>screen</code> so I don&rsquo;t need to mouse around, but
+trying to select a path is still pretty slow for me and requires more cognitive
+load than I have patience for. After all, I&rsquo;m trying to concentrate on a
+refactor or something, not how to open a bunch of files. Should I practice more?
+Yes. Will I? No!</p>
+
+<p>We&rsquo;re going to use <code>ag</code> from now on, since it&rsquo;s faster than <code>ack</code>, and has
+prettier output than <code>grep</code>. I really really really tried to get <code>grep</code> to
+output for humans, but couldn&rsquo;t figure it out.</p>
+
+<h2>Solution B &ndash; Vim without Quickfix</h2>
+
+<p>Let Vim do some work for us.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vim `ag --ignore=\*.{css,scss} -l help` +'/help'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What&rsquo;s that?!? Open Vim passing the result of <code>ag</code> command. <code>ag</code> is run with
+some file exclusions, <code>-l</code> only file names, and <code>help</code> is the search term.
+<code>+'/help'</code> tells Vim to immediately start searching for &lsquo;help&rsquo;.</p>
+
+<p>After all that, Vim should have started with a bunch of buffers. View them with
+<code>:ls</code>. Take notice of the buffer numbers to see how many files were found. Use
+<code>n</code> and <code>N</code> to jump through search matches in the file. Use <code>:bn</code> to go to the
+next buffer and start hitting <code>n</code> again to cycle through the changes. If the
+number of files is small enough, you may be able to use <code>:ball</code> to open every
+buffer in its own window.</p>
+
+<p>Thats a lot of work to jump through changes. Good thing the <code>quickfix</code> exists.</p>
+
+<h2>Solution C &ndash; Quickfix</h2>
+
+<p>This is here for posterity. <code>quickfix</code> DOES make cycling through changes easier
+than Solution B, but as I stated in the intro, it doesn&rsquo;t give the context that
+we want.</p>
+
+<p><a href="https://robots.thoughtbot.com/faster-grepping-in-vim">Thoughtbot has a pretty good article</a>
+about how to setup Vim to use <code>ag</code>. Once you do that, you can <code>:grep help</code> to
+get the following output:</p>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/side-search-a.png" width="1280" height="1009" title="'Quickfix for help'" ></p>
+
+<p>Use <code>:cnext</code>, <code>:cprev</code>, <code>:cfirst</code>, <code>:clast</code> to go to next, previous, first, and
+last <code>quickfix</code> result respectively. Map those to keys to make it easier to
+navigate.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nnoremap [q :cprev&lt;CR&gt;
+</span><span class='line'>nnoremap ]q :cnext&lt;CR&gt;
+</span><span class='line'>nnoremap [Q :cfirst&lt;CR&gt;
+</span><span class='line'>nnoremap ]Q :clast&lt;CR&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Get more help about <code>quickfix</code> using <code>:help quickfix</code>. Cry after realizing
+even <code>:help quickfix</code> can&rsquo;t show more context. I&rsquo;ll be here when you&rsquo;re done.</p>
+
+<h2>Solution D &ndash; Side Search Plugin</h2>
+
+<p>So how do we get the best of both worlds? How do we enter the land of a thousand
+wives/husbands? How do we get <code>ag</code> output and quick navigation? For me, it
+was writing a plugin in. For you it&rsquo;s using it. <a href="https://github.com/ddrscott/vim-side-search">https://github.com/ddrscott/vim-side-search</a></p>
+
+<p>After installing the plugin using your favorite package manager, you&rsquo;ll have
+access to the following functionality:</p>
+
+<p><img class="featured" src="http://ddrscott.github.io/images/side-search-demo-b.gif" width="1169" height="631" title="'Side Search Demo'" ></p>
+
+<p>Things to notice:</p>
+
+<ul>
+<li><code>ag</code> output is in a buffer with additional syntax highlighting!</li>
+<li><code>n</code> and <code>N</code> used to jump to matches. Regular Vim navigation works, too!</li>
+<li><code>&lt;CR&gt;</code> and <code>&lt;C-w&gt;&lt;CR&gt;</code> used to open change and jump to change!</li>
+<li>Number of matches shown in the buffer name!</li>
+<li>I use too many exclamation points!!!</li>
+</ul>
+
+
+<p>The plugin&rsquo;s <code>README</code> has more details.</p>
+
+<h2>Closing</h2>
+
+<p>I&rsquo;ve been using this plugin ever since its inception and don&rsquo;t know where I&rsquo;d
+be without it. It gets some inspiration from <a href="https://github.com/tpope/vim-fugitive">fugitive&rsquo;s</a>
+<code>:Gstatus</code> mode/buffer, and I wish there were more plugins that added
+functionality from <code>stdout</code> instead of transforming it into a different format. Unix
+tools makers spend a lot of time thinking about the output. Let&rsquo;s use it to our
+advantage.</p>
+
+<p>I&rsquo;ve learn a lot creating this plugin and plan to write about it in a future post.
+Do you love it or hate it? Have more ideas for Side Search? Please let me know what you
+think of it. Have more ideas or issues for Side Search? Hit me up on <a href="https://github.com/ddrscott/vim-side-search">Github</a>.</p>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://github.com/ggreer/the_silver_searcher">The Silver Searcher</a> by Geoff Greer</li>
+<li><code>man ag</code></li>
+<li><code>man grep</code></li>
+<li><code>man tmux</code></li>
+<li><code>man screen</code></li>
+<li><code>:help quickfix</code></li>
+<li><a href="https://robots.thoughtbot.com/faster-grepping-in-vim">Faster Grepping in Vim</a> by Thoughtbot</li>
+<li><a href="https://www.google.com/search?q=the+number+12">The number 12</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sensible Horizontal Scroll in Vim]]></title>
@@ -1921,36 +2071,6 @@ dialog will tell them that it&#8217;s unavailable in the lite and
 provides a button to go to the Android Market to purchase the full
 version.</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Sumo mini-game notes]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/sumo-mini-game-notes/"/>
-    <updated>2011-03-15T23:03:33-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/sumo-mini-game-notes</id>
-    <content type="html"><![CDATA[I&#8217;ve created a working version of the sumo and it is revealing some
-overall bugs for the game engine at large.<br>
-First the precision of two touch points greatly decreases when they
-are close together I presume this is an issue with capacitive
-screens and not a software issue. This issue hasn&#8217;t shown itself
-till now since the other games are faster paced and acurracy is
-less important.
-<!-- more -->
-Second issue is motion jitters. This occurs when hold a target
-object in place. One would expect the item to never move, but thats
-not what happens. After a few seconds the held piece will violently
-spring around the touch point. This happens due to how the touch
-sensor provides me the information. I get touch events in 3 main
-categories: down, move, and up. (I&#8217;m specifically ignoring cancel
-for now.) On down I add a heavy mass to the touched object. This
-makes it practically immobile from impacts by other objects. When I
-get a move event I add linear velocity to the object so it can
-shift to the touched coordinate. If the finger is down and but
-never moves, I don&#8217;t get any other events from the sensor which
-tell me that it&#8217;s still down. I need to rely on an up event to
-negate the down. Unfortunately, I don&#8217;t always get the up event or
-even the cancel &#8230;&#8230;.
 ]]></content>
   </entry>
   
