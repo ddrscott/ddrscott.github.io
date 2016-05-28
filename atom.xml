@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-05-27T10:54:16-05:00</updated>
+  <updated>2016-05-28T06:10:45-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PSA: Vim Modulo '%' Returns Negative Numbers!]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/negative-modulo/"/>
+    <updated>2016-05-28T09:00:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/negative-modulo</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/einstein_mod.jpg" width="500" height="375" title="'-10 % 3 != -1'" ></p>
+
+<p>Surprise! Vim has the same modulo bug as Javascript. Some say it&rsquo;s not a bug,
+but if Ruby and Google Calculator is wrong, I don&rsquo;t want to be right.</p>
+
+<!-- more -->
+
+
+<ul>
+<li>Vim, <code>:echo -10 % 3</code> returns <code>-1</code></li>
+<li>Javascript <code>-10 % 3</code> returns <code>-1</code></li>
+<li>Ruby/IRB, <code>-10 % 3</code> returns <code>2</code> <strong>&mdash; my expectation is here</strong></li>
+</ul>
+
+
+<h2>Solution</h2>
+
+<p>Add this function some where in your Vimscript and throw away <code>%</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; ((n % m) + m) % m` or `((-10 % 3) + 3) % 3` returns `2`</span>
+</span><span class='line'><span class="k">function</span><span class="p">!</span> <span class="k">s</span>:<span class="k">mod</span><span class="p">(</span><span class="k">n</span><span class="p">,</span><span class="k">m</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">((</span><span class="k">a</span>:<span class="k">n</span> % <span class="k">a</span>:<span class="k">m</span><span class="p">)</span> <span class="p">+</span> <span class="k">a</span>:<span class="k">m</span><span class="p">)</span> % <span class="k">a</span>:<span class="k">m</span>
+</span><span class='line'><span class="k">endfunction</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I hope this saves someone some time somewhere out there. It&rsquo;s an hour I&rsquo;ll never
+get back, but happy to give back.</p>
+
+<p><strong>References</strong></p>
+
+<ul>
+<li><a href="https://www.google.com/#q=-10+%25+3">https://www.google.com/#q=-10+%25+3</a></li>
+<li><a href="http://vimdoc.sourceforge.net/htmldoc/eval.html#expr6">http://vimdoc.sourceforge.net/htmldoc/eval.html#expr6</a></li>
+<li><a href="http://math.stackexchange.com/questions/519845/modulo-of-a-negative-number/519856">http://math.stackexchange.com/questions/519845/modulo-of-a-negative-number/519856</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Modulo_operation">https://en.wikipedia.org/wiki/Modulo_operation</a></li>
+<li><a href="http://stackoverflow.com/questions/4467539/javascript-modulo-not-behaving">http://stackoverflow.com/questions/4467539/javascript-modulo-not-behaving</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Vim Side Search: Making Search Fun Again]]></title>
@@ -158,6 +209,14 @@ think of it. Have more ideas or issues for Side Search? Hit me up on <a href="ht
 <li><code>:help quickfix</code></li>
 <li><a href="https://robots.thoughtbot.com/faster-grepping-in-vim">Faster Grepping in Vim</a> by Thoughtbot</li>
 <li><a href="https://www.google.com/search?q=the+number+12">The number 12</a></li>
+</ul>
+
+
+<h3>In The News</h3>
+
+<ul>
+<li><a href="https://news.ycombinator.com/item?id=11787085">Hacker News</a></li>
+<li><a href="https://www.reddit.com/r/vim/comments/4lbdur/vim_side_search_plugin_making_search_fun_again/">Reddit</a></li>
 </ul>
 
 ]]></content>
@@ -1996,80 +2055,6 @@ height="1" width="1">
     <id>http://ddrscott.github.io/blog/2011/when-free-in-free-software-doesnt-matter</id>
     <content type="html"><![CDATA[<p><a href=
 "http://feedproxy.google.com/~r/d0od/~3/aS3EIDQEq6Y/">http://feedproxy.google.com/~r/d0od/~3/aS3EIDQEq6Y/</a></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to make a lite version of an Android game]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/how-to-make-a-lite-version-of-an-android-game/"/>
-    <updated>2011-04-07T22:51:03-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/how-to-make-a-lite-version-of-an-android-game</id>
-    <content type="html"><![CDATA[<p>I&#8217;ve discovered that no amount of screenshots or marketing speak
-will ever get someone past the $1.99 price point. So with a bit of
-research and rework a free version Thumb War is now
-available&nbsp;<a href=
-"https://market.android.com/details?id=com.thethumbwar.lite"><span class="s1">here</span></a>.</p>
-<p class="p1">For a while I thought the process of making 1 project
-into 2 was going to break the time bank, but after running
-into&nbsp;<a href=
-"http://developer.android.com/guide/developing/projects/projects-eclipse.html"><span class="s1">this</span></a>&nbsp;article
-on the Android Developer site the pieces fit together quite
-nicely.</p>
-<!-- more -->
-<p class="p1">The secret is in one property setting of an Eclipse
-project which allows a project to be shared by another. The setting
-is &#8220;Is Library&#8221;. Once enabled all classes and resources (drawable,
-layouts, strings, etc) are available to users of the library. The
-activities can be addressed in the manifest with absolute package
-names instead of the relative package names.</p>
-<p><img src=
-"http://developer.android.com/images/developing/adt-props-isLib.png"
-alt=""></p>
-<p>The best part of the whole thing is I don&#8217;t need to create a
-separate jar build process to make it all work. Now, if you&#8217;re the
-type that likes everything automated, I&#8217;m leaving that as an
-exercise to the reader.</p>
-<p class="p2">After changing the original project a library, I did
-the following to get the paid version working again.</p>
-<ol class="ol1">
-<li class="li1">create new Android project in Eclipse with the same
-package name as my library.</li>
-<li class="li1">edit Android properties and added a reference to
-the newly converted library project.</li>
-<li class="li1">copied the Android Manifest from the library
-project into the paid project.</li>
-<li class="li1">changed the activity packages in the paid manifest
-to use the full absolute package names.</li>
-<li class="li1">removed all drawable in paid project</li>
-<li class="li1">removed hello world in string.xml and updated
-app_name</li>
-<li class="li1">set svn:externals to the library project&#8217;s assets
-directory into the paid projects assets directory, then svn
-update</li>
-<li class="li1">run</li>
-</ol>
-<p class="p2">Surprisingly everything just worked.</p>
-<p class="p1">The next step was to actually create the free
-project. This is pretty much the same as the paid project so I
-started with the paid project as the base.</p>
-<ol class="ol1">
-<li class="li1">copy paid project and rename to lite</li>
-<li class="li1">change package name to com.thethumbwar.lite</li>
-<li class="li1">run</li>
-</ol>
-<p class="p1">This also worked. It was functionally the same as the
-paid project and the original pre-library-itized project and both
-were on my device at the same time. Which means it meets Androids
-unique package restrictions, too.</p>
-<p class="p1">The final step in the free project was to add a few
-restrictions to it and add a few dialogs to encourage the players
-to purchase the paid version. That fortunately was the trivial
-work, phew! In case you&#8217;re curious, I&#8217;ve restricted 3 of the 5
-games and if a user selects a restricted game from the menu a
-dialog will tell them that it&#8217;s unavailable in the lite and
-provides a button to go to the Android Market to purchase the full
-version.</p>
 
 ]]></content>
   </entry>
