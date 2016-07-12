@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-05-28T06:10:45-05:00</updated>
+  <updated>2016-07-12T08:23:51-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Photography Refactored]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/photography-lightening-talk/"/>
+    <updated>2016-07-11T09:00:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/photography-lightening-talk</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/photography-lightening-talk.png" width="527" height="494" title="'Photography Lightening Talk'" ></p>
+
+<p>Someone convinced me to do a lightening talk about photography. Here&rsquo;s the slide deck.</p>
+
+<!-- more -->
+
+
+<div class="responsive-wrapper">
+<iframe src="https://docs.google.com/presentation/d/1Fc0FhDv9Qhtx1704oKA3qWb3-OFsobk-ppGHU2LKolg/embed?start=false&loop=false&delayms=3000" frameborder="0" width="1440" height="839" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PSA: Vim Modulo '%' Returns Negative Numbers!]]></title>
@@ -2044,17 +2063,6 @@ Monkey as it did on V8. He&#8217;s not sure why.</p>
 <img src=
 "http://feeds.feedburner.com/~r/readwriteweb/~4/eHz7ZuCy7e4"
 height="1" width="1">
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[When “Free” in Free Software doesn’t matter]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/when-free-in-free-software-doesnt-matter/"/>
-    <updated>2011-05-02T07:13:12-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/when-free-in-free-software-doesnt-matter</id>
-    <content type="html"><![CDATA[<p><a href=
-"http://feedproxy.google.com/~r/d0od/~3/aS3EIDQEq6Y/">http://feedproxy.google.com/~r/d0od/~3/aS3EIDQEq6Y/</a></p>
 
 ]]></content>
   </entry>
