@@ -9,13 +9,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Day 6-ish - @_ddrscott_</title>
+  <title>Category: ansi - @_ddrscott_</title>
   <meta name="author" content="Scott Pierce">
 
   
-  <meta name="description" content="Day 6-ish written Feb 22nd, 2011 I&#8217;ve been a bit lax on updates due to spending any free time on
-the game mechanics.
-The overhead physics is &hellip;">
+  <meta name="description" content="Category: ansi">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -24,7 +22,7 @@ The overhead physics is &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ddrscott.github.io/blog/2011/day-6-ish">
+  <link rel="canonical" href="http://ddrscott.github.io/blog/categories/ansi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
@@ -39,13 +37,88 @@ The overhead physics is &hellip;">
       <img src="/images/home.png"/>
     </a>
 
-    <article role="article" class="full-single-article">
+    <div class="all-posts">
   <div class="container">
     <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <h1>Day 6-ish</h1>
-        <div class="meta">
-          written 
+      <div class="list-title col-md-offset-3 col-md-6">
+        <h4>Posts in ansi</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-list">
+    <div class="container">
+      
+        
+        <div class="row">
+          <div class="col-md-offset-3 col-md-6">
+            <article>
+  <h2><a href="/blog/2016/ansi-codes-with-character/">ANSI Codes with Character</a></h2>
+  
+  <p>
+    <p>This was a lightening talk given to the office about ANSI Escape Codes. Most of
+the time, all 5 minutes of it, was spent explaining the code snippets.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/ANSI_escape_code">Wiki about ANSI Codes</a></p>
+
+<h2>What is an ANSI code?</h2>
+
+<p>ANSI Escape Codes are a nearly universal means of embedding display options in
+computer terminals.</p>
+
+<p><code>\e[</code> is how to tell the terminal we&rsquo;re giving it a command instead just
+outputting text.</p>
+
+<p>What does that mean?!? Let the examples do the talking.</p>
+
+<h2>Color Examples</h2>
+
+<p><code>bash
+echo -e "\e[2J\e[32m It's not easy being green \e[0m"
+echo -e "\e[2J\e[31m Apples are red  \e[0m"
+</code></p>
+
+<p><code>ruby
+(30..37).each{|i| puts "i: \e[#{i}m #{i} \e[0m"}
+</code></p>
+
+<h2>Position Examples</h2>
+
+<p><code>ruby
+x=`tput cols`.to_i
+y=`tput lines`.to_i
+loop do
+  print "\e[s" # Save current cursor position
+  print "\e[#{rand(y)};#{rand(x)}H"  # move to row/column
+  print "💩"    # print POOP!
+  print "\e[u" # restore position
+  sleep(rand)
+end
+</code></p>
+
+<p>```bash</p>
+
+<h1>Ruby oneliner troll</h1>
+
+<p>ruby -e &lsquo;x=<code>tput cols</code>.to_i; y=<code>tput lines</code>.to_i; loop {print &ldquo;\e[s\e[#{rand(y)};#{rand(x)}H💩\e[u&rdquo;; sleep(rand)}&rsquo;
+```</p>
+
+<h2>ANSI-nine Examples</h2>
+
+<p>```bash</p>
+
+<h1>Poop-field</h1>
+
+<p>curl -s <a href="https://raw.githubusercontent.com/ddrscott/ansinine/master/stars">https://raw.githubusercontent.com/ddrscott/ansinine/master/stars</a> | ruby</p>
+
+<h1>Smoke</h1>
+
+<p>curl -s <a href="https://raw.githubusercontent.com/ddrscott/ansinine/master/fire.rb">https://raw.githubusercontent.com/ddrscott/ansinine/master/fire.rb</a> | ruby
+```</p>
+
+  </p>
+  <span class="meta">
+    written 
 
 
 
@@ -58,64 +131,28 @@ The overhead physics is &hellip;">
 
 
 
-<time datetime="2011-02-22T23:37:00-06:00" pubdate data-updated="true">Feb 22<sup>nd</sup>, 2011</time>
-          
+<time datetime="2016-07-26T11:11:51-05:00" pubdate data-updated="true">Jul 26<sup>th</sup>, 2016</time>
+    
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ansi/'>ansi</a>, <a class='category' href='/blog/categories/ascii/'>ascii</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
 
 
-        </div>
-        <p>I&#8217;ve been a bit lax on updates due to spending any free time on
-the game mechanics.</p>
-<p>The overhead physics is now about right with some polish needed
-around transfer of momentum from the touch event to a game object.
-AndEngine, or really any game engine, doesn&#8217;t make touching and
-physics work well together. If you want to make an Angry Birds
-clone that would be easy, but making your finger the bird is much
-harder&#8230; unless it&#8217;s that other bird&#8230;</p>
-<p>Anyway, I finally have the first mini-game completed. It is
-called Keep Away, with the simple concept of keeping stuff away
-from the opponent. There are basic menus, dialogs, game time, and
-game over transitions. I can now play test with my wife, who thinks
-the best part is the clucking noise when things collide. Hopefully
-that won&#8217;t be the the only highlight.</p>
-<p>I would post a screenshot but it&#8217;s still a bit too ugly for the
-Internet.</p>
+  </span>
 
-
-      </div>
-    </div>
-  </div>
+  
 </article>
 
-<hr class="divider-short"/>
-
-<div class="archive-link">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        
-          <a class="pull-left" href="/blog/2011/andengine-is-totally-sweet/" title="Previous Post: AndEngine Is Totally Sweet!">&laquo; Previous: AndEngine Is Totally Sweet!</a>
-        
-
-        
-          <a class="pull-right" href="/blog/2011/day-7-finger-physics-is-hard/" title="Next Post: Day 7 - Finger Physics is Hard">Next: Day 7 - Finger Physics is Hard &raquo;</a>
-        
-      </div>
+          </div>
+        </div>
+      
     </div>
   </div>
 </div>
-
-
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            </div>
-        </div>
-    </div>
-</section>
-
 
     <footer id="footer" class="her-row">
   <div class="container">
@@ -159,10 +196,7 @@ ga('send', 'pageview');
       var disqus_shortname = 'ddrscottgithubio';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://ddrscott.github.io/blog/2011/day-6-ish/';
-        var disqus_url = 'http://ddrscott.github.io/blog/2011/day-6-ish/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-07-12T08:23:51-05:00</updated>
+  <updated>2016-07-26T14:09:11-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ANSI Codes with Character]]></title>
+    <link href="http://ddrscott.github.io/blog/2016/ansi-codes-with-character/"/>
+    <updated>2016-07-26T11:11:51-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2016/ansi-codes-with-character</id>
+    <content type="html"><![CDATA[<p>This was a lightening talk given to the office about ANSI Escape Codes. Most of
+the time, all 5 minutes of it, was spent explaining the code snippets.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/ANSI_escape_code">Wiki about ANSI Codes</a></p>
+
+<h2>What is an ANSI code?</h2>
+
+<p>ANSI Escape Codes are a nearly universal means of embedding display options in
+computer terminals.</p>
+
+<p><code>\e[</code> is how to tell the terminal we&rsquo;re giving it a command instead just
+outputting text.</p>
+
+<p>What does that mean?!? Let the examples do the talking.</p>
+
+<h2>Color Examples</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> -e <span class="s2">&quot;\e[2J\e[32m It&#39;s not easy being green \e[0m&quot;</span>
+</span><span class='line'><span class="nb">echo</span> -e <span class="s2">&quot;\e[2J\e[31m Apples are red  \e[0m&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="mi">30</span><span class="o">.</span><span class="n">.</span><span class="mi">37</span><span class="p">)</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;i: </span><span class="se">\e</span><span class="s2">[</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">m </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="se">\e</span><span class="s2">[0m&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Position Examples</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">x</span><span class="o">=</span><span class="sb">`tput cols`</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'><span class="n">y</span><span class="o">=</span><span class="sb">`tput lines`</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'><span class="kp">loop</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[s&quot;</span> <span class="c1"># Save current cursor position</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[</span><span class="si">#{</span><span class="nb">rand</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">;</span><span class="si">#{</span><span class="nb">rand</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">H&quot;</span>  <span class="c1"># move to row/column</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="s2">&quot;💩&quot;</span>    <span class="c1"># print POOP!</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[u&quot;</span> <span class="c1"># restore position</span>
+</span><span class='line'>  <span class="nb">sleep</span><span class="p">(</span><span class="nb">rand</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Ruby oneliner troll</span>
+</span><span class='line'>ruby -e <span class="s1">&#39;x=`tput cols`.to_i; y=`tput lines`.to_i; loop {print &quot;\e[s\e[#{rand(y)};#{rand(x)}H💩\e[u&quot;; sleep(rand)}&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>ANSI-nine Examples</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Poop-field</span>
+</span><span class='line'>curl -s https://raw.githubusercontent.com/ddrscott/ansinine/master/stars <span class="p">|</span> ruby
+</span><span class='line'>
+</span><span class='line'><span class="c"># Smoke</span>
+</span><span class='line'>curl -s https://raw.githubusercontent.com/ddrscott/ansinine/master/fire.rb <span class="p">|</span> ruby
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Photography Refactored]]></title>
@@ -1964,105 +2049,6 @@ orientation issues</li>
 <li>Ghetto Graphs: Too cool for Excel</li>
 </ol>
 <p>Enjoy your summer!</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Run Linux on... JavaScript?!]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/run-linux-on-javascript/"/>
-    <updated>2011-05-19T14:08:58-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/run-linux-on-javascript</id>
-    <content type="html"><![CDATA[Javascript has finally arrived. Ruby watch out!
-<!-- more -->
-<div class=""><a href=
-    "http://feedproxy.google.com/~r/readwriteweb/~3/eHz7ZuCy7e4/run-linux-on-javascript.php">
-    Run Linux on&#8230; JavaScript?!</a></div>
-<div class="c2">via <a href="http://www.readwriteweb.com/" class=
-    "f">ReadWriteWeb</a> by Klint Finley on 5/17/11</div>
-<br class="c3">
-<p><img src=
-"http://www.readwriteweb.com/hack/images/javascript_logo_1210.png"
-height="150" alt="JavaScript logo 150x150" width="150"> <a href=
-  "http://bellard.org/jslinux/tech.html">Fabrice Bellard built an x86
-  PC emulator</a> using JavaScript. He&#8217;s even gone so far as to
-install Linux kernel 2.6.20 on top of it. &#8220;The code is written in
-pure Javascript using Typed Arrays which are available in recent
-browsers,&#8221; Bellard wrote. It works in Firefox and Chrome 11, but
-not not Chrome 12.</p>
-<p>As for the Linux instance, Bellard wrote: &#8220;The disk image is
-just a ram disk image loaded at boot time. It contains a filesystem
-generated with <a href="http://buildroot.uclibc.org/">Buildroot</a>
-containing <a href="http://www.busybox.net/">BusyBox</a>. I added
-my toy C compiler <a href="http://bellard.org/tcc">TinyCC</a> and
-my unfinished but usable emacs clone <a href=
-  "http://bellard.org/qemacs">QEmacs</a>.&#8221; You can see Linux running
-JavaScript <a href="http://bellard.org/jslinux/">here</a>.</p>
-<p class="c4"><em>Sponsor</em><br>
-<a href=
-  "http://d.ads.readwriteweb.com/ck.php?n=26689&amp;cb=26689"><img src="http://d.ads.readwriteweb.com/avw.php?zoneid=14&amp;cb=26689&amp;n=26689"
-  border="0" alt=""></a></p>
-<p><img src=
-"http://www.readwriteweb.com/hack/images/jslinux_screenshot_0511.png"
-height="489" alt="JS/Linux screenshot" width="610"></p>
-<p>Bellard did it just for fun, but he speculates that it could be
-useful for the following purposes:</p>
-<ul>
-  <li>Benchmarking of Javascript engines (how much time takes your
-  Javascript engine to boot Linux ?). For this particular
-  application, efficient handling of 32 bit signed and unsigned
-  integers and of typed arrays is important.</li>
-  <li>Client side processing using an x86 library, for example for
-  cryptographic purposes. For such application, the x86 emulator can
-  be modified to provide an API to load x86 dynamic libraries and to
-  provide a js-ctypes like API to call the C/C++ functions from
-  javascript.</li>
-  <li>A more advanced version would allow to use old DOS PC software
-  such as games.</li>
-</ul>
-<p>Oddly enough, he found that Linux ran twice as fast on Jaeger
-Monkey as it did on V8. He&#8217;s not sure why.</p>
-<strong><a href=
-    "http://www.readwriteweb.com/hack/2011/05/run-linux-on-javascript.php#comments-open">Discuss</a></strong>
-<p><iframe marginheight="0" scrolling="no" marginwidth="0" src=
-  "http://feedads.g.doubleclick.net/~ah/f/bh8m03d07dnj95a0qa1ma5k32c/300/250?ca=1&amp;fh=280#http%3A%2F%2Fwww.readwriteweb.com%2Fhack%2F2011%2F05%2Frun-linux-on-javascript.php"
-  frameborder="0" height="280" width="100%"></iframe></p>
-<div><a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:FFnlKYwJmN0">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?d=FFnlKYwJmN0"
-    border="0"></a> <a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:Ij26kaj3iuU">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?d=Ij26kaj3iuU"
-    border="0"></a> <a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:C2pbw5bZMiI">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?d=C2pbw5bZMiI"
-    border="0"></a> <a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:yIl2AUoC8zA">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?d=yIl2AUoC8zA"
-    border="0"></a> <a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:V_sGLiPBpWU"
-    border="0"></a> <a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:gIN9vFwOqvQ"
-    border="0"></a> <a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?i=eHz7ZuCy7e4:XtVbkb-h2SU:F7zBnMyn0Lo"
-    border="0"></a> <a href=
-    "http://feeds.feedburner.com/~ff/readwriteweb?a=eHz7ZuCy7e4:XtVbkb-h2SU:OqabYuBsmOY">
-    <img src=
-    "http://feeds.feedburner.com/~ff/readwriteweb?d=OqabYuBsmOY"
-    border="0"></a></div>
-<img src=
-"http://feeds.feedburner.com/~r/readwriteweb/~4/eHz7ZuCy7e4"
-height="1" width="1">
 
 ]]></content>
   </entry>
