@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: talk | @_ddrscott_]]></title>
+  <link href="http://ddrscott.github.io/blog/categories/talk/atom.xml" rel="self"/>
+  <link href="http://ddrscott.github.io/"/>
+  <updated>2017-02-08T09:15:26-06:00</updated>
+  <id>http://ddrscott.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Pierce]]></name>
+    <email><![CDATA[ddrscott@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Get Better At Anything]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/"/>
+    <updated>2017-02-07T05:30:06-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="/images/better.jpg" width="600" height="445" title="&lsquo;Better Title&rsquo;" ></p>
+
+<!-- more -->
+
+
+<h2>RTFM</h2>
+
+<p><img src="/images/rtfm-wtfm.jpg" width="400" height="387" title="&lsquo;RTFM WTFM&rsquo;" ></p>
+
+<ul>
+<li>WTFM, Write The Flip'n Manual</li>
+<li>Do a lightning talk about it :)</li>
+</ul>
+
+
+<h2>Make it Fun</h2>
+
+<p><img src="/images/koala_trophy.jpg" title="&lsquo;Surprised Koala Trophy&rsquo;" ></p>
+
+<ul>
+<li>Gamification</li>
+<li>Trophy anyone?</li>
+<li>If it can&rsquo;t be made fun, make it fun.</li>
+</ul>
+
+
+<h2>Practice</h2>
+
+<p><img src="/images/ive_practiced.jpg" title="&ldquo;I&rsquo;ve practiced a lot&rdquo;" ></p>
+
+<ul>
+<li>Slowly with intent</li>
+<li>Pressure cycles: none, some, actual, intolerable.</li>
+<li>The practice of practice deserves its own talk.</li>
+</ul>
+
+
+<h2>Better not good</h2>
+
+<p><img src="/images/good_to_better.jpg" title="&ldquo;Good to Better Chart&rdquo;" ></p>
+
+<ul>
+<li>Good is the killer of better.</li>
+<li>People tend to stop because good is unreachable.</li>
+<li>People tend to stop after they&rsquo;re good enough.</li>
+<li>If we aim to get better, we&rsquo;ll eventually be better than good.</li>
+<li>Progressive goals. OMG! I goal setting!</li>
+</ul>
+
+
+<h2>Learn, don&rsquo;t Memorize</h2>
+
+<p><img src="/images/one_does_not_memorize_pi.jpg" title="&ldquo;One does not simply memorize PI&rdquo;" ></p>
+
+<ul>
+<li>Learning is understanding</li>
+<li>Understanding is connecting the new thing to an old thing.</li>
+<li>Computers memorize. You&rsquo;re not a computer.</li>
+</ul>
+
+
+<h2>Learn with others</h2>
+
+<p><img src="/images/google_hug.jpg" title="&ldquo;Google Hug&rdquo;" ></p>
+
+<ul>
+<li>With the Internet you&rsquo;re never alone and always alone.</li>
+<li>Actually talk with people!</li>
+</ul>
+
+
+<h2>Cheat</h2>
+
+<p><img src="/images/inspect_source.jpg" title="&ldquo;One does not simply memorize PI&rdquo;" ></p>
+
+<ul>
+<li>If you&rsquo;re not cheating, you&rsquo;re not trying.</li>
+<li>Reverse engineer the cheat, don&rsquo;t actually cheat!</li>
+</ul>
+
+
+<h2>Vim Example</h2>
+
+<ul>
+<li><strong>RTFM</strong> &ndash; <code>:help</code></li>
+<li><strong>WTFM</strong> &ndash; Blogging, figure out other peoples problems :/</li>
+<li><strong>Practice</strong> Wrote stuff that wasn&rsquo;t needed immediately, my own notes.</li>
+<li><strong>Don&rsquo;t Memorize</strong> Vim has grammar like English. Oooh&hellip; Reconnection!</li>
+<li><strong>Learn with Others</strong> &ndash; We have vim users, teach them (but don&rsquo;t let them know
+  your only a 1/8th step ahead :o)</li>
+<li><strong>Cheat</strong> Look at the source code to see how others do things</li>
+</ul>
+
+
+<h2>What do you want to get better at next?!?</h2>
+
+<ul>
+<li>lightning talks?</li>
+<li>Shuffling cards? (@devin)</li>
+<li><a href="http://www.postgresql.org/docs/9.6/static/index.html">SQL?</a></li>
+<li><a href="https://www.amazon.com/Drawing-Right-Side-Brain-Definitive/dp/1585429201">Drawing?</a></li>
+<li><a href="http://www.pianofundamentals.com/book/en/chapter_1">Piano?</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

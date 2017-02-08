@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2016-07-26T14:09:11-05:00</updated>
+  <updated>2017-02-08T09:15:26-06:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,118 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to Get Better At Anything]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/"/>
+    <updated>2017-02-07T05:30:06-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/better.jpg" width="600" height="445" title="'Better Title'" ></p>
+
+<!-- more -->
+
+
+<h2>RTFM</h2>
+
+<p><img src="http://ddrscott.github.io/images/rtfm-wtfm.jpg" width="400" height="387" title="'RTFM WTFM'" ></p>
+
+<ul>
+<li>WTFM, Write The Flip&#8217;n Manual</li>
+<li>Do a lightning talk about it :)</li>
+</ul>
+
+
+<h2>Make it Fun</h2>
+
+<p><img src="http://ddrscott.github.io/images/koala_trophy.jpg" title="'Surprised Koala Trophy'" ></p>
+
+<ul>
+<li>Gamification</li>
+<li>Trophy anyone?</li>
+<li>If it can&rsquo;t be made fun, make it fun.</li>
+</ul>
+
+
+<h2>Practice</h2>
+
+<p><img src="http://ddrscott.github.io/images/ive_practiced.jpg" title="&#34;I've practiced a lot&#34;" alt="&#34;I've practiced a lot&#34;"></p>
+
+<ul>
+<li>Slowly with intent</li>
+<li>Pressure cycles: none, some, actual, intolerable.</li>
+<li>The practice of practice deserves its own talk.</li>
+</ul>
+
+
+<h2>Better not good</h2>
+
+<p><img src="http://ddrscott.github.io/images/good_to_better.jpg" title="&#34;Good to Better Chart&#34;" alt="&#34;Good to Better Chart&#34;"></p>
+
+<ul>
+<li>Good is the killer of better.</li>
+<li>People tend to stop because good is unreachable.</li>
+<li>People tend to stop after they&rsquo;re good enough.</li>
+<li>If we aim to get better, we&rsquo;ll eventually be better than good.</li>
+<li>Progressive goals. OMG! I goal setting!</li>
+</ul>
+
+
+<h2>Learn, don&rsquo;t Memorize</h2>
+
+<p><img src="http://ddrscott.github.io/images/one_does_not_memorize_pi.jpg" title="&#34;One does not simply memorize PI&#34;" alt="&#34;One does not simply memorize PI&#34;"></p>
+
+<ul>
+<li>Learning is understanding</li>
+<li>Understanding is connecting the new thing to an old thing.</li>
+<li>Computers memorize. You&rsquo;re not a computer.</li>
+</ul>
+
+
+<h2>Learn with others</h2>
+
+<p><img src="http://ddrscott.github.io/images/google_hug.jpg" title="&#34;Google Hug&#34;" alt="&#34;Google Hug&#34;"></p>
+
+<ul>
+<li>With the Internet you&rsquo;re never alone and always alone.</li>
+<li>Actually talk with people!</li>
+</ul>
+
+
+<h2>Cheat</h2>
+
+<p><img src="http://ddrscott.github.io/images/inspect_source.jpg" title="&#34;One does not simply memorize PI&#34;" alt="&#34;One does not simply memorize PI&#34;"></p>
+
+<ul>
+<li>If you&rsquo;re not cheating, you&rsquo;re not trying.</li>
+<li>Reverse engineer the cheat, don&rsquo;t actually cheat!</li>
+</ul>
+
+
+<h2>Vim Example</h2>
+
+<ul>
+<li><strong>RTFM</strong> &ndash; <code>:help</code></li>
+<li><strong>WTFM</strong> &ndash; Blogging, figure out other peoples problems :/</li>
+<li><strong>Practice</strong> Wrote stuff that wasn&rsquo;t needed immediately, my own notes.</li>
+<li><strong>Don&rsquo;t Memorize</strong> Vim has grammar like English. Oooh&hellip; Reconnection!</li>
+<li><strong>Learn with Others</strong> &ndash; We have vim users, teach them (but don&rsquo;t let them know
+  your only a 1/8th step ahead :o)</li>
+<li><strong>Cheat</strong> Look at the source code to see how others do things</li>
+</ul>
+
+
+<h2>What do you want to get better at next?!?</h2>
+
+<ul>
+<li>lightning talks?</li>
+<li>Shuffling cards? (@devin)</li>
+<li><a href="http://www.postgresql.org/docs/9.6/static/index.html">SQL?</a></li>
+<li><a href="https://www.amazon.com/Drawing-Right-Side-Brain-Definitive/dp/1585429201">Drawing?</a></li>
+<li><a href="http://www.pianofundamentals.com/book/en/chapter_1">Piano?</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ANSI Codes with Character]]></title>
@@ -1997,59 +2109,6 @@ http://m.spectrum.ieee.org/automaton/robotics/diy/youve-never-seen-a-drive-sy&#8
     <content type="html"><![CDATA[<a href=
 "http://highscalability.com/blog/2011/6/27/tripadvisor-architecture-40m-visitors-200m-dynamic-page-view.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+HighScalability+%28High+Scalability%29">
 http://highscalability.com/blog/2011/6/27/tripadvisor-architecture-40m-visito&#8230;</a>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Where Does The Time Go]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/where-does-the-time-go/"/>
-    <updated>2011-06-04T00:00:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/where-does-the-time-go</id>
-    <content type="html"><![CDATA[title: Where does the time go?
-date: 2011-06-04 13:00:00 -05:00
-comments: true
-categories: 
-posterous_id: 55640459
-&#8212;
-<p><span class="c8"><img title=
-"where does the time go - photo by: cmcbrown, Source: Flickr, found with Wylio.com"
-src="http://img.wylio.com/flickr/1062392/404/2564510004" height=
-"302" alt="where does the time go" class="c1" width=
-"404"><span class="wylio-credits c7"><span class=
-"photoby c6"><span class="c3">photo &copy; 2008 <a href=
-"http://www.flickr.com/people/cmcbrown/" title=
-"click to visit the Flickr profile page for cmcbrown" target=
-"_blank" class="c2">cmcbrown</a> | <a href=
-"http://www.flickr.com/photos/58368629@N00/2564510004" title=
-"get more information about the photo 'where does the time go'"
-target="_blank" class="c2">more info</a></span> <span class=
-"c5"><strong class="c4">(via: <a href="http://www.wylio.com" title=
-"free pictures" target="_blank" class=
-"c2">Wylio</a>)</strong></span></span></span></span></p>
-<p>It&#8217;s been a while since I&#8217;ve posted anything real. I started on
-a couple articles thinking I didn&#8217;t have time to update Thumb War,
-but in the end didn&#8217;t have time to finish those articles
-either.</p>
-<!-- more -->
-<p>Which brings me to the simple question. Where does the time go?
-My guess is work and family. I found the above image free online,
-so I cannot really vouch for it&#8217;s accuracy, but it sure looks
-pretty.</p>
-<p>On the Thumb War to-do list is:</p>
-<ol>
-<li>Provide Tablet layouts for those who play on Landscape style
-devices (Xoom, ASUS Tab, Playbook, HP Slate, etc&#8230;)</li>
-<li>Update to latest AndEngine to get some critical fixes
-orientation issues</li>
-<li>Add video of game play to help those who don&#8217;t &#8220;get it&#8221;.</li>
-</ol>
-<p>As for the articles that I&#8217;ve started but didn&#8217;t finish:</p>
-<ol>
-<li>Closures: Ruby vs Groovy - Fight!</li>
-<li>Ghetto Graphs: Too cool for Excel</li>
-</ol>
-<p>Enjoy your summer!</p>
-
 ]]></content>
   </entry>
   
