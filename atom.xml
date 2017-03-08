@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-02-08T13:24:31-06:00</updated>
+  <updated>2017-03-08T11:22:49-06:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,886 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What the SQL? - Lateral Joins]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-lateral/"/>
+    <updated>2017-03-08T12:30:00-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/what-the-sql-lateral</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/what_the_sql_lateral.png" title="'What the SQL?!? Lateral Joins'" ></p>
+
+<h1>What the SQL?!? &ndash; Lateral Joins</h1>
+
+<p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>LATERAL</code>. A prerequisite to
+understanding lateral joins are regular joins and subqueries. I&rsquo;ll explain those
+briefly to see how <code>LATERAL</code> can simplify a complicated SQL query.</p>
+
+<!-- more -->
+
+
+<p>Please note, our target database is PostgreSQL. These examples may work with
+other databases, but might need some massaging to get them to work properly.
+Search online for the specific vendor&rsquo;s documentation if errors pop up.
+Try searching for &ldquo;lateral joins &rdquo;. Not all database vendors
+support the keyword <code>LATERAL</code>.</p>
+
+<h2>A Problem to Solve</h2>
+
+<p>We have a table with system uptimes. The table records a start timestamp and an
+end timestamp. If the service is still running, the end timestamp is left null
+because it hasn&rsquo;t ended. We want a query to display an overview this data.</p>
+
+<p>Our final solution will return a row per day and 24 columns containing an uptime
+percentage for each hour in the day. It will look like the following.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  cal_date  | hour_0 | hour_1 | hour_2 | hour_3 | ... | hour_21 | hour_22 | hour_23
+</span><span class='line'>------------+--------+--------+--------+--------+-----+---------+---------+---------
+</span><span class='line'> 2017-03-01 |      0 |   0.75 |   0.25 |      0 | ... |       0 |       0 |       0
+</span><span class='line'> 2017-03-02 |      0 |      0 |      0 |      0 | ... |       1 |       1 |       1
+</span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Please note we&rsquo;ll use <code>...</code> abbreviate some of the results. All queries are
+schema independent and should be copy/paste-able into any <code>psql</code> session.</p>
+
+<h2>Sample Uptime Data</h2>
+
+<p>The sample uptime data is derived from a virtual table built from the following query:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="o">*</span>
+</span><span class='line'><span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>  <span class="k">VALUES</span>
+</span><span class='line'>  <span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
+</span><span class='line'>  <span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
+</span><span class='line'>  <span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">end_ts</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The data looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  start_ts       |       end_ts
+</span><span class='line'>---------------------+---------------------
+</span><span class='line'> 2017-03-01 01:15:00 | 2017-03-01 02:15:00
+</span><span class='line'> 2017-03-01 08:00:00 | 2017-03-01 20:00:00
+</span><span class='line'> 2017-03-02 19:00:00 |
+</span><span class='line'>(3 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We want to plot the time against a time sliced table representing all the
+effective hours in the uptime window. We&rsquo;ll make use of another virtual table to
+build up all the time slices:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">start_ts</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">start_ts</span> <span class="o">+</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span> <span class="k">AS</span> <span class="n">end_ts</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span> <span class="o">-</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span>
+</span><span class='line'>                    <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This we make use of PostgreSQL&rsquo;s <a href="https://www.postgresql.org/docs/9.3/static/functions-srf.html">generate_series</a>
+to return all the hours between a time range. The data looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  start_ts       |       end_ts
+</span><span class='line'>---------------------+---------------------
+</span><span class='line'> 2017-03-01 00:00:00 | 2017-03-01 01:00:00
+</span><span class='line'> 2017-03-01 01:00:00 | 2017-03-01 02:00:00
+</span><span class='line'> 2017-03-01 02:00:00 | 2017-03-01 03:00:00
+</span><span class='line'> -- ... many more rows ...
+</span><span class='line'> 2017-03-01 03:00:00 | 2017-03-01 04:00:00
+</span><span class='line'> 2017-03-02 22:00:00 | 2017-03-02 23:00:00
+</span><span class='line'> 2017-03-02 23:00:00 | 2017-03-03 00:00:00
+</span><span class='line'>(48 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Left Join</h2>
+
+<p>We use a left join to glue together overlapping time ranges between these two
+data sets. We want all the data on the <code>LEFT</code> side in the <code>FROM</code> clause to return
+regardless of an uptime record existing within its time slice.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>    <span class="o">*</span>
+</span><span class='line'><span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of all hours between</span>
+</span><span class='line'>    <span class="c1">-- a date range</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>      <span class="n">start_ts</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">start_ts</span> <span class="o">+</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span> <span class="k">AS</span> <span class="n">end_ts</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span>
+</span><span class='line'>           <span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
+</span><span class='line'>           <span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span> <span class="o">-</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
+</span><span class='line'>           <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="k">AS</span> <span class="n">cal</span>
+</span><span class='line'><span class="k">LEFT</span> <span class="k">JOIN</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of uptimes</span>
+</span><span class='line'>    <span class="k">SELECT</span> <span class="o">*</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>      <span class="k">VALUES</span>
+</span><span class='line'>      <span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">end_ts</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="k">AS</span> <span class="n">uptime</span> <span class="k">ON</span> <span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span> <span class="o">&gt;</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">AND</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span> <span class="o">&lt;=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="k">current_timestamp</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The result set shows we have some variety in our sample data. With 3 slices
+up time and 3 slices of downtime.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  start_ts       |       end_ts        |      start_ts       |       end_ts
+</span><span class='line'>---------------------+---------------------+---------------------+---------------------
+</span><span class='line'> 2017-03-01 00:00:00 | 2017-03-01 01:00:00 |                     |
+</span><span class='line'> 2017-03-01 01:00:00 | 2017-03-01 02:00:00 | 2017-03-01 01:15:00 | 2017-03-01 02:15:00
+</span><span class='line'> 2017-03-01 02:00:00 | 2017-03-01 03:00:00 | 2017-03-01 01:15:00 | 2017-03-01 02:15:00
+</span><span class='line'> 2017-03-01 03:00:00 | 2017-03-01 04:00:00 |                     |
+</span><span class='line'> ...
+</span><span class='line'> 2017-03-01 07:00:00 | 2017-03-01 08:00:00 |                     |
+</span><span class='line'> 2017-03-01 08:00:00 | 2017-03-01 09:00:00 | 2017-03-01 08:00:00 | 2017-03-01 20:00:00
+</span><span class='line'> ...
+</span><span class='line'> 2017-03-01 20:00:00 | 2017-03-01 21:00:00 | 2017-03-01 08:00:00 | 2017-03-01 20:00:00
+</span><span class='line'> 2017-03-01 21:00:00 | 2017-03-01 22:00:00 |                     |
+</span><span class='line'> ...
+</span><span class='line'> 2017-03-02 18:00:00 | 2017-03-02 19:00:00 |                     |
+</span><span class='line'> 2017-03-02 19:00:00 | 2017-03-02 20:00:00 | 2017-03-02 19:00:00 |
+</span><span class='line'> ...
+</span><span class='line'> 2017-03-02 23:00:00 | 2017-03-03 00:00:00 | 2017-03-02 19:00:00 |
+</span><span class='line'>(48 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we try without the <code>LEFT</code> clause, we&rsquo;ll only see 20 rows containing the up slices.</p>
+
+<h2>Time to compute some timing</h2>
+
+<p>Let&rsquo;s add some times and sensible column names and replace the <code>*</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>    <span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
+</span><span class='line'>    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">THEN</span>
+</span><span class='line'>        <span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">END</span>                                               <span class="k">AS</span> <span class="n">first_ts</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span>                  <span class="k">AS</span> <span class="n">last_ts</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span>             <span class="k">AS</span> <span class="n">cal_date</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">extract</span><span class="p">(</span><span class="n">hour</span> <span class="k">from</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>                   <span class="k">AS</span> <span class="n">cal_hour</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">from</span> <span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span> <span class="k">AS</span> <span class="n">cal_seconds</span>
+</span><span class='line'><span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of all hours between</span>
+</span><span class='line'>    <span class="c1">-- a date range</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>        <span class="n">start_ts</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">start_ts</span> <span class="o">+</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span> <span class="k">AS</span> <span class="n">end_ts</span>
+</span><span class='line'>        <span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
+</span><span class='line'>                             <span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span> <span class="o">-</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
+</span><span class='line'>                             <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span>
+</span><span class='line'>        <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">cal</span>
+</span><span class='line'><span class="k">LEFT</span> <span class="k">JOIN</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of uptimes</span>
+</span><span class='line'>    <span class="k">SELECT</span> <span class="o">*</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>        <span class="k">VALUES</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">end_ts</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="k">AS</span> <span class="n">uptime</span> <span class="k">ON</span> <span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span> <span class="o">&gt;</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">AND</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span> <span class="o">&lt;=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="k">current_timestamp</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>      first_ts       |       last_ts       |  cal_date  | cal_hour | cal_seconds
+</span><span class='line'>---------------------+---------------------+------------+----------+-------------
+</span><span class='line'>                     | 2017-03-01 01:00:00 | 2017-03-01 |        0 |        3600
+</span><span class='line'> 2017-03-01 01:15:00 | 2017-03-01 02:00:00 | 2017-03-01 |        1 |        3600
+</span><span class='line'> 2017-03-01 02:00:00 | 2017-03-01 02:15:00 | 2017-03-01 |        2 |        3600
+</span><span class='line'>                     | 2017-03-01 04:00:00 | 2017-03-01 |        3 |        3600
+</span><span class='line'>                     | 2017-03-01 05:00:00 | 2017-03-01 |        4 |        3600
+</span><span class='line'>                     | 2017-03-01 06:00:00 | 2017-03-01 |        5 |        3600
+</span><span class='line'>                     | 2017-03-01 07:00:00 | 2017-03-01 |        6 |        3600
+</span><span class='line'>                     | 2017-03-01 08:00:00 | 2017-03-01 |        7 |        3600
+</span><span class='line'> 2017-03-01 08:00:00 | 2017-03-01 09:00:00 | 2017-03-01 |        8 |        3600
+</span><span class='line'> ...
+</span><span class='line'> 2017-03-01 20:00:00 | 2017-03-01 20:00:00 | 2017-03-01 |       20 |        3600
+</span><span class='line'>                     | 2017-03-01 22:00:00 | 2017-03-01 |       21 |        3600
+</span><span class='line'> ... 
+</span><span class='line'>                     | 2017-03-02 19:00:00 | 2017-03-02 |       18 |        3600
+</span><span class='line'> 2017-03-02 19:00:00 | 2017-03-02 20:00:00 | 2017-03-02 |       19 |        3600
+</span><span class='line'> ...
+</span><span class='line'> 2017-03-02 23:00:00 | 2017-03-03 00:00:00 | 2017-03-02 |       23 |        3600
+</span><span class='line'>(48 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Subquery, Subquery, What&rsquo;s the Worry?</h2>
+
+<p>SQL is all about nested subqueries. It&rsquo;s hard to escape without creating
+views, but who has time to lookup that <a href="https://www.postgresql.org/docs/9.3/static/sql-createview.html">syntax</a>
+<em>and</em> get their <a href="https://imgflip.com/i/1kzzyn">DBA&rsquo;s</a> permission to run the DDL?!?</p>
+
+<p>Let&rsquo;s add some duration times to the result set. We&rsquo;ll use the traditional sub
+query for it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>    <span class="c1">-- calculate uptime seconds</span>
+</span><span class='line'>    <span class="n">coalesce</span><span class="p">(</span>
+</span><span class='line'>      <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">FROM</span> <span class="n">age</span><span class="p">(</span><span class="n">last_ts</span><span class="p">,</span> <span class="n">first_ts</span><span class="p">)),</span>
+</span><span class='line'>      <span class="mi">0</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">up_seconds</span><span class="p">,</span>
+</span><span class='line'>    <span class="o">*</span>
+</span><span class='line'><span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>        <span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
+</span><span class='line'>        <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">THEN</span>
+</span><span class='line'>            <span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">END</span>                                               <span class="k">AS</span> <span class="n">first_ts</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span>                  <span class="k">AS</span> <span class="n">last_ts</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span>             <span class="k">AS</span> <span class="n">cal_date</span><span class="p">,</span>
+</span><span class='line'>        <span class="k">extract</span><span class="p">(</span><span class="n">hour</span> <span class="k">from</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>                   <span class="k">AS</span> <span class="n">cal_hour</span><span class="p">,</span>
+</span><span class='line'>        <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">from</span> <span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span> <span class="k">AS</span> <span class="n">cal_seconds</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>        <span class="c1">-- build virtual table of all hours between</span>
+</span><span class='line'>        <span class="c1">-- a date range</span>
+</span><span class='line'>        <span class="k">SELECT</span>
+</span><span class='line'>            <span class="n">start_ts</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">start_ts</span> <span class="o">+</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span> <span class="k">AS</span> <span class="n">end_ts</span>
+</span><span class='line'>            <span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span> <span class="o">-</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
+</span><span class='line'>                                 <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span>
+</span><span class='line'>            <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">cal</span>
+</span><span class='line'>    <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="p">(</span>
+</span><span class='line'>        <span class="c1">-- build virtual table of uptimes</span>
+</span><span class='line'>        <span class="k">SELECT</span> <span class="o">*</span>
+</span><span class='line'>        <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>            <span class="k">VALUES</span>
+</span><span class='line'>            <span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
+</span><span class='line'>            <span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
+</span><span class='line'>            <span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">end_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">uptime</span> <span class="k">ON</span> <span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span> <span class="o">&gt;</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">AND</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span> <span class="o">&lt;=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="k">current_timestamp</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> up_seconds
+</span><span class='line'>------------
+</span><span class='line'>          0
+</span><span class='line'>       2700
+</span><span class='line'>        900
+</span><span class='line'>          0
+</span><span class='line'>          0
+</span><span class='line'>...
+</span><span class='line'>       3600
+</span><span class='line'>(48 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Without the subquery we&rsquo;d be getting into even more nested function calls and
+would have to double compute values or have no visibility in the intermediate
+steps. We could have calculated <code>up_seconds</code> directly in the first query which
+introduced <code>first_ts</code> and <code>last_ts</code>. That would look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">coalesce</span><span class="p">(</span>
+</span><span class='line'>        <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">FROM</span>
+</span><span class='line'>            <span class="n">age</span><span class="p">(</span>
+</span><span class='line'>                <span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">),</span>
+</span><span class='line'>                <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">THEN</span>
+</span><span class='line'>                  <span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>                <span class="k">END</span>
+</span><span class='line'>            <span class="p">)</span>
+</span><span class='line'>        <span class="p">),</span>
+</span><span class='line'>        <span class="mi">0</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">up_seconds</span>
+</span><span class='line'><span class="k">FROM</span> <span class="c1">--- ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s not for the weak stomach, but frankly speaking, neither is the subquery&hellip;</p>
+
+<h2>Enough Nesting, <code>LATERAL</code> join save me!</h2>
+
+<p>Lateral joins can give us the best of both worlds: reduced subquery nesting and
+traceable computed values. We&rsquo;re going to move the initial computed values like
+<code>first_ts</code> and <code>last_ts</code>, move them to a virtual table then <code>JOIN LATERAL</code> so
+they can get their own table alias. We&rsquo;ll do it again for <code>up_seconds</code> and use
+<code>first_ts</code> and <code>last_ts</code> from its sibling table.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">t2</span><span class="p">.</span><span class="n">up_seconds</span>
+</span><span class='line'><span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of all hours between</span>
+</span><span class='line'>    <span class="c1">-- a date range</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>        <span class="n">start_ts</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">start_ts</span> <span class="o">+</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span> <span class="k">AS</span> <span class="n">end_ts</span>
+</span><span class='line'>        <span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
+</span><span class='line'>                             <span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span> <span class="o">-</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
+</span><span class='line'>                             <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span>
+</span><span class='line'>        <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">cal</span>
+</span><span class='line'><span class="k">LEFT</span> <span class="k">JOIN</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of uptimes</span>
+</span><span class='line'>    <span class="k">SELECT</span> <span class="o">*</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>        <span class="k">VALUES</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">end_ts</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="k">AS</span> <span class="n">uptime</span> <span class="k">ON</span> <span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span> <span class="o">&gt;</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">AND</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span> <span class="o">&lt;=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="k">current_timestamp</span><span class="p">)</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>      <span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
+</span><span class='line'>    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">THEN</span>
+</span><span class='line'>        <span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">END</span>                                               <span class="k">AS</span> <span class="n">first_ts</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span>                  <span class="k">AS</span> <span class="n">last_ts</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span>             <span class="k">AS</span> <span class="n">cal_date</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">extract</span><span class="p">(</span><span class="n">hour</span> <span class="k">from</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>                   <span class="k">AS</span> <span class="n">cal_hour</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">from</span> <span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span> <span class="k">AS</span> <span class="n">cal_seconds</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t1</span> <span class="k">ON</span> <span class="k">true</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
+</span><span class='line'>  <span class="c1">-- calculate uptime seconds for the time slice</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">coalesce</span><span class="p">(</span>
+</span><span class='line'>        <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">FROM</span> <span class="n">age</span><span class="p">(</span><span class="n">last_ts</span><span class="p">,</span> <span class="n">first_ts</span><span class="p">)),</span>
+</span><span class='line'>        <span class="mi">0</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">up_seconds</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t2</span> <span class="k">ON</span> <span class="k">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This gives us the same results but without the deep nesting.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> up_seconds
+</span><span class='line'>------------
+</span><span class='line'>          0
+</span><span class='line'>       2700
+</span><span class='line'>        900
+</span><span class='line'>          0
+</span><span class='line'>          0
+</span><span class='line'>       3600
+</span><span class='line'>...
+</span><span class='line'>       3600
+</span><span class='line'>(48 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What&rsquo;s great about this strategy is we can quickly choose which columns to see
+as we build up the query.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">t2</span><span class="p">.</span><span class="n">up_seconds</span>
+</span><span class='line'>  <span class="p">...</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- or --</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">t2</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">t1</span><span class="p">.</span><span class="o">*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s build up the final calculation using the same strategy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">t2</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">t3</span><span class="p">.</span><span class="o">*</span>
+</span><span class='line'><span class="k">FROM</span> <span class="p">...</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
+</span><span class='line'>  <span class="c1">-- calculate percentage between uptime seconds and available seconds</span>
+</span><span class='line'>  <span class="c1">-- within the time slice</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">up_seconds</span> <span class="o">/</span> <span class="n">cal_seconds</span> <span class="k">AS</span> <span class="n">up_pct</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t3</span> <span class="k">ON</span> <span class="k">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> up_seconds | up_pct
+</span><span class='line'>------------+--------
+</span><span class='line'>          0 |      0
+</span><span class='line'>       2700 |   0.75
+</span><span class='line'>        900 |   0.25
+</span><span class='line'>          0 |      0
+</span><span class='line'>...
+</span><span class='line'>       3600 |      1
+</span><span class='line'>(48 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Plot the Hours</h2>
+
+<p>Now we have all the computed data we need. Let&rsquo;s plot it as a cross tab (but not
+actually use <a href="https://www.postgresql.org/docs/9.3/static/tablefunc.html"><code>crosstab</code></a>)</p>
+
+<p>We&rsquo;ll need to consolidate the long list of data by <code>cal_date</code> and pivot the
+<code>cal_hour</code> as a column and <code>up_pct</code> as a value. In case of overlapping uptimes
+we&rsquo;ll be pessimists and choose the lowest or <code>min</code> uptime percentage.</p>
+
+<p>The final query looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">cal_date</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_0</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_1</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_2</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">3</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_3</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">4</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_4</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_5</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">6</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_6</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">7</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_7</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">8</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_8</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">9</span> <span class="k">THEN</span> <span class="n">up_pct</span>  <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_9</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_10</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">11</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_11</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">12</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_12</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">13</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_13</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">14</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_14</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">15</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_15</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">16</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_16</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">17</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_17</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">18</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_18</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">19</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_19</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">20</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_20</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">21</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_21</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">22</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_22</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">max</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">cal_hour</span> <span class="o">=</span> <span class="mi">23</span> <span class="k">THEN</span> <span class="n">up_pct</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hour_23</span>
+</span><span class='line'><span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of all hours between</span>
+</span><span class='line'>    <span class="c1">-- a date range</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>        <span class="n">start_ts</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">start_ts</span> <span class="o">+</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span> <span class="k">AS</span> <span class="n">end_ts</span>
+</span><span class='line'>        <span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
+</span><span class='line'>                             <span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span> <span class="o">-</span> <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
+</span><span class='line'>                             <span class="nb">interval</span> <span class="s1">&#39;1 hour&#39;</span>
+</span><span class='line'>        <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">cal</span>
+</span><span class='line'><span class="k">LEFT</span> <span class="k">JOIN</span> <span class="p">(</span>
+</span><span class='line'>    <span class="c1">-- build virtual table of uptimes</span>
+</span><span class='line'>    <span class="k">SELECT</span> <span class="o">*</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>        <span class="k">VALUES</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">end_ts</span><span class="p">)</span>
+</span><span class='line'><span class="p">)</span> <span class="k">AS</span> <span class="n">uptime</span> <span class="k">ON</span> <span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span> <span class="o">&gt;</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">AND</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span> <span class="o">&lt;=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="k">current_timestamp</span><span class="p">)</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>      <span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
+</span><span class='line'>    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span> <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">THEN</span>
+</span><span class='line'>        <span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">END</span>                                               <span class="k">AS</span> <span class="n">first_ts</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span>                  <span class="k">AS</span> <span class="n">last_ts</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span>             <span class="k">AS</span> <span class="n">cal_date</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">extract</span><span class="p">(</span><span class="n">hour</span> <span class="k">from</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>                   <span class="k">AS</span> <span class="n">cal_hour</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">from</span> <span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span> <span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span> <span class="k">AS</span> <span class="n">cal_seconds</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t1</span> <span class="k">ON</span> <span class="k">true</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">coalesce</span><span class="p">(</span>
+</span><span class='line'>        <span class="k">extract</span><span class="p">(</span><span class="n">epoch</span> <span class="k">FROM</span> <span class="n">age</span><span class="p">(</span><span class="n">last_ts</span><span class="p">,</span> <span class="n">first_ts</span><span class="p">)),</span>
+</span><span class='line'>        <span class="mi">0</span>
+</span><span class='line'>    <span class="p">)</span> <span class="k">AS</span> <span class="n">up_seconds</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t2</span> <span class="k">ON</span> <span class="k">true</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
+</span><span class='line'>  <span class="c1">-- calculate percentage between uptime seconds and available seconds</span>
+</span><span class='line'>  <span class="c1">-- within the time slice</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">up_seconds</span> <span class="o">/</span> <span class="n">cal_seconds</span> <span class="k">AS</span> <span class="n">up_pct</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t3</span> <span class="k">ON</span> <span class="k">true</span>
+</span><span class='line'><span class="k">GROUP</span> <span class="k">BY</span> <span class="n">cal_date</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  cal_date  | hour_0 | hour_1 | hour_2 | hour_3 | ... | hour_23
+</span><span class='line'>------------+--------+--------+--------+--------+ ... +---------
+</span><span class='line'> 2017-03-01 |      0 |   0.75 |   0.25 |      0 | ... |       0
+</span><span class='line'> 2017-03-02 |      0 |      0 |      0 |      0 | ... |       1
+</span><span class='line'>(2 rows)</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>More than CTE and Cross Join</h1>
+
+<p>This example only scratches the surface of <code>LATERAL</code>s super powers. On the
+surface <code>LATERAL</code> can do things <code>CTE</code>, cross join, and <code>WINDOW</code> can do.
+PostgreSQL describe <code>LATERAL</code> as:</p>
+
+<blockquote><p>Subqueries appearing in FROM can be preceded by the key word LATERAL.
+This allows them to reference columns provided by preceding FROM items.
+(Without LATERAL, each subquery is evaluated independently and so cannot
+cross-reference any other FROM item.)</p></blockquote>
+
+<p>TL;DR &ndash; <code>LATERAL</code> allows subqueries to reference earlier tables.</p>
+
+<h1>References</h1>
+
+<ul>
+<li><a href="https://www.postgresql.org/docs/9.6/static/queries-table-expressions.html#QUERIES-LATERAL">Postgres Lateral Joins</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to Get Better At Anything]]></title>
@@ -99,16 +979,15 @@
 </ul>
 
 
-<h2>Vim Example</h2>
+<h1>How I got better at Vim</h1>
 
 <ul>
 <li><strong>RTFM</strong> &ndash; <code>:help</code></li>
-<li><strong>WTFM</strong> &ndash; Blogging, figure out other peoples problems :/</li>
-<li><strong>Practice</strong> Wrote stuff that wasn&rsquo;t needed immediately, my own notes.</li>
-<li><strong>Don&rsquo;t Memorize</strong> Vim has grammar like English. Oooh&hellip; Reconnection!</li>
-<li><strong>Learn with Others</strong> &ndash; We have vim users, teach them (but don&rsquo;t let them know
-  your only a 1/8th step ahead :o)</li>
-<li><strong>Cheat</strong> Look at the source code to see how others do things</li>
+<li><strong>WTFM</strong> &ndash; Blogging, figure out other people&rsquo;s problems :/</li>
+<li><strong>Practice</strong> &ndash; Wrote stuff that wasn&rsquo;t needed immediately, my own notes.</li>
+<li><strong>Don&rsquo;t Memorize</strong> &ndash; Vim has grammar like English. Oooh&hellip; Reconnection!</li>
+<li><strong>Learn with Others</strong> &ndash; We have vim users, teach them (but don&rsquo;t let them know you&rsquo;re only one step ahead)</li>
+<li><strong>Cheat</strong> &ndash; Look at other&rsquo;s Vimscript to figure out that cool thing they did.</li>
 </ul>
 
 
@@ -2098,17 +2977,6 @@ which we can all aspire.</p>
     <content type="html"><![CDATA[<a href=
 "http://m.spectrum.ieee.org/automaton/robotics/diy/youve-never-seen-a-drive-system-like-this-before">
 http://m.spectrum.ieee.org/automaton/robotics/diy/youve-never-seen-a-drive-sy&#8230;</a>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Another big system ]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/another-big-system/"/>
-    <updated>2011-06-29T08:23:24-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/another-big-system</id>
-    <content type="html"><![CDATA[<a href=
-"http://highscalability.com/blog/2011/6/27/tripadvisor-architecture-40m-visitors-200m-dynamic-page-view.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+HighScalability+%28High+Scalability%29">
-http://highscalability.com/blog/2011/6/27/tripadvisor-architecture-40m-visito&#8230;</a>
 ]]></content>
   </entry>
   
