@@ -4,7 +4,7 @@
   <title><![CDATA[Category: talk | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/talk/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-03-08T11:22:49-06:00</updated>
+  <updated>2017-03-08T11:37:58-06:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -14,13 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[What the SQL? - Lateral Joins]]></title>
+    <title type="html"><![CDATA[What the SQL?!? Lateral Joins]]></title>
     <link href="http://ddrscott.github.io/blog/2017/what-the-sql-lateral/"/>
     <updated>2017-03-08T12:30:00-06:00</updated>
     <id>http://ddrscott.github.io/blog/2017/what-the-sql-lateral</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/what_the_sql_lateral.png" title="&lsquo;What the SQL?!? Lateral Joins&rsquo;" ></p>
 
-<h1>What the SQL?!? &ndash; Lateral Joins</h1>
+<h1>What the SQL?!? Lateral Joins</h1>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>LATERAL</code>. A prerequisite to
 understanding lateral joins are regular joins and subqueries. I&rsquo;ll explain those
