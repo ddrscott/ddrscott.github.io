@@ -4,7 +4,7 @@
   <title><![CDATA[Category: talk | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/talk/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-03-14T21:18:02-05:00</updated>
+  <updated>2017-03-15T05:28:09-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -19,8 +19,6 @@
     <updated>2017-03-15T13:30:00-05:00</updated>
     <id>http://ddrscott.github.io/blog/2017/what-the-sql-recursive</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/i_heart_recursion.png" width="1804" height="1195" title="&lsquo;What the SQL?!? Recursive&rsquo;" ></p>
-
-<h1>What the SQL?!? Recursive</h1>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>RECURSIVE</code>. This clause allows
 us to elegantly select results from the previous results from the previous results
@@ -154,7 +152,7 @@ column3::int     AS parent_id
 &mdash;   6 | Frank |         5
 ```</p>
 
-<p>Our <code>sample_people</code> table represents a person by name and that person my have a
+<p>Our <code>sample_people</code> table represents a person by name and that person may have a
 parent. The parent of all the parents is <code>Root</code>.</p>
 
 <p>And finally our recursive query to get a nice display of the hierarchy.</p>
@@ -241,8 +239,6 @@ save together!</p>
     <updated>2017-03-08T12:30:00-06:00</updated>
     <id>http://ddrscott.github.io/blog/2017/what-the-sql-lateral</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/what_the_sql_lateral.png" title="&lsquo;What the SQL?!? Lateral Joins&rsquo;" ></p>
-
-<h1>What the SQL?!? Lateral Joins</h1>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>LATERAL</code>. A prerequisite to
 understanding lateral joins are regular joins and subqueries. I&rsquo;ll explain those

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ascii | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/ascii/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-03-14T21:18:02-05:00</updated>
+  <updated>2017-03-15T05:28:09-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -20,6 +20,9 @@
     <id>http://ddrscott.github.io/blog/2016/ansi-codes-with-character</id>
     <content type="html"><![CDATA[<p>This was a lightening talk given to the office about ANSI Escape Codes. Most of
 the time, all 5 minutes of it, was spent explaining the code snippets.</p>
+
+<!-- more -->
+
 
 <p><a href="https://en.wikipedia.org/wiki/ANSI_escape_code">Wiki about ANSI Codes</a></p>
 
