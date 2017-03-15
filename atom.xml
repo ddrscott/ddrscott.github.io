@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-03-14T19:43:01-05:00</updated>
+  <updated>2017-03-14T21:18:02-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -91,7 +91,7 @@ keyword.</p>
 <h2>The Ins and Outs</h2>
 
 <p>Here&rsquo;s some inline colorful comments to explain the sections:
-<img class="featured" src="http://ddrscott.github.io/images/recursion_sql.png" width="1804" height="1370" title="'annotated SQL'" ></p>
+<img class="featured" src="http://ddrscott.github.io/images/recursion_sql.png" width="1563" height="998" title="'annotated SQL'" ></p>
 
 <p>Maybe arrows will help a little more with the flow of data:
 <img class="featured" src="http://ddrscott.github.io/images/recursive_query.jpg" width="1024" height="705" title="'Data Flow'" ></p>
