@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-03-08T11:37:58-06:00</updated>
+  <updated>2017-03-14T19:43:01-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,295 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What the SQL?!? Recursive]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-recursive/"/>
+    <updated>2017-03-15T13:30:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/what-the-sql-recursive</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/i_heart_recursion.png" width="1804" height="1195" title="'What the SQL?!? Recursive'" ></p>
+
+<h1>What the SQL?!? Recursive</h1>
+
+<p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>RECURSIVE</code>. This clause allows
+us to elegantly select results from the previous results from the previous results
+from the previous results&hellip;</p>
+
+<!-- more -->
+
+
+<p>Please note, our target database is PostgreSQL. These examples may work with
+other databases, but might need some massaging to get them to work properly.
+Search online for the specific vendor&rsquo;s documentation if errors pop up.
+Try searching for &ldquo;RECURSIVE queries &rdquo;. Not all database vendors
+support the keyword <code>RECURSIVE</code>.</p>
+
+<h2>Fibonacci Sequence</h2>
+
+<p>According to <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</a>:</p>
+
+<blockquote><p>In mathematics, the Fibonacci numbers are the numbers in the following integer
+sequence, called the Fibonacci sequence, and characterized by the fact that
+every number after the first two is the sum of the two preceding ones:</p>
+
+<pre><code>1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ...
+</code></pre></blockquote>
+
+<h2>SQL Solution</h2>
+
+<p>Our SQL solution will make use of the <code>RECURSIVE</code> <a href="https://www.postgresql.org/docs/9.3/static/queries-with.html">CTE</a>
+keyword.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">WITH</span> <span class="k">RECURSIVE</span> <span class="n">t</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">fi</span><span class="p">,</span> <span class="n">fib</span><span class="p">)</span> <span class="k">AS</span> <span class="p">(</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="mi">0</span><span class="p">::</span><span class="nb">NUMERIC</span><span class="p">,</span>
+</span><span class='line'>    <span class="mi">1</span><span class="p">::</span><span class="nb">NUMERIC</span>
+</span><span class='line'>  <span class="k">UNION</span> <span class="k">ALL</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">fib</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">fi</span> <span class="o">+</span> <span class="n">fib</span>
+</span><span class='line'>  <span class="k">FROM</span> <span class="n">t</span>
+</span><span class='line'>  <span class="k">WHERE</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">i</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">fib</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">t</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>The Ins and Outs</h2>
+
+<p>Here&rsquo;s some inline colorful comments to explain the sections:
+<img class="featured" src="http://ddrscott.github.io/images/recursion_sql.png" width="1804" height="1370" title="'annotated SQL'" ></p>
+
+<p>Maybe arrows will help a little more with the flow of data:
+<img class="featured" src="http://ddrscott.github.io/images/recursive_query.jpg" width="1024" height="705" title="'Data Flow'" ></p>
+
+<h2>Fibonacci Results</h2>
+
+<p>When you run the query, you&rsquo;ll get the following results:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'> <span class="n">i</span>  <span class="o">|</span> <span class="n">fib</span>
+</span><span class='line'><span class="c1">----+-----</span>
+</span><span class='line'>  <span class="mi">1</span> <span class="o">|</span>   <span class="mi">1</span>
+</span><span class='line'>  <span class="mi">2</span> <span class="o">|</span>   <span class="mi">1</span>
+</span><span class='line'>  <span class="mi">3</span> <span class="o">|</span>   <span class="mi">2</span>
+</span><span class='line'>  <span class="mi">4</span> <span class="o">|</span>   <span class="mi">3</span>
+</span><span class='line'>  <span class="mi">5</span> <span class="o">|</span>   <span class="mi">5</span>
+</span><span class='line'>  <span class="mi">6</span> <span class="o">|</span>   <span class="mi">8</span>
+</span><span class='line'>  <span class="mi">7</span> <span class="o">|</span>  <span class="mi">13</span>
+</span><span class='line'>  <span class="mi">8</span> <span class="o">|</span>  <span class="mi">21</span>
+</span><span class='line'>  <span class="mi">9</span> <span class="o">|</span>  <span class="mi">34</span>
+</span><span class='line'> <span class="mi">10</span> <span class="o">|</span>  <span class="mi">55</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">(</span><span class="mi">10</span> <span class="k">rows</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to see the results for a high number, update <code>i &lt; 10</code> to a higher
+value. If you go above <code>i &lt; 793</code>, Postgres gives up and returns <code>Nan</code> which means
+<code>Not a number</code> which means the computed value is larger than your computer can
+handle and still treat like a number. Sorry, get a new computer or work with
+numbers less than 166 digits long.</p>
+
+<h1>A Real World Example with Hierarchical Data</h1>
+
+<p>Fibonacci sequence is nice and all, but you have real data concerns. You&rsquo;re
+thinking, &ldquo;Show me the DATA!&rdquo;. So here&rsquo;s the data&hellip;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="c1">-- Build `sample_people` table</span>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sample_people</span> <span class="k">AS</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">column1</span><span class="p">::</span><span class="nb">int</span>     <span class="k">AS</span> <span class="n">id</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">column2</span><span class="p">::</span><span class="nb">varchar</span> <span class="k">AS</span> <span class="n">name</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">column3</span><span class="p">::</span><span class="nb">int</span>     <span class="k">AS</span> <span class="n">parent_id</span>
+</span><span class='line'>  <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>    <span class="k">VALUES</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Root&#39;</span> <span class="p">,</span> <span class="k">null</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span>  <span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Cat&#39;</span>  <span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span>  <span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Evan&#39;</span> <span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;Frank&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">)</span> <span class="k">as</span> <span class="n">t</span>
+</span><span class='line'>  <span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sample_people</span><span class="p">;</span>
+</span><span class='line'><span class="c1">--  id | name  | parent_id</span>
+</span><span class='line'><span class="c1">-- ----+-------+-----------</span>
+</span><span class='line'><span class="c1">--   0 | Root  |</span>
+</span><span class='line'><span class="c1">--   1 | Alice |         0</span>
+</span><span class='line'><span class="c1">--   2 | Bob   |         1</span>
+</span><span class='line'><span class="c1">--   3 | Cat   |         1</span>
+</span><span class='line'><span class="c1">--   4 | Dan   |         3</span>
+</span><span class='line'><span class="c1">--   5 | Evan  |         0</span>
+</span><span class='line'><span class="c1">--   6 | Frank |         5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our <code>sample_people</code> table represents a person by name and that person my have a
+parent. The parent of all the parents is <code>Root</code>.</p>
+
+<p>And finally our recursive query to get a nice display of the hierarchy.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">WITH</span> <span class="k">RECURSIVE</span> <span class="n">tree</span> <span class="c1">-- `tree` is the table alias.</span>
+</span><span class='line'>                    <span class="c1">-- It must be used as part of the `UNION` statement.</span>
+</span><span class='line'>  <span class="k">AS</span> <span class="p">(</span>
+</span><span class='line'>  <span class="c1">-- 1) Initialize table with all the top level rows.</span>
+</span><span class='line'>  <span class="c1">--    Anything without a parent is a parent. Is that apparent?</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="mi">0</span> <span class="k">AS</span> <span class="k">level</span><span class="p">,</span>        <span class="c1">-- 2) Set the level to 0.</span>
+</span><span class='line'>    <span class="n">sample_people</span><span class="p">.</span><span class="o">*</span>    <span class="c1">-- 3) Return the initial row</span>
+</span><span class='line'>  <span class="k">FROM</span> <span class="n">sample_people</span>
+</span><span class='line'>  <span class="k">WHERE</span> <span class="n">parent_id</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">-- 4) Top level doesn&#39;t have a parent.</span>
+</span><span class='line'>  <span class="k">UNION</span> <span class="k">ALL</span>
+</span><span class='line'>  <span class="c1">-- 5) Union all the parents with their children.</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">tree</span><span class="p">.</span><span class="k">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>    <span class="c1">-- 6) Increment the level every time we loop.</span>
+</span><span class='line'>    <span class="n">sample_people</span><span class="p">.</span><span class="o">*</span>    <span class="c1">-- 7) Return the current row - the child row. </span>
+</span><span class='line'>  <span class="k">FROM</span> <span class="n">tree</span>    <span class="c1">-- 8) `tree` is populated with the previous results.</span>
+</span><span class='line'>               <span class="c1">--    Every loop gets a new record from current result.</span>
+</span><span class='line'>  <span class="k">JOIN</span> <span class="n">sample_people</span> <span class="k">ON</span> <span class="n">sample_people</span><span class="p">.</span><span class="n">parent_id</span> <span class="o">=</span> <span class="n">tree</span><span class="p">.</span><span class="n">id</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">repeat</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="k">level</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">||</span> <span class="n">name</span> <span class="k">AS</span> <span class="n">display</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">tree</span>
+</span><span class='line'><span class="k">ORDER</span> <span class="k">BY</span> <span class="k">level</span><span class="p">,</span> <span class="n">name</span>
+</span><span class='line'><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">--    display</span>
+</span><span class='line'><span class="c1">-- -------------</span>
+</span><span class='line'><span class="c1">--  Alice</span>
+</span><span class='line'><span class="c1">--  Evan</span>
+</span><span class='line'><span class="c1">--      Bob</span>
+</span><span class='line'><span class="c1">--      Cat</span>
+</span><span class='line'><span class="c1">--      Frank</span>
+</span><span class='line'><span class="c1">--          Dan</span>
+</span><span class='line'><span class="c1">-- (6 rows)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Bait and Switch</h1>
+
+<p><code>RECURSIVE</code> is not actually recursive. It isn&rsquo;t a function calling itself.
+Sorry, not sorry. It&rsquo;s much closer to a <code>while</code> loop. Here&rsquo;s what Postgres has to say about it:</p>
+
+<blockquote><p>Note: Strictly speaking, this process is <strong>iteration</strong> not recursion, but RECURSIVE
+is the terminology chosen by the SQL standards committee. [emphasis added]</p></blockquote>
+
+<h1>Closing</h1>
+
+<p>So the next time you try to crawl a hierarchy of data, we hope <code>RECURSIVE</code> comes
+to mind. It&rsquo;s a great way to save round trips to the database and query what is
+needed based on the data&rsquo;s structure. Think of all the nested subqueries we can
+save together!</p>
+
+<h1>References</h1>
+
+<ul>
+<li>Postgres WITH Queries: <a href="https://www.postgresql.org/docs/9.3/static/queries-with.html">https://www.postgresql.org/docs/9.3/static/queries-with.html</a></li>
+<li>Wikipedia Fibonacci number: <a href="https://en.wikipedia.org/wiki/Fibonacci_number">https://en.wikipedia.org/wiki/Fibonacci_number</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? Lateral Joins]]></title>
@@ -2966,17 +3255,6 @@ your own passion, even if you are just nine years old.</p>
 <p class="c4">As the lyrics to the theme song say, &#8220;It&#8217;s the best
 cardboard arcade that has ever been made.&#8221; And that is something to
 which we can all aspire.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Lets build one together ]]></title>
-    <link href="http://ddrscott.github.io/blog/2011/lets-build-one-together/"/>
-    <updated>2011-07-14T08:01:25-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2011/lets-build-one-together</id>
-    <content type="html"><![CDATA[<a href=
-"http://m.spectrum.ieee.org/automaton/robotics/diy/youve-never-seen-a-drive-system-like-this-before">
-http://m.spectrum.ieee.org/automaton/robotics/diy/youve-never-seen-a-drive-sy&#8230;</a>
 ]]></content>
   </entry>
   
