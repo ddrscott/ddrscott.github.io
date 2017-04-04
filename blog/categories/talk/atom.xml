@@ -4,7 +4,7 @@
   <title><![CDATA[Category: talk | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/talk/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-03-15T05:28:09-05:00</updated>
+  <updated>2017-04-04T09:08:55-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,726 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What the SQL?!? WINDOW]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-window/"/>
+    <updated>2017-03-22T13:30:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/what-the-sql-window</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="/images/what_the_sql_window.png" width="1079" height="369" title="&lsquo;What the SQL?!?  WINDOW&rsquo;" ></p>
+
+<p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>WINDOW</code>. This clause allows
+us to elegantly select results from the previous results from the previous results
+from the previous results&hellip;</p>
+
+<!-- more -->
+
+
+<p>Please note, our target database is PostgreSQL. These examples may work with
+other databases, but might need some massaging to get them to work properly.
+Search online for the specific vendor&rsquo;s documentation if errors pop up.
+Try searching for &ldquo;WINDOW queries &rdquo;. Not all database vendors
+support the keyword <code>WINDOW</code>.</p>
+
+<h2>Create Sample Data</h2>
+
+<p>```sql
+DROP TABLE IF EXISTS sample_moves;
+CREATE TABLE sample_moves AS
+  SELECT</p>
+
+<pre><code>column1::int     AS id,
+column2::varchar AS name,
+column3::varchar AS address,
+column4::date AS moved_at
+</code></pre>
+
+<p>  FROM (</p>
+
+<pre><code>VALUES
+  (1, 'Alice' , '1 Main St', '2017-01-01'),
+  (2, 'Bob'   , '2 Main St', '2017-02-01'),
+  (3, 'Cat'   , '2 Main St', '2017-03-01'),
+  (4, 'Dan Sr'  , '3 Main St',  '1970-04-01'),
+  (5, 'Dan Jr'  , '3 Main St',  '2001-04-01'),
+  (6, 'Dan 3rd' , '3 Main St', '2017-04-01')
+</code></pre>
+
+<p>  ) as t
+;</p>
+
+<p>CREATE INDEX ON sample_moves(address);</p>
+
+<p>SELECT * FROM sample_moves;
+```</p>
+
+<h4>Results:</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Life Without Windows</h2>
+
+<p>A quick poem&hellip;</p>
+
+<blockquote><p>Eyes big and wide,     <br/>
+nothing seen inside.   <br/>
+Feeling around         <br/>
+nothing abound.        <br/>
+This things wet,       <br/>
+toxic I bet.           <br/>
+Closing my eyes,       <br/>
+still can&rsquo;t rest.      <br/>
+Having a window,       <br/>
+would be best.         <br/></p></blockquote>
+
+<h3>How many people live at each address?</h3>
+
+<p>Using a standard <code>GROUP BY</code> with <code>COUNT</code> we consolidate the records and count
+how many rows belong to each address.</p>
+
+<blockquote><p><strong>Tip</strong>: <code>COUNT(1)</code> is more efficient than <code>COUNT(*)</code>.</p></blockquote>
+
+<p><code>sql
+SELECT
+  address,
+  COUNT(1) total
+FROM sample_moves
+GROUP BY address
+ORDER BY address;
+</code></p>
+
+<h4>Results:</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>  address  </th>
+<th> total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> 1 Main St </td>
+<td>     1</td>
+</tr>
+<tr>
+<td></td>
+<td> 2 Main St </td>
+<td>     2</td>
+</tr>
+<tr>
+<td></td>
+<td> 3 Main St </td>
+<td>     3</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>How many people live with each person?</h3>
+
+<p>Enter subquery land. Life without windows is not exciting.</p>
+
+<p>```sql
+SELECT
+  *,
+  (</p>
+
+<pre><code>SELECT
+  -- everyone at the address, minus the person
+  COUNT(1) - 1
+FROM sample_moves t2
+WHERE t2.address = t1.address
+</code></pre>
+
+<p>  ) AS others
+FROM sample_moves t1;
+```</p>
+
+<h4>Results:</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      1</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      2</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      2</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3><code>JOIN</code> works, too</h3>
+
+<p>```sql
+SELECT
+  t1.*,
+  t2.others
+FROM sample_moves t1
+JOIN (
+  SELECT</p>
+
+<pre><code>address,
+COUNT(1) - 1 as others
+</code></pre>
+
+<p>  FROM sample_moves
+  GROUP BY address
+  ORDER BY address
+) t2 USING (address);
+```</p>
+
+<h3>And so does <code>JOIN LATERAL</code></h3>
+
+<p>```sql
+SELECT
+  t1.*,
+  t2.others
+FROM sample_moves t1
+JOIN LATERAL (
+  SELECT</p>
+
+<pre><code>address,
+COUNT(1) - 1 as others
+</code></pre>
+
+<p>  FROM sample_moves sub
+  WHERE sub.address = t1.address
+  GROUP BY address
+  ORDER BY address
+) t2 ON true;
+```</p>
+
+<h3>That&rsquo;s nice, but who moved in first?</h3>
+
+<p>```sql
+SELECT
+  *,
+  (</p>
+
+<pre><code>SELECT
+  COUNT(1) - 1
+FROM sample_moves t2
+WHERE t2.address = t1.address
+</code></pre>
+
+<p>  ) AS others,
+  (</p>
+
+<pre><code>SELECT
+  name
+FROM sample_moves t3
+WHERE t3.address = t1.address
+ORDER BY moved_at ASC
+LIMIT 1
+</code></pre>
+
+<p>  ) AS first_person
+FROM sample_moves t1;
+```</p>
+
+<h2>Wait I thought this was about windows?!?</h2>
+
+<p>The keyword <code>OVER</code> is the gateway drug into <code>WINDOW</code> functions. Using <code>OVER</code>
+with parenthesis is an inline window. The <code>PARTITION BY</code> keywords gives similar
+functionality to <code>GROUP BY</code> and <code>JOIN ... USING</code> all in one power packed
+statement. It can never reduce the number of records in a result set which is
+the same behavior expected of a correlated subquery.</p>
+
+<p><code>PARTITION BY</code> is treated the same as the traditional <code>GROUP BY</code>. The <code>ORDER BY</code>
+also has the same behavior as its use in a standard query.</p>
+
+<p><code>sql
+SELECT
+  *,
+  (count(1) OVER (PARTITION BY address)) - 1                      AS others,
+  first_value(name) OVER (PARTITION BY address ORDER BY moved_at) AS first_moved
+FROM sample_moves;
+</code></p>
+
+<h4>Results</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others </th>
+<th> first_moved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0 </td>
+<td> Alice</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      1 </td>
+<td> Bob</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1 </td>
+<td> Bob</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>A picture with arrows worth a thousand words:</p>
+
+<p><img class="featured" src="/images/window_arrows.png" width="988" height="391" title="&lsquo;Window SQL with arrows&rsquo;" ></p>
+
+<h2>That doesn&rsquo;t look very DRY. Finally, a <code>WINDOW</code></h2>
+
+<p>The <code>WINDOW</code> keyword allows us to alias the options of the <code>OVER</code> clause. Namely
+the expression <code>(...)</code> between and including the parenthesis.</p>
+
+<p>In the following example we add the use of <code>RANGE</code> to provide additional
+direction to the windowing clause.</p>
+
+<p><code>sql
+SELECT
+  *,
+  (count(1) OVER w) - 1 AS others,
+  first_value(name) OVER w AS first_moved,
+  last_value(name)  OVER w AS last_moved
+FROM sample_moves
+WINDOW w AS (
+  PARTITION BY address ORDER BY moved_at
+  RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+);
+</code></p>
+
+<h4>Results</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others </th>
+<th> first_moved </th>
+<th> last_moved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0 </td>
+<td> Alice       </td>
+<td> Alice</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      0 </td>
+<td> Bob         </td>
+<td> Bob</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1 </td>
+<td> Bob         </td>
+<td> Cat</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      0 </td>
+<td> Dan Sr      </td>
+<td> Dan Sr</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      1 </td>
+<td> Dan Sr      </td>
+<td> Dan Jr</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><code>sql
+-- Previous and Next Record
+SELECT
+  *,
+  (count(1) OVER w) - 1 AS others,
+  first_value(name) OVER w AS first_moved,
+  last_value(name)  OVER w AS last_moved,
+  lag(id) OVER (ORDER BY id) AS prev_id,
+  lead(id) OVER (ORDER BY id) AS next_id
+FROM sample_moves
+WINDOW w AS (
+  PARTITION BY address
+  ORDER BY moved_at
+  RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+)
+ORDER BY address;
+</code></p>
+
+<h4>Results</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>  id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others </th>
+<th> first_moved </th>
+<th> last_moved </th>
+<th> prev_id </th>
+<th> next_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>   1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0 </td>
+<td> Alice       </td>
+<td> Alice      </td>
+<td>         </td>
+<td>       2</td>
+</tr>
+<tr>
+<td></td>
+<td>   2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      1 </td>
+<td> Bob         </td>
+<td> Cat        </td>
+<td>       1 </td>
+<td>       3</td>
+</tr>
+<tr>
+<td></td>
+<td>   3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1 </td>
+<td> Bob         </td>
+<td> Cat        </td>
+<td>       2 </td>
+<td>       4</td>
+</tr>
+<tr>
+<td></td>
+<td>   4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd    </td>
+<td>       3 </td>
+<td>       5</td>
+</tr>
+<tr>
+<td></td>
+<td>   5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd    </td>
+<td>       4 </td>
+<td>       6</td>
+</tr>
+<tr>
+<td></td>
+<td>   6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd    </td>
+<td>       5 </td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h1>List Window Functions</h1>
+
+<p>Here is a list from <a href="https://www.postgresql.org/docs/9.3/static/functions-window.html">Postgres docs</a>
+of all the window functions. In addition to these, <em>any regular aggregate function</em> can be use within a window.</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Function        </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> row_number()    </td>
+<td> number of the current row within its partition, counting from 1 </td>
+</tr>
+<tr>
+<td></td>
+<td> rank()          </td>
+<td> rank of the current row with gaps; same as row_number of its first peer </td>
+</tr>
+<tr>
+<td></td>
+<td> dense_rank()    </td>
+<td> rank of the current row without gaps; this function counts peer groups </td>
+</tr>
+<tr>
+<td></td>
+<td> percent_rank()  </td>
+<td> relative rank of the current row: (rank - 1) / (total rows &ndash; 1) </td>
+</tr>
+<tr>
+<td></td>
+<td> cume_dist()     </td>
+<td> relative rank of the current row: (number of rows preceding or peer with current row) / (total rows) </td>
+</tr>
+<tr>
+<td></td>
+<td> ntile           </td>
+<td> integer ranging from 1 to the argument value, dividing the partition as equally as possible </td>
+</tr>
+<tr>
+<td></td>
+<td> lag()           </td>
+<td> returns value evaluated at the row that is offset rows before the current row within the partition; if there is no such row, instead return default (which must be of the same type as value). Both offset and default are evaluated with respect to the current row. If omitted, offset defaults to 1 and default to null </td>
+</tr>
+<tr>
+<td></td>
+<td> lead()          </td>
+<td> returns value evaluated at the row that is offset rows after the current row within the partition; if there is no such row, instead return default (which must be of the same type as value). Both offset and default are evaluated with respect to the current row. If omitted, offset defaults to 1 and default to null </td>
+</tr>
+<tr>
+<td></td>
+<td> first_value()   </td>
+<td> returns value evaluated at the row that is the first row of the window frame </td>
+</tr>
+<tr>
+<td></td>
+<td> last_value()    </td>
+<td> returns value evaluated at the row that is the last row of the window frame </td>
+</tr>
+<tr>
+<td></td>
+<td> nth_value()     </td>
+<td> returns value evaluated at the row that is the nth row of the window frame (counting from 1); null if no such row </td>
+</tr>
+</tbody>
+</table>
+
+
+<h1>References</h1>
+
+<ul>
+<li>Postgres Window Tutorial: <a href="https://www.postgresql.org/docs/9.3/static/tutorial-window.html">https://www.postgresql.org/docs/9.3/static/tutorial-window.html</a></li>
+<li>Postgres Window Functions: <a href="https://www.postgresql.org/docs/9.3/static/functions-window.html">https://www.postgresql.org/docs/9.3/static/functions-window.html</a></li>
+<li>Postgres Window Syntax: <a href="https://www.postgresql.org/docs/9.3/static/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS">https://www.postgresql.org/docs/9.3/static/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? Recursive]]></title>

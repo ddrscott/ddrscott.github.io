@@ -1,0 +1,958 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>What the SQL?!? WINDOW - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="What the SQL?!? WINDOW written Mar 22nd, 2017 in sql, talk Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword WINDOW. This clause &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2017/what-the-sql-window">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>What the SQL?!? WINDOW</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-03-22T13:30:00-05:00" pubdate data-updated="true">Mar 22<sup>nd</sup>, 2017</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sql/'>sql</a>, <a class='category' href='/blog/categories/talk/'>talk</a>
+  
+</span>
+
+
+        </div>
+        <p><img class="featured" src="/images/what_the_sql_window.png" width="1079" height="369" title="'What the SQL?!?  WINDOW'" ></p>
+
+<p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>WINDOW</code>. This clause allows
+us to elegantly select results from the previous results from the previous results
+from the previous results&hellip;</p>
+
+<!-- more -->
+
+
+<p>Please note, our target database is PostgreSQL. These examples may work with
+other databases, but might need some massaging to get them to work properly.
+Search online for the specific vendor&rsquo;s documentation if errors pop up.
+Try searching for &ldquo;WINDOW queries &rdquo;. Not all database vendors
+support the keyword <code>WINDOW</code>.</p>
+
+<h2>Create Sample Data</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">sample_moves</span><span class="p">;</span>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sample_moves</span> <span class="k">AS</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">column1</span><span class="p">::</span><span class="nb">int</span>     <span class="k">AS</span> <span class="n">id</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">column2</span><span class="p">::</span><span class="nb">varchar</span> <span class="k">AS</span> <span class="n">name</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">column3</span><span class="p">::</span><span class="nb">varchar</span> <span class="k">AS</span> <span class="n">address</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">column4</span><span class="p">::</span><span class="nb">date</span> <span class="k">AS</span> <span class="n">moved_at</span>
+</span><span class='line'>  <span class="k">FROM</span> <span class="p">(</span>
+</span><span class='line'>    <span class="k">VALUES</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Alice&#39;</span> <span class="p">,</span> <span class="s1">&#39;1 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-01-01&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span>   <span class="p">,</span> <span class="s1">&#39;2 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-02-01&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Cat&#39;</span>   <span class="p">,</span> <span class="s1">&#39;2 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Dan Sr&#39;</span>  <span class="p">,</span> <span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span>  <span class="s1">&#39;1970-04-01&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Dan Jr&#39;</span>  <span class="p">,</span> <span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span>  <span class="s1">&#39;2001-04-01&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;Dan 3rd&#39;</span> <span class="p">,</span> <span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-04-01&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">)</span> <span class="k">as</span> <span class="n">t</span>
+</span><span class='line'><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="k">ON</span> <span class="n">sample_moves</span><span class="p">(</span><span class="n">address</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sample_moves</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Results:</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Life Without Windows</h2>
+
+<p>A quick poem&hellip;</p>
+
+<blockquote><p>Eyes big and wide,     <br/>
+nothing seen inside.   <br/>
+Feeling around         <br/>
+nothing abound.        <br/>
+This things wet,       <br/>
+toxic I bet.           <br/>
+Closing my eyes,       <br/>
+still can&rsquo;t rest.      <br/>
+Having a window,       <br/>
+would be best.         <br/></p></blockquote>
+
+<h3>How many people live at each address?</h3>
+
+<p>Using a standard <code>GROUP BY</code> with <code>COUNT</code> we consolidate the records and count
+how many rows belong to each address.</p>
+
+<blockquote><p><strong>Tip</strong>: <code>COUNT(1)</code> is more efficient than <code>COUNT(*)</code>.</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">address</span><span class="p">,</span>
+</span><span class='line'>  <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">total</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span>
+</span><span class='line'><span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
+</span><span class='line'><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Results:</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>  address  </th>
+<th> total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> 1 Main St </td>
+<td>     1</td>
+</tr>
+<tr>
+<td></td>
+<td> 2 Main St </td>
+<td>     2</td>
+</tr>
+<tr>
+<td></td>
+<td> 3 Main St </td>
+<td>     3</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>How many people live with each person?</h3>
+
+<p>Enter subquery land. Life without windows is not exciting.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">(</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>      <span class="c1">-- everyone at the address, minus the person</span>
+</span><span class='line'>      <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t2</span>
+</span><span class='line'>    <span class="k">WHERE</span> <span class="n">t2</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
+</span><span class='line'>  <span class="p">)</span> <span class="k">AS</span> <span class="n">others</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Results:</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      1</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      2</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      2</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3><code>JOIN</code> works, too</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">t2</span><span class="p">.</span><span class="n">others</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="p">(</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">address</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">as</span> <span class="n">others</span>
+</span><span class='line'>  <span class="k">FROM</span> <span class="n">sample_moves</span>
+</span><span class='line'>  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
+</span><span class='line'>  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t2</span> <span class="k">USING</span> <span class="p">(</span><span class="n">address</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>And so does <code>JOIN LATERAL</code></h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">t2</span><span class="p">.</span><span class="n">others</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span>
+</span><span class='line'><span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
+</span><span class='line'>  <span class="k">SELECT</span>
+</span><span class='line'>    <span class="n">address</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">as</span> <span class="n">others</span>
+</span><span class='line'>  <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">sub</span>
+</span><span class='line'>  <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
+</span><span class='line'>  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
+</span><span class='line'>  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span>
+</span><span class='line'><span class="p">)</span> <span class="n">t2</span> <span class="k">ON</span> <span class="k">true</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>That&rsquo;s nice, but who moved in first?</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">(</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>      <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t2</span>
+</span><span class='line'>    <span class="k">WHERE</span> <span class="n">t2</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
+</span><span class='line'>  <span class="p">)</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">(</span>
+</span><span class='line'>    <span class="k">SELECT</span>
+</span><span class='line'>      <span class="n">name</span>
+</span><span class='line'>    <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t3</span>
+</span><span class='line'>    <span class="k">WHERE</span> <span class="n">t3</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
+</span><span class='line'>    <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span> <span class="k">ASC</span>
+</span><span class='line'>    <span class="k">LIMIT</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="p">)</span> <span class="k">AS</span> <span class="n">first_person</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Wait I thought this was about windows?!?</h2>
+
+<p>The keyword <code>OVER</code> is the gateway drug into <code>WINDOW</code> functions. Using <code>OVER</code>
+with parenthesis is an inline window. The <code>PARTITION BY</code> keywords gives similar
+functionality to <code>GROUP BY</code> and <code>JOIN ... USING</code> all in one power packed
+statement. It can never reduce the number of records in a result set which is
+the same behavior expected of a correlated subquery.</p>
+
+<p><code>PARTITION BY</code> is treated the same as the traditional <code>GROUP BY</code>. The <code>ORDER BY</code>
+also has the same behavior as its use in a standard query.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>                      <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span><span class="p">)</span> <span class="k">AS</span> <span class="n">first_moved</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Results</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others </th>
+<th> first_moved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0 </td>
+<td> Alice</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      1 </td>
+<td> Bob</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1 </td>
+<td> Bob</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>A picture with arrows worth a thousand words:</p>
+
+<p><img class="featured" src="/images/window_arrows.png" width="988" height="391" title="'Window SQL with arrows'" ></p>
+
+<h2>That doesn&rsquo;t look very DRY. Finally, a <code>WINDOW</code></h2>
+
+<p>The <code>WINDOW</code> keyword allows us to alias the options of the <code>OVER</code> clause. Namely
+the expression <code>(...)</code> between and including the parenthesis.</p>
+
+<p>In the following example we add the use of <code>RANGE</code> to provide additional
+direction to the windowing clause.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">first_moved</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">last_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>  <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">last_moved</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span>
+</span><span class='line'><span class="n">WINDOW</span> <span class="n">w</span> <span class="k">AS</span> <span class="p">(</span>
+</span><span class='line'>  <span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span>
+</span><span class='line'>  <span class="n">RANGE</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="n">PRECEDING</span> <span class="k">AND</span> <span class="n">UNBOUNDED</span> <span class="n">FOLLOWING</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Results</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others </th>
+<th> first_moved </th>
+<th> last_moved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>  1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0 </td>
+<td> Alice       </td>
+<td> Alice</td>
+</tr>
+<tr>
+<td></td>
+<td>  2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      0 </td>
+<td> Bob         </td>
+<td> Bob</td>
+</tr>
+<tr>
+<td></td>
+<td>  3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1 </td>
+<td> Bob         </td>
+<td> Cat</td>
+</tr>
+<tr>
+<td></td>
+<td>  4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      0 </td>
+<td> Dan Sr      </td>
+<td> Dan Sr</td>
+</tr>
+<tr>
+<td></td>
+<td>  5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      1 </td>
+<td> Dan Sr      </td>
+<td> Dan Jr</td>
+</tr>
+<tr>
+<td></td>
+<td>  6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd</td>
+</tr>
+</tbody>
+</table>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="c1">-- Previous and Next Record</span>
+</span><span class='line'><span class="k">SELECT</span>
+</span><span class='line'>  <span class="o">*</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">first_moved</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">last_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>  <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">last_moved</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">lag</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">prev_id</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">lead</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">next_id</span>
+</span><span class='line'><span class="k">FROM</span> <span class="n">sample_moves</span>
+</span><span class='line'><span class="n">WINDOW</span> <span class="n">w</span> <span class="k">AS</span> <span class="p">(</span>
+</span><span class='line'>  <span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span>
+</span><span class='line'>  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span>
+</span><span class='line'>  <span class="n">RANGE</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="n">PRECEDING</span> <span class="k">AND</span> <span class="n">UNBOUNDED</span> <span class="n">FOLLOWING</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Results</h4>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>  id </th>
+<th>  name   </th>
+<th>  address  </th>
+<th>  moved_at  </th>
+<th> others </th>
+<th> first_moved </th>
+<th> last_moved </th>
+<th> prev_id </th>
+<th> next_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>   1 </td>
+<td> Alice   </td>
+<td> 1 Main St </td>
+<td> 2017-01-01 </td>
+<td>      0 </td>
+<td> Alice       </td>
+<td> Alice      </td>
+<td>         </td>
+<td>       2</td>
+</tr>
+<tr>
+<td></td>
+<td>   2 </td>
+<td> Bob     </td>
+<td> 2 Main St </td>
+<td> 2017-02-01 </td>
+<td>      1 </td>
+<td> Bob         </td>
+<td> Cat        </td>
+<td>       1 </td>
+<td>       3</td>
+</tr>
+<tr>
+<td></td>
+<td>   3 </td>
+<td> Cat     </td>
+<td> 2 Main St </td>
+<td> 2017-03-01 </td>
+<td>      1 </td>
+<td> Bob         </td>
+<td> Cat        </td>
+<td>       2 </td>
+<td>       4</td>
+</tr>
+<tr>
+<td></td>
+<td>   4 </td>
+<td> Dan Sr  </td>
+<td> 3 Main St </td>
+<td> 1970-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd    </td>
+<td>       3 </td>
+<td>       5</td>
+</tr>
+<tr>
+<td></td>
+<td>   5 </td>
+<td> Dan Jr  </td>
+<td> 3 Main St </td>
+<td> 2001-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd    </td>
+<td>       4 </td>
+<td>       6</td>
+</tr>
+<tr>
+<td></td>
+<td>   6 </td>
+<td> Dan 3rd </td>
+<td> 3 Main St </td>
+<td> 2017-04-01 </td>
+<td>      2 </td>
+<td> Dan Sr      </td>
+<td> Dan 3rd    </td>
+<td>       5 </td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<h1>List Window Functions</h1>
+
+<p>Here is a list from <a href="https://www.postgresql.org/docs/9.3/static/functions-window.html">Postgres docs</a>
+of all the window functions. In addition to these, <em>any regular aggregate function</em> can be use within a window.</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Function        </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td> row_number()    </td>
+<td> number of the current row within its partition, counting from 1 </td>
+</tr>
+<tr>
+<td></td>
+<td> rank()          </td>
+<td> rank of the current row with gaps; same as row_number of its first peer </td>
+</tr>
+<tr>
+<td></td>
+<td> dense_rank()    </td>
+<td> rank of the current row without gaps; this function counts peer groups </td>
+</tr>
+<tr>
+<td></td>
+<td> percent_rank()  </td>
+<td> relative rank of the current row: (rank - 1) / (total rows &ndash; 1) </td>
+</tr>
+<tr>
+<td></td>
+<td> cume_dist()     </td>
+<td> relative rank of the current row: (number of rows preceding or peer with current row) / (total rows) </td>
+</tr>
+<tr>
+<td></td>
+<td> ntile           </td>
+<td> integer ranging from 1 to the argument value, dividing the partition as equally as possible </td>
+</tr>
+<tr>
+<td></td>
+<td> lag()           </td>
+<td> returns value evaluated at the row that is offset rows before the current row within the partition; if there is no such row, instead return default (which must be of the same type as value). Both offset and default are evaluated with respect to the current row. If omitted, offset defaults to 1 and default to null </td>
+</tr>
+<tr>
+<td></td>
+<td> lead()          </td>
+<td> returns value evaluated at the row that is offset rows after the current row within the partition; if there is no such row, instead return default (which must be of the same type as value). Both offset and default are evaluated with respect to the current row. If omitted, offset defaults to 1 and default to null </td>
+</tr>
+<tr>
+<td></td>
+<td> first_value()   </td>
+<td> returns value evaluated at the row that is the first row of the window frame </td>
+</tr>
+<tr>
+<td></td>
+<td> last_value()    </td>
+<td> returns value evaluated at the row that is the last row of the window frame </td>
+</tr>
+<tr>
+<td></td>
+<td> nth_value()     </td>
+<td> returns value evaluated at the row that is the nth row of the window frame (counting from 1); null if no such row </td>
+</tr>
+</tbody>
+</table>
+
+
+<h1>References</h1>
+
+<ul>
+<li>Postgres Window Tutorial: <a href="https://www.postgresql.org/docs/9.3/static/tutorial-window.html">https://www.postgresql.org/docs/9.3/static/tutorial-window.html</a></li>
+<li>Postgres Window Functions: <a href="https://www.postgresql.org/docs/9.3/static/functions-window.html">https://www.postgresql.org/docs/9.3/static/functions-window.html</a></li>
+<li>Postgres Window Syntax: <a href="https://www.postgresql.org/docs/9.3/static/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS">https://www.postgresql.org/docs/9.3/static/sql-expressions.html#SYNTAX-WINDOW-FUNCTIONS</a></li>
+</ul>
+
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2017/what-the-sql-recursive/" title="Previous Post: What the SQL?!? Recursive">&laquo; Previous: What the SQL?!? Recursive</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+        <a href="https://twitter.com/@_ddrscott_"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2017/what-the-sql-window/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2017/what-the-sql-window/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
