@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-04-04T09:08:55-05:00</updated>
+  <updated>2017-04-10T16:55:12-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Vim Send Text]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/vim-send-text/"/>
+    <updated>2017-04-10T13:30:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/vim-send-text</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://raw.githubusercontent.com/ddrscott/vim-islime2/gh-pages/demo.gif" title="'Vim Send Text Demo'" ></p>
+
+<p>After pairing with some Sublime users, I noticed a neat feature. Or more
+accurately, they were rubbing it in my face that their cute editor was better
+than mine. The feature was <a href="https://github.com/wch/SendText">SendText</a>. Well, I
+couldn&rsquo;t let Sublime users have all the fun, and apparently neither could a few
+other people.</p>
+
+<!-- more -->
+
+
+<h2>History</h2>
+
+<p>There have been a few other implementations at this feature. These
+implementations sent the text to a screen or tmux split. Since I don&rsquo;t use
+either, I couldn&rsquo;t use them a la carte.</p>
+
+<ul>
+<li><a href="https://github.com/vim-scripts/tslime.vim">https://github.com/vim-scripts/tslime.vim</a></li>
+<li><a href="https://github.com/jpalardy/vim-slime">https://github.com/jpalardy/vim-slime</a></li>
+<li><a href="https://github.com/ervandew/screen">https://github.com/ervandew/screen</a></li>
+</ul>
+
+
+<p>This next implementation was good. It&rsquo;s only flaw, IMHO, was it&rsquo;s mappings and
+naming. The naming &ldquo;ISlime2&rdquo; is impossible for me to type on the first try. The
+mappings overlapped my existing mappings.
+<a href="https://github.com/matschaffer/vim-islime2">ISlime2</a> did all the hard work
+AppleScript work and provides the Vim function to pass into the AppleScript.</p>
+
+<p>Enter <a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a>.
+<a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a> is a fork of <a href="https://github.com/matschaffer/vim-islime2">ISlime2</a>.
+My fork removes all the mappings, exposes useful internal functions, and adds
+recommended mappings to the README.md.</p>
+
+<h2>Recommended Mappings</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Send current line</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">i</span><span class="p">&lt;</span>CR<span class="p">&gt;</span> :SendTextCurrentLine<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Send in/around text object - operation pending</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">i</span> :<span class="k">set</span> <span class="nb">opfunc</span><span class="p">=</span>sendtext#iTermSendOperator<span class="p">&lt;</span>CR<span class="p">&gt;</span><span class="k">g</span>@
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Send visual selection</span>
+</span><span class='line'><span class="nb">vnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">i</span> :<span class="p">&lt;</span>C<span class="p">-</span><span class="k">u</span><span class="p">&gt;</span><span class="k">call</span> sendtext#iTermSendOperator<span class="p">(</span>visualmode<span class="p">(),</span> <span class="m">1</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Move to next line then send it</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">ij</span> :SendTextNextLine<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">&quot; Move to previous line then send it</span>
+</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span>ik :SendTextPreviousLine<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Vim Operator Pending</h2>
+
+<p>One of the main reasons to use Vim is Operator pending.  It&rsquo;s at the heart of
+<code>vip</code>, <code>dip</code>, <code>ciw</code>, etc.
+<a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a> provides an operator
+pending function so we can logically do <code>{SEND}ap</code>, <code>{SEND}ip</code>, <code>{SEND}if</code>, etc.
+The identical function works in visual mode to help build confidence in our text
+object targets.</p>
+
+<p>To read more about operator pending functions and how to create them try:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="p">:</span><span class="k">h</span> map<span class="p">-</span>operator
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>Hope <a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a> can remove some
+feature envy from Sublime. Happy console hacking!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? WINDOW]]></title>
@@ -3872,105 +3968,6 @@ generator. I don&rsquo;t know.</li>
 <li>The algorithm it uses creates pronounceable passwords.
 It&rsquo;s unlikely for it to generate a real words.</li>
 </ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to create human readable randomized passwords?]]></title>
-    <link href="http://ddrscott.github.io/blog/2012/how-to-create-human-readable-randomized-passw/"/>
-    <updated>2012-07-01T02:51:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2012/how-to-create-human-readable-randomized-passw</id>
-    <content type="html"><![CDATA[<p>This issue came up in my day job where the client didn&rsquo;t
-like our password reset passwords. They said it was too random and
-people can&rsquo;t remember it long enough between reading it in
-there email and entering it into our app/website.</p>
-<!-- more -->
-<p>This might be a matter of taste since sending out a password
-change link is another common solution, but we don&rsquo;t have
-that flow in our existing implementation. Generating a less random
-temporary password is the quicker solution.</p>
-<p>So the method we chose was to pick a random 4 letter word from a
-dictionary file and append a number to the end of it.</p>
-<p>We found a hacker&rsquo;s dictionary online and used that as our
-base. To restrict it to just 4 letter words I ran:</p>
-<div class="CodeRay code">
-<pre>
-cat en-<span class=
-"constant">US</span>.dict | ruby -ne <span class="string"><span class="delimiter">'</span><span class="content">t = $_.strip; puts t if t =~ /^</span><span class="content">\w</span><span class="content">{4}$/</span><span class="delimiter">'</span></span> &gt; passwd.dict
-</pre></div>
-<h2>What is this doing?</h2>
-<p>(skip this if your already familiar with Bash and Ruby)</p>
-<ol>
-<li><code>cat en-US.dict</code> print the contents of en-US.dict to
-stdout.</li>
-<li><code>| ruby -ne '...'</code> direct to output of
-<code>cat</code> into <code>ruby</code>. a. <code>-n</code> tells
-<code>ruby</code> to iterate through all the lines and set the
-global <code>$_</code> variable to the current line. b.
-<code>e</code> tells <code>ruby</code> to execute the next argument
-as a <code>ruby</code> script</li>
-<li><code>t = $_.strip</code> remove any leading or trailing
-whitespace and set it to variable <code>t</code></li>
-<li><code>;</code> ruby line separator so we can do this as a one
-liner</li>
-<li><code>puts t</code> print the value of <code>t</code></li>
-<li><code>if t =~</code> only execute the previous line <code>puts
-t</code> if <code>t</code> matches the following regular
-expression.</li>
-<li><code>/^\w{4}$/</code> this is a regular expression that
-matches any <code>t</code> which contains exactly 4 characters
-between [a-z] and [A-Z]</li>
-<li><code>&gt; passwd.dict</code> redirect anything which was
-<code>puts</code> by step 5 into a file named
-<code>passwd.dict</code></li>
-</ol>
-<h2>Random Word Selection</h2>
-<p>The next part was the random selection. It isn&rsquo;t that
-fancy, but I figured I shouldn&rsquo;t leave it out.</p>
-<p>To restrict it to just 4 letter words I ran:</p>
-<div class="CodeRay code">
-<pre>
-<span class="keyword">def</span> <span class=
-"function">random_passwd</span>
-  words = <span class="constant">File</span>.read(<span class=
-"string"><span class="delimiter">'</span><span class=
-"content">passwd.dict</span><span class=
-"delimiter">'</span></span>).split  <span class=
-"comment"># read the contents of passwd.dict and</span>
-                                          <span class=
-"comment"># convert it into an array. 1 element per word.</span>
-
-  word = words[(rand * words.size).to_i]  <span class=
-"comment"># pick a random element.</span>
-  num = (rand * <span class="integer">8</span>).to_i + <span class=
-"integer">2</span>               <span class=
-"comment"># pick number between 2 and 8.</span>
-  word + num.to_s                         <span class=
-"comment"># concatenate the two strings together.</span>
-<span class="keyword">end</span>
-</pre></div>
-<p>That&rsquo;s about it.</p>
-<h2>Misc Points of Interest</h2>
-<ol>
-<li>The file read maybe cached, but all the 4 letter words in the
-English language was only ~2500, and the cost of reading the file
-was less than a a millisecond.</li>
-<li>The passwd.dict file has an extra line feed at the end so we
-took that out manually. We were editing the file anyway to remove
-the potentially offensive 4 letter words.</li>
-<li>The regex can be changed to taste, but we figured 4 letter
-words are easily remembered.</li>
-<li>In our actual implementation, we further restrict the word list
-so the words can&rsquo;t end in &ldquo;l&rdquo; or &ldquo;o&rdquo;
-so the user wouldn&rsquo;t confuse them with numbers. This is the
-same reason we don&rsquo;t pick a random number starting with 0 or
-1.</li>
-<li>You&rsquo;ll most certainly want to force the user to change
-the password after entering this one. The whole point was to have a
-weak password so the user could remember and type it.</li>
-</ol>
-<p>Hope this can be helpful to some one out there.</p>
 
 ]]></content>
   </entry>
