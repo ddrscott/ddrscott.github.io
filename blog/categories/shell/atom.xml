@@ -4,7 +4,7 @@
   <title><![CDATA[Category: shell | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/shell/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-04-13T10:17:14-05:00</updated>
+  <updated>2017-04-13T14:40:42-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -55,7 +55,7 @@ literally 2 steps performed in shell and then pick a theme.</p>
 
 <h1>2. update ~/.bashrc or ~/.zshrc</h1>
 
-<p>cat >> ~/.zshrc &lt;&lt;SH
+<p>cat >> ~/.zshrc &lt;&lt;&lsquo;SH&rsquo;
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n &ldquo;$PS1&rdquo; ] &amp;&amp; [ -s $BASE16_SHELL/profile_helper.sh ] &amp;&amp; eval &ldquo;$($BASE16_SHELL/profile_helper.sh)&rdquo;
 SH

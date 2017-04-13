@@ -110,7 +110,7 @@ literally 2 steps performed in shell and then pick a theme.</p>
 </span><span class='line'>git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
 </span><span class='line'>
 </span><span class='line'><span class="c"># 2. update ~/.bashrc or ~/.zshrc</span>
-</span><span class='line'>cat &gt;&gt; ~/.zshrc <span class="s">&lt;&lt;SH</span>
+</span><span class='line'>cat &gt;&gt; ~/.zshrc <span class="s">&lt;&lt;&#39;SH&#39;</span>
 </span><span class='line'><span class="s">BASE16_SH</span>ELL<span class="o">=</span><span class="nv">$HOME</span>/.config/base16-shell/
 </span><span class='line'><span class="o">[</span> -n <span class="s2">&quot;$PS1&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> -s <span class="nv">$BASE16_SHELL</span>/profile_helper.sh <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">eval</span> <span class="s2">&quot;$($BASE16_SHELL/profile_helper.sh)&quot;</span>
 </span><span class='line'>SH
