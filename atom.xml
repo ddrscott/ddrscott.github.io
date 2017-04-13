@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-04-10T16:55:12-05:00</updated>
+  <updated>2017-04-12T00:59:37-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Base16 Shell]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/base16-shell/"/>
+    <updated>2017-04-13T13:30:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/base16-shell</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/base16-featured.png" width="1024" height="558" title="'Base16 Featured'" ></p>
+
+<p>After many years using the excellent Solarized color scheme, it has
+started to feel a stale. Sometimes I think the dark blueish tint brings
+down my mood. Other times, I wonder what life could be like if I stared at more
+cheerful colors. Thus starts my farewell from Solarized, and hello to
+Base16.</p>
+
+<!-- more -->
+
+
+<p>From Base16&rsquo;s <a href="https://github.com/chriskempson/base16">Github README</a>:</p>
+
+<blockquote><p>Base16 provides carefully chosen syntax highlighting and a default set of
+sixteen colors suitable for a wide range of applications. Base16 is not a
+single theme but a set of guidelines with numerous implementations.</p></blockquote>
+
+<p>Which means after integrating into Base16 once, I&rsquo;ll have access to an
+unlimited supply of themes in the future!</p>
+
+<h2>Installation</h2>
+
+<p>Base16 has perfect iTerm and shell integration. Once the repo was installed
+locally, I called <code>base16_ocean</code> and was greeted by brand new palette. No iTerm
+tweaking, no downloading this other thing, and importing stuff into iTerm. It
+was literally 2 steps performed in shell and then choose a theme.</p>
+
+<p>Here&rsquo;s what you do. (FYI. This is pretty much copy/paste from their repo)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># 1. clone the repo to `~/.config/base16-shell`</span>
+</span><span class='line'>git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+</span><span class='line'>
+</span><span class='line'><span class="c"># 2. update ~/.bashrc or ~/.zshrc</span>
+</span><span class='line'>cat &gt;&gt; ~/.zshrc <span class="s">&lt;&lt;SH</span>
+</span><span class='line'><span class="s">BASE16_SH</span>ELL<span class="o">=</span><span class="nv">$HOME</span>/.config/base16-shell/
+</span><span class='line'><span class="o">[</span> -n <span class="s2">&quot;$PS1&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> -s <span class="nv">$BASE16_SHELL</span>/profile_helper.sh <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">eval</span> <span class="s2">&quot;$($BASE16_SHELL/profile_helper.sh)&quot;</span>
+</span><span class='line'>SH
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After you&rsquo;re done with those steps, start a new terminal session or source the
+file, and start choosing a theme. Try <code>base16_ocean</code> to see what I&rsquo;m seeing. Try
+<code>base16_&lt;tab&gt;</code> to see what other options you have available. To see what they
+look like before making a choice go to their website:
+<a href="https://chriskempson.github.io/base16/.">https://chriskempson.github.io/base16/.</a></p>
+
+<h2>Vim Integration</h2>
+
+<p>Install plugin from <a href="https://github.com/chriskempson/base16-vim.">https://github.com/chriskempson/base16-vim.</a></p>
+
+<p>Add the following to your <code>.vimrc</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">if</span> filereadable<span class="p">(</span>expand<span class="p">(</span><span class="s2">&quot;~/.vimrc_background&quot;</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">let</span> base16colorspace<span class="p">=</span><span class="m">256</span>
+</span><span class='line'>  source <span class="p">~</span>/.vimrc_background
+</span><span class='line'><span class="k">endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>base16-shell</code> commands create the <code>~/.vimrc_background</code> file every time a
+<code>base16_*</code> alias is used. This allows Vim to always stay synchronized with
+shell which is AWESOME!</p>
+
+<h2>Conclusion</h2>
+
+<p>After cycling through everyone of the user created themes, I&rsquo;ve settled on
+<code>base16_ocean</code> as my new home. I may get tired of it, I may not, but either way
+I&rsquo;m just a shell call away from moving. Indecision has never been so easy.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Vim Send Text]]></title>
@@ -3897,77 +3985,6 @@ but writing English should do me some good, too.</p>
 <p><strong>[Update]</strong> Uploading from Android app still
 didn&rsquo;t format the original text correctly, I still had to
 tweak in a web browser, ugh!</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Random Password Progam Redux]]></title>
-    <link href="http://ddrscott.github.io/blog/2012/random-password-progam-redux/"/>
-    <updated>2012-07-02T08:09:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2012/random-password-progam-redux</id>
-    <content type="html"><![CDATA[<p>Well this goes to show that I should always Google first, think
-later. The <code>apg</code> program seems to do everything I need
-and with much more flexibility.</p>
-<!-- more -->
-<p>First install <code>apg</code></p>
-<div class="CodeRay code">
-<pre>
-apt-get install apg
-</pre></div>
-<p>Then the ruby code becomes:</p>
-<div class="CodeRay code">
-<pre>
-def random_passwd
-  `apg -m 5 -x 5 -M LN -E oO0lL -n 1`
-end
-</pre></div>
-<h2><code>apg</code> Options Used</h2>
-<p><a href="http://linux.die.net/man/1/apg">Linux Manual for
-<code>apg</code></a></p>
-<ol>
-<li><code>-m 5</code> &ndash; minimum length of 5 characters</li>
-<li><code>-X 5</code> &ndash; maximum length of 5 characters</li>
-<li><code>-M LN</code> &ndash; mode L &ndash; must be all lowercase
-letters. Mode N &ndash; must use a number</li>
-<li><code>-E oO0lL</code> &ndash; exclude lower case
-&lsquo;oh&rsquo;, upper case &lsquo;oh&rsquo;, zero, lower
-&lsquo;el&rsquo;, and upper &lsquo;el&rsquo;</li>
-<li><code>-n 1</code> &ndash; only generate 1 password.</li>
-</ol>
-<p>Example output:</p>
-<div class="CodeRay code">
-<pre>
-ruby -e '20.times{ puts `apg -m 5 -x 5 -M LN -E oO0lL -n 1` }'
-ugof7
-skyn1
-6glel
-zonn3
-vawl4
-worg7
-2drov
-jops3
-9oshk
-pram1
-tork6
-riad1
-myaj9
-reft6
-on4ax
-ojej5
-rhim2
-glok2
-yeac1
-wuev5
-</pre></div>
-<h2>Points of interest</h2>
-<ol>
-<li>It could take <code>apg</code> up to a second to generate a
-single password. This could be due subprocess startup, or the
-generator. I don&rsquo;t know.</li>
-<li>The algorithm it uses creates pronounceable passwords.
-It&rsquo;s unlikely for it to generate a real words.</li>
-</ol>
 
 ]]></content>
   </entry>

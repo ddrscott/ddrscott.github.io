@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://ddrscott.github.io/blog/2017/base16-shell/</loc>
+    <lastmod>2017-04-13T13:30:00-05:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://ddrscott.github.io/blog/2017/vim-send-text/</loc>
     <lastmod>2017-04-10T13:30:00-05:00</lastmod>
     <priority>0.8</priority>
@@ -569,14 +575,14 @@
   
   <url>
     <loc>http://ddrscott.github.io/</loc>
-    <lastmod>2017-04-10T16:55:12-05:00</lastmod>
+    <lastmod>2017-04-12T00:59:37-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://ddrscott.github.io/posts/</loc>
-    <lastmod>2017-04-10T16:55:12-05:00</lastmod>
+    <lastmod>2017-04-12T00:59:37-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
