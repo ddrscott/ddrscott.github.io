@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-04-12T00:59:37-05:00</updated>
+  <updated>2017-04-13T10:17:14-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/base16-featured.png" width="1024" height="558" title="'Base16 Featured'" ></p>
 
 <p>After many years using the excellent Solarized color scheme, it has
-started to feel a stale. Sometimes I think the dark blueish tint brings
+started to feel stale. Sometimes I think the dark blueish tint brings
 down my mood. Other times, I wonder what life could be like if I stared at more
 cheerful colors. Thus starts my farewell from Solarized, and hello to
 Base16.</p>
@@ -42,8 +42,8 @@ unlimited supply of themes in the future!</p>
 
 <p>Base16 has perfect iTerm and shell integration. Once the repo was installed
 locally, I called <code>base16_ocean</code> and was greeted by brand new palette. No iTerm
-tweaking, no downloading this other thing, and importing stuff into iTerm. It
-was literally 2 steps performed in shell and then choose a theme.</p>
+tweaking, no downloading this other thing and importing stuff into iTerm. It was
+literally 2 steps performed in shell and then pick a theme.</p>
 
 <p>Here&rsquo;s what you do. (FYI. This is pretty much copy/paste from their repo)</p>
 
@@ -68,8 +68,8 @@ was literally 2 steps performed in shell and then choose a theme.</p>
 
 <p>After you&rsquo;re done with those steps, start a new terminal session or source the
 file, and start choosing a theme. Try <code>base16_ocean</code> to see what I&rsquo;m seeing. Try
-<code>base16_&lt;tab&gt;</code> to see what other options you have available. To see what they
-look like before making a choice go to their website:
+<code>base16_&lt;tab&gt;</code> to see what other options you have available. To preview what
+they look like before making a choice go to their website:
 <a href="https://chriskempson.github.io/base16/.">https://chriskempson.github.io/base16/.</a></p>
 
 <h2>Vim Integration</h2>
@@ -97,7 +97,7 @@ shell which is AWESOME!</p>
 
 <p>After cycling through everyone of the user created themes, I&rsquo;ve settled on
 <code>base16_ocean</code> as my new home. I may get tired of it, I may not, but either way
-I&rsquo;m just a shell call away from moving. Indecision has never been so easy.</p>
+I&rsquo;m just a shell command away from changing. Indecision has never been so easy.</p>
 ]]></content>
   </entry>
   
