@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: shell | @_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/blog/categories/shell/atom.xml" rel="self"/>
+  <title><![CDATA[Category: screen | @_ddrscott_]]></title>
+  <link href="http://ddrscott.github.io/blog/categories/screen/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
   <updated>2017-06-01T11:51:27-05:00</updated>
   <id>http://ddrscott.github.io/</id>
@@ -102,85 +102,6 @@ it&rsquo;s not installed everywhere. <code>screen</code> just works for my work 
 <li><a href="http://aperiodic.net/screen/quick_reference">http://aperiodic.net/screen/quick_reference</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Base16 Shell]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/base16-shell/"/>
-    <updated>2017-04-13T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/base16-shell</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="/images/base16-featured.png" width="1024" height="558" title="&lsquo;Base16 Featured&rsquo;" ></p>
-
-<p>After many years using the excellent Solarized color scheme, it has
-started to feel stale. Sometimes I think the dark blueish tint brings
-down my mood. Other times, I wonder what life could be like if I stared at more
-cheerful colors. Thus starts my farewell from Solarized, and hello to
-Base16.</p>
-
-<!-- more -->
-
-
-<p>From Base16&rsquo;s <a href="https://github.com/chriskempson/base16">Github README</a>:</p>
-
-<blockquote><p>Base16 provides carefully chosen syntax highlighting and a default set of
-sixteen colors suitable for a wide range of applications. Base16 is not a
-single theme but a set of guidelines with numerous implementations.</p></blockquote>
-
-<p>Which means after integrating into Base16 once, I&rsquo;ll have access to an
-unlimited supply of themes in the future!</p>
-
-<h2>Installation</h2>
-
-<p>Base16 has perfect iTerm and shell integration. Once the repo was installed
-locally, I called <code>base16_ocean</code> and was greeted by brand new palette. No iTerm
-tweaking, no downloading this other thing and importing stuff into iTerm. It was
-literally 2 steps performed in shell and then pick a theme.</p>
-
-<p>Here&rsquo;s what you do. (FYI. This is pretty much copy/paste from their repo)</p>
-
-<p>```sh</p>
-
-<h1>1. clone the repo to <code>~/.config/base16-shell</code></h1>
-
-<p>git clone <a href="https://github.com/chriskempson/base16-shell.git">https://github.com/chriskempson/base16-shell.git</a> ~/.config/base16-shell</p>
-
-<h1>2. update ~/.bashrc or ~/.zshrc</h1>
-
-<p>cat >> ~/.zshrc &lt;&lt;&lsquo;SH&rsquo;
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n &ldquo;$PS1&rdquo; ] &amp;&amp; [ -s $BASE16_SHELL/profile_helper.sh ] &amp;&amp; eval &ldquo;$($BASE16_SHELL/profile_helper.sh)&rdquo;
-SH
-```</p>
-
-<p>After you&rsquo;re done with those steps, start a new terminal session or source the
-file, and start choosing a theme. Try <code>base16_ocean</code> to see what I&rsquo;m seeing. Try
-<code>base16_&lt;tab&gt;</code> to see what other options you have available. To preview what
-they look like before making a choice go to their website:
-<a href="https://chriskempson.github.io/base16/.">https://chriskempson.github.io/base16/.</a></p>
-
-<h2>Vim Integration</h2>
-
-<p>Install plugin from <a href="https://github.com/chriskempson/base16-vim.">https://github.com/chriskempson/base16-vim.</a></p>
-
-<p>Add the following to your <code>.vimrc</code>:</p>
-
-<p><code>vim
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
-</code></p>
-
-<p><code>base16-shell</code> commands create the <code>~/.vimrc_background</code> file every time a
-<code>base16_*</code> alias is used. This allows Vim to always stay synchronized with
-shell which is AWESOME!</p>
-
-<h2>Conclusion</h2>
-
-<p>After cycling through everyone of the user created themes, I&rsquo;ve settled on
-<code>base16_ocean</code> as my new home. I may get tired of it, I may not, but either way
-I&rsquo;m just a shell command away from changing. Indecision has never been so easy.</p>
 ]]></content>
   </entry>
   

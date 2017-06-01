@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-05-02T06:25:43-05:00</updated>
+  <updated>2017-06-01T11:51:27-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GNU Screen]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/gnu-screen/"/>
+    <updated>2017-06-01T13:30:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/gnu-screen</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/gnu-screen-featured.jpg" width="1024" height="488" title="'GNU Screen Featured'" ></p>
+
+<blockquote><p>Screen is a full-screen window manager that multiplexes a physical terminal
+between several processes, typically interactive shells.</p></blockquote>
+
+<p>TL;DR &ndash; Screen keeps your ssh sessions alive on a host.</p>
+
+<!-- more -->
+
+
+<h2>Installation</h2>
+
+<p>Most servers have <code>screen</code> installed already. If they don&rsquo;t it can be installed
+via <code>apt-get install screen</code>, <code>yum install screen</code>, <code>brew install screen</code>. Sorry
+Windows, try Remote Desktop.</p>
+
+<h2>Startup</h2>
+
+<p>Get a terminal on a remote host (or local) then run <code>screen</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>screen
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you&rsquo;re not brave, try <code>man screen</code> to read more about.</p>
+
+<p>Once <code>screen</code> has started, you&rsquo;ll want to remember <code>&lt;C-a&gt;?</code>. That is how you get
+the screen options menu. It&rsquo;s typed literal hold <code>CTRL</code> and press <code>a</code>. To quit
+the <code>screen</code> app, type <code>exit</code>. To keep <code>screen</code> running, type <code>&lt;C-a&gt;d</code> to detach
+from the program. To reattach to that session try <code>screen -x</code>.</p>
+
+<h2>Options</h2>
+
+<p>There are tons of options and they&rsquo;re best found by reading the <code>man</code> page or
+Googling <code>gnu screen shortcuts</code>. Here&rsquo;s some of my favorites.</p>
+
+<h3>Startup Flags</h3>
+
+<ul>
+<li><code>screen -DDR</code>. Force others of the current session and reattach yourself.</li>
+<li><code>screen -x</code>. Reattach yourself, but allow others to stay in. This is
+  cooperative mode. Good for pairing and much faster than GUI screen sharing.</li>
+</ul>
+
+
+<h3>Control Keys</h3>
+
+<ul>
+<li><code>&lt;C-a&gt;&lt;C-c&gt;</code>. Create a &ldquo;tab&rdquo; to have multiple sessions.</li>
+<li><code>&lt;C-a&gt;&lt;C-a&gt;</code>. Toggle to previous session.</li>
+<li><code>&lt;C-a&gt;&lt;Space&gt;</code>. Switch next session.</li>
+<li><code>&lt;C-a&gt;a</code>. Send a literal <code>&lt;C-a&gt;</code> back to shell.</li>
+</ul>
+
+
+<h3>Config File and Pretty Colors</h3>
+
+<p>It&rsquo;s easy to get lost in screen without a status line. So creating this file in
+your home directory will help.</p>
+
+<p><strong>~/.screenrc</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>hardstatus alwayslastline
+</span><span class='line'>hardstatus string &#39;%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]&#39;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This should give you a pretty statusline at the bottom of your terminal.
+Here&rsquo;s what it looks like:
+<img class="featured" src="http://ddrscott.github.io/images/gnu-screen-statusline.jpg" width="1024" height="113" title="'GNU Screen Statusline'" ></p>
+
+<h2>TMUX</h2>
+
+<p>A strong competitor to <code>screen</code> is <code>tmux</code>. It has a more modern code base and is
+actively maintained. The reason I personally don&rsquo;t use it is out of habit and
+it&rsquo;s not installed everywhere. <code>screen</code> just works for my work flow.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://www.gnu.org/software/screen/">https://www.gnu.org/software/screen/</a></li>
+<li><a href="http://www.pixelbeat.org/lkdb/screen.html">http://www.pixelbeat.org/lkdb/screen.html</a></li>
+<li><a href="http://aperiodic.net/screen/quick_reference">http://aperiodic.net/screen/quick_reference</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Base16 Shell]]></title>
@@ -3888,103 +3984,6 @@ what I&rsquo;ve been missing my whole shell life.</p>
 <p>So where do you stand on the Busybox challenge? Are the Busybox
 commands already at your mercy or is it this the missing Linux
 link? Post your percentage in the comments.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[This is a Test Phone Blog]]></title>
-    <link href="http://ddrscott.github.io/blog/2012/this-is-a-test-phone-blog/"/>
-    <updated>2012-07-07T08:23:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2012/this-is-a-test-phone-blog</id>
-    <content type="html"><![CDATA[<p>The jury is still out on whether I can productively write
-anything on a mobile device. I just received a Galaxy Note,
-installed Hackers Keyboard, and installed Writer app. The Note
-provides nearly an extra inch of keyboard while the Hackers
-Keyboard provides all the typical keys on used to on a desktop.
-Lastly was finding an app that highlights my favorite plain text
-writing language, Markdown.</p>
-<!-- more -->
-<h2>The Galaxy Note</h2>
-<p>The Galaxy Note is an interesting writing device due to its
-size. I did get used to typing on my past Nexus S, but it was
-always difficult to type code snippets. When the Galaxy Note
-arrived the keyboard was comfy-cozzy and the screen could hold
-double the text as my previous phones. I did have to make an
-adjustment before I could make use of all those pixels.</p>
-<h3>Set DPI of Android OS</h3>
-<p>This is a multiple step process consisting of rooting, mounting
-<code>/system</code> as read/write, and editing
-<code>/system/build.info</code>. <a href=
-"http://www.google.com/search?btnG=1&amp;pws=0&amp;q=change+android+dpi">
-http://www.google.com/search?btnG=1&amp;pws=0&amp;q=change+android+dpi</a></p>
-<h2>Hacker&rsquo;s Keyboard</h2>
-<p>This is the keyboard I&rsquo;ve always wanted but don&rsquo;t
-have the time to create myself. It is based off the excellent
-Gingerbread keyboard and adds the other keys to it. It does it in
-such a way that doesn&rsquo;t make the QWERTY keys much small or
-obfuscate the location of the symbol keys. My only complaint is
-finding the &ldquo;/&rdquo; character. It is hidden behind a long
-press of the Speak/Mic key.</p>
-<p>In landscape mode the keyboard can turn into a full desktop
-keyboard. I have it set to also not do amy typing correction and to
-maintain screen overlay mode instead of demoting the screen layout
-to show only the input box and the keyboard. Basically landscape is
-my coding and SSH home, and portrait is for everything else.</p>
-<h2>Writer&rsquo;s App</h2>
-<p><a href=
-"https://play.google.com/store/apps/details?id=com.jamesmc.writer">https://play.google.com/store/apps/details?id=com.jamesmc.writer</a>
-I&rsquo;m writing this whole post in this app while reviewing it. I
-have used other apps to write a substantial amount of text, but
-this app has one feature that makes it worth while: Markdown syntax
-highlighting. It might not mean a lot to most people out there, but
-for me using Markdown means I don&rsquo;t have to worry about
-styling my text are writing HTML tags and I still get to separate
-sections with heads and annotate blocks as code or add
-<strong>emphasis</strong> in an unobtrusive way. Having the syntax
-highlighting humanizes the text into a readable document so I can
-have a preview to how the final audience might see it as I&rsquo;m
-still composing it.</p>
-<h2>Misc Thoughts</h2>
-<ol>
-<li>The Note has a slippery back and makes holding the device over
-45 degrees a difficult task without putting a finger or two under
-the it. My pinky is very tired now and I think I&rsquo;m getting a
-rash fromthw USB slot. A rubberized back is probably in order.</li>
-<li>The Notes screen is too bright. I seldom use the device
-outdoors where the brightness could be useful, but the real
-complaint is I can turn the LCD backlighting low enough at night
-time which is when I&rsquo;m most prone to write something. Using
-an app like Screen Filter [<a href=
-"https://play.google.com/store/apps/details?id=com.haxor">https://play.google.com/store/apps/details?id=com.haxor</a>]
-helps but washes out colors.</li>
-<li>Heat! This might be a feature in the winter, but right now my
-hands are getting sweaty which makes thought #1 even more
-evident.</li>
-<li>Touch typing is possible. I&rsquo;ve been primarily looking a
-the text that I&rsquo;m writing and not the kkeyboard. I occasionly
-look at the ssuggestion strip for longer words, but with the Note I
-finally get to make my high-school typing teacher happy by not
-looking at my hands.</li>
-</ol>
-<h2>Uploading to Posterous</h2>
-<p>Posterous is supposed ti be Blogging for the rest of us. Well it
-isn&rsquo;t easy for me. The basis work flow in Posterous is to
-email the post to <a href=
-"mailto:post@posterous.com">post@posterous.com</a> and it
-automatically gets to the web nicely formatted. This has yet to
-turn out to my satisfaction because it usually messes up the code
-snippets or doesn&rsquo;t feature an image I&rsquo;ve attatched.
-This means I then have to go to there website and fiddle with it in
-the WYSIWYG editor. I&rsquo;ll see what happens when I try to post
-this Markdown heavy text.</p>
-<h2>Final Thoughts</h2>
-<p>Overall, I feel the 3 way combo will allow me to write a bit
-more. By nature, I would love to have more time in front of an IDE,
-but writing English should do me some good, too.</p>
-<p><strong>[Update]</strong> Uploading from Android app still
-didn&rsquo;t format the original text correctly, I still had to
-tweak in a web browser, ugh!</p>
 
 ]]></content>
   </entry>
