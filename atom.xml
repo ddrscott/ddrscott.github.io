@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2017-06-01T11:51:27-05:00</updated>
+  <updated>2017-06-12T17:09:43-05:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,195 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[FZF + WordNet = Dictionary]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/fzf-dictionary/"/>
+    <updated>2017-06-12T13:30:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/fzf-dictionary</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/fzf_dictionary_demo.gif" width="707" height="412" title="'FZF Dictionary'" ></p>
+
+<p><code>FZF + WordNet = Dictionary</code>. FZF is a fuzzy finding command line tool. WordNet
+is a dictionary structured for developers. When married together, we can get
+a snappy dictionary to help us find just the right word for any occasion.</p>
+
+<!-- more -->
+
+
+<h1>Install Required Program</h1>
+
+<p>Before making our new shell function, lets install the required programs.</p>
+
+<ol>
+<li><a href="https://github.com/junegunn/fzf">https://github.com/junegunn/fzf</a></li>
+<li><a href="http://wordnetweb.princeton.edu/perl/webwn">http://wordnetweb.princeton.edu/perl/webwn</a></li>
+</ol>
+
+
+<p>These directions are for Max OSX with <code>homebrew</code> installed. If you&rsquo;re on
+a different system, read the docs from the sites above to get the programs for
+your operating system.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install fzf
+</span><span class='line'>brew cask install xquartz
+</span><span class='line'>brew install wordnet
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>FZF</h2>
+
+<p>FZF stands for Fuzzy Finder. It is a program which enables the user to filter
+a set of lines from standard in and feed those line back to standard out.
+A basic example is: <code>find . | fzf</code>. This presents a list of all files in the
+current working directory and prompts the user for input. As you type letters, the
+list will narrow, keeping only the items matching the search criteria. After
+selecting an entry from the list the line or lines chosen is printed to standard
+out. It provides a nifty argument <code>--preview</code> which can execute a program and
+display its output as an aside in the terminal. We&rsquo;ll write more about FZF in the
+future.</p>
+
+<h2>WordNet</h2>
+
+<blockquote><p>WordNet is a large lexical database of English. Nouns, verbs, adjectives and
+adverbs are grouped into sets of cognitive synonyms (synsets), each expressing
+a distinct concept. Synsets are interlinked by means of conceptual-semantic
+and lexical relations. The resulting network of meaningfully related words and
+concepts can be navigated with the browser. WordNet is also freely and
+publicly available for download. WordNet&rsquo;s structure makes it a useful tool
+for computational linguistics and natural language processing.</p>
+
+<p>WordNet superficially resembles a thesaurus, in that it groups words together
+based on their meanings. However, there are some important distinctions.
+First, WordNet interlinks not just word forms—strings of letters—but specific
+senses of words. As a result, words that are found in close proximity to one
+another in the network are semantically disambiguated. Second, WordNet labels
+the semantic relations among words, whereas the groupings of words in
+a thesaurus does not follow any explicit pattern other than meaning
+similarity.</p></blockquote>
+
+<p>Using WordNet we can find information similar to what is in a dictionary and
+thesaurus combined.</p>
+
+<p>Example output of looking up <code>happy</code> is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>% wn happy -over
+</span><span class='line'>
+</span><span class='line'>Overview of adj happy
+</span><span class='line'>
+</span><span class='line'>The adj happy has 4 senses (first 2 from tagged texts)
+</span><span class='line'>
+</span><span class='line'>1. (37) happy -- (enjoying or showing or marked by joy or pleasure; &quot;a happy smile&quot;; &quot;spent many happy days on the beach&quot;; &quot;a happy marriage&quot;)
+</span><span class='line'>2. (2) felicitous, happy -- (marked by good fortune; &quot;a felicitous life&quot;; &quot;a happy outcome&quot;)
+</span><span class='line'>3. glad, happy -- (eagerly disposed to act or to be of service; &quot;glad to help&quot;)
+</span><span class='line'>4. happy, well-chosen -- (well expressed and to the point; &quot;a happy turn of phrase&quot;; &quot;a few well-chosen words&quot;)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>xquartz</code> is needed since the WordNet package also works in GUI mode. The GUI
+app has a useful interface and could be more intuitive to use if you don&rsquo;t mind
+clicking around. The GUI app can be started with <code>wnb</code>, but we&rsquo;re not here for
+GUI stuff. Let&rsquo;s move on to making our terminal script.</p>
+
+<h1>Shell Script</h1>
+
+<p>The following 3 functions can be used individually and are helpful all on their
+own. Add these directly into your shell profile or in a separate file and source
+it from the profile.</p>
+
+<p><code>fold</code> is normally a built in command. By default it adds newlines when text
+overflows the terminal, but it doesn&rsquo;t do it in an easy to read fashion. The
+default behavior can break in the middle of a word and assumes a terminal width
+of 80 columns. Our <code>fold</code> function breaks at spaces and passes the whole
+terminal width to it when no other arguments are provided.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Default `fold` to screen width and break at spaces</span>
+</span><span class='line'><span class="k">function </span>fold <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq 0 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>    /usr/bin/fold -w <span class="nv">$COLUMNS</span> -s
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    /usr/bin/fold <span class="nv">$*</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>spell</code> is the FZF portion of our script. This fuzzy matches the built in Mac
+dictionary with a preview window containing the WordNet overview of the selected
+word.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Use `fzf` against system dictionary</span>
+</span><span class='line'><span class="k">function </span>spell <span class="o">{</span>
+</span><span class='line'>  cat /usr/share/dict/words <span class="p">|</span> fzf --preview <span class="s1">&#39;wn {} -over | fold&#39;</span> --preview-window<span class="o">=</span>up:60%
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>dic</code> script uses <code>spell</code> to help find a word then outputs WordNet&rsquo;s
+definition.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Lookup definition of word using `wn $1 -over`.</span>
+</span><span class='line'><span class="c"># If $1 is not provided, we&#39;ll use the `spell` command to pick a word.</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># Requires:</span>
+</span><span class='line'><span class="c">#   brew install wordnet</span>
+</span><span class='line'><span class="c">#   brew install fzf</span>
+</span><span class='line'><span class="k">function </span>dic <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq 0 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>wn <span class="sb">`</span>spell<span class="sb">`</span> -over <span class="p">|</span> fold
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'><span class="k">    </span>wn <span class="nv">$1</span> -over <span class="p">|</span> fold
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s another demo of the <code>dic</code> function:
+<img class="featured" src="http://ddrscott.github.io/images/fzf_dict_demo2.gif" width="570" height="360" title="'FZF Dictionary Demo 2'" ></p>
+
+<h1>Conclusion</h1>
+
+<p>Gluing programs together with <code>fzf --preview</code> is fun. Let us know what other
+recipes you come up with in the comments below.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GNU Screen]]></title>
@@ -3526,464 +3715,6 @@ below.</p>
 <p>Aparently another company has already made a large pocket, but
 hasn&#8217;t put it on the back yet.&nbsp;<a href=
 "http://www.thinkofthe.com/product.php?name=large-pocket-shirt">http://www.thinkofthe.com/product.php?name=large-pocket-shirt</a></p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Measure Linux Manhood using Busybox]]></title>
-    <link href="http://ddrscott.github.io/blog/2012/measure-linux-manhood-using-busybox/"/>
-    <updated>2012-07-11T22:17:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2012/measure-linux-manhood-using-busybox</id>
-    <content type="html"><![CDATA[<img class="featured" src="http://www.busybox.net/images/busybox1.png" width="164" height="116" title="'Busybox'" >
-
-For those in the embedded Linux world, Busybox seems to be the
-single most important thing to have in their filesystem other than
-OS itself. This is something I just recently discovered as I
-started rooting my Android devices. Prior to Busybox I&rsquo;ve
-been stuck using my laptop to edit files, then using
-<code>adb</code> commands to get things to the right location on
-the device. When I was really stuck, I&rsquo;d end up using
-<code>adb shell</code> and the simplified utilities that are in
-<code>/system/bin</code>. But now with Busybox I have access to all
-the commands I&rsquo;m accustom to using in a full Linux/Unix
-distribution.
-
-<!-- more -->
-<p>What is Busybox, exactly? According to their documentation,
-&ldquo;BusyBox combines tiny versions of many common UNIX utilities
-into a single small executable. It provides minimalist replacements
-for most of the utilities you usually find in GNU coreutils,
-util-linux, etc.&rdquo;</p>
-<p>For years I&rsquo;ve been too lazy or intimidated by Linux and
-its super huge list of programs that I&rsquo;ve never really spent
-the time to figure out which utils I should really know and which
-are just gravy. For instance if I use Ubuntu&rsquo;s package
-manager to install a program, I&rsquo;m bombarded with tens of
-thousands of possibilities. ~38,500 according to this <a href=
-"http://askubuntu.com/questions/111753/how-many-i386-and-amd64-packages-exist">
-answer</a>. Who has time to evaluate all those programs?!?</p>
-<h1>Test of Man/Womanhood</h1>
-<p>So where am I going with all this? What about the Test of
-Manhood? If Busybox is so great and contains commonly used
-functions, then I assert that one of a Linux
-Admins&acirc;&euro;&trade; job interview questions should be,
-&ldquo;Give a short description of each one of these commands and
-when you would use it.&rdquo; Then toss the Busybox command/applet
-list across the table and stare intensely at the candidate.</p>
-<h1>Busybox Test</h1>
-<p>I am not a Linux expert, but I can get a system running in a
-pinch. My rough guess is I have fluency in only 10% of the Busybox
-commands, and the rest I have to Google or take by blind faith when
-I use some online shell snippet. I want to put that 10% to the
-test. I&rsquo;m going to answer my own interview question, and
-you&rsquo;ll just need to trust me that I&rsquo;m not using the
-Busybox <a href="http://www.busybox.net/downloads/BusyBox.html"
-title="Busybox Manual">manual</a> during the test. Actually, I have
-no reason to cheat since I&rsquo;m really doing this to see how
-much I don&rsquo;t know, and as a benchmark for how I can improve
-in the future.</p>
-<ol>
-<li><code>acpid</code> &ndash; ?</li>
-<li><code>addgroup</code> &ndash; add a group by ID or name to a
-user</li>
-<li><code>adduser</code> &ndash; add a user to the system</li>
-<li><code>adjtimex</code> &ndash; adjust time?</li>
-<li><code>ar</code> &ndash; ? archive?</li>
-<li><code>arp</code> &ndash; related to networking, but I have no
-idea</li>
-<li><code>arping</code> &ndash; ?</li>
-<li><code>ash</code> &ndash; huh?</li>
-<li><code>awk</code> &ndash; stream parsing? I&rsquo;ve never used
-it but often hear it mentioned with <code>sed</code></li>
-<li><code>basename</code> &ndash; ?</li>
-<li><code>beep</code> &ndash; make a beep, I&rsquo;ve always used
-<code>echo -e '\07'</code></li>
-<li><code>blkid</code> &ndash; ?</li>
-<li><code>brctl</code> &ndash; ?</li>
-<li><code>bunzip2</code> &ndash; decompress bz2 archive files</li>
-<li><code>bzcat</code> &ndash; send to stdout the decompressed
-contents of a bz2 archive</li>
-<li><code>bzip2</code> &ndash; compress a file using bz2
-format</li>
-<li><code>cal</code> &ndash; show the calendar</li>
-<li><code>cat</code> &ndash; send to stdout the contents of a
-file</li>
-<li><code>catv</code> &ndash; related to cat?</li>
-<li><code>chat</code> &ndash; you can do this?!?</li>
-<li><code>chattr</code> &ndash; ? change file attributes ?</li>
-<li><code>chgrp</code> &ndash; similar to chown, but only affect
-the group portion?</li>
-<li><code>chmod</code> &ndash; change file permissions</li>
-<li><code>chown</code> &ndash; change the owner of a file. can
-change user or group ownership.</li>
-<li><code>chpasswd</code> &ndash; never used, but guessing it would
-change a password. I think <code>passwd</code> does the same
-thing.</li>
-<li><code>chpst</code> &ndash; ?</li>
-<li><code>chroot</code> &ndash; change where &ldquo;/&rdquo; is
-located in the file system. never used. Might be good for
-sandboxing guest users?</li>
-<li><code>chrt</code> &ndash; abbreviation for
-<code>chroot</code>?</li>
-<li><code>chvt</code> &ndash; ?</li>
-<li><code>cksum</code> &ndash; generate a statistically unique
-number based on the contents of the stdin or a file.</li>
-<li><code>clear</code> &ndash; clear the terminal screen</li>
-<li><code>cmp</code> &ndash; ? compare?</li>
-<li><code>comm</code> &ndash; ?</li>
-<li><code>cp</code> &ndash; copy a file</li>
-<li><code>cpio</code> &ndash; ? copy a stream or more low level
-copy ?</li>
-<li><code>crond</code> &ndash; a daemon to run programs according
-to a schedule</li>
-<li><code>crontab</code> &ndash; manage a cron schedule</li>
-<li><code>cryptpw</code> &ndash; ?</li>
-<li><code>cut</code> &ndash; split stdin or a file into an
-array</li>
-<li><code>date</code> &ndash; output system time. can send it
-format args</li>
-<li><code>dc</code> &ndash; ? direct copy? I think I&rsquo;ve run
-into this during disk formatting.</li>
-<li><code>dd</code> &ndash; ? direct device copy? used in
-conjunction with <code>dc</code>?</li>
-<li><code>deallocvt</code> &ndash; ?</li>
-<li><code>delgroup</code> &ndash; remove a group from a user</li>
-<li><code>deluser</code> &ndash; remove a user</li>
-<li><code>depmod</code> &ndash; ?</li>
-<li><code>devmem</code> &ndash; ?</li>
-<li><code>df</code> &ndash; device fullness. (my own way to
-remember it). Display current disk usage.</li>
-<li><code>dhcprelay</code> &ndash; ? something related to dhcp</li>
-<li><code>diff</code> &ndash; show the difference of 2 files</li>
-<li><code>dirname</code> &ndash; never used it, I think
-<code>pwd</code> is more common</li>
-<li><code>dmesg</code> &ndash; ?</li>
-<li><code>dnsd</code> &ndash; DNS daemon</li>
-<li><code>dnsdomainname</code> &ndash; ?</li>
-<li><code>dos2unix</code> &ndash; change the line delimiters of a
-file to/from DOS style <code>\r\n</code> to UNIX
-<code>\n</code></li>
-<li><code>dpkg</code> &ndash; Debian program packaging utility</li>
-<li><code>du</code> &ndash; Disk Usage. How much space is the
-current directory using on disk.</li>
-<li><code>dumpkmap</code> &ndash; ?</li>
-<li><code>dumpleases</code> &ndash; ?</li>
-<li><code>echo</code> &ndash; print to stdout</li>
-<li><code>ed</code> &ndash; old school line editor. I&rsquo;m not
-old enough. Never used it.</li>
-<li><code>egrep</code> &ndash; extended <code>grep</code> which
-allows for more advanced regular expressions</li>
-<li><code>eject</code> &ndash; ? remove a floppy or CD ?</li>
-<li><code>env</code> &ndash; ?</li>
-<li><code>envdir</code> &ndash; ?</li>
-<li><code>envuidgid</code> &ndash; ?</li>
-<li><code>expand</code> &ndash; ?</li>
-<li><code>expr</code> &ndash; ?</li>
-<li><code>fakeidentd</code> &ndash; ?</li>
-<li><code>false</code> &ndash; not true? used in scripting ?</li>
-<li><code>fbset</code> &ndash; ?</li>
-<li><code>fbsplash</code> &ndash; ?</li>
-<li><code>fdflush</code> &ndash; ?</li>
-<li><code>fdformat</code> &ndash; ?</li>
-<li><code>fdisk</code> &ndash; ?</li>
-<li><code>fgrep</code> &ndash; related to grep? what the
-&ldquo;f&rdquo;?</li>
-<li><code>find</code> &ndash; find files based on various
-attributes</li>
-<li><code>findfs</code> &ndash; ? Like find is some way?</li>
-<li><code>flash_lock</code> &ndash; ?</li>
-<li><code>flash_unlock</code> &ndash; ?</li>
-<li><code>fold</code> &ndash; ? Laundry?</li>
-<li><code>free</code> &ndash; ? Disk or memory?</li>
-<li><code>freeramdisk</code> &ndash; ?</li>
-<li><code>fsck</code> &ndash; file system checker</li>
-<li><code>fsck.minix</code> &ndash; ?</li>
-<li><code>fsync</code> &ndash; ?</li>
-<li><code>ftpd</code> &ndash; FTP daemon</li>
-<li><code>ftpget</code> &ndash; get file from FTP server</li>
-<li><code>ftpput</code> &ndash; put a file onto an FTP server</li>
-<li><code>fuser</code> &ndash; ?</li>
-<li><code>getopt</code> &ndash; ? Helper for writing scripts?</li>
-<li><code>getty</code> &ndash; ?</li>
-<li><code>grep</code> &ndash; find text in a file or stdin</li>
-<li><code>gunzip</code> &ndash; decompress a gz archive</li>
-<li><code>gzip</code> &ndash; compress a file into a gz
-archive</li>
-<li><code>hd</code> &ndash; ?</li>
-<li><code>hdparm</code> &ndash; ? get parameters from hard
-drive?</li>
-<li><code>head</code> &ndash; output to N number of lines from a
-file or stdin</li>
-<li><code>hexdump</code> &ndash; ? Dump contents as hex
-characters</li>
-<li><code>hostid</code> &ndash; ?</li>
-<li><code>hostname</code> &ndash; hostname of the machine, and set
-it using the same command</li>
-<li><code>httpd</code> &ndash; webserver daemon, I wonder it is
-Apache</li>
-<li><code>hush</code> &ndash; ?</li>
-<li><code>hwclock</code> &ndash; ? Hardware clock?</li>
-<li><code>id</code> &ndash; ?</li>
-<li><code>ifconfig</code> &ndash; manage network interfaces</li>
-<li><code>ifdown</code> &ndash; turn off a network interface</li>
-<li><code>ifenslave</code> &ndash; ?</li>
-<li><code>ifplugd</code> &ndash; ?</li>
-<li><code>ifup</code> &ndash; turn on a network interface</li>
-<li><code>inetd</code> &ndash; ? I should know this, but I
-don&rsquo;t</li>
-<li><code>init</code> &ndash; ?</li>
-<li><code>inotifyd</code> &ndash; ?</li>
-<li><code>insmod</code> &ndash; ?</li>
-<li><code>install</code> &ndash; ? Install what and where?</li>
-<li><code>ionice</code> &ndash; ?</li>
-<li><code>ip</code> &ndash; ? Related to networking&hellip;</li>
-<li><code>ipaddr</code> &ndash; ?</li>
-<li><code>ipcalc</code> &ndash; ?</li>
-<li><code>ipcrm</code> &ndash; ?</li>
-<li><code>ipcs</code> &ndash; ?</li>
-<li><code>iplink</code> &ndash; ?</li>
-<li><code>iproute</code> &ndash; ?</li>
-<li><code>iprule</code> &ndash; ?</li>
-<li><code>iptunnel</code> &ndash; ?</li>
-<li><code>kbd_mode</code> &ndash; ? Keyboard mode?</li>
-<li><code>kill</code> &ndash; kill a running process</li>
-<li><code>killall</code> &ndash; kill all processes matching a
-criteria</li>
-<li><code>killall5</code> &ndash; ?</li>
-<li><code>klogd</code> &ndash; ?</li>
-<li><code>last</code> &ndash; ? like tail?</li>
-<li><code>length</code> &ndash; ?</li>
-<li><code>less</code> &ndash; file viewer with VI style
-navigation</li>
-<li><code>linux32</code> &ndash; ?</li>
-<li><code>linux64</code> &ndash; ?</li>
-<li><code>linuxrc</code> &ndash; ?</li>
-<li><code>ln</code> &ndash; link a file to another location</li>
-<li><code>loadfont</code> &ndash; ?</li>
-<li><code>loadkmap</code> &ndash; ?</li>
-<li><code>logger</code> &ndash; ?</li>
-<li><code>login</code> &ndash; login as another user</li>
-<li><code>logname</code> &ndash; ?</li>
-<li><code>logread</code> &ndash; ?</li>
-<li><code>losetup</code> &ndash; ?</li>
-<li><code>lpd</code> &ndash; ?</li>
-<li><code>lpq</code> &ndash; ?</li>
-<li><code>lpr</code> &ndash; ?</li>
-<li><code>ls</code> &ndash; list files to stdout</li>
-<li><code>lsattr</code> &ndash;?</li>
-<li><code>lsmod</code> &ndash; ?</li>
-<li><code>lzmacat</code> &ndash; ?</li>
-<li><code>lzop</code> &ndash; ?</li>
-<li><code>lzopcat</code> &ndash; ?</li>
-<li><code>makemime</code> &ndash; ?</li>
-<li><code>man</code> &ndash; view manual of a command. <code>man
-busybox</code></li>
-<li><code>md5sum</code> &ndash; like <code>cksum</code> but more
-commonly used</li>
-<li><code>mdev</code> &ndash; ?</li>
-<li><code>mesg</code> &ndash; ?</li>
-<li><code>microcom</code> &ndash; ?</li>
-<li><code>mkdir</code> &ndash; make a directory</li>
-<li><code>mkdosfs</code> &ndash; ? make DOS file system?</li>
-<li><code>mkfifo</code> &ndash; ?</li>
-<li><code>mkfs.minix</code> &ndash; ?</li>
-<li><code>mkfs.vfat</code> &ndash; ?</li>
-<li><code>mknod</code> &ndash; ?</li>
-<li><code>mkpasswd</code> &ndash; ?</li>
-<li><code>mkswap</code> &ndash; ?</li>
-<li><code>mktemp</code> &ndash; ?</li>
-<li><code>modprobe</code> &ndash; ?</li>
-<li><code>more</code> &ndash; predecessor to <code>less</code> and
-has fewer features. Many systems link <code>more</code> to
-<code>less</code></li>
-<li><code>mount</code> &ndash; mount a device to file system
-path</li>
-<li><code>mountpoint</code> &ndash; ?</li>
-<li><code>mt</code> &ndash; ?</li>
-<li><code>mv</code> &ndash; move file to another path</li>
-<li><code>nameif</code> &ndash; ?</li>
-<li><code>nc</code> &ndash; ?</li>
-<li><code>netstat</code> &ndash; get network statistics</li>
-<li><code>nice</code> &ndash; change CPU priority of a process</li>
-<li><code>nmeter</code> &ndash; ?</li>
-<li><code>nohup</code> &ndash; run process detatched from current
-shell and as system root process</li>
-<li><code>nslookup</code> &ndash; lookup IP address of DNS
-name</li>
-<li><code>od</code> &ndash; ?</li>
-<li><code>openvt</code> &ndash; ?</li>
-<li><code>passwd</code> &ndash; change password</li>
-<li><code>patch</code> &ndash; apply difference file generated by
-<code>diff</code></li>
-<li><code>pgrep</code> &ndash; ? What the &lsquo;p&rsquo;?</li>
-<li><code>pidof</code> &ndash; ?</li>
-<li><code>ping</code> &ndash; check for existence of another
-IP</li>
-<li><code>ping6</code> &ndash; same as <code>ping</code> but for
-IPv6</li>
-<li><code>pipe_progress</code> &ndash; ? sounds interesting</li>
-<li><code>pivot_root</code> &ndash;?</li>
-<li><code>pkill</code> &ndash; kill all processes named X</li>
-<li><code>popmaildir</code> &ndash; ? related to POP mail</li>
-<li><code>printenv</code> &ndash; ?</li>
-<li><code>printf</code> &ndash; ?</li>
-<li><code>ps</code> &ndash; process list, list all currently
-running processes</li>
-<li><code>pscan</code> &ndash; ?</li>
-<li><code>pwd</code> &ndash; current working directory</li>
-<li><code>raidautorun</code> &ndash; ?</li>
-<li><code>rdate</code> &ndash; ?</li>
-<li><code>rdev</code> &ndash; ?</li>
-<li><code>readlink</code> &ndash; ?</li>
-<li><code>readprofile</code> &ndash; ?</li>
-<li><code>realpath</code> &ndash; ?</li>
-<li><code>reformime</code> &ndash; ?</li>
-<li><code>renice</code> &ndash; ?</li>
-<li><code>reset</code> &ndash; ?</li>
-<li><code>resize</code> &ndash; ?</li>
-<li><code>rm</code> &ndash; remove file</li>
-<li><code>rmdir</code> &ndash; remove directory</li>
-<li><code>rmmod</code> &ndash;?</li>
-<li><code>route</code> &ndash; ? related to networking</li>
-<li><code>rpm</code> &ndash; Redhat package manager?</li>
-<li><code>rpm2cpio</code> &ndash; ?</li>
-<li><code>rtcwake</code> &ndash; ?</li>
-<li><code>run-parts</code> &ndash; ?</li>
-<li><code>runlevel</code> &ndash; ?</li>
-<li><code>runsv</code> &ndash; ?</li>
-<li><code>runsvdir</code> &ndash; ?</li>
-<li><code>rx</code> &ndash; ? Prescription Drugs? How
-convienant</li>
-<li><code>script</code> &ndash; ?</li>
-<li><code>scriptreplay</code> &ndash; ?</li>
-<li><code>sed</code> &ndash; stream editor</li>
-<li><code>sendmail</code> &ndash; ? related to email</li>
-<li><code>seq</code> &ndash; ?</li>
-<li><code>setarch</code> &ndash; ?</li>
-<li><code>setconsole</code> &ndash; ?</li>
-<li><code>setfont</code> &ndash; ?</li>
-<li><code>setkeycodes</code> &ndash; ?</li>
-<li><code>setlogcons</code> &ndash; ?</li>
-<li><code>setsid</code> &ndash; ?</li>
-<li><code>setuidgid</code> &ndash; ?</li>
-<li><code>sh</code> &ndash; start a new shell</li>
-<li><code>sha1sum</code> &ndash; check sum generator like
-<code>cksum</code> and <code>md5sum</code> but considered more
-random. This is the 128 bits version.</li>
-<li><code>sha256sum</code> &ndash; same as above but more bits</li>
-<li><code>sha512sum</code> &ndash; even more bits</li>
-<li><code>showkey</code> &ndash; ?</li>
-<li><code>slattach</code> &ndash; ?</li>
-<li><code>sleep</code> &ndash; suspend computer</li>
-<li><code>softlimit</code> &ndash; ?</li>
-<li><code>sort</code> &ndash; sort contents of stdin or file.
-Output to stdout</li>
-<li><code>split</code> &ndash; ? I can guess, but didn&rsquo;t know
-this existed.</li>
-<li><code>start-stop-daemon</code> &ndash; ?</li>
-<li><code>stat</code> &ndash; ?</li>
-<li><code>strings</code> &ndash; ?</li>
-<li><code>stty</code> &ndash; ?</li>
-<li><code>su</code> &ndash; switch user</li>
-<li><code>sulogin</code> &ndash; ?</li>
-<li><code>sum</code> &ndash; ?</li>
-<li><code>sv</code> &ndash; ?</li>
-<li><code>svlogd</code> &ndash; ?</li>
-<li><code>swapoff</code> &ndash; ?</li>
-<li><code>swapon</code> &ndash; ?</li>
-<li><code>switch_root</code> &ndash; ?</li>
-<li><code>sync</code> &ndash; ?</li>
-<li><code>sysctl</code> &ndash; ? Sounds familar</li>
-<li><code>syslogd</code> &ndash; logging daemon</li>
-<li><code>tac</code> &ndash; opposite of <code>cat</code>, will
-print in reverse order</li>
-<li><code>tail</code> &ndash; output end of a file or steam</li>
-<li><code>tar</code> &ndash; create an archive of one or more
-files</li>
-<li><code>taskset</code> &ndash; ?</li>
-<li><code>tcpsvd</code> &ndash; ?</li>
-<li><code>tee</code> &ndash; write stdout to a file and still
-output to screen</li>
-<li><code>telnet</code> &ndash; client to connect to another
-machine/hosts</li>
-<li><code>telnetd</code> &ndash; telnet daemon to allow connections
-from other hosts</li>
-<li><code>test</code> &ndash; ?</li>
-<li><code>tftp</code> &ndash; ? What is the &rsquo;t&#8217;?</li>
-<li><code>tftpd</code> &ndash; ? FTP server daemon. What is the
-&rsquo;t&#8217;?</li>
-<li><code>time</code> &ndash; time how long a program takes to run.
-I often type this instead of <code>date</code> wanting to know what
-time it is on the server, and I&rsquo;m always disappointed by the
-0 result</li>
-<li><code>timeout</code> &ndash; ? sounds interesting</li>
-<li><code>top</code> &ndash; nice UI of top processes</li>
-<li><code>touch</code> &ndash; change to modified timestamp of a
-file to now. Will create an empty file it doesn&rsquo;t exist</li>
-<li><code>tr</code> &ndash; ?</li>
-<li><code>traceroute</code> &ndash; check how many network hops the
-current host is from another host</li>
-<li><code>true</code> &ndash; ?</li>
-<li><code>tty</code> &ndash; ?</li>
-<li><code>ttysize</code> &ndash; ?</li>
-<li><code>udhcpc</code> &ndash; ?</li>
-<li><code>udhcpd</code> &ndash; ?</li>
-<li><code>udpsvd</code> &ndash; ?</li>
-<li><code>umount</code> &ndash; unmount a device from file
-system</li>
-<li><code>uname</code> &ndash; output info about current OS
-installation</li>
-<li><code>uncompress</code> &ndash; ? decompress a file, never used
-before</li>
-<li><code>unexpand</code> &ndash; ? Ditto</li>
-<li><code>uniq</code> &ndash; outputs unique occurrences of a line
-from a file or stdout. Input must already be sorted.</li>
-<li><code>unix2dos</code> &ndash; opposite of
-<code>dos2unix</code></li>
-<li><code>unlzma</code> &ndash; ?</li>
-<li><code>unlzop</code> &ndash; ?</li>
-<li><code>unzip</code> &ndash; decompress a zip archive</li>
-<li><code>uptime</code> &ndash; ?</li>
-<li><code>usleep</code> &ndash; ?</li>
-<li><code>uudecode</code> &ndash; ? What is UU?</li>
-<li><code>uuencode</code> &ndash; ?</li>
-<li><code>vconfig</code> &ndash; ?</li>
-<li><code>vi</code> &ndash; visual editor</li>
-<li><code>vlock</code> &ndash; ?</li>
-<li><code>volname</code> &ndash; ?</li>
-<li><code>watch</code> &ndash; continuously run a program and
-output the results watching for differences</li>
-<li><code>watchdog</code> &ndash;?</li>
-<li><code>wc</code> &ndash; word count, outputs lines then words
-then character count</li>
-<li><code>wget</code> &ndash; pull a HTTP resource into file or
-stdout</li>
-<li><code>which</code> &ndash; output the full path of a
-program</li>
-<li><code>who</code> &ndash; who else is logged into current
-host</li>
-<li><code>whoami</code> &ndash; which user I is my session</li>
-<li><code>xargs</code> &ndash; ? I&#8217;be always wanted to learn this
-one&hellip;</li>
-<li><code>yes</code> &ndash; output &lsquo;y&rsquo; to stdin.
-Useful for automatically confirmation of install prompts</li>
-<li><code>zcat</code> &ndash; <code>cat</code> the contents of a gz
-archive</li>
-<li><code>zcip</code> &ndash; ?</li>
-</ol>
-<h1>Conclusion</h1>
-<p>Three hundred and eight commands later&hellip; I&rsquo;m tired.
-And as you can see, I have a long way to go. 99 commands known, and
-209 commands unknown. 33% is better than the predicted 10%
-<strong>Woohoo!</strong></p>
-<p>Now I have the task of reading the <a href=
-"http://www.busybox.net/downloads/BusyBox.html" title=
-"Busybox Manual">Busybox documentation</a> more thoroughly to see
-what I&rsquo;ve been missing my whole shell life.</p>
-<p>So where do you stand on the Busybox challenge? Are the Busybox
-commands already at your mercy or is it this the missing Linux
-link? Post your percentage in the comments.</p>
 
 ]]></content>
   </entry>

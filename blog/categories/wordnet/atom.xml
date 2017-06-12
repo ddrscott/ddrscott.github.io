@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wordnet | @_ddrscott_]]></title>
+  <link href="http://ddrscott.github.io/blog/categories/wordnet/atom.xml" rel="self"/>
+  <link href="http://ddrscott.github.io/"/>
+  <updated>2017-06-12T17:09:43-05:00</updated>
+  <id>http://ddrscott.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Pierce]]></name>
+    <email><![CDATA[ddrscott@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[FZF + WordNet = Dictionary]]></title>
+    <link href="http://ddrscott.github.io/blog/2017/fzf-dictionary/"/>
+    <updated>2017-06-12T13:30:00-05:00</updated>
+    <id>http://ddrscott.github.io/blog/2017/fzf-dictionary</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="/images/fzf_dictionary_demo.gif" width="707" height="412" title="&lsquo;FZF Dictionary&rsquo;" ></p>
+
+<p><code>FZF + WordNet = Dictionary</code>. FZF is a fuzzy finding command line tool. WordNet
+is a dictionary structured for developers. When married together, we can get
+a snappy dictionary to help us find just the right word for any occasion.</p>
+
+<!-- more -->
+
+
+<h1>Install Required Program</h1>
+
+<p>Before making our new shell function, lets install the required programs.</p>
+
+<ol>
+<li><a href="https://github.com/junegunn/fzf">https://github.com/junegunn/fzf</a></li>
+<li><a href="http://wordnetweb.princeton.edu/perl/webwn">http://wordnetweb.princeton.edu/perl/webwn</a></li>
+</ol>
+
+
+<p>These directions are for Max OSX with <code>homebrew</code> installed. If you&rsquo;re on
+a different system, read the docs from the sites above to get the programs for
+your operating system.</p>
+
+<p><code>sh
+brew install fzf
+brew cask install xquartz
+brew install wordnet
+</code></p>
+
+<h2>FZF</h2>
+
+<p>FZF stands for Fuzzy Finder. It is a program which enables the user to filter
+a set of lines from standard in and feed those line back to standard out.
+A basic example is: <code>find . | fzf</code>. This presents a list of all files in the
+current working directory and prompts the user for input. As you type letters, the
+list will narrow, keeping only the items matching the search criteria. After
+selecting an entry from the list the line or lines chosen is printed to standard
+out. It provides a nifty argument <code>--preview</code> which can execute a program and
+display its output as an aside in the terminal. We&rsquo;ll write more about FZF in the
+future.</p>
+
+<h2>WordNet</h2>
+
+<blockquote><p>WordNet is a large lexical database of English. Nouns, verbs, adjectives and
+adverbs are grouped into sets of cognitive synonyms (synsets), each expressing
+a distinct concept. Synsets are interlinked by means of conceptual-semantic
+and lexical relations. The resulting network of meaningfully related words and
+concepts can be navigated with the browser. WordNet is also freely and
+publicly available for download. WordNet&rsquo;s structure makes it a useful tool
+for computational linguistics and natural language processing.</p>
+
+<p>WordNet superficially resembles a thesaurus, in that it groups words together
+based on their meanings. However, there are some important distinctions.
+First, WordNet interlinks not just word forms—strings of letters—but specific
+senses of words. As a result, words that are found in close proximity to one
+another in the network are semantically disambiguated. Second, WordNet labels
+the semantic relations among words, whereas the groupings of words in
+a thesaurus does not follow any explicit pattern other than meaning
+similarity.</p></blockquote>
+
+<p>Using WordNet we can find information similar to what is in a dictionary and
+thesaurus combined.</p>
+
+<p>Example output of looking up <code>happy</code> is:
+```text
+% wn happy -over</p>
+
+<p>Overview of adj happy</p>
+
+<p>The adj happy has 4 senses (first 2 from tagged texts)</p>
+
+<ol>
+<li>(37) happy &mdash; (enjoying or showing or marked by joy or pleasure; &ldquo;a happy smile&rdquo;; &ldquo;spent many happy days on the beach&rdquo;; &ldquo;a happy marriage&rdquo;)</li>
+<li>(2) felicitous, happy &mdash; (marked by good fortune; &ldquo;a felicitous life&rdquo;; &ldquo;a happy outcome&rdquo;)</li>
+<li>glad, happy &mdash; (eagerly disposed to act or to be of service; &ldquo;glad to help&rdquo;)</li>
+<li>happy, well-chosen &mdash; (well expressed and to the point; &ldquo;a happy turn of phrase&rdquo;; &ldquo;a few well-chosen words&rdquo;)
+```</li>
+</ol>
+
+
+<p><code>xquartz</code> is needed since the WordNet package also works in GUI mode. The GUI
+app has a useful interface and could be more intuitive to use if you don&rsquo;t mind
+clicking around. The GUI app can be started with <code>wnb</code>, but we&rsquo;re not here for
+GUI stuff. Let&rsquo;s move on to making our terminal script.</p>
+
+<h1>Shell Script</h1>
+
+<p>The following 3 functions can be used individually and are helpful all on their
+own. Add these directly into your shell profile or in a separate file and source
+it from the profile.</p>
+
+<p><code>fold</code> is normally a built in command. By default it adds newlines when text
+overflows the terminal, but it doesn&rsquo;t do it in an easy to read fashion. The
+default behavior can break in the middle of a word and assumes a terminal width
+of 80 columns. Our <code>fold</code> function breaks at spaces and passes the whole
+terminal width to it when no other arguments are provided.</p>
+
+<p>```sh</p>
+
+<h1>Default <code>fold</code> to screen width and break at spaces</h1>
+
+<p>function fold {
+  if [ $# -eq 0 ]; then</p>
+
+<pre><code>/usr/bin/fold -w $COLUMNS -s
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>/usr/bin/fold $*
+</code></pre>
+
+<p>  fi
+}
+```</p>
+
+<p><code>spell</code> is the FZF portion of our script. This fuzzy matches the built in Mac
+dictionary with a preview window containing the WordNet overview of the selected
+word.</p>
+
+<p>```sh</p>
+
+<h1>Use <code>fzf</code> against system dictionary</h1>
+
+<p>function spell {
+  cat /usr/share/dict/words | fzf &mdash;preview &lsquo;wn {} -over | fold&rsquo; &mdash;preview-window=up:60%
+}
+```</p>
+
+<p>The <code>dic</code> script uses <code>spell</code> to help find a word then outputs WordNet&rsquo;s
+definition.</p>
+
+<p>```sh</p>
+
+<h1>Lookup definition of word using <code>wn $1 -over</code>.</h1>
+
+<h1>If $1 is not provided, we&rsquo;ll use the <code>spell</code> command to pick a word.</h1>
+
+<p>#</p>
+
+<h1>Requires:</h1>
+
+<h1>brew install wordnet</h1>
+
+<h1>brew install fzf</h1>
+
+<p>function dic {
+  if [ $# -eq 0 ]; then</p>
+
+<pre><code>wn `spell` -over | fold
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>wn $1 -over | fold
+</code></pre>
+
+<p>  fi
+}
+```</p>
+
+<p>Here&rsquo;s another demo of the <code>dic</code> function:
+<img class="featured" src="/images/fzf_dict_demo2.gif" width="570" height="360" title="&lsquo;FZF Dictionary Demo 2&rsquo;" ></p>
+
+<h1>Conclusion</h1>
+
+<p>Gluing programs together with <code>fzf --preview</code> is fun. Let us know what other
+recipes you come up with in the comments below.</p>
+]]></content>
+  </entry>
+  
+</feed>

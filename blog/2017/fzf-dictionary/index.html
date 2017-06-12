@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>FZF + WordNet = Dictionary - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="FZF + WordNet = Dictionary written Jun 12th, 2017 in fzf, shell, wordnet FZF + WordNet = Dictionary. FZF is a fuzzy finding command line tool. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2017/fzf-dictionary">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-8547687546592989",
+      enable_page_level_ads: true
+    });
+  </script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>FZF + WordNet = Dictionary</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2017-06-12T13:30:00-05:00" pubdate data-updated="true">Jun 12<sup>th</sup>, 2017</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/fzf/'>fzf</a>, <a class='category' href='/blog/categories/shell/'>shell</a>, <a class='category' href='/blog/categories/wordnet/'>wordnet</a>
+  
+</span>
+
+
+        </div>
+        <p><img class="featured" src="/images/fzf_dictionary_demo.gif" width="707" height="412" title="'FZF Dictionary'" ></p>
+
+<p><code>FZF + WordNet = Dictionary</code>. FZF is a fuzzy finding command line tool. WordNet
+is a dictionary structured for developers. When married together, we can get
+a snappy dictionary to help us find just the right word for any occasion.</p>
+
+<!-- more -->
+
+
+<h1>Install Required Program</h1>
+
+<p>Before making our new shell function, lets install the required programs.</p>
+
+<ol>
+<li><a href="https://github.com/junegunn/fzf">https://github.com/junegunn/fzf</a></li>
+<li><a href="http://wordnetweb.princeton.edu/perl/webwn">http://wordnetweb.princeton.edu/perl/webwn</a></li>
+</ol>
+
+
+<p>These directions are for Max OSX with <code>homebrew</code> installed. If you&rsquo;re on
+a different system, read the docs from the sites above to get the programs for
+your operating system.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install fzf
+</span><span class='line'>brew cask install xquartz
+</span><span class='line'>brew install wordnet
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>FZF</h2>
+
+<p>FZF stands for Fuzzy Finder. It is a program which enables the user to filter
+a set of lines from standard in and feed those line back to standard out.
+A basic example is: <code>find . | fzf</code>. This presents a list of all files in the
+current working directory and prompts the user for input. As you type letters, the
+list will narrow, keeping only the items matching the search criteria. After
+selecting an entry from the list the line or lines chosen is printed to standard
+out. It provides a nifty argument <code>--preview</code> which can execute a program and
+display its output as an aside in the terminal. We&rsquo;ll write more about FZF in the
+future.</p>
+
+<h2>WordNet</h2>
+
+<blockquote><p>WordNet is a large lexical database of English. Nouns, verbs, adjectives and
+adverbs are grouped into sets of cognitive synonyms (synsets), each expressing
+a distinct concept. Synsets are interlinked by means of conceptual-semantic
+and lexical relations. The resulting network of meaningfully related words and
+concepts can be navigated with the browser. WordNet is also freely and
+publicly available for download. WordNet&rsquo;s structure makes it a useful tool
+for computational linguistics and natural language processing.</p>
+
+<p>WordNet superficially resembles a thesaurus, in that it groups words together
+based on their meanings. However, there are some important distinctions.
+First, WordNet interlinks not just word forms—strings of letters—but specific
+senses of words. As a result, words that are found in close proximity to one
+another in the network are semantically disambiguated. Second, WordNet labels
+the semantic relations among words, whereas the groupings of words in
+a thesaurus does not follow any explicit pattern other than meaning
+similarity.</p></blockquote>
+
+<p>Using WordNet we can find information similar to what is in a dictionary and
+thesaurus combined.</p>
+
+<p>Example output of looking up <code>happy</code> is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>% wn happy -over
+</span><span class='line'>
+</span><span class='line'>Overview of adj happy
+</span><span class='line'>
+</span><span class='line'>The adj happy has 4 senses (first 2 from tagged texts)
+</span><span class='line'>
+</span><span class='line'>1. (37) happy -- (enjoying or showing or marked by joy or pleasure; &quot;a happy smile&quot;; &quot;spent many happy days on the beach&quot;; &quot;a happy marriage&quot;)
+</span><span class='line'>2. (2) felicitous, happy -- (marked by good fortune; &quot;a felicitous life&quot;; &quot;a happy outcome&quot;)
+</span><span class='line'>3. glad, happy -- (eagerly disposed to act or to be of service; &quot;glad to help&quot;)
+</span><span class='line'>4. happy, well-chosen -- (well expressed and to the point; &quot;a happy turn of phrase&quot;; &quot;a few well-chosen words&quot;)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>xquartz</code> is needed since the WordNet package also works in GUI mode. The GUI
+app has a useful interface and could be more intuitive to use if you don&rsquo;t mind
+clicking around. The GUI app can be started with <code>wnb</code>, but we&rsquo;re not here for
+GUI stuff. Let&rsquo;s move on to making our terminal script.</p>
+
+<h1>Shell Script</h1>
+
+<p>The following 3 functions can be used individually and are helpful all on their
+own. Add these directly into your shell profile or in a separate file and source
+it from the profile.</p>
+
+<p><code>fold</code> is normally a built in command. By default it adds newlines when text
+overflows the terminal, but it doesn&rsquo;t do it in an easy to read fashion. The
+default behavior can break in the middle of a word and assumes a terminal width
+of 80 columns. Our <code>fold</code> function breaks at spaces and passes the whole
+terminal width to it when no other arguments are provided.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Default `fold` to screen width and break at spaces</span>
+</span><span class='line'><span class="k">function </span>fold <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq 0 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'>    /usr/bin/fold -w <span class="nv">$COLUMNS</span> -s
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    /usr/bin/fold <span class="nv">$*</span>
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>spell</code> is the FZF portion of our script. This fuzzy matches the built in Mac
+dictionary with a preview window containing the WordNet overview of the selected
+word.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Use `fzf` against system dictionary</span>
+</span><span class='line'><span class="k">function </span>spell <span class="o">{</span>
+</span><span class='line'>  cat /usr/share/dict/words <span class="p">|</span> fzf --preview <span class="s1">&#39;wn {} -over | fold&#39;</span> --preview-window<span class="o">=</span>up:60%
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>dic</code> script uses <code>spell</code> to help find a word then outputs WordNet&rsquo;s
+definition.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Lookup definition of word using `wn $1 -over`.</span>
+</span><span class='line'><span class="c"># If $1 is not provided, we&#39;ll use the `spell` command to pick a word.</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># Requires:</span>
+</span><span class='line'><span class="c">#   brew install wordnet</span>
+</span><span class='line'><span class="c">#   brew install fzf</span>
+</span><span class='line'><span class="k">function </span>dic <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq 0 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="k">    </span>wn <span class="sb">`</span>spell<span class="sb">`</span> -over <span class="p">|</span> fold
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'><span class="k">    </span>wn <span class="nv">$1</span> -over <span class="p">|</span> fold
+</span><span class='line'>  <span class="k">fi</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s another demo of the <code>dic</code> function:
+<img class="featured" src="/images/fzf_dict_demo2.gif" width="570" height="360" title="'FZF Dictionary Demo 2'" ></p>
+
+<h1>Conclusion</h1>
+
+<p>Gluing programs together with <code>fzf --preview</code> is fun. Let us know what other
+recipes you come up with in the comments below.</p>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2017/gnu-screen/" title="Previous Post: GNU Screen">&laquo; Previous: GNU Screen</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+        <a href="https://twitter.com/@_ddrscott_"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-50126719-1', 'auto');
+ga('send', 'pageview');
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2017/fzf-dictionary/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2017/fzf-dictionary/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
