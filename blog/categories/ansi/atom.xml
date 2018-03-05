@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: ansi | @_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/blog/categories/ansi/atom.xml" rel="self"/>
-  <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-05T08:18:45-06:00</updated>
-  <id>http://ddrscott.github.io/</id>
+  <link href="https://ddrscott.github.io/blog/categories/ansi/atom.xml" rel="self"/>
+  <link href="https://ddrscott.github.io/"/>
+  <updated>2018-03-05T09:03:19-06:00</updated>
+  <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
     <email><![CDATA[ddrscott@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ANSI Codes with Character]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/ansi-codes-with-character/"/>
+    <link href="https://ddrscott.github.io/blog/2016/ansi-codes-with-character/"/>
     <updated>2016-07-26T11:11:51-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/ansi-codes-with-character</id>
+    <id>https://ddrscott.github.io/blog/2016/ansi-codes-with-character</id>
     <content type="html"><![CDATA[<p>This was a lightening talk given to the office about ANSI Escape Codes. Most of
 the time, all 5 minutes of it, was spent explaining the code snippets.</p>
 

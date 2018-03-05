@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vim, | @_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/blog/categories/vim/atom.xml" rel="self"/>
-  <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-05T08:18:45-06:00</updated>
-  <id>http://ddrscott.github.io/</id>
+  <link href="https://ddrscott.github.io/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="https://ddrscott.github.io/"/>
+  <updated>2018-03-05T09:03:19-06:00</updated>
+  <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
     <email><![CDATA[ddrscott@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Making a Window Submode in Vim]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/making-a-window-submode/"/>
+    <link href="https://ddrscott.github.io/blog/2016/making-a-window-submode/"/>
     <updated>2016-04-29T09:00:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/making-a-window-submode</id>
+    <id>https://ddrscott.github.io/blog/2016/making-a-window-submode</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/window-mode-feature.png" width="1280" height="380" title="&lsquo;Header Image&rsquo;" >
 I found a plugin that is changing my Vim-tire life! This
 <a href="https://github.com/kana/vim-submode">plugin</a> is so awesome it should be

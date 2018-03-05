@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[@_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
-  <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-05T08:18:45-06:00</updated>
-  <id>http://ddrscott.github.io/</id>
+  <link href="https://ddrscott.github.io/atom.xml" rel="self"/>
+  <link href="https://ddrscott.github.io/"/>
+  <updated>2018-03-05T09:03:19-06:00</updated>
+  <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
     <email><![CDATA[ddrscott@gmail.com]]></email>
@@ -15,10 +15,10 @@
   
   <entry>
     <title type="html"><![CDATA[Getting Rusty]]></title>
-    <link href="http://ddrscott.github.io/blog/2018/getting-rusty/"/>
+    <link href="https://ddrscott.github.io/blog/2018/getting-rusty/"/>
     <updated>2018-03-04T06:30:00-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2018/getting-rusty</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/rusty-featured.png" width=1910 height=1436 alt="Vim Screenshot" /></p>
+    <id>https://ddrscott.github.io/blog/2018/getting-rusty</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/rusty-featured.png" width=1910 height=1436 alt="Vim Screenshot" /></p>
 
 <p>After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
 used Vim along the way. Here are some notes I compiled after my first session.</p>
@@ -82,10 +82,10 @@ all IDE super powers. And finally, I hear it&rsquo;s a pretty good language, too
   
   <entry>
     <title type="html"><![CDATA[FZF + WordNet = Dictionary]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/fzf-dictionary/"/>
+    <link href="https://ddrscott.github.io/blog/2017/fzf-dictionary/"/>
     <updated>2017-06-12T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/fzf-dictionary</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/fzf_dictionary_demo.gif" width="707" height="412" title="'FZF Dictionary'" ></p>
+    <id>https://ddrscott.github.io/blog/2017/fzf-dictionary</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/fzf_dictionary_demo.gif" width="707" height="412" title="'FZF Dictionary'" ></p>
 
 <p><code>FZF + WordNet = Dictionary</code>. FZF is a fuzzy finding command line tool. WordNet
 is a dictionary structured for developers. When married together, we can get
@@ -260,7 +260,7 @@ definition.</p>
 
 
 <p>Here&rsquo;s another demo of the <code>dic</code> function:
-<img class="featured" src="http://ddrscott.github.io/images/fzf_dict_demo2.gif" width="570" height="360" title="'FZF Dictionary Demo 2'" ></p>
+<img class="featured" src="https://ddrscott.github.io/images/fzf_dict_demo2.gif" width="570" height="360" title="'FZF Dictionary Demo 2'" ></p>
 
 <h1>Conclusion</h1>
 
@@ -271,10 +271,10 @@ recipes you come up with in the comments below.</p>
   
   <entry>
     <title type="html"><![CDATA[GNU Screen]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/gnu-screen/"/>
+    <link href="https://ddrscott.github.io/blog/2017/gnu-screen/"/>
     <updated>2017-06-01T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/gnu-screen</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/gnu-screen-featured.jpg" width="1024" height="488" title="'GNU Screen Featured'" ></p>
+    <id>https://ddrscott.github.io/blog/2017/gnu-screen</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/gnu-screen-featured.jpg" width="1024" height="488" title="'GNU Screen Featured'" ></p>
 
 <blockquote><p>Screen is a full-screen window manager that multiplexes a physical terminal
 between several processes, typically interactive shells.</p></blockquote>
@@ -346,7 +346,7 @@ your home directory will help.</p>
 
 <p>This should give you a pretty statusline at the bottom of your terminal.
 Here&rsquo;s what it looks like:
-<img class="featured" src="http://ddrscott.github.io/images/gnu-screen-statusline.jpg" width="1024" height="113" title="'GNU Screen Statusline'" ></p>
+<img class="featured" src="https://ddrscott.github.io/images/gnu-screen-statusline.jpg" width="1024" height="113" title="'GNU Screen Statusline'" ></p>
 
 <h2>TMUX</h2>
 
@@ -367,10 +367,10 @@ it&rsquo;s not installed everywhere. <code>screen</code> just works for my work 
   
   <entry>
     <title type="html"><![CDATA[Base16 Shell]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/base16-shell/"/>
+    <link href="https://ddrscott.github.io/blog/2017/base16-shell/"/>
     <updated>2017-04-13T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/base16-shell</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/base16-featured.png" width="1024" height="558" title="'Base16 Featured'" ></p>
+    <id>https://ddrscott.github.io/blog/2017/base16-shell</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/base16-featured.png" width="1024" height="558" title="'Base16 Featured'" ></p>
 
 <p>After many years using the excellent Solarized color scheme, it has
 started to feel stale. Sometimes I think the dark blueish tint brings
@@ -455,9 +455,9 @@ I&rsquo;m just a shell command away from changing. Indecision has never been so 
   
   <entry>
     <title type="html"><![CDATA[Vim Send Text]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/vim-send-text/"/>
+    <link href="https://ddrscott.github.io/blog/2017/vim-send-text/"/>
     <updated>2017-04-10T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/vim-send-text</id>
+    <id>https://ddrscott.github.io/blog/2017/vim-send-text</id>
     <content type="html"><![CDATA[<p><img class="featured" src="https://raw.githubusercontent.com/ddrscott/vim-islime2/gh-pages/demo.gif" title="'Vim Send Text Demo'" ></p>
 
 <p>After pairing with some Sublime users, I noticed a neat feature. Or more
@@ -551,10 +551,10 @@ feature envy from Sublime. Happy console hacking!</p>
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? WINDOW]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-window/"/>
+    <link href="https://ddrscott.github.io/blog/2017/what-the-sql-window/"/>
     <updated>2017-03-22T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/what-the-sql-window</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/what_the_sql_window.png" width="1079" height="369" title="'What the SQL?!?  WINDOW'" ></p>
+    <id>https://ddrscott.github.io/blog/2017/what-the-sql-window</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/what_the_sql_window.png" width="1079" height="369" title="'What the SQL?!?  WINDOW'" ></p>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>WINDOW</code>. This clause allows
 us to elegantly select results from the previous results from the previous results
@@ -1033,7 +1033,7 @@ also has the same behavior as its use in a standard query.</p>
 
 <p>A picture with arrows worth a thousand words:</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/window_arrows.png" width="988" height="391" title="'Window SQL with arrows'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/window_arrows.png" width="988" height="391" title="'Window SQL with arrows'" ></p>
 
 <h2>That doesn&rsquo;t look very DRY. Finally, a <code>WINDOW</code></h2>
 
@@ -1359,10 +1359,10 @@ of all the window functions. In addition to these, <em>any regular aggregate fun
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? Recursive]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-recursive/"/>
+    <link href="https://ddrscott.github.io/blog/2017/what-the-sql-recursive/"/>
     <updated>2017-03-15T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/what-the-sql-recursive</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/i_heart_recursion.png" width="1804" height="1195" title="'What the SQL?!? Recursive'" ></p>
+    <id>https://ddrscott.github.io/blog/2017/what-the-sql-recursive</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/i_heart_recursion.png" width="1804" height="1195" title="'What the SQL?!? Recursive'" ></p>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>RECURSIVE</code>. This clause allows
 us to elegantly select results from the previous results from the previous results
@@ -1433,10 +1433,10 @@ keyword.</p>
 <h2>The Ins and Outs</h2>
 
 <p>Here&rsquo;s some inline colorful comments to explain the sections:
-<img class="featured" src="http://ddrscott.github.io/images/recursion_sql.png" width="1563" height="998" title="'annotated SQL'" ></p>
+<img class="featured" src="https://ddrscott.github.io/images/recursion_sql.png" width="1563" height="998" title="'annotated SQL'" ></p>
 
 <p>Maybe arrows will help a little more with the flow of data:
-<img class="featured" src="http://ddrscott.github.io/images/recursive_query.jpg" width="1024" height="705" title="'Data Flow'" ></p>
+<img class="featured" src="https://ddrscott.github.io/images/recursive_query.jpg" width="1024" height="705" title="'Data Flow'" ></p>
 
 <h2>Fibonacci Results</h2>
 
@@ -1646,10 +1646,10 @@ save together!</p>
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? Lateral Joins]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-lateral/"/>
+    <link href="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/"/>
     <updated>2017-03-08T12:30:00-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/what-the-sql-lateral</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/what_the_sql_lateral.png" title="'What the SQL?!? Lateral Joins'" ></p>
+    <id>https://ddrscott.github.io/blog/2017/what-the-sql-lateral</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/what_the_sql_lateral.png" title="'What the SQL?!? Lateral Joins'" ></p>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>LATERAL</code>. A prerequisite to
 understanding lateral joins are regular joins and subqueries. I&rsquo;ll explain those
@@ -2524,17 +2524,17 @@ cross-reference any other FROM item.)</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[How to Get Better At Anything]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/"/>
+    <link href="https://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/"/>
     <updated>2017-02-07T05:30:06-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/better.jpg" width="600" height="445" title="'Better Title'" ></p>
+    <id>https://ddrscott.github.io/blog/2017/how-to-get-better-at-anything</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/better.jpg" width="600" height="445" title="'Better Title'" ></p>
 
 <!-- more -->
 
 
 <h2>RTFM</h2>
 
-<p><img src="http://ddrscott.github.io/images/rtfm-wtfm.jpg" width="400" height="387" title="'RTFM WTFM'" ></p>
+<p><img src="https://ddrscott.github.io/images/rtfm-wtfm.jpg" width="400" height="387" title="'RTFM WTFM'" ></p>
 
 <ul>
 <li>WTFM, Write The Flip&#8217;n Manual</li>
@@ -2544,7 +2544,7 @@ cross-reference any other FROM item.)</p></blockquote>
 
 <h2>Make it Fun</h2>
 
-<p><img src="http://ddrscott.github.io/images/koala_trophy.jpg" title="'Surprised Koala Trophy'" ></p>
+<p><img src="https://ddrscott.github.io/images/koala_trophy.jpg" title="'Surprised Koala Trophy'" ></p>
 
 <ul>
 <li>Gamification</li>
@@ -2555,7 +2555,7 @@ cross-reference any other FROM item.)</p></blockquote>
 
 <h2>Practice</h2>
 
-<p><img src="http://ddrscott.github.io/images/ive_practiced.jpg" title="&#34;I've practiced a lot&#34;" alt="&#34;I've practiced a lot&#34;"></p>
+<p><img src="https://ddrscott.github.io/images/ive_practiced.jpg" title="&#34;I've practiced a lot&#34;" alt="&#34;I've practiced a lot&#34;"></p>
 
 <ul>
 <li>Slowly with intent</li>
@@ -2566,7 +2566,7 @@ cross-reference any other FROM item.)</p></blockquote>
 
 <h2>Better not good</h2>
 
-<p><img src="http://ddrscott.github.io/images/good_to_better.jpg" title="&#34;Good to Better Chart&#34;" alt="&#34;Good to Better Chart&#34;"></p>
+<p><img src="https://ddrscott.github.io/images/good_to_better.jpg" title="&#34;Good to Better Chart&#34;" alt="&#34;Good to Better Chart&#34;"></p>
 
 <ul>
 <li>Good is the killer of better.</li>
@@ -2579,7 +2579,7 @@ cross-reference any other FROM item.)</p></blockquote>
 
 <h2>Learn, don&rsquo;t Memorize</h2>
 
-<p><img src="http://ddrscott.github.io/images/one_does_not_memorize_pi.jpg" title="&#34;One does not simply memorize PI&#34;" alt="&#34;One does not simply memorize PI&#34;"></p>
+<p><img src="https://ddrscott.github.io/images/one_does_not_memorize_pi.jpg" title="&#34;One does not simply memorize PI&#34;" alt="&#34;One does not simply memorize PI&#34;"></p>
 
 <ul>
 <li>Learning is understanding</li>
@@ -2590,7 +2590,7 @@ cross-reference any other FROM item.)</p></blockquote>
 
 <h2>Learn with others</h2>
 
-<p><img src="http://ddrscott.github.io/images/google_hug.jpg" title="&#34;Google Hug&#34;" alt="&#34;Google Hug&#34;"></p>
+<p><img src="https://ddrscott.github.io/images/google_hug.jpg" title="&#34;Google Hug&#34;" alt="&#34;Google Hug&#34;"></p>
 
 <ul>
 <li>With the Internet you&rsquo;re never alone and always alone.</li>
@@ -2600,7 +2600,7 @@ cross-reference any other FROM item.)</p></blockquote>
 
 <h2>Cheat</h2>
 
-<p><img src="http://ddrscott.github.io/images/inspect_source.jpg" title="&#34;One does not simply memorize PI&#34;" alt="&#34;One does not simply memorize PI&#34;"></p>
+<p><img src="https://ddrscott.github.io/images/inspect_source.jpg" title="&#34;One does not simply memorize PI&#34;" alt="&#34;One does not simply memorize PI&#34;"></p>
 
 <ul>
 <li>If you&rsquo;re not cheating, you&rsquo;re not trying.</li>
@@ -2635,9 +2635,9 @@ cross-reference any other FROM item.)</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[ANSI Codes with Character]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/ansi-codes-with-character/"/>
+    <link href="https://ddrscott.github.io/blog/2016/ansi-codes-with-character/"/>
     <updated>2016-07-26T11:11:51-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/ansi-codes-with-character</id>
+    <id>https://ddrscott.github.io/blog/2016/ansi-codes-with-character</id>
     <content type="html"><![CDATA[<p>This was a lightening talk given to the office about ANSI Escape Codes. Most of
 the time, all 5 minutes of it, was spent explaining the code snippets.</p>
 
@@ -2723,10 +2723,10 @@ outputting text.</p>
   
   <entry>
     <title type="html"><![CDATA[Photography Refactored]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/photography-lightening-talk/"/>
+    <link href="https://ddrscott.github.io/blog/2016/photography-lightening-talk/"/>
     <updated>2016-07-11T09:00:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/photography-lightening-talk</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/photography-lightening-talk.png" width="527" height="494" title="'Photography Lightening Talk'" ></p>
+    <id>https://ddrscott.github.io/blog/2016/photography-lightening-talk</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/photography-lightening-talk.png" width="527" height="494" title="'Photography Lightening Talk'" ></p>
 
 <p>Someone convinced me to do a lightening talk about photography. Here&rsquo;s the slide deck.</p>
 
@@ -2742,10 +2742,10 @@ outputting text.</p>
   
   <entry>
     <title type="html"><![CDATA[PSA: Vim Modulo '%' Returns Negative Numbers!]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/negative-modulo/"/>
+    <link href="https://ddrscott.github.io/blog/2016/negative-modulo/"/>
     <updated>2016-05-28T09:00:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/negative-modulo</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/einstein_mod.jpg" width="500" height="375" title="'-10 % 3 != -1'" ></p>
+    <id>https://ddrscott.github.io/blog/2016/negative-modulo</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/einstein_mod.jpg" width="500" height="375" title="'-10 % 3 != -1'" ></p>
 
 <p>Surprise! Vim has the same modulo bug as Javascript. Some say it&rsquo;s not a bug,
 but if Ruby and Google Calculator is wrong, I don&rsquo;t want to be right.</p>
@@ -2793,10 +2793,10 @@ get back, but happy to give back.</p>
   
   <entry>
     <title type="html"><![CDATA[Vim Side Search: Making Search Fun Again]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/side-search/"/>
+    <link href="https://ddrscott.github.io/blog/2016/side-search/"/>
     <updated>2016-05-27T09:00:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/side-search</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/vim_ag_unicorn.png" width="699" height="453" title="'Vim + Ag = Unicorn'" ></p>
+    <id>https://ddrscott.github.io/blog/2016/side-search</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/vim_ag_unicorn.png" width="699" height="453" title="'Vim + Ag = Unicorn'" ></p>
 
 <p>The <code>quickfix</code> feature is nice, but it doesn&rsquo;t give enough context around the
 search term that leads to use <code>ag</code> from terminal and switch back and forth
@@ -2808,7 +2808,7 @@ be better way!</p>
 
 <h2>Problem</h2>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/side-search-a.png" width="1280" height="1009" title="'Quickfix for help'" >
+<p><img class="featured" src="https://ddrscott.github.io/images/side-search-a.png" width="1280" height="1009" title="'Quickfix for help'" >
 Look at the <code>quickfix</code> window above. It spends most of its space showing the file name
 of the hit, then the remainder is spent on text around it. In projects using
 <a href="http://guides.rubyonrails.org/engines.html">Rails Engines</a> with deeply nested
@@ -2821,7 +2821,7 @@ directory structures, this often leaves me with just a bunch of paths in the <co
 allowing an external program do its searching. Let&rsquo;s try that for this
 solution using <code>grep</code>, <code>ack</code>, and <code>ag</code>.</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/side-search-compare.png" width="1280" height="822" title="'grep vs ack vs ag'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/side-search-compare.png" width="1280" height="822" title="'grep vs ack vs ag'" ></p>
 
 <p>We&rsquo;ve run the 3 separate programs (normally, I would only use <code>ag</code>) then
 browse the results to see if there&rsquo;s an interesting file. At this point I start
@@ -2869,7 +2869,7 @@ we want.</p>
 about how to setup Vim to use <code>ag</code>. Once you do that, you can <code>:grep help</code> to
 get the following output:</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/side-search-a.png" width="1280" height="1009" title="'Quickfix for help'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/side-search-a.png" width="1280" height="1009" title="'Quickfix for help'" ></p>
 
 <p>Use <code>:cnext</code>, <code>:cprev</code>, <code>:cfirst</code>, <code>:clast</code> to go to next, previous, first, and
 last <code>quickfix</code> result respectively. Map those to keys to make it easier to
@@ -2897,7 +2897,7 @@ was writing a plugin in. For you it&rsquo;s using it. <a href="https://github.co
 <p>After installing the plugin using your favorite package manager, you&rsquo;ll have
 access to the following functionality:</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/side-search-demo-b.gif" width="1169" height="631" title="'Side Search Demo'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/side-search-demo-b.gif" width="1169" height="631" title="'Side Search Demo'" ></p>
 
 <p>Things to notice:</p>
 
@@ -2951,10 +2951,10 @@ think of it. Have more ideas or issues for Side Search? Hit me up on <a href="ht
   
   <entry>
     <title type="html"><![CDATA[Sensible Horizontal Scroll in Vim]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/sidescroll/"/>
+    <link href="https://ddrscott.github.io/blog/2016/sidescroll/"/>
     <updated>2016-05-05T09:00:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/sidescroll</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/sidescroll-feature.png" width="1280" height="971" title="'I heart sidescroll'" ></p>
+    <id>https://ddrscott.github.io/blog/2016/sidescroll</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/sidescroll-feature.png" width="1280" height="971" title="'I heart sidescroll'" ></p>
 
 <p>Sometimes it&rsquo;s the little things that make a big difference, and this is about
 as small as it can get. Occasionally, I hold down <code>l</code>, <code>w</code>, or <code>e</code> to view long
@@ -2978,7 +2978,7 @@ cursor gets to the edge of the window. The default behavior of revealing more
 text is &frac12; a window width at a time. This abrupt jump throws off my fragile
 concentration.</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/sidescroll-off.gif" width="635" height="337" title="'Demo Sidescroll Off'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/sidescroll-off.gif" width="635" height="337" title="'Demo Sidescroll Off'" ></p>
 
 <h2>Solution A</h2>
 
@@ -3008,7 +3008,7 @@ to make word wrapping look nicer. I do that with the following settings.</p>
 <p>This simple setting makes Vim behave like every other plain editor. It will
 incrementally scroll one character at a time to reveal more text as needed.</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/sidescroll-on.gif" width="635" height="337" title="'Demo Sidescroll On'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/sidescroll-on.gif" width="635" height="337" title="'Demo Sidescroll On'" ></p>
 
 <p>Here&rsquo;s the help doc to clear things up:</p>
 
@@ -3080,7 +3080,7 @@ more mentions. Use <code>:help helpgrep</code> if you didn&rsquo;t know about <c
 <h1>Closing</h1>
 
 <p>I&rsquo;m sure you&rsquo;re thinking why so many words were written for a single setting.
-Similar to my previous post about <a href="http://ddrscott.github.io/blog/2016/yank-without-jank/">Yank without Jank</a>,
+Similar to my previous post about <a href="https://ddrscott.github.io/blog/2016/yank-without-jank/">Yank without Jank</a>,
 these unexpected janky behaviors cause anxiety. Anxiety that usually can&rsquo;t be
 identified or resolved in the heat of a coding session, but is there, wading in
 the weeds, ready to pounce at your next stray keystroke. As a student of Vim, I
@@ -3091,10 +3091,10 @@ using the dot operator.</p>
   
   <entry>
     <title type="html"><![CDATA[Making a Window Submode in Vim]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/making-a-window-submode/"/>
+    <link href="https://ddrscott.github.io/blog/2016/making-a-window-submode/"/>
     <updated>2016-04-29T09:00:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/making-a-window-submode</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/window-mode-feature.png" width="1280" height="380" title="'Header Image'" >
+    <id>https://ddrscott.github.io/blog/2016/making-a-window-submode</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/window-mode-feature.png" width="1280" height="380" title="'Header Image'" >
 I found a plugin that is changing my Vim-tire life! This
 <a href="https://github.com/kana/vim-submode">plugin</a> is so awesome it should be
 built into default Vim. What does the <a href="https://github.com/kana/vim-submode">plugin</a>
@@ -3281,7 +3281,7 @@ free to change line #7 to something else. Just replace <code>&lt;C-w&gt;</code> 
 normal mapping.</p>
 
 <p>Let&rsquo;s give it a test drive.
-<img class="featured" src="http://ddrscott.github.io/images/window-submode.gif" width="1142" height="719" title="'window mode in action'" >
+<img class="featured" src="https://ddrscott.github.io/images/window-submode.gif" width="1142" height="719" title="'window mode in action'" >
 I know you can&rsquo;t see what keys I&rsquo;m pressing, but I guarantee I only pressed
 <code>&lt;C-w&gt;</code> once. I also didn&rsquo;t have to remember any new key bindings. The
 hesitation in the demo is the resistance to hitting <code>&lt;C-w&gt;</code> every time, which
@@ -3352,10 +3352,10 @@ Hit me up in the comments below! Thanks for reading!</p>
   
   <entry>
     <title type="html"><![CDATA[Yank Without Jank]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/yank-without-jank/"/>
+    <link href="https://ddrscott.github.io/blog/2016/yank-without-jank/"/>
     <updated>2016-04-25T04:51:11-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/yank-without-jank</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/yank-default.gif" width="234" height="130" title="'Yank default jump'" ></p>
+    <id>https://ddrscott.github.io/blog/2016/yank-without-jank</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/yank-default.gif" width="234" height="130" title="'Yank default jump'" ></p>
 
 <p>For all the great things Vim has to offer, it still has some inconsistencies with
 basic editors that I simply can&rsquo;t unlearn. One of these nasties is moving the cursor
@@ -3383,7 +3383,7 @@ compose myself, do a <code>&lt;backtick&gt;&lt;greaterthan&gt;</code> to jump to
 noticed when I do line select using capital <code>V</code> the cursor would still move. The
 vertical motion was perfect, but horizontal motion was still jarring.</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/yank-solution-a.gif" width="234" height="130" title="'Yank tick greater than'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/yank-solution-a.gif" width="234" height="130" title="'Yank tick greater than'" ></p>
 
 <h2>Solution B</h2>
 
@@ -3396,11 +3396,11 @@ vertical motion was perfect, but horizontal motion was still jarring.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><img class="featured" src="http://ddrscott.github.io/images/2016-04-15-yank-without-jank_markdown.png" width="600" height="379" title="'Yank Without Jank Annotation'" >
+<p><img class="featured" src="https://ddrscott.github.io/images/2016-04-15-yank-without-jank_markdown.png" width="600" height="379" title="'Yank Without Jank Annotation'" >
 The capital <code>Y</code> mapping is just in case we want to do a line wise yank from a
 character wise selection.</p>
 
-<p><img class="featured" src="http://ddrscott.github.io/images/yank-solution-b.gif" width="234" height="130" title="'Yank mark y'" ></p>
+<p><img class="featured" src="https://ddrscott.github.io/images/yank-solution-b.gif" width="234" height="130" title="'Yank mark y'" ></p>
 
 <p>Like a well trained dog, the cursor stays even though you yank it.</p>
 
@@ -3434,10 +3434,10 @@ Thanks @Krzysztof for being awesome!</p>
   
   <entry>
     <title type="html"><![CDATA[Vim Toggle Movement: I Just Want to Go Home]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/vim-toggle-movement/"/>
+    <link href="https://ddrscott.github.io/blog/2016/vim-toggle-movement/"/>
     <updated>2016-04-14T05:51:11-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/vim-toggle-movement</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/i_just_want_to_go_home.png" width="600" height="255" title="'I just want to go home'" ></p>
+    <id>https://ddrscott.github.io/blog/2016/vim-toggle-movement</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/i_just_want_to_go_home.png" width="600" height="255" title="'I just want to go home'" ></p>
 
 <p>I have a problem with the <code>^</code> key. I need its functionality, but its proximity is
 too far for either of my stubby index fingers. No vimrc change can physically move it
@@ -3491,7 +3491,7 @@ since it&rsquo;s even harder to reach and takes us to the first column, too.</p>
 <p>Why can&rsquo;t I have a key that is easy to reach and takes me to the first
 non-blank?!?</p>
 
-<p><img src="http://ddrscott.github.io/images/venn_home_0.png" width="552" height="475" title="'venn diagram - home, caret, and 0'" ></p>
+<p><img src="https://ddrscott.github.io/images/venn_home_0.png" width="552" height="475" title="'venn diagram - home, caret, and 0'" ></p>
 
 <p>I could swap the functionality of <code>0</code> and <code>^</code>:</p>
 
@@ -3602,10 +3602,10 @@ Let me know in the comments below.</p>
   
   <entry>
     <title type="html"><![CDATA[BS to the Black Hole]]></title>
-    <link href="http://ddrscott.github.io/blog/2016/bs-to-the-black-hole/"/>
+    <link href="https://ddrscott.github.io/blog/2016/bs-to-the-black-hole/"/>
     <updated>2016-04-13T00:48:47-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2016/bs-to-the-black-hole</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/blackhole_bs.png" width="800" height="469" title="'BS to Black Hole'" ></p>
+    <id>https://ddrscott.github.io/blog/2016/bs-to-the-black-hole</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/blackhole_bs.png" width="800" height="469" title="'BS to Black Hole'" ></p>
 
 <p>First post in 2 years. Sorry to keep you waiting.</p>
 
@@ -3699,10 +3699,10 @@ register? Let me know by commenting or share this post to some one who does.</p>
   
   <entry>
     <title type="html"><![CDATA[Octopress to the Rescue]]></title>
-    <link href="http://ddrscott.github.io/blog/2014/octopress-to-the-rescue/"/>
+    <link href="https://ddrscott.github.io/blog/2014/octopress-to-the-rescue/"/>
     <updated>2014-04-16T23:31:31-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2014/octopress-to-the-rescue</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/octopress_logo.png" width="227" height="227" title="'Octopress Logo'" ></p>
+    <id>https://ddrscott.github.io/blog/2014/octopress-to-the-rescue</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/octopress_logo.png" width="227" height="227" title="'Octopress Logo'" ></p>
 
 <p>After nearly a year without Posterous, I&rsquo;ve finally got around to migrating to another system.
 This time around it&rsquo;s a static blog builder: <a href="http://octopress.org/">http://octopress.org/</a></p>
@@ -3744,9 +3744,9 @@ as with all Open Source projects it is easy to remedy.</p>
   
   <entry>
     <title type="html"><![CDATA[Building Unix-style command line applications]]></title>
-    <link href="http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo/"/>
+    <link href="https://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo/"/>
     <updated>2012-08-08T12:49:56-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo</id>
+    <id>https://ddrscott.github.io/blog/2012/writing-stuff-for-command-lines-this-is-a-goo</id>
     <content type="html"><![CDATA[Writing stuff for command lines? This is a good place to start.
 Covers Ruby&#8217;s `ARGF` and standard library `optparse`.
 

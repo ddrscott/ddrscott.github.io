@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: screen | @_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/blog/categories/screen/atom.xml" rel="self"/>
-  <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-05T08:18:45-06:00</updated>
-  <id>http://ddrscott.github.io/</id>
+  <link href="https://ddrscott.github.io/blog/categories/screen/atom.xml" rel="self"/>
+  <link href="https://ddrscott.github.io/"/>
+  <updated>2018-03-05T09:03:19-06:00</updated>
+  <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
     <email><![CDATA[ddrscott@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[GNU Screen]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/gnu-screen/"/>
+    <link href="https://ddrscott.github.io/blog/2017/gnu-screen/"/>
     <updated>2017-06-01T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/gnu-screen</id>
+    <id>https://ddrscott.github.io/blog/2017/gnu-screen</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/gnu-screen-featured.jpg" width="1024" height="488" title="&lsquo;GNU Screen Featured&rsquo;" ></p>
 
 <blockquote><p>Screen is a full-screen window manager that multiplexes a physical terminal

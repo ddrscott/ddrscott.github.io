@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: talk | @_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/blog/categories/talk/atom.xml" rel="self"/>
-  <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-05T08:18:45-06:00</updated>
-  <id>http://ddrscott.github.io/</id>
+  <link href="https://ddrscott.github.io/blog/categories/talk/atom.xml" rel="self"/>
+  <link href="https://ddrscott.github.io/"/>
+  <updated>2018-03-05T09:03:19-06:00</updated>
+  <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
     <email><![CDATA[ddrscott@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vim Send Text]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/vim-send-text/"/>
+    <link href="https://ddrscott.github.io/blog/2017/vim-send-text/"/>
     <updated>2017-04-10T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/vim-send-text</id>
+    <id>https://ddrscott.github.io/blog/2017/vim-send-text</id>
     <content type="html"><![CDATA[<p><img class="featured <a" src="href="https://raw.githubusercontent.com/ddrscott/vim-islime2/gh-pages/demo.gif">https://raw.githubusercontent.com/ddrscott/vim-islime2/gh-pages/demo.gif</a>" title="&lsquo;Vim Send Text Demo&rsquo;" ></p>
 
 <p>After pairing with some Sublime users, I noticed a neat feature. Or more
@@ -96,9 +96,9 @@ feature envy from Sublime. Happy console hacking!</p>
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? WINDOW]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-window/"/>
+    <link href="https://ddrscott.github.io/blog/2017/what-the-sql-window/"/>
     <updated>2017-03-22T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/what-the-sql-window</id>
+    <id>https://ddrscott.github.io/blog/2017/what-the-sql-window</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/what_the_sql_window.png" width="1079" height="369" title="&lsquo;What the SQL?!?  WINDOW&rsquo;" ></p>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>WINDOW</code>. This clause allows
@@ -816,9 +816,9 @@ of all the window functions. In addition to these, <em>any regular aggregate fun
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? Recursive]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-recursive/"/>
+    <link href="https://ddrscott.github.io/blog/2017/what-the-sql-recursive/"/>
     <updated>2017-03-15T13:30:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/what-the-sql-recursive</id>
+    <id>https://ddrscott.github.io/blog/2017/what-the-sql-recursive</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/i_heart_recursion.png" width="1804" height="1195" title="&lsquo;What the SQL?!? Recursive&rsquo;" ></p>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>RECURSIVE</code>. This clause allows
@@ -1036,9 +1036,9 @@ save together!</p>
   
   <entry>
     <title type="html"><![CDATA[What the SQL?!? Lateral Joins]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/what-the-sql-lateral/"/>
+    <link href="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/"/>
     <updated>2017-03-08T12:30:00-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/what-the-sql-lateral</id>
+    <id>https://ddrscott.github.io/blog/2017/what-the-sql-lateral</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/what_the_sql_lateral.png" title="&lsquo;What the SQL?!? Lateral Joins&rsquo;" ></p>
 
 <p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>LATERAL</code>. A prerequisite to
@@ -1673,9 +1673,9 @@ cross-reference any other FROM item.)</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[How to Get Better At Anything]]></title>
-    <link href="http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/"/>
+    <link href="https://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/"/>
     <updated>2017-02-07T05:30:06-06:00</updated>
-    <id>http://ddrscott.github.io/blog/2017/how-to-get-better-at-anything</id>
+    <id>https://ddrscott.github.io/blog/2017/how-to-get-better-at-anything</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/better.jpg" width="600" height="445" title="&lsquo;Better Title&rsquo;" ></p>
 
 <!-- more -->

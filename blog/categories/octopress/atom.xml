@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: octopress | @_ddrscott_]]></title>
-  <link href="http://ddrscott.github.io/blog/categories/octopress/atom.xml" rel="self"/>
-  <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-05T08:18:45-06:00</updated>
-  <id>http://ddrscott.github.io/</id>
+  <link href="https://ddrscott.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="https://ddrscott.github.io/"/>
+  <updated>2018-03-05T09:03:19-06:00</updated>
+  <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
     <email><![CDATA[ddrscott@gmail.com]]></email>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Octopress to the Rescue]]></title>
-    <link href="http://ddrscott.github.io/blog/2014/octopress-to-the-rescue/"/>
+    <link href="https://ddrscott.github.io/blog/2014/octopress-to-the-rescue/"/>
     <updated>2014-04-16T23:31:31-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2014/octopress-to-the-rescue</id>
+    <id>https://ddrscott.github.io/blog/2014/octopress-to-the-rescue</id>
     <content type="html"><![CDATA[<p><img class="featured" src="/images/octopress_logo.png" width="227" height="227" title="&lsquo;Octopress Logo&rsquo;" ></p>
 
 <p>After nearly a year without Posterous, I&rsquo;ve finally got around to migrating to another system.
