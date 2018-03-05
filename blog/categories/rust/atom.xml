@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | @_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-04T23:09:10-06:00</updated>
+  <updated>2018-03-05T07:53:29-06:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -16,9 +16,9 @@
   <entry>
     <title type="html"><![CDATA[Getting Rusty]]></title>
     <link href="http://ddrscott.github.io/blog/2018/getting-rusty/"/>
-    <updated>2018-03-04T08:00:00-06:00</updated>
+    <updated>2018-03-04T06:30:00-06:00</updated>
     <id>http://ddrscott.github.io/blog/2018/getting-rusty</id>
-    <content type="html"><![CDATA[<p><img class="featured" src="/images/rusty-featured.png" width="1910" height="1436" title="&lsquo;Vim Screenshot&rsquo;" ></p>
+    <content type="html"><![CDATA[<p><img class="featured" src="" width=1910 height=1436 alt="Vim Screenshot" /></p>
 
 <p>After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
 used Vim along the way. Here are some notes I compiled after my first session.</p>
