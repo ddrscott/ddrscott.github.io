@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="http://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="http://ddrscott.github.io/"/>
-  <updated>2018-03-04T21:37:11-06:00</updated>
+  <updated>2018-03-04T23:09:10-06:00</updated>
   <id>http://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -12,6 +12,73 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Rusty]]></title>
+    <link href="http://ddrscott.github.io/blog/2018/getting-rusty/"/>
+    <updated>2018-03-04T08:00:00-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2018/getting-rusty</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="http://ddrscott.github.io/images/rusty-featured.png" width="1910" height="1436" title="'Vim Screenshot'" ></p>
+
+<p>After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
+used Vim along the way. Here are some notes I compiled after my first session.</p>
+
+<!-- more -->
+
+
+<h1>Vim Setup</h1>
+
+<p>There are 2 excellent Vim plugins which play nice with Rust. First is
+<a href="https://github.com/rust-lang/rust.vim">https://github.com/rust-lang/rust.vim</a> which provides:</p>
+
+<blockquote><p>&hellip; Rust file detection, syntax highlighting, formatting, Syntastic integration, and more.</p></blockquote>
+
+<p>It has nearly 1k stars, one of which is from me, and it&rsquo;s triple the stars of
+<code>rust-mode</code> for Emacs.</p>
+
+<p>The second plugin is <a href="https://github.com/racer-rust/vim-racer">https://github.com/racer-rust/vim-racer</a> which provides omni-complete and jump to definition. Both features are good enough that I don&rsquo;t need to use ctags. I&rsquo;ve in fact overridden several default Vim mappings with <code>vim-racer</code> implementations:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>]<span class="p">&gt;</span> <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span><span class="nb">def</span><span class="p">)</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&lt;</span>C<span class="p">-</span>]<span class="p">&gt;</span> <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span><span class="nb">def</span><span class="p">-</span><span class="k">vertical</span><span class="p">)</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>} <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span><span class="nb">def</span><span class="p">-</span>split<span class="p">)</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">k</span><span class="p">&gt;</span> <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span>doc<span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Rust Experience</h1>
+
+<p>The featured image is an implementation of a number guessing game. The game is
+from the Rust Tutorial Guide at
+<a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html.">https://doc.rust-lang.org/book/first-edition/guessing-game.html.</a> I followed the
+guide sentence by sentence, line by line, and everything worked without
+additional troubleshooting sessions. Good Job @rustlang!</p>
+
+<p>I massaged the code a little more to fool around and came up with the code in
+the featured screen shot. The source is available in this <a href="https://gist.github.com/ddrscott/991a329b7f1c1f7682da5e4c24cdecc5">gist</a>. It&rsquo;s not the most exciting code I&rsquo;ve
+ever written, but possibly the most painless of the new languages I&rsquo;ve tried.</p>
+
+<p>When I came across some confusing language decisions. I posted a tweet about it:</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Rust has clever tuple indexing, but square brackets would have been fine. What&#39;s wrong with `tuple[0]`? <a href="https://twitter.com/hashtag/rustlang?src=hash&amp;ref_src=twsrc%5Etfw">#rustlang</a> <a href="https://t.co/E0VY70zxuV">pic.twitter.com/E0VY70zxuV</a></p>&mdash; Scott Pierce (@_ddrscott_) <a href="https://twitter.com/_ddrscott_/status/969968042414366720?ref_src=twsrc%5Etfw">March 3, 2018</a></blockquote>
+
+
+<p> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>@rustlang responded quickly with insightful information. They&rsquo;re totally getting
+the Raving Fan Award this weekend!</p>
+
+<h1>Conclusion</h1>
+
+<p>Rust is worth pursing with or without Vim. The feedback from the compiler
+and runtime errors is clear. The
+<a href="https://github.com/racer-rust/vim-racer">racer-rust</a> completion utility gives
+all IDE super powers. And finally, I hear it&rsquo;s a pretty good language, too.  <a href="https://www.rust-lang.org">https://www.rust-lang.org</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[FZF + WordNet = Dictionary]]></title>
@@ -3686,36 +3753,6 @@ Covers Ruby&#8217;s `ARGF` and standard library `optparse`.
 <h6>Source: practicingruby.com</h6>
 <a href=
 "http://practicingruby.com/articles/shared/qyxvmrgmhuln">Building Unix-style command line applications</a>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Backpocket 2.0]]></title>
-    <link href="http://ddrscott.github.io/blog/2012/backpocket-20/"/>
-    <updated>2012-08-03T09:07:00-05:00</updated>
-    <id>http://ddrscott.github.io/blog/2012/backpocket-20</id>
-    <content type="html"><![CDATA[<p>I&#8217;m sick of small &#8220;sexy&#8221; devices. I want a full screen every
-where I go. So I want some one to make this for us, and get a big
-celebrity to sport it and make it cool. I know I can&#8217;t pull it off
-alone.</p>
-<p>I&#8217;m hoping the future Galaxy Note/Tab 3.0 can be hugged by
-Backpocket 2.0&#8217;s embrace.&nbsp;</p>
-<div class='p_embed p_image_embed'><img alt="Back_pocket_2" height=
-"465" src=
-"http://ddrscott.github.io/images/2012/08/43442282-Back_Pocket_2.0_-_Page_1.jpg"
-width="401"></div>
-(drawn with <a href=
-"https://play.google.com/store/apps/details?id=com.steadfastinnovation.android.projectpapyrus&amp;hl=en"
-title="Papyrus - Google Play" target="_blank">Papyrus</a>&nbsp;on
-my Galaxy Note)
-<p>So what do you think tech boys and girls? Leave your comments
-below.</p>
-<!-- more -->
-<p><strong>[Update]</strong></p>
-<p>Aparently another company has already made a large pocket, but
-hasn&#8217;t put it on the back yet.&nbsp;<a href=
-"http://www.thinkofthe.com/product.php?name=large-pocket-shirt">http://www.thinkofthe.com/product.php?name=large-pocket-shirt</a></p>
-
 ]]></content>
   </entry>
   

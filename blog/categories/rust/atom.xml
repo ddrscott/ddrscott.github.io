@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rust | @_ddrscott_]]></title>
+  <link href="http://ddrscott.github.io/blog/categories/rust/atom.xml" rel="self"/>
+  <link href="http://ddrscott.github.io/"/>
+  <updated>2018-03-04T23:09:10-06:00</updated>
+  <id>http://ddrscott.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Pierce]]></name>
+    <email><![CDATA[ddrscott@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Rusty]]></title>
+    <link href="http://ddrscott.github.io/blog/2018/getting-rusty/"/>
+    <updated>2018-03-04T08:00:00-06:00</updated>
+    <id>http://ddrscott.github.io/blog/2018/getting-rusty</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="/images/rusty-featured.png" width="1910" height="1436" title="&lsquo;Vim Screenshot&rsquo;" ></p>
+
+<p>After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
+used Vim along the way. Here are some notes I compiled after my first session.</p>
+
+<!-- more -->
+
+
+<h1>Vim Setup</h1>
+
+<p>There are 2 excellent Vim plugins which play nice with Rust. First is
+<a href="https://github.com/rust-lang/rust.vim">https://github.com/rust-lang/rust.vim</a> which provides:</p>
+
+<blockquote><p>&hellip; Rust file detection, syntax highlighting, formatting, Syntastic integration, and more.</p></blockquote>
+
+<p>It has nearly 1k stars, one of which is from me, and it&rsquo;s triple the stars of
+<code>rust-mode</code> for Emacs.</p>
+
+<p>The second plugin is <a href="https://github.com/racer-rust/vim-racer">https://github.com/racer-rust/vim-racer</a> which provides omni-complete and jump to definition. Both features are good enough that I don&rsquo;t need to use ctags. I&rsquo;ve in fact overridden several default Vim mappings with <code>vim-racer</code> implementations:</p>
+
+<p><code>vim
+au FileType rust nmap &lt;silent&gt; &lt;C-]&gt; &lt;Plug&gt;(rust-def)
+au FileType rust nmap &lt;silent&gt; &lt;C-w&gt;&lt;C-]&gt; &lt;Plug&gt;(rust-def-vertical)
+au FileType rust nmap &lt;silent&gt; &lt;C-w&gt;} &lt;Plug&gt;(rust-def-split)
+au FileType rust nmap &lt;silent&gt; &lt;C-k&gt; &lt;Plug&gt;(rust-doc)
+</code></p>
+
+<h1>Rust Experience</h1>
+
+<p>The featured image is an implementation of a number guessing game. The game is
+from the Rust Tutorial Guide at
+<a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html.">https://doc.rust-lang.org/book/first-edition/guessing-game.html.</a> I followed the
+guide sentence by sentence, line by line, and everything worked without
+additional troubleshooting sessions. Good Job @rustlang!</p>
+
+<p>I massaged the code a little more to fool around and came up with the code in
+the featured screen shot. The source is available in this <a href="https://gist.github.com/ddrscott/991a329b7f1c1f7682da5e4c24cdecc5">gist</a>. It&rsquo;s not the most exciting code I&rsquo;ve
+ever written, but possibly the most painless of the new languages I&rsquo;ve tried.</p>
+
+<p>When I came across some confusing language decisions. I posted a tweet about it:</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Rust has clever tuple indexing, but square brackets would have been fine. What&#39;s wrong with `tuple[0]`? <a href="https://twitter.com/hashtag/rustlang?src=hash&amp;ref_src=twsrc%5Etfw">#rustlang</a> <a href="https://t.co/E0VY70zxuV">pic.twitter.com/E0VY70zxuV</a></p>&mdash; Scott Pierce (@_ddrscott_) <a href="https://twitter.com/_ddrscott_/status/969968042414366720?ref_src=twsrc%5Etfw">March 3, 2018</a></blockquote>
+
+
+<p> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>@rustlang responded quickly with insightful information. They&rsquo;re totally getting
+the Raving Fan Award this weekend!</p>
+
+<h1>Conclusion</h1>
+
+<p>Rust is worth pursing with or without Vim. The feedback from the compiler
+and runtime errors is clear. The
+<a href="https://github.com/racer-rust/vim-racer">racer-rust</a> completion utility gives
+all IDE super powers. And finally, I hear it&rsquo;s a pretty good language, too.  <a href="https://www.rust-lang.org">https://www.rust-lang.org</a></p>
+]]></content>
+  </entry>
+  
+</feed>

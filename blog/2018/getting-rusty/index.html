@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Getting Rusty - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content="Getting Rusty written Mar 4th, 2018 in rust, vim After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
+used Vim along the way. Here are some notes I compiled after my first session. Vim Setup There are 2 excellent Vim &hellip;">
+  
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="https://ddrscott.github.io/" />
+  <meta name="twitter:creator" content="@_ddrscott_" />
+  <meta property="og:title" content="Getting Rusty" />
+  <meta property="og:image" content="/images/rusty-featured.png" />
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ddrscott.github.io/blog/2018/getting-rusty">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-8547687546592989",
+      enable_page_level_ads: true
+    });
+  </script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>Getting Rusty</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-03-04T08:00:00-06:00" pubdate data-updated="true">Mar 4<sup>th</sup>, 2018</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+  
+</span>
+
+
+        </div>
+        <p><img class="featured" src="/images/rusty-featured.png" width="1910" height="1436" title="'Vim Screenshot'" ></p>
+
+<p>After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
+used Vim along the way. Here are some notes I compiled after my first session.</p>
+
+<!-- more -->
+
+
+<h1>Vim Setup</h1>
+
+<p>There are 2 excellent Vim plugins which play nice with Rust. First is
+<a href="https://github.com/rust-lang/rust.vim">https://github.com/rust-lang/rust.vim</a> which provides:</p>
+
+<blockquote><p>&hellip; Rust file detection, syntax highlighting, formatting, Syntastic integration, and more.</p></blockquote>
+
+<p>It has nearly 1k stars, one of which is from me, and it&rsquo;s triple the stars of
+<code>rust-mode</code> for Emacs.</p>
+
+<p>The second plugin is <a href="https://github.com/racer-rust/vim-racer">https://github.com/racer-rust/vim-racer</a> which provides omni-complete and jump to definition. Both features are good enough that I don&rsquo;t need to use ctags. I&rsquo;ve in fact overridden several default Vim mappings with <code>vim-racer</code> implementations:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>]<span class="p">&gt;</span> <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span><span class="nb">def</span><span class="p">)</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&lt;</span>C<span class="p">-</span>]<span class="p">&gt;</span> <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span><span class="nb">def</span><span class="p">-</span><span class="k">vertical</span><span class="p">)</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>} <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span><span class="nb">def</span><span class="p">-</span>split<span class="p">)</span>
+</span><span class='line'><span class="k">au</span> <span class="nb">FileType</span> rust nmap <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">k</span><span class="p">&gt;</span> <span class="p">&lt;</span>Plug<span class="p">&gt;(</span>rust<span class="p">-</span>doc<span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Rust Experience</h1>
+
+<p>The featured image is an implementation of a number guessing game. The game is
+from the Rust Tutorial Guide at
+<a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html.">https://doc.rust-lang.org/book/first-edition/guessing-game.html.</a> I followed the
+guide sentence by sentence, line by line, and everything worked without
+additional troubleshooting sessions. Good Job @rustlang!</p>
+
+<p>I massaged the code a little more to fool around and came up with the code in
+the featured screen shot. The source is available in this <a href="https://gist.github.com/ddrscott/991a329b7f1c1f7682da5e4c24cdecc5">gist</a>. It&rsquo;s not the most exciting code I&rsquo;ve
+ever written, but possibly the most painless of the new languages I&rsquo;ve tried.</p>
+
+<p>When I came across some confusing language decisions. I posted a tweet about it:</p>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Rust has clever tuple indexing, but square brackets would have been fine. What&#39;s wrong with `tuple[0]`? <a href="https://twitter.com/hashtag/rustlang?src=hash&amp;ref_src=twsrc%5Etfw">#rustlang</a> <a href="https://t.co/E0VY70zxuV">pic.twitter.com/E0VY70zxuV</a></p>&mdash; Scott Pierce (@_ddrscott_) <a href="https://twitter.com/_ddrscott_/status/969968042414366720?ref_src=twsrc%5Etfw">March 3, 2018</a></blockquote>
+
+
+<p> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+
+<p>@rustlang responded quickly with insightful information. They&rsquo;re totally getting
+the Raving Fan Award this weekend!</p>
+
+<h1>Conclusion</h1>
+
+<p>Rust is worth pursing with or without Vim. The feedback from the compiler
+and runtime errors is clear. The
+<a href="https://github.com/racer-rust/vim-racer">racer-rust</a> completion utility gives
+all IDE super powers. And finally, I hear it&rsquo;s a pretty good language, too.  <a href="https://www.rust-lang.org">https://www.rust-lang.org</a></p>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2017/fzf-dictionary/" title="Previous Post: FZF + WordNet = Dictionary">&laquo; Previous: FZF + WordNet = Dictionary</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+        <a href="https://twitter.com/@_ddrscott_"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-50126719-1', 'auto');
+ga('send', 'pageview');
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ddrscott.github.io/blog/2018/getting-rusty/';
+        var disqus_url = 'http://ddrscott.github.io/blog/2018/getting-rusty/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
