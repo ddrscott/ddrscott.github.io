@@ -4,7 +4,7 @@
   <title><![CDATA[@_ddrscott_]]></title>
   <link href="https://ddrscott.github.io/atom.xml" rel="self"/>
   <link href="https://ddrscott.github.io/"/>
-  <updated>2018-03-05T09:03:19-06:00</updated>
+  <updated>2018-03-05T09:10:56-06:00</updated>
   <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Getting Rusty]]></title>
-    <link href="https://ddrscott.github.io/blog/2018/getting-rusty/"/>
+    <title type="html"><![CDATA[Getting Rusty with Vim]]></title>
+    <link href="https://ddrscott.github.io/blog/2018/getting-rusty-with-vim/"/>
     <updated>2018-03-04T06:30:00-06:00</updated>
-    <id>https://ddrscott.github.io/blog/2018/getting-rusty</id>
+    <id>https://ddrscott.github.io/blog/2018/getting-rusty-with-vim</id>
     <content type="html"><![CDATA[<p><img class="featured" src="https://ddrscott.github.io/images/rusty-featured.png" width=1910 height=1436 alt="Vim Screenshot" /></p>
 
 <p>After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
