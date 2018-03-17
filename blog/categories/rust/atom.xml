@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rust | @_ddrscott_]]></title>
   <link href="https://ddrscott.github.io/blog/categories/rust/atom.xml" rel="self"/>
   <link href="https://ddrscott.github.io/"/>
-  <updated>2018-03-17T04:00:36-05:00</updated>
+  <updated>2018-03-17T08:38:56-05:00</updated>
   <id>https://ddrscott.github.io/</id>
   <author>
     <name><![CDATA[Scott Pierce]]></name>
@@ -419,7 +419,8 @@ writeln!(&amp;stats.tty, "{}", &amp;stats).expect("Could not write to tty!");
 <p>I personally learned a lot assembling these steps and wish I did this <em>before</em>
 publishing the <code>cargo</code> <a href="https://github.com/ddrscott/stream_stats">crate</a> of the same name.</p>
 
-<p>Any suggestions, comments, and corrections welcome on this post or the final crate are welcome. <a href="https://github.com/ddrscott/stream_stats.">https://github.com/ddrscott/stream_stats.</a></p>
+<p>Any suggestions, comments, and corrections welcome on this post or the final crate are welcome.
+<a href="https://github.com/ddrscott/stream_stats">https://github.com/ddrscott/stream_stats</a></p>
 
 <p>Thanks for learning with me!</p>
 ]]></content>
