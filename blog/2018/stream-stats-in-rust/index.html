@@ -70,7 +70,7 @@
 in
 <span class="categories">
   
-    <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+    <a class='category' href='/blog/categories/rust/'>rust</a>
   
 </span>
 
@@ -484,6 +484,17 @@ time and line count.</p>
 
 <p>We&rsquo;re finally at the most useful part of the program. Viewing the stats while
 the stream is still going.</p>
+
+<p>For this task, we introduce a thread which loops forever sleeping a little and
+waking to output the stats. Because of the thread, we need to use <code>Arc</code> to
+safely tell Rust another thread is going to have a pointer to the stats object.</p>
+
+<p>To be honest, I don&rsquo;t fully understand why I need to use <code>AtomicUsize</code>. I tried
+to keep the <code>usize</code> variables would get errors regarding mutability. If someone
+out there can remove the <code>AtomicUsize</code> without introducing <code>unsafe</code> please let
+me know!</p>
+
+<p>Here&rsquo;s the final code listing:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
