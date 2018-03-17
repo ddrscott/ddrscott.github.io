@@ -13,7 +13,7 @@
   <meta name="author" content="Scott Pierce">
 
   
-  <meta name="description" content=" After playing [Guessing Game](/blog/2018/getting-rusty-with-vim/) from the [Rust Book](https://doc.rust-lang.org/book/first-edition/guessing-game.html) a few times, it was time to make something a little more substantial. We're going to create `stream_stats`, a CLI program which prints throughput statistics from `stdin` while redirecting through `stdout`. Think `tee` + `wc -l` + `watch` all at the same time. " />
+  <meta name="description" content=" After playing [Guessing Game](/blog/2018/getting-rusty-with-vim/) from the [Rust Book](https://doc.rust-lang.org/book/first-edition/guessing-game.html) a few times, it was time to make something a little more substantial. We're going to create `stream_stats`, a CLI program which prints throughput statistics from `stdin` while redirecting through `stdout`. Think `tee` + `wc -l` + `watch` all at the same time. **TL;DR** - `cargo install stream_stats`" />
 
   
 
@@ -22,7 +22,7 @@
   <meta name="twitter:creator" content="@_ddrscott_" />
   <meta property="og:title" content="A Rustic Journey Through Stream Stats" />
   <meta property="og:image" content="https://ddrscott.github.io/images/stream_stats_demo.png" />
-  <meta property="og:description" content=" After playing [Guessing Game](/blog/2018/getting-rusty-with-vim/) from the [Rust Book](https://doc.rust-lang.org/book/first-edition/guessing-game.html) a few times, it was time to make something a little more substantial. We're going to create `stream_stats`, a CLI program which prints throughput statistics from `stdin` while redirecting through `stdout`. Think `tee` + `wc -l` + `watch` all at the same time. " />
+  <meta property="og:description" content=" After playing [Guessing Game](/blog/2018/getting-rusty-with-vim/) from the [Rust Book](https://doc.rust-lang.org/book/first-edition/guessing-game.html) a few times, it was time to make something a little more substantial. We're going to create `stream_stats`, a CLI program which prints throughput statistics from `stdin` while redirecting through `stdout`. Think `tee` + `wc -l` + `watch` all at the same time. **TL;DR** - `cargo install stream_stats`" />
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -78,8 +78,9 @@ in
         </div>
         <p><img class="featured" src="/images/stream_stats_demo.png" width=1364 height=1078 alt="Stream Stats Demo" /></p>
 
-<p>After playing <a href="/blog/2018/getting-rusty-with-vim/">Guessing Game</a> from the <a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html">Rust Book</a> a few times, it was time to make something a little more substantial. We&rsquo;re going to create <code>stream_stats</code>, a CLI program which prints throughput statistics from <code>stdin</code> while redirecting through <code>stdout</code>. Think <code>tee</code> + <code>wc -l</code> + <code>watch</code> all at
-the same time.</p>
+<p>After playing <a href="/blog/2018/getting-rusty-with-vim/">Guessing Game</a> from the <a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html">Rust Book</a> a few times, it was time to make something a little more substantial. We&rsquo;re going to create <code>stream_stats</code>, a CLI program which prints throughput statistics from <code>stdin</code> while redirecting through <code>stdout</code>. Think <code>tee</code> + <code>wc -l</code> + <code>watch</code> all at the same time.</p>
+
+<p><strong>TL;DR</strong> &ndash; <code>cargo install stream_stats</code></p>
 
 <!-- more -->
 
@@ -88,7 +89,11 @@ the same time.</p>
 
 <p><img src="/images/stream_stats_demo.gif" width=745 height=250 alt="Stream Stats Gif" /></p>
 
+<p>Today, I we&rsquo;ll build this program up in 6 steps smallish steps. The minimum requirement of this program was the live feedback as seen in the demo <em>and</em> minimal impact on the overall performance.</p>
+
 <h2>Step 1 &ndash; Reproducing <code>cat</code> Inefficiently</h2>
+
+<p>First step is to replicate <code>cat</code>. We&rsquo;ll do it as demonstrated by Rust&rsquo;s own <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line">documentation</a>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -111,16 +116,19 @@ the same time.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<blockquote><p>I&rsquo;m using <code>unwrap</code> to keep our program short and sweet.</p></blockquote>
+
 <p>Save the code as <code>stream_stats.rs</code> and build it using <code>rustc -O stream_stats.rs</code>. This will
 compile the program into <code>stream_stats</code>. We can now run the program with
 <code>./stream_stats &lt; stream_stats.rs</code> or <code>cat stream_stats.rs | stream_stats</code>. This should output the source code we just wrote.</p>
 
 <p>The program is sufficient for small streams, but will perform horribly on large files.</p>
 
-<h2>Step 2 &ndash; Reproducing <code>cat</code> with Buffering (Efficiently)</h2>
+<h2>Step 2 &ndash; Reproducing <code>cat</code> Efficiently with Buffering</h2>
 
-<blockquote><p>It can be excessively inefficient to work directly with a Read instance. For example, every call to read on TcpStream results in a system call. A BufReader performs large, infrequent reads on the underlying Read and maintains an in-memory buffer of the results
-&mdash; <a href="https://doc.rust-lang.org/std/io/struct.BufReader.html">https://doc.rust-lang.org/std/io/struct.BufReader.html</a></p></blockquote>
+<blockquote><p>It can be excessively inefficient to work directly with a Read instance. For example, every call to read on TcpStream results in a system call. A BufReader performs large, infrequent reads on the underlying Read and maintains an in-memory buffer of the results.</p>
+
+<p>&mdash; <a href="https://doc.rust-lang.org/std/io/struct.BufReader.html">https://doc.rust-lang.org/std/io/struct.BufReader.html</a></p></blockquote>
 
 <p>Lets add some buffer use to increase performance and get it near the speed of <code>cat</code>. Replace the contents of <code>stream_stats.rs</code> with the following, recompile, and run the program.</p>
 
@@ -157,7 +165,7 @@ compile the program into <code>stream_stats</code>. We can now run the program w
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/30da32426f7ac420f4660c168678341301c68648" target="_new">viewable on Github</a>.<br/>
+<p>The exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/30da32426f7ac420f4660c168678341301c68648" target="_new">viewable on Github</a>.
 Here&rsquo;s a one-liner which to help with the build/run cycle:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
