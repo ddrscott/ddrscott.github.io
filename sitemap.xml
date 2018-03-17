@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>https://ddrscott.github.io/blog/2018/stream-stats-in-rust/</loc>
+    <lastmod>2018-03-17T02:45:00-05:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>https://ddrscott.github.io/blog/2018/getting-rusty-with-vim/</loc>
     <lastmod>2018-03-04T06:30:00-06:00</lastmod>
     <priority>0.8</priority>
@@ -593,14 +599,14 @@
   
   <url>
     <loc>https://ddrscott.github.io/posts/</loc>
-    <lastmod>2018-03-05T09:10:56-06:00</lastmod>
+    <lastmod>2018-03-17T02:47:43-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>https://ddrscott.github.io/</loc>
-    <lastmod>2018-03-05T09:10:56-06:00</lastmod>
+    <lastmod>2018-03-17T02:47:43-05:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

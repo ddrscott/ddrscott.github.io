@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Rustic Journey Through Stream Stats - @_ddrscott_</title>
+  <meta name="author" content="Scott Pierce">
+
+  
+  <meta name="description" content=" After playing [Guessing Game](/blog/2018/getting-rusty-with-vim/) from the [Rust Book](https://doc.rust-lang.org/book/first-edition/guessing-game.html) a few times, it was time to make something a little more substantial. We're going to create `stream_stats`, a CLI program which prints throughput statistics from `stdin` while redirecting through `stdout`. Think `tee` + `wc -l` + `watch` all at the same time. " />
+
+  
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="https://ddrscott.github.io" />
+  <meta name="twitter:creator" content="@_ddrscott_" />
+  <meta property="og:title" content="A Rustic Journey Through Stream Stats" />
+  <meta property="og:image" content="https://ddrscott.github.io/images/stream_stats_demo.png" />
+  <meta property="og:description" content=" After playing [Guessing Game](/blog/2018/getting-rusty-with-vim/) from the [Rust Book](https://doc.rust-lang.org/book/first-edition/guessing-game.html) a few times, it was time to make something a little more substantial. We're going to create `stream_stats`, a CLI program which prints throughput statistics from `stdin` while redirecting through `stdout`. Think `tee` + `wc -l` + `watch` all at the same time. " />
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="https://ddrscott.github.io/blog/2018/stream-stats-in-rust">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <a href="/" class="home-icon">
+      <img src="/images/home.png"/>
+    </a>
+
+    <article role="article" class="full-single-article">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <h1>A Rustic Journey Through Stream Stats</h1>
+        <div class="meta">
+          written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2018-03-17T02:45:00-05:00" pubdate data-updated="true">Mar 17<sup>th</sup>, 2018</time>
+          
+
+in
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+  
+</span>
+
+
+        </div>
+        <p><img class="featured" src="/images/stream_stats_demo.png" width=1364 height=1078 alt="Stream Stats Demo" /></p>
+
+<p>After playing <a href="/blog/2018/getting-rusty-with-vim/">Guessing Game</a> from the <a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html">Rust Book</a> a few times, it was time to make something a little more substantial. We&rsquo;re going to create <code>stream_stats</code>, a CLI program which prints throughput statistics from <code>stdin</code> while redirecting through <code>stdout</code>. Think <code>tee</code> + <code>wc -l</code> + <code>watch</code> all at
+the same time.</p>
+
+<!-- more -->
+
+
+<p>Here is a quick demo of the program:</p>
+
+<p><img src="/images/stream_stats_demo.gif" width=745 height=250 alt="Stream Stats Gif" /></p>
+
+<h2>Step 1 &ndash; Reproducing <code>cat</code> Inefficiently</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='rust'><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">io</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">String</span><span class="o">::</span><span class="n">new</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">while</span> <span class="n">io</span><span class="o">::</span><span class="n">stdin</span><span class="p">().</span><span class="n">read_line</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span> <span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">print</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">buffer</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Save the code as <code>stream_stats.rs</code> and build it using <code>rustc -O stream_stats.rs</code>. This will
+compile the program into <code>stream_stats</code>. We can now run the program with
+<code>./stream_stats &lt; stream_stats.rs</code> or <code>cat stream_stats.rs | stream_stats</code>. This should output the source code we just wrote.</p>
+
+<p>The program is sufficient for small streams, but will perform horribly on large files.</p>
+
+<h2>Step 2 &ndash; Reproducing <code>cat</code> with Buffering (Efficiently)</h2>
+
+<blockquote><p>It can be excessively inefficient to work directly with a Read instance. For example, every call to read on TcpStream results in a system call. A BufReader performs large, infrequent reads on the underlying Read and maintains an in-memory buffer of the results
+&mdash; <a href="https://doc.rust-lang.org/std/io/struct.BufReader.html">https://doc.rust-lang.org/std/io/struct.BufReader.html</a></p></blockquote>
+
+<p>Lets add some buffer use to increase performance and get it near the speed of <code>cat</code>. Replace the contents of <code>stream_stats.rs</code> with the following, recompile, and run the program.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='rust'><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="p">{</span><span class="n">self</span><span class="p">,</span> <span class="n">BufRead</span><span class="p">,</span> <span class="n">BufReader</span><span class="p">,</span> <span class="n">BufWriter</span><span class="p">,</span> <span class="n">Write</span><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">READ_BUF_SIZE</span><span class="o">:</span> <span class="n">usize</span> <span class="o">=</span> <span class="m">1024</span> <span class="o">*</span> <span class="m">1024</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">BufReader</span><span class="o">::</span><span class="n">with_capacity</span><span class="p">(</span><span class="n">READ_BUF_SIZE</span><span class="p">,</span> <span class="n">io</span><span class="o">::</span><span class="n">stdin</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">writer</span> <span class="o">=</span> <span class="n">BufWriter</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="n">stdout</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">vec</span><span class="o">!</span><span class="p">[];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">reader</span><span class="p">.</span><span class="n">read_until</span><span class="p">(</span><span class="n">b</span><span class="sc">&#39;\n&#39;</span><span class="p">,</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">writer</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">buffer</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/30da32426f7ac420f4660c168678341301c68648" target="_new">viewable on Github</a>.<br/>
+Here&rsquo;s a one-liner which to help with the build/run cycle:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>rustc -O ./stream_stats.rs <span class="o">&amp;&amp;</span> ./stream_stats &lt; stream_stats.rs
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For a few extra lines, we get a lot of performance. There are ways to get even more
+performance, but it won&rsquo;t be worth the code complexity at this time.</p>
+
+<h2>Step 3 &ndash; Count the Lines</h2>
+
+<p>We&rsquo;re ready to start counting lines. We&rsquo;ll introduce a <code>struct</code> to hold a start
+time and line count.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='rust'><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="p">{</span><span class="n">self</span><span class="p">,</span> <span class="n">BufRead</span><span class="p">,</span> <span class="n">BufReader</span><span class="p">,</span> <span class="n">BufWriter</span><span class="p">,</span> <span class="n">Write</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">time</span><span class="o">::</span><span class="n">Instant</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">READ_BUF_SIZE</span><span class="o">:</span> <span class="n">usize</span> <span class="o">=</span> <span class="m">1024</span> <span class="o">*</span> <span class="m">1024</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">lines</span><span class="o">:</span> <span class="n">usize</span><span class="p">,</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">BufReader</span><span class="o">::</span><span class="n">with_capacity</span><span class="p">(</span><span class="n">READ_BUF_SIZE</span><span class="p">,</span> <span class="n">io</span><span class="o">::</span><span class="n">stdin</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">writer</span> <span class="o">=</span> <span class="n">BufWriter</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="n">stdout</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">vec</span><span class="o">!</span><span class="p">[];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="o">::</span><span class="n">now</span><span class="p">(),</span>
+</span><span class='line'>        <span class="n">lines</span><span class="o">:</span> <span class="m">0</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">reader</span><span class="p">.</span><span class="n">read_until</span><span class="p">(</span><span class="n">b</span><span class="sc">&#39;\n&#39;</span><span class="p">,</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">writer</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">lines</span> <span class="o">+=</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">buffer</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">eprintln</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;lines: {}, {:?}&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">.</span><span class="n">lines</span><span class="p">,</span> <span class="n">stats</span><span class="p">.</span><span class="n">started</span><span class="p">.</span><span class="n">elapsed</span><span class="p">());</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again the exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/4131ec8daea852ec4641cbca9ba13775ff8679d5?diff=split" target="_new">viewable on Github</a>.</p>
+
+<h2>Step 4 &ndash; Write to <code>/dev/tty</code></h2>
+
+<p>Using <code>eprintln!</code> is easy, but bad practice for non-error output. The next step is moving the output to <code>/dev/tty</code>. As a reminder, we&rsquo;re also not using <code>println!</code> because we&rsquo;re reserving it for the original content piped from <code>stdin</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='rust'><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">fs</span><span class="o">::</span><span class="p">{</span><span class="n">File</span><span class="p">,</span> <span class="n">OpenOptions</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="p">{</span><span class="n">self</span><span class="p">,</span> <span class="n">BufRead</span><span class="p">,</span> <span class="n">BufReader</span><span class="p">,</span> <span class="n">BufWriter</span><span class="p">,</span> <span class="n">Write</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">time</span><span class="o">::</span><span class="n">Instant</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">READ_BUF_SIZE</span><span class="o">:</span> <span class="n">usize</span> <span class="o">=</span> <span class="m">1024</span> <span class="o">*</span> <span class="m">1024</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">lines</span><span class="o">:</span> <span class="n">usize</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">tty</span><span class="o">:</span> <span class="n">File</span><span class="p">,</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">impl</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">fn</span> <span class="n">new</span><span class="p">(</span><span class="n">tty</span><span class="o">:</span> <span class="o">&amp;</span><span class="k">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="o">::</span><span class="n">now</span><span class="p">(),</span>
+</span><span class='line'>            <span class="n">lines</span><span class="o">:</span> <span class="m">0</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">tty</span><span class="o">:</span> <span class="n">OpenOptions</span><span class="o">::</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">tty</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Cannot open tty for writing!&quot;</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">BufReader</span><span class="o">::</span><span class="n">with_capacity</span><span class="p">(</span><span class="n">READ_BUF_SIZE</span><span class="p">,</span> <span class="n">io</span><span class="o">::</span><span class="n">stdin</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">writer</span> <span class="o">=</span> <span class="n">BufWriter</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="n">stdout</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">vec</span><span class="o">!</span><span class="p">[];</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">Stats</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;/dev/tty&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">reader</span><span class="p">.</span><span class="n">read_until</span><span class="p">(</span><span class="n">b</span><span class="sc">&#39;\n&#39;</span><span class="p">,</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">writer</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">lines</span> <span class="o">+=</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">buffer</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">writeln</span><span class="o">!</span><span class="p">(</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">tty</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&quot;lines: {}, {:?}&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">lines</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">started</span><span class="p">.</span><span class="n">elapsed</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Could not write to tty!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/e15502b23c1428f5ff86fdf6c6d791221e456992?diff=split" target="_new">viewable on Github</a>.</p>
+
+<h2>Step 5 &ndash; Beautify Stats Output</h2>
+
+<p>The display logic is going to get a little more complex. We want to move the string formatting code to a <code>fmt::Display</code> trait. We&rsquo;ll also add the kilobytes to the displayed stats.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='rust'><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">fmt</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">fs</span><span class="o">::</span><span class="p">{</span><span class="n">File</span><span class="p">,</span> <span class="n">OpenOptions</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="p">{</span><span class="n">self</span><span class="p">,</span> <span class="n">BufRead</span><span class="p">,</span> <span class="n">BufReader</span><span class="p">,</span> <span class="n">BufWriter</span><span class="p">,</span> <span class="n">Write</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">time</span><span class="o">::</span><span class="n">Instant</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">READ_BUF_SIZE</span><span class="o">:</span> <span class="n">usize</span> <span class="o">=</span> <span class="m">1024</span> <span class="o">*</span> <span class="m">1024</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="n">CLEAR_LINE</span><span class="o">:</span> <span class="o">&amp;</span><span class="k">str</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x1B</span><span class="s">[1G</span><span class="se">\x1B</span><span class="s">[2K&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">lines</span><span class="o">:</span> <span class="n">usize</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">bytes</span><span class="o">:</span> <span class="n">usize</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">tty</span><span class="o">:</span> <span class="n">File</span><span class="p">,</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">impl</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">fn</span> <span class="n">new</span><span class="p">(</span><span class="n">tty</span><span class="o">:</span> <span class="o">&amp;</span><span class="k">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="o">::</span><span class="n">now</span><span class="p">(),</span>
+</span><span class='line'>            <span class="n">lines</span><span class="o">:</span> <span class="m">0</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">bytes</span><span class="o">:</span> <span class="m">0</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">tty</span><span class="o">:</span> <span class="n">OpenOptions</span><span class="o">::</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">tty</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Cannot open tty for writing!&quot;</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">impl</span> <span class="n">fmt</span><span class="o">::</span><span class="n">Display</span> <span class="k">for</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">fn</span> <span class="n">fmt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">self</span><span class="p">,</span> <span class="n">f</span><span class="o">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">fmt</span><span class="o">::</span><span class="n">Formatter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">fmt</span><span class="o">::</span><span class="n">Result</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">let</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">started</span><span class="p">.</span><span class="n">elapsed</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">seconds</span><span class="o">:</span> <span class="k">f64</span> <span class="o">=</span> <span class="n">elapsed</span><span class="p">.</span><span class="n">as_secs</span><span class="p">()</span> <span class="k">as</span> <span class="k">f64</span> <span class="o">+</span> <span class="n">elapsed</span><span class="p">.</span><span class="n">subsec_nanos</span><span class="p">()</span> <span class="k">as</span> <span class="k">f64</span> <span class="o">*</span> <span class="m">1e-9</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">seconds</span> <span class="o">==</span> <span class="m">0.0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">write</span><span class="o">!</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">kb</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bytes</span> <span class="k">as</span> <span class="k">f64</span> <span class="o">/</span> <span class="m">1024</span> <span class="k">as</span> <span class="k">f64</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">kb_per_sec</span> <span class="o">=</span> <span class="n">kb</span> <span class="o">/</span> <span class="n">seconds</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">lines_per_sec</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">lines</span> <span class="k">as</span> <span class="k">f64</span> <span class="o">/</span> <span class="n">seconds</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">write</span><span class="o">!</span><span class="p">(</span>
+</span><span class='line'>            <span class="n">f</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;{}{:.1} sec | {:.0} kb [ {:.1}/s ] | {} lines [ {:.0}/s ]&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">CLEAR_LINE</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">seconds</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">kb</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">kb_per_sec</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">self</span><span class="p">.</span><span class="n">lines</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">lines_per_sec</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">BufReader</span><span class="o">::</span><span class="n">with_capacity</span><span class="p">(</span><span class="n">READ_BUF_SIZE</span><span class="p">,</span> <span class="n">io</span><span class="o">::</span><span class="n">stdin</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">writer</span> <span class="o">=</span> <span class="n">BufWriter</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="n">stdout</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">vec</span><span class="o">!</span><span class="p">[];</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">Stats</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;/dev/tty&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">reader</span><span class="p">.</span><span class="n">read_until</span><span class="p">(</span><span class="n">b</span><span class="sc">&#39;\n&#39;</span><span class="p">,</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">writer</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">lines</span> <span class="o">+=</span> <span class="m">1</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">bytes</span> <span class="o">+=</span> <span class="o">&amp;</span><span class="n">buffer</span><span class="p">.</span><span class="n">len</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">buffer</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">writeln</span><span class="o">!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stats</span><span class="p">.</span><span class="n">tty</span><span class="p">,</span> <span class="s">&quot;{}&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">stats</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Could not write to tty!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/d2c5ef1cfcffc6a54e4b669aae835051d262143d?diff=split" target="_new">viewable on Github</a>.</p>
+
+<h2>Step 6 &ndash; Display the stats 10 times per second</h2>
+
+<p>We&rsquo;re finally at the most useful part of the program. Viewing the stats while
+the stream is still going.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+</pre></td><td class='code'><pre><code class='rust'><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">fmt</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">fs</span><span class="o">::</span><span class="p">{</span><span class="n">File</span><span class="p">,</span> <span class="n">OpenOptions</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">io</span><span class="o">::</span><span class="p">{</span><span class="n">self</span><span class="p">,</span> <span class="n">BufRead</span><span class="p">,</span> <span class="n">BufReader</span><span class="p">,</span> <span class="n">BufWriter</span><span class="p">,</span> <span class="n">Write</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">sync</span><span class="o">::</span><span class="n">Arc</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">sync</span><span class="o">::</span><span class="n">atomic</span><span class="o">::</span><span class="p">{</span><span class="n">AtomicUsize</span><span class="p">,</span> <span class="n">Ordering</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">thread</span><span class="o">::</span><span class="p">{</span><span class="n">self</span><span class="p">,</span> <span class="n">sleep</span><span class="p">};</span>
+</span><span class='line'><span class="k">use</span> <span class="n">std</span><span class="o">::</span><span class="n">time</span><span class="o">::</span><span class="p">{</span><span class="n">Duration</span><span class="p">,</span> <span class="n">Instant</span><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="n">READ_BUF_SIZE</span><span class="o">:</span> <span class="n">usize</span> <span class="o">=</span> <span class="m">1024</span> <span class="o">*</span> <span class="m">1024</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="n">CLEAR_LINE</span><span class="o">:</span> <span class="o">&amp;</span><span class="k">str</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\x1B</span><span class="s">[1G</span><span class="se">\x1B</span><span class="s">[2K&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">static</span> <span class="n">UPDATE_INTERVAL_MS</span><span class="o">:</span> <span class="k">u64</span> <span class="o">=</span> <span class="m">100</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">struct</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">lines</span><span class="o">:</span> <span class="n">AtomicUsize</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">bytes</span><span class="o">:</span> <span class="n">AtomicUsize</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">tty</span><span class="o">:</span> <span class="n">File</span><span class="p">,</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">impl</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">fn</span> <span class="n">new</span><span class="p">(</span><span class="n">tty</span><span class="o">:</span> <span class="o">&amp;</span><span class="k">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">started</span><span class="o">:</span> <span class="n">Instant</span><span class="o">::</span><span class="n">now</span><span class="p">(),</span>
+</span><span class='line'>            <span class="n">lines</span><span class="o">:</span> <span class="n">AtomicUsize</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="m">0</span><span class="p">),</span>
+</span><span class='line'>            <span class="n">bytes</span><span class="o">:</span> <span class="n">AtomicUsize</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="m">0</span><span class="p">),</span>
+</span><span class='line'>            <span class="n">tty</span><span class="o">:</span> <span class="n">OpenOptions</span><span class="o">::</span><span class="n">new</span><span class="p">()</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">tty</span><span class="p">)</span>
+</span><span class='line'>                <span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Cannot open tty for writing!&quot;</span><span class="p">),</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">fn</span> <span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">self</span><span class="p">,</span> <span class="n">buffer</span><span class="o">:</span> <span class="o">&amp;</span><span class="n">Vec</span><span class="o">&lt;</span><span class="k">u8</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">lines</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">Ordering</span><span class="o">::</span><span class="n">Relaxed</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">self</span><span class="p">.</span><span class="n">bytes</span><span class="p">.</span><span class="n">fetch_add</span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="n">len</span><span class="p">(),</span> <span class="n">Ordering</span><span class="o">::</span><span class="n">Relaxed</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">impl</span> <span class="n">fmt</span><span class="o">::</span><span class="n">Display</span> <span class="k">for</span> <span class="n">Stats</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">fn</span> <span class="n">fmt</span><span class="p">(</span><span class="o">&amp;</span><span class="n">self</span><span class="p">,</span> <span class="n">f</span><span class="o">:</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">fmt</span><span class="o">::</span><span class="n">Formatter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">fmt</span><span class="o">::</span><span class="n">Result</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">let</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">started</span><span class="p">.</span><span class="n">elapsed</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">seconds</span><span class="o">:</span> <span class="k">f64</span> <span class="o">=</span> <span class="n">elapsed</span><span class="p">.</span><span class="n">as_secs</span><span class="p">()</span> <span class="k">as</span> <span class="k">f64</span> <span class="o">+</span> <span class="n">elapsed</span><span class="p">.</span><span class="n">subsec_nanos</span><span class="p">()</span> <span class="k">as</span> <span class="k">f64</span> <span class="o">*</span> <span class="m">1e-9</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">seconds</span> <span class="o">==</span> <span class="m">0.0</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">write</span><span class="o">!</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">bytes</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">Ordering</span><span class="o">::</span><span class="n">Relaxed</span><span class="p">)</span> <span class="k">as</span> <span class="k">f64</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">lines</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">lines</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">Ordering</span><span class="o">::</span><span class="n">Relaxed</span><span class="p">)</span> <span class="k">as</span> <span class="k">f64</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">kb</span> <span class="o">=</span> <span class="n">bytes</span> <span class="o">/</span> <span class="m">1024</span> <span class="k">as</span> <span class="k">f64</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">kb_per_sec</span> <span class="o">=</span> <span class="n">kb</span> <span class="o">/</span> <span class="n">seconds</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">let</span> <span class="n">lines_per_sec</span> <span class="o">=</span> <span class="n">lines</span> <span class="o">/</span> <span class="n">seconds</span><span class="p">;</span>
+</span><span class='line'>        <span class="n">write</span><span class="o">!</span><span class="p">(</span>
+</span><span class='line'>            <span class="n">f</span><span class="p">,</span>
+</span><span class='line'>            <span class="s">&quot;{}{:.1} sec | {:.0} kb [ {:.1}/s ] | {:.0} lines [ {:.0}/s ]&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">CLEAR_LINE</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">seconds</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">kb</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">kb_per_sec</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">lines</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">lines_per_sec</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fn</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">BufReader</span><span class="o">::</span><span class="n">with_capacity</span><span class="p">(</span><span class="n">READ_BUF_SIZE</span><span class="p">,</span> <span class="n">io</span><span class="o">::</span><span class="n">stdin</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">writer</span> <span class="o">=</span> <span class="n">BufWriter</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="n">stdout</span><span class="p">());</span>
+</span><span class='line'>    <span class="k">let</span> <span class="k">mut</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">vec</span><span class="o">!</span><span class="p">[];</span>
+</span><span class='line'>    <span class="k">let</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">Arc</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="n">Stats</span><span class="o">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;/dev/tty&quot;</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">let</span> <span class="n">stats_clone</span> <span class="o">=</span> <span class="n">stats</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">thread</span><span class="o">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">move</span> <span class="o">||</span> <span class="k">loop</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">sleep</span><span class="p">(</span><span class="n">Duration</span><span class="o">::</span><span class="n">from_millis</span><span class="p">(</span><span class="n">UPDATE_INTERVAL_MS</span><span class="p">));</span>
+</span><span class='line'>        <span class="n">write</span><span class="o">!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stats_clone</span><span class="p">.</span><span class="n">tty</span><span class="p">,</span> <span class="s">&quot;{}&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">stats_clone</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Could not write to tty!&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="n">reader</span><span class="p">.</span><span class="n">read_until</span><span class="p">(</span><span class="n">b</span><span class="sc">&#39;\n&#39;</span><span class="p">,</span> <span class="o">&amp;</span><span class="k">mut</span> <span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">writer</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>        <span class="n">stats</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">buffer</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span class='line'>    <span class="n">writeln</span><span class="o">!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stats</span><span class="p">.</span><span class="n">tty</span><span class="p">,</span> <span class="s">&quot;{}&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">stats</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Could not write to tty!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/e0b51a9de1364bfe3becfac8b27040c62bf06ac2?diff=split" target="_new">viewable on Github</a>.</p>
+
+<h2>Closing Thoughts</h2>
+
+<p>I personally learned a lot assembling these steps and wish I did this <em>before</em>
+publishing the <code>cargo</code> <a href="https://github.com/ddrscott/stream_stats">crate</a> of the same name.</p>
+
+<p>Any suggestions, comments, and corrections welcome on this post or the final crate are welcome. <a href="https://github.com/ddrscott/stream_stats.">https://github.com/ddrscott/stream_stats.</a></p>
+
+<p>Thanks for learning with me!</p>
+
+      </div>
+    </div>
+  </div>
+</article>
+
+<hr class="divider-short"/>
+
+<div class="archive-link">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+          <a class="pull-left" href="/blog/2018/getting-rusty-with-vim/" title="Previous Post: Getting Rusty with Vim">&laquo; Previous: Getting Rusty with Vim</a>
+        
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <footer id="footer" class="her-row">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+  <a href="/"><h4>Home</h4></a>
+</div>
+
+<div class="col-md-2">
+    <div class="social-icon-list">
+        
+        <a href="https://twitter.com/@_ddrscott_"><img src="/images/glyphicons_social_31_twitter.png"/></a>
+        
+
+        
+        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
+        
+
+        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+    </div>
+</div>
+
+<div class="pull-right">
+  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
+</div>
+
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-50126719-1', 'auto');
+ga('send', 'pageview');
+  </script>
+
+
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'ddrscottgithubio';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'https://ddrscott.github.io/blog/2018/stream-stats-in-rust/';
+        var disqus_url = 'https://ddrscott.github.io/blog/2018/stream-stats-in-rust/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
