@@ -94,6 +94,54 @@
           <div class="row">
             <div class="col-md-offset-3 col-md-6">
               <article>
+  <h2><a href="/blog/2011/day-7-finger-physics-is-hard/">Day 7 - Finger Physics is Hard</a></h2>
+  
+  <p>
+    <p>After struggling with this problem for quite some time, I think
+the issue is finally licked. The problem relates to transferring
+you fingers momentum to a virtual object on the screen. The natural
+way to display finger position is to plot a sprite at the touch
+sensors coordinates. The problem with this method is the physics
+engine doesn&#8217;t think their is any momentum built up. The physics
+engine just thinks your finger teleported there. So if I teleport
+on top of a cow it just explodes. To make things worse if the touch
+events come in too slowly you&#8217;ll teleport over the cow completely
+missing the free lunch.</p>
+
+
+  </p>
+  <span class="meta">
+    written 
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2011-02-23T23:36:51-06:00" pubdate data-updated="true">Feb 23<sup>rd</sup>, 2011</time>
+    
+
+
+  </span>
+
+  
+    <a class="full-article-link pull-right" rel="full-article" href="/blog/2011/day-7-finger-physics-is-hard/">Read on &rarr;</a>
+  
+</article>
+
+            </div>
+          </div>
+        
+          
+          <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+              <article>
   <h2><a href="/blog/2011/day-6-ish/">Day 6-ish</a></h2>
   
   <p>
@@ -528,44 +576,6 @@ I&#8217;ll be back for the next startup.</p>
             </div>
           </div>
         
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2010/nathan-get-ready-its-time-to-start-working/">It&#8217;s Never Too Early To Get Your Child Her First Cubicle</a></h2>
-  
-  <p>
-    <p>Nathan, get ready. It&#8217;s time to start working!</p>
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2010-04-15T08:08:05-05:00" pubdate data-updated="true">Apr 15<sup>th</sup>, 2010</time>
-    
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2010/nathan-get-ready-its-time-to-start-working/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
       </div>
     </div>
 
@@ -606,6 +616,13 @@ I&#8217;ll be back for the next startup.</p>
 <div class="pull-right">
   <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
 </div>
+<script>
+// Thanks: https://stackoverflow.com/a/4425214/613772
+$(document.links).filter(function() {
+    return this.hostname != window.location.hostname;
+}).attr('target', '_blank');
+</script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

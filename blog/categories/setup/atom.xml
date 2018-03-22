@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: setup | @_ddrscott_]]></title>
+  <link href="https://ddrscott.github.io/blog/categories/setup/atom.xml" rel="self"/>
+  <link href="https://ddrscott.github.io/"/>
+  <updated>2018-03-22T07:02:20-05:00</updated>
+  <id>https://ddrscott.github.io/</id>
+  <author>
+    <name><![CDATA[Scott Pierce]]></name>
+    <email><![CDATA[ddrscott@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dev Blog Tools :: A quick tour of my setup]]></title>
+    <link href="https://ddrscott.github.io/blog/2018/blog-setup/"/>
+    <updated>2018-03-22T02:45:00-05:00</updated>
+    <id>https://ddrscott.github.io/blog/2018/blog-setup</id>
+    <content type="html"><![CDATA[<p><img class="featured" src="" width=1364 height=1078 alt="Annotated screenshot" /></p>
+
+<p>I&rsquo;ve been asked to share about my blogging setup a few times, so in the spirit of keeping things <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>, it&rsquo;s time to make a post about it.</p>
+
+<p><strong>TL;DR</strong> &mdash; Mac, iTerm, NeoVim, LICEcap, Octopress, Base16, Input Font, Skitch, OBS</p>
+
+<!-- more -->
+
+
+<blockquote><p> <strong>WARNING</strong> This is an atypical post. I normally prefer to go over a single feature, but this time I&rsquo;m going to under explain a lot of features. Here&rsquo;s a short list of typical posts in case chaos is not your thing:</p>
+
+<ul>
+<li><a href="https://ddrscott.github.io/blog/2017/vim-send-text/">https://ddrscott.github.io/blog/2017/vim-send-text/</a></li>
+<li><a href="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/">https://ddrscott.github.io/blog/2017/what-the-sql-lateral/</a></li>
+<li><a href="https://ddrscott.github.io/blog/2016/negative-modulo/">https://ddrscott.github.io/blog/2016/negative-modulo/</a></li>
+</ul>
+</blockquote>
+
+<h2>Computer</h2>
+
+<p>I do all my writing and coding on a MacBook Pro Retina 15 inch. It&rsquo;s pretty maxed out, but I don&rsquo;t think it needs to be that way. The only stats I really care about are the size and the clarity of the screen.</p>
+
+<p><img src="https://ddrscott.github.io/images/osx-version.png" width=1396 height=960 /></p>
+
+<h2>Terminal</h2>
+
+<p>I like to live in a terminal. I choose <a href="https://www.iterm2.com/">iTerm2</a> for it&rsquo;s split panes and independent font size per pane. At times I wish it was as fast as the native Terminal.app, but it doesn&rsquo;t support splits. I&rsquo;ve been told many times that <a href="https://github.com/tmux/tmux/wiki">tmux</a> supports splits, too, but I can&rsquo;t change the text size independently between splits. I&rsquo;d also rather use <a href="https://www.gnu.org/software/screen/">GNU screen</a> anyway.</p>
+
+<blockquote><p>Old timers like old things™</p></blockquote>
+
+<h2>Editor</h2>
+
+<p><a href="https://neovim.io/">NeoVim</a> is always loaded in one of my terminal panes. It&rsquo;s the most efficient editor for me. I switched away from Vim 7 because it couldn&rsquo;t do background jobs. Prior to Vim I used <a href="https://www.jetbrains.com/ruby/">RubyMine</a> and <a href="https://www.jetbrains.com/idea/">IntelliJ</a> which were great for code completion and navigating projects, but felt heavy for notes, free form writing, and editing system files. I&rsquo;ll save the rest of the Vim sermon for another post.</p>
+
+<p>When composing posts, I use <a href="https://github.com/plasticboy/vim-markdown">vim-markdown</a> to get syntax highlighting, folding, TOC, and other goodies.</p>
+
+<p>My entire NeoVim config can be found in its <a href="https://github.com/ddrscott/config-nvim">Github repository</a>. I don&rsquo;t recommend folks using it outright, but borrow parts if it and slowly integrate it into their own setup. One size doesn&rsquo;t fit all. It barely fits me!</p>
+
+<h2>Colors</h2>
+
+<p>I lived in <a href="http://ethanschoonover.com/solarized">Solarized Dark</a> for many years. It is so common place in development shops it became the <a href="https://en.wikipedia.org/wiki/Monochrome_monitor#/media/File:IBM_PC_5150.jpg">new green screen</a> of the 70&rsquo;s and 80&rsquo;s. So when folks see yellow and green highlights against an off-black chalkboard beaming from my terminal, there&rsquo;s pause and self reflection. They wonder how they were nestled into a monotonous monoculture. They ponder when they traded emotional delight for ocular comfort. They realize depression encroached silently on them like mold in a damp attic. But I digress&hellip;</p>
+
+<p>Here&rsquo;s how Base16 describes itself:</p>
+
+<blockquote><p>An architecture for building themes based on carefully chosen syntax highlighting using a base of sixteen colours. Base16 provides a set of guidelines detailing how to style syntax and how to code a builder for compiling base16 schemes and templates.</p>
+
+<p>&mdash; <a href="https://github.com/chriskempson/base16">https://github.com/chriskempson/base16</a></p></blockquote>
+
+<p><img src="https://ddrscott.github.io/images/base16_colors.png" width=1398 height=1136 alt="Base16 ocean colors" /></p>
+
+<p><a href="http://chriskempson.com/projects/base16/">base16-ocean</a> is the color scheme I use. It&rsquo;s scheme #74, type <code>j</code> or <code>k</code> to change the theme). The scheme is perfectly in sync between shell and Vim due to <a href="https://github.com/chriskempson/base16-shell">base16-shell</a> and <a href="https://github.com/chriskempson/base16-vim">base16-vim</a>. I wrote a <a href="/blog/2017/base16-shell/">longer post about using Base16 while back</a>.</p>
+
+<h2>Font</h2>
+
+<p>I&rsquo;ve been using the same code font for as long as I can remember: Input Mono Condensed.</p>
+
+<p><img src="https://ddrscott.github.io/images/input_font.jpg" width=1088 height=685 alt="Input Font Samples" /></p>
+
+<blockquote><p>Input is a flexible system of fonts designed specifically for code by David Jonathan Ross. It offers both monospaced and proportional fonts, all with a large range of widths, weights, and styles for richer code formatting.</p>
+
+<p>&mdash; Font Bureau</p></blockquote>
+
+<p>I enjoy the fancy &lsquo;a&rsquo; and &lsquo;g&rsquo; characters along with easy to distinguish &lsquo;l&rsquo;, &lsquo;1&rsquo;, and &lsquo;I&rsquo;. It also has several different character width options so I can squeeze more code in one eye shot.</p>
+
+<p>Speaking of shots&hellip;</p>
+
+<h2>Screenshots</h2>
+
+<p>I have a few ways of taking screenshots and it&rsquo;s mainly the Mac way:</p>
+
+<ul>
+<li>To snap a small portion of the screen, I use <code>⇧+⌘+4</code>, then select region to snap.</li>
+<li>To snap a window with the shadow, I use <code>⇧+⌘+4</code>, then <code>space</code> and select a window.</li>
+</ul>
+
+
+<p><a href="https://support.apple.com/en-us/HT201361">Apple&rsquo;s support page</a> has the gruesome details on both.</p>
+
+<p>When I want to annotate a screenshot, I use <a href="https://evernote.com/products/skitch">Evernote&rsquo;s Skitch App</a>. The featured image was created using a combination of OSX screenshot and then editing in <a href="https://evernote.com/products/skitch">Skitch</a>.</p>
+
+<p><img src="https://ddrscott.github.io/images/skitch.png" width=1850 height=1514 /></p>
+
+<h2>Animated Gifs and Videos</h2>
+
+<p>For short demos, I like to use <a href="https://www.cockos.com/licecap/">LICEcap</a> to record an animated Gif. I wouldn&rsquo;t use Gifs for anything longer than a few seconds since it doesn&rsquo;t support video playback controls without extra magic.</p>
+
+<p>Here&rsquo;s an example <a href="https://www.cockos.com/licecap/">LICEcap</a> Gif:</p>
+
+<p><img src="https://ddrscott.github.io/images/licecap_demo2.gif" width=775 height=274 /></p>
+
+<p>And here&rsquo;s a video of how I produced it:</p>
+
+<div style="position:relative;height:0;padding-bottom:75.0%"><iframe src="https://www.youtube.com/embed/_BwVHJx1Zc4?ecver=2" width="480" height="360" frameborder="0" allow="autoplay; encrypted-media" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe></div>
+
+
+<p>For full screen video record, I use <a href="https://obsproject.com/">OBS Studio</a>. (You might have noticed me stopping the recording at the end of the video. Should have used a hotkey.) It produces small file sizes and a lot has features including video overlays, webcam capture, filters, transforms, etc. It deserves a whole book of its own.</p>
+
+<blockquote><p><strong>Note to Self</strong></p>
+
+<ol>
+<li>write book about OBS Studio</li>
+<li>retire</li>
+</ol>
+</blockquote>
+
+<h2>Blog Generator</h2>
+
+<p>I use <a href="http://octopress.org/">Octopress</a> to generate the static HTML pages you&rsquo;re reading now. I haven&rsquo;t updated it since 2014 (<a href="https://github.com/imathis/octopress/tree/71e4d40ba7aef73da65936bc9a77e432609811b2">SHA 71e4d40b</a>) and I&rsquo;m terrified to do so. The setup Just Works™. I write in <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> and it does the rest.</p>
+
+<p>The source code for this exact post is <a href="https://github.com/ddrscott/octopress/blob/master/source/_posts/2018-03-22-blog-setup.markdown">here</a>.</p>
+
+<p>That being said, I&rsquo;m strongly considering switching to <a href="http://www.mkdocs.org/">Mkdocs</a> to have more structure and better search capabilities built-in.</p>
+
+<h2>Closing</h2>
+
+<p>You made it to the end! I hope at least one of these will benefit your daily computing life.</p>
+
+<p>Questions? Comments? Trolls?!? Let me know! <a class="twitter-share-button" href="https://twitter.com/intent/tweet" data-hashtags="til">Tweet</a></p>
+
+<p><strong>Links</strong></p>
+
+<ul>
+<li>iTerm2 &mdash; <a href="https://www.iterm2.com/">https://www.iterm2.com/</a></li>
+<li>Tmux &mdash; <a href="https://github.com/tmux/tmux/wiki">https://github.com/tmux/tmux/wiki</a></li>
+<li>GNU Screen &mdash; <a href="https://www.gnu.org/software/screen/">https://www.gnu.org/software/screen/</a></li>
+<li>RubyMine &mdash; <a href="https://www.jetbrains.com/ruby/">https://www.jetbrains.com/ruby/</a></li>
+<li>IntelliJ &mdash; <a href="https://www.jetbrains.com/idea/">https://www.jetbrains.com/idea/</a></li>
+<li>Vim &mdash; <a href="https://www.vim.org">https://www.vim.org</a></li>
+<li>NeoVim &mdash; <a href="https://neovim.io/">https://neovim.io/</a></li>
+<li>vim-markdown &mdash; <a href="https://github.com/plasticboy/vim-markdown">https://github.com/plasticboy/vim-markdown</a></li>
+<li>My NeoVim Config &mdash; <a href="https://github.com/ddrscott/config-nvim">https://github.com/ddrscott/config-nvim</a></li>
+<li>base16-shell &mdash; <a href="https://github.com/chriskempson/base16-shell">https://github.com/chriskempson/base16-shell</a></li>
+<li>base16-vim &mdash; <a href="https://github.com/chriskempson/base16-vim">https://github.com/chriskempson/base16-vim</a></li>
+<li>base16-ocean &mdash; <a href="http://chriskempson.com/projects/base16/">http://chriskempson.com/projects/base16/</a></li>
+<li>Input Font &mdash; <a href="http://input.fontbureau.com/">http://input.fontbureau.com/</a></li>
+<li>Skitch &mdash; <a href="https://evernote.com/products/skitch">https://evernote.com/products/skitch</a></li>
+<li>LICEcap &mdash; <a href="https://www.cockos.com/licecap/">https://www.cockos.com/licecap/</a></li>
+<li>OBS Studio &mdash; <a href="https://obsproject.com/">https://obsproject.com/</a></li>
+<li>Octopress &mdash; <a href="http://octopress.org/">http://octopress.org/</a></li>
+<li>Mkdocs &mdash; <a href="http://www.mkdocs.org/">http://www.mkdocs.org/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
