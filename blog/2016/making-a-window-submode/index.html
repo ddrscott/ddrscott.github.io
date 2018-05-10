@@ -1,438 +1,1274 @@
 
+
+
+
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Making a Window Submode in Vim - @_ddrscott_</title>
-  <meta name="author" content="Scott Pierce">
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2016/making-a-window-submode/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
+    
+    
+      
+        <title>Making a Window Submode in Vim - Why, Scott, WHY?!?</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.6525f7f6.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.792431c1.css">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2016/making-a-window-submode/" />
+<meta name="twitter:creator" content="@_ddrscott_" />
 
   
-  <meta name="description" content="{% img featured /images/window-mode-feature.png 1280 380 'Header Image' %} I found a plugin that is changing my Vim-tire life! This [plugin](https://github.com/kana/vim-submode) is so awesome it should be built into default Vim. What does the [plugin](https://github.com/kana/vim-submode) do? It enables the creation of new submodes. Why would a person want *more* modes?!? Isn't dealing with modes the main deterrent for new Vim users? Isn't Normal, Insert, Command-line, Visual, Select, and Operator-pending enough? (Did I miss one?) Let's try out a new submode and see what happens." />
-
+  
   
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="https://ddrscott.github.io" />
-  <meta name="twitter:creator" content="@_ddrscott_" />
-  <meta property="og:title" content="Making a Window Submode in Vim" />
+
+  </head>
   
-  <meta property="og:description" content="{% img featured /images/window-mode-feature.png 1280 380 'Header Image' %} I found a plugin that is changing my Vim-tire life! This [plugin](https://github.com/kana/vim-submode) is so awesome it should be built into default Vim. What does the [plugin](https://github.com/kana/vim-submode) do? It enables the creation of new submodes. Why would a person want *more* modes?!? Isn't dealing with modes the main deterrent for new Vim users? Isn't Normal, Insert, Command-line, Visual, Select, and Operator-pending enough? (Did I miss one?) Let's try out a new submode and see what happens." />
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
+    
+    
+      <body data-md-color-primary="blue-grey" data-md-color-accent="orange">
+    
   
-  <link rel="canonical" href="https://ddrscott.github.io/blog/2016/making-a-window-submode">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-</head>
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://ddrscott.github.io/" title="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Why, Scott, WHY?!?
+              </span>
+              <span class="md-header-nav__topic">
+                Making a Window Submode in Vim
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    Why, Scott, WHY?!?
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
 
-  <body>
-    <a href="/" class="home-icon">
-      <img src="/images/home.png"/>
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Home" class="md-nav__link">
+      Home
     </a>
+  </li>
 
-    <article role="article" class="full-single-article">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <h1>Making a Window Submode in Vim</h1>
-        <div class="meta">
-          written 
+    
+      
+      
+      
 
 
+  <li class="md-nav__item">
+    <a href="../../../projects/" title="Projects" class="md-nav__link">
+      Projects
+    </a>
+  </li>
+
+    
+      
+      
+      
 
 
-
-
-
-
-  
-
-
-
-<time datetime="2016-04-29T09:00:00-05:00" pubdate data-updated="true">Apr 29<sup>th</sup>, 2016</time>
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Vim
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Vim
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
           
 
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/submodes/'>submodes</a>, <a class='category' href='/blog/categories/vim/'>vim,</a>
-  
-</span>
+
+  <li class="md-nav__item">
+    <a href="../../2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
 
 
-        </div>
-        <p><img class="featured" src="/images/window-mode-feature.png" width="1280" height="380" title="'Header Image'" >
+  <li class="md-nav__item">
+    <a href="../../2017/vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Making a Window Submode in Vim
+      </label>
+    
+    <a href="./" title="Making a Window Submode in Vim" class="md-nav__link md-nav__link--active">
+      Making a Window Submode in Vim
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" title="Problem" class="md-nav__link">
+    Problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-a" title="Solution A" class="md-nav__link">
+    Solution A
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-b-submode-to-the-rescue" title="Solution B - Submode to the Rescue" class="md-nav__link">
+    Solution B - Submode to the Rescue
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonus-mappings" title="Bonus Mappings" class="md-nav__link">
+    Bonus Mappings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rainbows-without-unicorns" title="Rainbows without Unicorns" class="md-nav__link">
+    Rainbows without Unicorns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thanks" title="Thanks" class="md-nav__link">
+    Thanks
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      SQL
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        SQL
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-lateral/" title="What the SQL?!? Lateral Joins" class="md-nav__link">
+      What the SQL?!? Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-window/" title="What the SQL?!? WINDOW" class="md-nav__link">
+      What the SQL?!? WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-recursive/" title="What the SQL?!? Recursive" class="md-nav__link">
+      What the SQL?!? Recursive
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      2018
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        2018
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/move-to-mkdocs/" title="Move to MkDocs" class="md-nav__link">
+      Move to MkDocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/stream-stats-in-rust/" title="A Rustic Journey Through Stream Stats" class="md-nav__link">
+      A Rustic Journey Through Stream Stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/blog-setup/" title="Dev Blog Tools :: A Quick Tour of My Setup" class="md-nav__link">
+      Dev Blog Tools :: A Quick Tour of My Setup
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      2017
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        2017
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/base16-shell/" title="Base16 Shell" class="md-nav__link">
+      Base16 Shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/how-to-get-better-at-anything/" title="How to Get Better At Anything" class="md-nav__link">
+      How to Get Better At Anything
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/fzf-dictionary/" title="FZF + WordNet = Dictionary" class="md-nav__link">
+      FZF + WordNet = Dictionary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/gnu-screen/" title="GNU Screen" class="md-nav__link">
+      GNU Screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-lateral/" title="What the SQL?!? Lateral Joins" class="md-nav__link">
+      What the SQL?!? Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-window/" title="What the SQL?!? WINDOW" class="md-nav__link">
+      What the SQL?!? WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-recursive/" title="What the SQL?!? Recursive" class="md-nav__link">
+      What the SQL?!? Recursive
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      2016
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        2016
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../photography-lightening-talk/" title="Photography Refactored" class="md-nav__link">
+      Photography Refactored
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ruby-abuse/" title="Ruby Abuse: How Not to Write Ruby, But Still Have Fun" class="md-nav__link">
+      Ruby Abuse: How Not to Write Ruby, But Still Have Fun
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Making a Window Submode in Vim
+      </label>
+    
+    <a href="./" title="Making a Window Submode in Vim" class="md-nav__link md-nav__link--active">
+      Making a Window Submode in Vim
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" title="Problem" class="md-nav__link">
+    Problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-a" title="Solution A" class="md-nav__link">
+    Solution A
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-b-submode-to-the-rescue" title="Solution B - Submode to the Rescue" class="md-nav__link">
+    Solution B - Submode to the Rescue
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonus-mappings" title="Bonus Mappings" class="md-nav__link">
+    Bonus Mappings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rainbows-without-unicorns" title="Rainbows without Unicorns" class="md-nav__link">
+    Rainbows without Unicorns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thanks" title="Thanks" class="md-nav__link">
+    Thanks
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../ansi-codes-with-character/" title="ANSI Codes with Character" class="md-nav__link">
+      ANSI Codes with Character
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      2014
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        2014
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2014/tech-stack-2014-edition/" title="Tech Stack 2014 Edition" class="md-nav__link">
+      Tech Stack 2014 Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2014/octopress-to-the-rescue/" title="Octopress to the Rescue" class="md-nav__link">
+      Octopress to the Rescue
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" title="Problem" class="md-nav__link">
+    Problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-a" title="Solution A" class="md-nav__link">
+    Solution A
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-b-submode-to-the-rescue" title="Solution B - Submode to the Rescue" class="md-nav__link">
+    Solution B - Submode to the Rescue
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bonus-mappings" title="Bonus Mappings" class="md-nav__link">
+    Bonus Mappings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rainbows-without-unicorns" title="Rainbows without Unicorns" class="md-nav__link">
+    Rainbows without Unicorns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thanks" title="Thanks" class="md-nav__link">
+    Thanks
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="making-a-window-submode-in-vim">Making a Window Submode in Vim<a class="headerlink" href="#making-a-window-submode-in-vim" title="Permanent link">&para;</a></h1>
+<p><img src="/images/window-mode-feature.png" alt='Header Image' />
 I found a plugin that is changing my Vim-tire life! This
 <a href="https://github.com/kana/vim-submode">plugin</a> is so awesome it should be
 built into default Vim. What does the <a href="https://github.com/kana/vim-submode">plugin</a>
 do? It enables the creation of new submodes. Why would a person want <em>more</em> modes?!?
-Isn&rsquo;t dealing with modes the main deterrent for new Vim users? Isn&rsquo;t Normal,
+Isn't dealing with modes the main deterrent for new Vim users? Isn't Normal,
 Insert, Command-line, Visual, Select, and Operator-pending enough? (Did I miss one?)
-Let&rsquo;s try out a new submode and see what happens.</p>
-
-<!-- more -->
-
-
-<h2>Problem</h2>
-
+Let's try out a new submode and see what happens.
+<!-- more --></p>
+<h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">&para;</a></h2>
 <p>Window commands are prefixed with <code>&lt;C-w&gt;</code>. Want to create a horizontal split?
-Try <code>&lt;C-w&gt;s</code>, didn&rsquo;t mean to do that and want to do vertical split? <code>&lt;C-w&gt;q&lt;C-w&gt;v</code>.
+Try <code>&lt;C-w&gt;s</code>, didn't mean to do that and want to do vertical split? <code>&lt;C-w&gt;q&lt;C-w&gt;v</code>.
 Want to resize the vertical split <code>50&lt;C-w&gt;&gt;</code>? Too wide? Narrow it with <code>5&lt;C-w&gt;&lt;</code>.
 Move back to the other window? <code>&lt;C-w&gt;p</code> or <code>&lt;C-w&gt;w</code>.</p>
-
 <p>Are your fingers getting tired? After I get the windows just right using default
 mappings my fingers are crying for mercy.</p>
+<p>Here's a short list of common default window commands:
+<div class="codehilite"><pre><span></span><span class="c">&quot; Change window focus</span>
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">h</span>   move cursor <span class="k">left</span>  {<span class="k">n</span>} <span class="nb">window</span>
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">l</span>   move cursor <span class="k">right</span> {<span class="k">n</span>} <span class="nb">window</span>
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">j</span>   move cursor down  {<span class="k">n</span>} <span class="nb">window</span>
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">k</span>   move cursor <span class="k">up</span>    {<span class="k">n</span>} <span class="nb">window</span>
 
-<p>Here&rsquo;s a short list of common default window commands:</p>
+<span class="c">&quot; Move window</span>
+<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>H   move <span class="nb">window</span> far <span class="k">left</span>
+<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>L   move <span class="nb">window</span> far <span class="k">right</span>
+<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>J   move <span class="nb">window</span> far bottom
+<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>K   move <span class="nb">window</span> far <span class="k">top</span>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; Change window focus</span>
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">h</span>   move cursor <span class="k">left</span>  {<span class="k">n</span>} <span class="nb">window</span>
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">l</span>   move cursor <span class="k">right</span> {<span class="k">n</span>} <span class="nb">window</span>
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">j</span>   move cursor down  {<span class="k">n</span>} <span class="nb">window</span>
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span><span class="k">k</span>   move cursor <span class="k">up</span>    {<span class="k">n</span>} <span class="nb">window</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; Move window</span>
-</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>H   move <span class="nb">window</span> far <span class="k">left</span>
-</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>L   move <span class="nb">window</span> far <span class="k">right</span>
-</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>J   move <span class="nb">window</span> far bottom
-</span><span class='line'><span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>K   move <span class="nb">window</span> far <span class="k">top</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; Change size</span>
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;+</span>  increase height by {<span class="k">n</span>} rows
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;-</span>  decrease height by {<span class="k">n</span>} rows
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&lt;</span>  decrease width by {<span class="k">n</span>} <span class="nb">columns</span>
-</span><span class='line'>{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&gt;</span>  increase width by {<span class="k">n</span>} <span class="nb">columns</span>
-</span><span class='line'>   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;|</span>  maximize width
-</span><span class='line'>   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>_  maximize height
-</span><span class='line'>   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;=</span>  equalize sizes
-</span></code></pre></td></tr></table></div></figure>
-
-
+<span class="c">&quot; Change size</span>
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;+</span>  increase height by {<span class="k">n</span>} rows
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;-</span>  decrease height by {<span class="k">n</span>} rows
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&lt;</span>  decrease width by {<span class="k">n</span>} <span class="nb">columns</span>
+{<span class="k">n</span>}<span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;&gt;</span>  increase width by {<span class="k">n</span>} <span class="nb">columns</span>
+   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;|</span>  maximize width
+   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>_  maximize height
+   <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;=</span>  equalize sizes
+</pre></div></p>
 <p>For a comprehensive list of window commands try <code>:help windows.txt</code>.</p>
-
-<h2>Solution A</h2>
-
+<h2 id="solution-a">Solution A<a class="headerlink" href="#solution-a" title="Permanent link">&para;</a></h2>
 <p>The most common solution to window-command-itis is to map other keys to these
 common actions so to include the <code>&lt;C-w&gt;</code> prefix.</p>
-
-<p>From <a href="https://github.com/spf13/spf13-vim/blob/3.0/.vimrc">spf13-vim</a>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">j</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
-</span><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">k</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
-</span><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">l</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
-</span><span class='line'>map <span class="p">&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">h</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
-</span><span class='line'><span class="c">&quot; Note: They go one extra by maximizing the height after entering the split.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>From <a href="https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally">Thoughbot</a>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span>
-</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span>
-</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span>
-</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
+<p>From <a href="https://github.com/spf13/spf13-vim/blob/3.0/.vimrc">spf13-vim</a>:
+<div class="codehilite"><pre><span></span>map <span class="p">&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">j</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+map <span class="p">&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">k</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+map <span class="p">&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">l</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+map <span class="p">&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span><span class="k">h</span><span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;</span>_
+<span class="c">&quot; Note: They go one extra by maximizing the height after entering the split.</span>
+</pre></div></p>
+<p>From <a href="https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally">Thoughbot</a>:
+<div class="codehilite"><pre><span></span><span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>J<span class="p">&gt;</span>
+<span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>K<span class="p">&gt;</span>
+<span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>L<span class="p">&gt;</span>
+<span class="nb">nnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>C<span class="p">-</span>H<span class="p">&gt;</span>
+</pre></div></p>
 <p>This has been the accepted solution for most, but it takes away so many
 convenient keys. And in some cases, it even overrides default behaviour.
-<code>&lt;C-L&gt;</code>, I miss you. <code>C-H</code>, isn&rsquo;t that also <code>&lt;BS&gt;</code>? Guess I won&rsquo;t be using
+<code>&lt;C-L&gt;</code>, I miss you. <code>C-H</code>, isn't that also <code>&lt;BS&gt;</code>? Guess I won't be using
 you either.</p>
-
-<h2>Solution B &ndash; Submode to the Rescue</h2>
-
+<h2 id="solution-b-submode-to-the-rescue">Solution B - Submode to the Rescue<a class="headerlink" href="#solution-b-submode-to-the-rescue" title="Permanent link">&para;</a></h2>
 <p>This entire solution depends on <a href="https://github.com/kana/vim-submode.git">kana/vim-submode</a>,
-I consider it one of Japan&rsquo;s national treasures along with ninjas and ramen.
-Unfortunately, Kana&rsquo;s example use of submodes is a little underwhelming:
+I consider it one of Japan's national treasures along with ninjas and ramen.
+Unfortunately, Kana's example use of submodes is a little underwhelming:
 undo/redo using <code>g-</code> and <code>g+</code>. I agree with the author that using <code>g-</code> and
 <code>g+</code> is not convenient, and using <code>g++++-++-+</code> is easier, but the solution
 for that was simply <code>u</code> and <code>&lt;C-R&gt;</code>. I feel a better application for a new
 submode is window management. Imagine if resizing a split was <code>&lt;C-w&gt;++++++++</code>
 or <code>&lt;C-w&gt;------=-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&lt;&gt;</code> or changing cursor location was <code>&lt;C-w&gt;hjlll</code>
 or moving was <code>&lt;C-w&gt;HjKLkjh</code>. Imagine no more!</p>
-
-<p>First, install the plugin. If you&rsquo;re not sure how to install a plugin, try
+<p>First, install the plugin. If you're not sure how to install a plugin, try
 <a href="https://github.com/junegunn/vim-plug">junegunn/vim-plug</a>. Next, add the
 following to your <code>$MYVIMRC</code>.</p>
+<div class="codehilite"><pre><span></span><span class="c">&quot; A message will appear in the message line when you&#39;re in a submode</span>
+<span class="c">&quot; and stay there until the mode has existed.</span>
+<span class="k">let</span> <span class="k">g</span>:submode_always_show_submode <span class="p">=</span> <span class="m">1</span>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; A message will appear in the message line when you&#39;re in a submode</span>
-</span><span class='line'><span class="c">&quot; and stay there until the mode has existed.</span>
-</span><span class='line'><span class="k">let</span> <span class="k">g</span>:submode_always_show_submode <span class="p">=</span> <span class="m">1</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; We&#39;re taking over the default &lt;C-w&gt; setting. Don&#39;t worry we&#39;ll do</span>
-</span><span class='line'><span class="c">&quot; our best to put back the default functionality.</span>
-</span><span class='line'><span class="k">call</span> submode#enter_with<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; Note: &lt;C-c&gt; will also get you out to the mode without this mapping.</span>
-</span><span class='line'><span class="c">&quot; Note: &lt;C-[&gt; also behaves as &lt;ESC&gt;</span>
-</span><span class='line'><span class="k">call</span> submode#leave_with<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;ESC&gt;&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; Go through every letter</span>
-</span><span class='line'><span class="k">for</span> <span class="nb">key</span> <span class="k">in</span> [<span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="s1">&#39;h&#39;</span><span class="p">,</span><span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;j&#39;</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span>
-</span><span class='line'>\           <span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;u&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span>]
-</span><span class='line'><span class="c">  &quot; maps lowercase, uppercase and &lt;C-key&gt;</span>
-</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">key</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="nb">key</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> toupper<span class="p">(</span><span class="nb">key</span><span class="p">),</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . toupper<span class="p">(</span><span class="nb">key</span><span class="p">))</span>
-</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-&#39;</span> . <span class="nb">key</span> . <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="s1">&#39;&lt;C-&#39;</span>.<span class="nb">key</span> . <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">endfor</span>
-</span><span class='line'><span class="c">&quot; Go through symbols. Sadly, &#39;|&#39;, not supported in submode plugin.</span>
-</span><span class='line'><span class="k">for</span> <span class="nb">key</span> <span class="k">in</span> [<span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span><span class="s1">&#39;&gt;&#39;</span>]
-</span><span class='line'>  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">key</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="nb">key</span><span class="p">)</span>
-</span><span class='line'><span class="k">endfor</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; Old way, just in case.</span>
-</span><span class='line'><span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">w</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<span class="c">&quot; We&#39;re taking over the default &lt;C-w&gt; setting. Don&#39;t worry we&#39;ll do</span>
+<span class="c">&quot; our best to put back the default functionality.</span>
+<span class="k">call</span> submode#enter_with<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span><span class="p">)</span>
 
+<span class="c">&quot; Note: &lt;C-c&gt; will also get you out to the mode without this mapping.</span>
+<span class="c">&quot; Note: &lt;C-[&gt; also behaves as &lt;ESC&gt;</span>
+<span class="k">call</span> submode#leave_with<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;ESC&gt;&#39;</span><span class="p">)</span>
 
-<p>After <code>:source $MYVIMRC</code>, you&rsquo;ll have a glorious new submode in Vim.
+<span class="c">&quot; Go through every letter</span>
+<span class="k">for</span> <span class="nb">key</span> <span class="k">in</span> [<span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;c&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;e&#39;</span><span class="p">,</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;g&#39;</span><span class="p">,</span><span class="s1">&#39;h&#39;</span><span class="p">,</span><span class="s1">&#39;i&#39;</span><span class="p">,</span><span class="s1">&#39;j&#39;</span><span class="p">,</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="s1">&#39;l&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span>
+\           <span class="s1">&#39;n&#39;</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="s1">&#39;p&#39;</span><span class="p">,</span><span class="s1">&#39;q&#39;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="s1">&#39;t&#39;</span><span class="p">,</span><span class="s1">&#39;u&#39;</span><span class="p">,</span><span class="s1">&#39;v&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span>]
+<span class="c">  &quot; maps lowercase, uppercase and &lt;C-key&gt;</span>
+  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">key</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="nb">key</span><span class="p">)</span>
+  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> toupper<span class="p">(</span><span class="nb">key</span><span class="p">),</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . toupper<span class="p">(</span><span class="nb">key</span><span class="p">))</span>
+  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-&#39;</span> . <span class="nb">key</span> . <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="s1">&#39;&lt;C-&#39;</span>.<span class="nb">key</span> . <span class="s1">&#39;&gt;&#39;</span><span class="p">)</span>
+<span class="k">endfor</span>
+<span class="c">&quot; Go through symbols. Sadly, &#39;|&#39;, not supported in submode plugin.</span>
+<span class="k">for</span> <span class="nb">key</span> <span class="k">in</span> [<span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;&#39;</span><span class="p">,</span><span class="s1">&#39;&gt;&#39;</span>]
+  <span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nb">key</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;&#39;</span> . <span class="nb">key</span><span class="p">)</span>
+<span class="k">endfor</span>
+
+<span class="c">&quot; Old way, just in case.</span>
+<span class="nb">nnoremap</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">w</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>
+</pre></div>
+
+<p>After <code>:source $MYVIMRC</code>, you'll have a glorious new submode in Vim.
 You can see I named it <em>window</em> mode. Can you guess how to get into <em>window</em> mode?
 <code>&lt;C-w&gt;</code>, the normal prefix used to do any <code>wincmd</code>. If this is too drastic, feel
 free to change line #7 to something else. Just replace <code>&lt;C-w&gt;</code> with a different
 normal mapping.</p>
-
-<p>Let&rsquo;s give it a test drive.
-<img class="featured" src="/images/window-submode.gif" width="1142" height="719" title="'window mode in action'" >
-I know you can&rsquo;t see what keys I&rsquo;m pressing, but I guarantee I only pressed
-<code>&lt;C-w&gt;</code> once. I also didn&rsquo;t have to remember any new key bindings. The
+<p>Let's give it a test drive.
+<img src="/images/window-submode.gif" alt='window mode in action' />
+I know you can't see what keys I'm pressing, but I guarantee I only pressed
+<code>&lt;C-w&gt;</code> once. I also didn't have to remember any new key bindings. The
 hesitation in the demo is the resistance to hitting <code>&lt;C-w&gt;</code> every time, which
-I&rsquo;ll get over soon enough.</p>
+I'll get over soon enough.</p>
+<h2 id="bonus-mappings">Bonus Mappings<a class="headerlink" href="#bonus-mappings" title="Permanent link">&para;</a></h2>
+<p>But wait there's more! In case I haven't provided enough tips for one post,
+here's the overrides I have in <code>$MYVIMRC</code> to make windowing even better.</p>
+<div class="codehilite"><pre><span></span><span class="c">&quot; I don&#39;t like &lt;C-w&gt;q, &lt;C-w&gt;c won&#39;t exit Vim when it&#39;s the last window.</span>
+<span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;c&#39;</span><span class="p">)</span>
+<span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-q&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;c&#39;</span><span class="p">)</span>
 
-<h2>Bonus Mappings</h2>
+<span class="c">&quot; &lt;lowercase-pipe&gt; sets the width to 80 columns, pipe (&lt;S-\&gt;) by default</span>
+<span class="c">&quot; maximizes the width.</span>
+<span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\&#39;</span><span class="p">,</span> <span class="s1">&#39;:vertical resize 80&lt;CR&gt;&#39;</span><span class="p">)</span>
 
-<p>But wait there&rsquo;s more! In case I haven&rsquo;t provided enough tips for one post,
-here&rsquo;s the overrides I have in <code>$MYVIMRC</code> to make windowing even better.</p>
+<span class="c">&quot; Resize faster</span>
+<span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;3&lt;C-w&gt;+&#39;</span><span class="p">)</span>
+<span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;3&lt;C-w&gt;-&#39;</span><span class="p">)</span>
+<span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;10&lt;C-w&gt;&lt;&#39;</span><span class="p">)</span>
+<span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;10&lt;C-w&gt;&gt;&#39;</span><span class="p">)</span>
+</pre></div>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="c">&quot; I don&#39;t like &lt;C-w&gt;q, &lt;C-w&gt;c won&#39;t exit Vim when it&#39;s the last window.</span>
-</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;c&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-q&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;C-w&gt;c&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; &lt;lowercase-pipe&gt; sets the width to 80 columns, pipe (&lt;S-\&gt;) by default</span>
-</span><span class='line'><span class="c">&quot; maximizes the width.</span>
-</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;\&#39;, &#39;</span>:<span class="k">vertical</span> <span class="k">resize</span> <span class="m">80</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>&#39;<span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">&quot; Resize faster</span>
-</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;3&lt;C-w&gt;+&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;3&lt;C-w&gt;-&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;10&lt;C-w&gt;&lt;&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="k">call</span> submode#map<span class="p">(</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;10&lt;C-w&gt;&gt;&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Rainbows without Unicorns</h2>
-
+<h2 id="rainbows-without-unicorns">Rainbows without Unicorns<a class="headerlink" href="#rainbows-without-unicorns" title="Permanent link">&para;</a></h2>
 <p>While learning this new way of windowing, there have been a few negatives:</p>
-
 <ol>
-<li><p>I forget that I&rsquo;m in window mode and get disoriented when I think I&rsquo;m moving
-the cursor within a buffer, but it jumps around to other splits.</p></li>
-<li><p>For one off window commands, I have to hit an extra key to get out of window
-mode or wait for the timeout.</p></li>
-<li><p>When I use some one else&rsquo;s computer, I&rsquo;m useless.</p></li>
+<li>
+<p>I forget that I'm in window mode and get disoriented when I think I'm moving
+   the cursor within a buffer, but it jumps around to other splits.</p>
+</li>
+<li>
+<p>For one off window commands, I have to hit an extra key to get out of window
+   mode or wait for the timeout.</p>
+</li>
+<li>
+<p>When I use some one else's computer, I'm useless.</p>
+</li>
 </ol>
-
-
 <p>I think most of these annoyances will go away with time, and the benefits
 overtime in keystroke savings are non-trivial. As for #3, regardless of submodes,
 the brain freeze will never go away, because no one thinks as strangely as me,
-and that&rsquo;s a Good Thing™.</p>
-
-<h2>Thanks</h2>
-
-<p>Shout-out to Kana Natsuno, @kana1, <a href="http://whileimautomaton.net/,">http://whileimautomaton.net/,</a> <a href="https://github.com/kana">https://github.com/kana</a> . None
+and that's a Good Thing™.</p>
+<h2 id="thanks">Thanks<a class="headerlink" href="#thanks" title="Permanent link">&para;</a></h2>
+<p>Shout-out to Kana Natsuno, @kana1, <a href="http://whileimautomaton.net/">http://whileimautomaton.net/</a>, <a href="https://github.com/kana">https://github.com/kana</a> . None
 of this awesomeness would be possible without <a href="https://github.com/kana/vim-submode">https://github.com/kana/vim-submode</a> . She
-makes some totally sweet plug-ins. Check out her stuff. You won&rsquo;t regret it!</p>
-
+makes some totally sweet plug-ins. Check out her stuff. You won't regret it!</p>
 <p>Let me know what you think. Am I crazy? What other things deserve a submode?
 Hit me up in the comments below! Thanks for reading!</p>
-
-      </div>
-    </div>
-  </div>
-</article>
-
-<hr class="divider-short"/>
-
-<div class="archive-link">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        
-          <a class="pull-left" href="/blog/2016/yank-without-jank/" title="Previous Post: Yank Without Jank">&laquo; Previous: Yank Without Jank</a>
-        
-
-        
-          <a class="pull-right" href="/blog/2016/sidescroll/" title="Next Post: Sensible Horizontal Scroll in Vim">Next: Sensible Horizontal Scroll in Vim &raquo;</a>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-    <footer id="footer" class="her-row">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-1">
-  <a href="/"><h4>Home</h4></a>
-</div>
-
-<div class="col-md-2">
-    <div class="social-icon-list">
-        
-        <a href="https://twitter.com/@_ddrscott_"><img src="/images/glyphicons_social_31_twitter.png"/></a>
-        
-
-        
-        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
-        
-
-        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
-    </div>
-</div>
-
-<div class="pull-right">
-  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
-</div>
+                
+                  
+                
+              
+              
+                
+                  <h2 id="__comments">Comments</h2>
+                  <div id="disqus_thread"></div>
 <script>
-// Thanks: https://stackoverflow.com/a/4425214/613772
-$(document.links).filter(function() {
-    return this.hostname != window.location.hostname;
-}).attr('target', '_blank');
+  var disqus_config = function () {
+    this.page.url = "https://ddrscott.github.io/blog/2016/making-a-window-submode/";
+    this.page.identifier =
+      "blog/2016/making-a-window-submode/";
+  };
+  (function() {
+    var d = document, s = d.createElement("script");
+    s.src = "//ddrscottgithubio.disqus.com/embed.js";
+    s.setAttribute("data-timestamp", +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
 </script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-  <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-50126719-1', 'auto');
-ga('send', 'pageview');
-  </script>
-
-
-
-
-<script type="text/javascript">
-      var disqus_shortname = 'ddrscottgithubio';
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'https://ddrscott.github.io/blog/2016/making-a-window-submode/';
-        var disqus_url = 'https://ddrscott.github.io/blog/2016/making-a-window-submode/';
-        var disqus_script = 'embed.js';
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../ruby-abuse/" title="Ruby Abuse: How Not to Write Ruby, But Still Have Fun" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Ruby Abuse: How Not to Write Ruby, But Still Have Fun
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../ansi-codes-with-character/" title="ANSI Codes with Character" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                ANSI Codes with Character
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2014 - 2018 Scott Pierce
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
       
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/ddrscott" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/_ddrscott_" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
 
-
-
-
+      
     </div>
   </div>
 </footer>
-
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.cae2244d.js"></script>
+      
+      <script>app.initialize({version:"0.17.2",url:{base:"../../.."}})</script>
+      
+        <script src="https://platform.twitter.com/widgets.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})});var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})</script>
+      
+    
   </body>
 </html>

@@ -1,115 +1,941 @@
 
+
+
+
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>FZF + WordNet = Dictionary - @_ddrscott_</title>
-  <meta name="author" content="Scott Pierce">
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2017/fzf-dictionary/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
+    
+    
+      
+        <title>FZF + WordNet = Dictionary - Why, Scott, WHY?!?</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.6525f7f6.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.792431c1.css">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2017/fzf-dictionary/" />
+<meta name="twitter:creator" content="@_ddrscott_" />
 
   
-  <meta name="description" content="{% img featured /images/fzf_dictionary_demo.gif 707 412 'FZF Dictionary' %} `FZF + WordNet = Dictionary`. FZF is a fuzzy finding command line tool. WordNet is a dictionary structured for developers. When married together, we can get a snappy dictionary to help us find just the right word for any occasion." />
-
+  
   
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="https://ddrscott.github.io" />
-  <meta name="twitter:creator" content="@_ddrscott_" />
-  <meta property="og:title" content="FZF + WordNet = Dictionary" />
-  <meta property="og:image" content="https://ddrscott.github.io/images/fzf_dictionary_demo.gif" />
-  <meta property="og:description" content="{% img featured /images/fzf_dictionary_demo.gif 707 412 'FZF Dictionary' %} `FZF + WordNet = Dictionary`. FZF is a fuzzy finding command line tool. WordNet is a dictionary structured for developers. When married together, we can get a snappy dictionary to help us find just the right word for any occasion." />
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  </head>
   
-  <link rel="canonical" href="https://ddrscott.github.io/blog/2017/fzf-dictionary">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-</head>
+    
+    
+    
+      <body data-md-color-primary="blue-grey" data-md-color-accent="orange">
+    
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://ddrscott.github.io/" title="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Why, Scott, WHY?!?
+              </span>
+              <span class="md-header-nav__topic">
+                FZF + WordNet = Dictionary
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    Why, Scott, WHY?!?
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
 
-  <body>
-    <a href="/" class="home-icon">
-      <img src="/images/home.png"/>
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Home" class="md-nav__link">
+      Home
     </a>
+  </li>
 
-    <article role="article" class="full-single-article">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        <h1>FZF + WordNet = Dictionary</h1>
-        <div class="meta">
-          written 
+    
+      
+      
+      
 
 
+  <li class="md-nav__item">
+    <a href="../../../projects/" title="Projects" class="md-nav__link">
+      Projects
+    </a>
+  </li>
+
+    
+      
+      
+      
 
 
-
-
-
-
-  
-
-
-
-<time datetime="2017-06-12T13:30:00-05:00" pubdate data-updated="true">Jun 12<sup>th</sup>, 2017</time>
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Vim
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Vim
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
           
 
-in
-<span class="categories">
+
+  <li class="md-nav__item">
+    <a href="../../2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/making-a-window-submode/" title="Making a Window Submode in Vim" class="md-nav__link">
+      Making a Window Submode in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      SQL
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        SQL
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../what-the-sql-lateral/" title="What the SQL?!? Lateral Joins" class="md-nav__link">
+      What the SQL?!? Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../what-the-sql-window/" title="What the SQL?!? WINDOW" class="md-nav__link">
+      What the SQL?!? WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../what-the-sql-recursive/" title="What the SQL?!? Recursive" class="md-nav__link">
+      What the SQL?!? Recursive
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      2018
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        2018
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/move-to-mkdocs/" title="Move to MkDocs" class="md-nav__link">
+      Move to MkDocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/stream-stats-in-rust/" title="A Rustic Journey Through Stream Stats" class="md-nav__link">
+      A Rustic Journey Through Stream Stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/blog-setup/" title="Dev Blog Tools :: A Quick Tour of My Setup" class="md-nav__link">
+      Dev Blog Tools :: A Quick Tour of My Setup
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
   
-    <a class='category' href='/blog/categories/fzf/'>fzf</a>, <a class='category' href='/blog/categories/shell/'>shell</a>, <a class='category' href='/blog/categories/wordnet/'>wordnet</a>
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    
+    <label class="md-nav__link" for="nav-6">
+      2017
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        2017
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../base16-shell/" title="Base16 Shell" class="md-nav__link">
+      Base16 Shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../how-to-get-better-at-anything/" title="How to Get Better At Anything" class="md-nav__link">
+      How to Get Better At Anything
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
-</span>
 
 
-        </div>
-        <p><img class="featured" src="/images/fzf_dictionary_demo.gif" width="707" height="412" title="'FZF Dictionary'" ></p>
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        FZF + WordNet = Dictionary
+      </label>
+    
+    <a href="./" title="FZF + WordNet = Dictionary" class="md-nav__link md-nav__link--active">
+      FZF + WordNet = Dictionary
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-required-program" title="Install Required Program" class="md-nav__link">
+    Install Required Program
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fzf" title="FZF" class="md-nav__link">
+    FZF
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wordnet" title="WordNet" class="md-nav__link">
+    WordNet
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shell-script" title="Shell Script" class="md-nav__link">
+    Shell Script
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" title="Conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
 
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../gnu-screen/" title="GNU Screen" class="md-nav__link">
+      GNU Screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../what-the-sql-lateral/" title="What the SQL?!? Lateral Joins" class="md-nav__link">
+      What the SQL?!? Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../what-the-sql-window/" title="What the SQL?!? WINDOW" class="md-nav__link">
+      What the SQL?!? WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../what-the-sql-recursive/" title="What the SQL?!? Recursive" class="md-nav__link">
+      What the SQL?!? Recursive
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      2016
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        2016
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/photography-lightening-talk/" title="Photography Refactored" class="md-nav__link">
+      Photography Refactored
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/ruby-abuse/" title="Ruby Abuse: How Not to Write Ruby, But Still Have Fun" class="md-nav__link">
+      Ruby Abuse: How Not to Write Ruby, But Still Have Fun
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/making-a-window-submode/" title="Making a Window Submode in Vim" class="md-nav__link">
+      Making a Window Submode in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/ansi-codes-with-character/" title="ANSI Codes with Character" class="md-nav__link">
+      ANSI Codes with Character
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      2014
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        2014
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2014/tech-stack-2014-edition/" title="Tech Stack 2014 Edition" class="md-nav__link">
+      Tech Stack 2014 Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2014/octopress-to-the-rescue/" title="Octopress to the Rescue" class="md-nav__link">
+      Octopress to the Rescue
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-required-program" title="Install Required Program" class="md-nav__link">
+    Install Required Program
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fzf" title="FZF" class="md-nav__link">
+    FZF
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wordnet" title="WordNet" class="md-nav__link">
+    WordNet
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shell-script" title="Shell Script" class="md-nav__link">
+    Shell Script
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" title="Conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="fzf-wordnet-dictionary">FZF + WordNet = Dictionary<a class="headerlink" href="#fzf-wordnet-dictionary" title="Permanent link">&para;</a></h1>
+<p><img src="/images/fzf_dictionary_demo.gif" alt="FZF Dictionary" /></p>
 <p><code>FZF + WordNet = Dictionary</code>. FZF is a fuzzy finding command line tool. WordNet
 is a dictionary structured for developers. When married together, we can get
 a snappy dictionary to help us find just the right word for any occasion.</p>
-
 <!-- more -->
 
-
-<h1>Install Required Program</h1>
-
+<h2 id="install-required-program">Install Required Program<a class="headerlink" href="#install-required-program" title="Permanent link">&para;</a></h2>
 <p>Before making our new shell function, lets install the required programs.</p>
-
 <ol>
 <li><a href="https://github.com/junegunn/fzf">https://github.com/junegunn/fzf</a></li>
 <li><a href="http://wordnetweb.princeton.edu/perl/webwn">http://wordnetweb.princeton.edu/perl/webwn</a></li>
 </ol>
-
-
-<p>These directions are for Max OSX with <code>homebrew</code> installed. If you&rsquo;re on
+<p>These directions are for Max OSX with <code>homebrew</code> installed. If you're on
 a different system, read the docs from the sites above to get the programs for
 your operating system.</p>
+<div class="codehilite"><pre><span></span>brew install fzf
+brew cask install xquartz
+brew install wordnet
+</pre></div>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>brew install fzf
-</span><span class='line'>brew cask install xquartz
-</span><span class='line'>brew install wordnet
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>FZF</h2>
-
+<h2 id="fzf">FZF<a class="headerlink" href="#fzf" title="Permanent link">&para;</a></h2>
 <p>FZF stands for Fuzzy Finder. It is a program which enables the user to filter
 a set of lines from standard in and feed those line back to standard out.
 A basic example is: <code>find . | fzf</code>. This presents a list of all files in the
@@ -117,19 +943,17 @@ current working directory and prompts the user for input. As you type letters, t
 list will narrow, keeping only the items matching the search criteria. After
 selecting an entry from the list the line or lines chosen is printed to standard
 out. It provides a nifty argument <code>--preview</code> which can execute a program and
-display its output as an aside in the terminal. We&rsquo;ll write more about FZF in the
+display its output as an aside in the terminal. We'll write more about FZF in the
 future.</p>
-
-<h2>WordNet</h2>
-
-<blockquote><p>WordNet is a large lexical database of English. Nouns, verbs, adjectives and
+<h2 id="wordnet">WordNet<a class="headerlink" href="#wordnet" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>WordNet is a large lexical database of English. Nouns, verbs, adjectives and
 adverbs are grouped into sets of cognitive synonyms (synsets), each expressing
 a distinct concept. Synsets are interlinked by means of conceptual-semantic
 and lexical relations. The resulting network of meaningfully related words and
 concepts can be navigated with the browser. WordNet is also freely and
-publicly available for download. WordNet&rsquo;s structure makes it a useful tool
+publicly available for download. WordNet's structure makes it a useful tool
 for computational linguistics and natural language processing.</p>
-
 <p>WordNet superficially resembles a thesaurus, in that it groups words together
 based on their meanings. However, there are some important distinctions.
 First, WordNet interlinks not just word forms—strings of letters—but specific
@@ -137,230 +961,186 @@ senses of words. As a result, words that are found in close proximity to one
 another in the network are semantically disambiguated. Second, WordNet labels
 the semantic relations among words, whereas the groupings of words in
 a thesaurus does not follow any explicit pattern other than meaning
-similarity.</p></blockquote>
-
+similarity.</p>
+</blockquote>
 <p>Using WordNet we can find information similar to what is in a dictionary and
 thesaurus combined.</p>
+<p>Example output of looking up <code>happy</code> is:
+<div class="codehilite"><pre><span></span>% wn happy -over
 
-<p>Example output of looking up <code>happy</code> is:</p>
+Overview of adj happy
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>% wn happy -over
-</span><span class='line'>
-</span><span class='line'>Overview of adj happy
-</span><span class='line'>
-</span><span class='line'>The adj happy has 4 senses (first 2 from tagged texts)
-</span><span class='line'>
-</span><span class='line'>1. (37) happy -- (enjoying or showing or marked by joy or pleasure; &quot;a happy smile&quot;; &quot;spent many happy days on the beach&quot;; &quot;a happy marriage&quot;)
-</span><span class='line'>2. (2) felicitous, happy -- (marked by good fortune; &quot;a felicitous life&quot;; &quot;a happy outcome&quot;)
-</span><span class='line'>3. glad, happy -- (eagerly disposed to act or to be of service; &quot;glad to help&quot;)
-</span><span class='line'>4. happy, well-chosen -- (well expressed and to the point; &quot;a happy turn of phrase&quot;; &quot;a few well-chosen words&quot;)
-</span></code></pre></td></tr></table></div></figure>
+The adj happy has 4 senses (first 2 from tagged texts)
 
-
+1. (37) happy -- (enjoying or showing or marked by joy or pleasure; &quot;a happy smile&quot;; &quot;spent many happy days on the beach&quot;; &quot;a happy marriage&quot;)
+2. (2) felicitous, happy -- (marked by good fortune; &quot;a felicitous life&quot;; &quot;a happy outcome&quot;)
+3. glad, happy -- (eagerly disposed to act or to be of service; &quot;glad to help&quot;)
+4. happy, well-chosen -- (well expressed and to the point; &quot;a happy turn of phrase&quot;; &quot;a few well-chosen words&quot;)
+</pre></div></p>
 <p><code>xquartz</code> is needed since the WordNet package also works in GUI mode. The GUI
-app has a useful interface and could be more intuitive to use if you don&rsquo;t mind
-clicking around. The GUI app can be started with <code>wnb</code>, but we&rsquo;re not here for
-GUI stuff. Let&rsquo;s move on to making our terminal script.</p>
-
-<h1>Shell Script</h1>
-
+app has a useful interface and could be more intuitive to use if you don't mind
+clicking around. The GUI app can be started with <code>wnb</code>, but we're not here for
+GUI stuff. Let's move on to making our terminal script.</p>
+<h2 id="shell-script">Shell Script<a class="headerlink" href="#shell-script" title="Permanent link">&para;</a></h2>
 <p>The following 3 functions can be used individually and are helpful all on their
 own. Add these directly into your shell profile or in a separate file and source
 it from the profile.</p>
-
 <p><code>fold</code> is normally a built in command. By default it adds newlines when text
-overflows the terminal, but it doesn&rsquo;t do it in an easy to read fashion. The
+overflows the terminal, but it doesn't do it in an easy to read fashion. The
 default behavior can break in the middle of a word and assumes a terminal width
 of 80 columns. Our <code>fold</code> function breaks at spaces and passes the whole
 terminal width to it when no other arguments are provided.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Default `fold` to screen width and break at spaces</span>
-</span><span class='line'><span class="k">function </span>fold <span class="o">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq 0 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'>    /usr/bin/fold -w <span class="nv">$COLUMNS</span> -s
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    /usr/bin/fold <span class="nv">$*</span>
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="codehilite"><pre><span></span><span class="c1"># Default `fold` to screen width and break at spaces</span>
+<span class="k">function</span> fold <span class="o">{</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    /usr/bin/fold -w <span class="nv">$COLUMNS</span> -s
+  <span class="k">else</span>
+    /usr/bin/fold <span class="nv">$*</span>
+  <span class="k">fi</span>
+<span class="o">}</span>
+</pre></div>
 
 <p><code>spell</code> is the FZF portion of our script. This fuzzy matches the built in Mac
 dictionary with a preview window containing the WordNet overview of the selected
 word.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># Use `fzf` against system dictionary</span>
+<span class="k">function</span> spell <span class="o">{</span>
+  cat /usr/share/dict/words <span class="p">|</span> fzf --preview <span class="s1">&#39;wn {} -over | fold&#39;</span> --preview-window<span class="o">=</span>up:60%
+<span class="o">}</span>
+</pre></div>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Use `fzf` against system dictionary</span>
-</span><span class='line'><span class="k">function </span>spell <span class="o">{</span>
-</span><span class='line'>  cat /usr/share/dict/words <span class="p">|</span> fzf --preview <span class="s1">&#39;wn {} -over | fold&#39;</span> --preview-window<span class="o">=</span>up:60%
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>dic</code> script uses <code>spell</code> to help find a word then outputs WordNet&rsquo;s
+<p>The <code>dic</code> script uses <code>spell</code> to help find a word then outputs WordNet's
 definition.</p>
+<div class="codehilite"><pre><span></span><span class="c1"># Lookup definition of word using `wn $1 -over`.</span>
+<span class="c1"># If $1 is not provided, we&#39;ll use the `spell` command to pick a word.</span>
+<span class="c1">#</span>
+<span class="c1"># Requires:</span>
+<span class="c1">#   brew install wordnet</span>
+<span class="c1">#   brew install fzf</span>
+<span class="k">function</span> dic <span class="o">{</span>
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    wn <span class="sb">`</span>spell<span class="sb">`</span> -over <span class="p">|</span> fold
+  <span class="k">else</span>
+    wn <span class="nv">$1</span> -over <span class="p">|</span> fold
+  <span class="k">fi</span>
+<span class="o">}</span>
+</pre></div>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c"># Lookup definition of word using `wn $1 -over`.</span>
-</span><span class='line'><span class="c"># If $1 is not provided, we&#39;ll use the `spell` command to pick a word.</span>
-</span><span class='line'><span class="c">#</span>
-</span><span class='line'><span class="c"># Requires:</span>
-</span><span class='line'><span class="c">#   brew install wordnet</span>
-</span><span class='line'><span class="c">#   brew install fzf</span>
-</span><span class='line'><span class="k">function </span>dic <span class="o">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-eq 0 <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span><span class='line'><span class="k">    </span>wn <span class="sb">`</span>spell<span class="sb">`</span> -over <span class="p">|</span> fold
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'><span class="k">    </span>wn <span class="nv">$1</span> -over <span class="p">|</span> fold
-</span><span class='line'>  <span class="k">fi</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here&rsquo;s another demo of the <code>dic</code> function:
-<img class="featured" src="/images/fzf_dict_demo2.gif" width="570" height="360" title="'FZF Dictionary Demo 2'" ></p>
-
-<h1>Conclusion</h1>
-
+<p>Here's another demo of the <code>dic</code> function:
+<img src="/images/fzf_dict_demo2.gif" alt='FZF Dictionary Demo 2' /></p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
 <p>Gluing programs together with <code>fzf --preview</code> is fun. Let us know what other
 recipes you come up with in the comments below.</p>
-
-      </div>
-    </div>
-  </div>
-</article>
-
-<hr class="divider-short"/>
-
-<div class="archive-link">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-md-offset-2">
-        
-          <a class="pull-left" href="/blog/2017/gnu-screen/" title="Previous Post: GNU Screen">&laquo; Previous: GNU Screen</a>
-        
-
-        
-          <a class="pull-right" href="/blog/2018/getting-rusty-with-vim/" title="Next Post: Getting Rusty with Vim">Next: Getting Rusty with Vim &raquo;</a>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-    <footer id="footer" class="her-row">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-1">
-  <a href="/"><h4>Home</h4></a>
-</div>
-
-<div class="col-md-2">
-    <div class="social-icon-list">
-        
-        <a href="https://twitter.com/@_ddrscott_"><img src="/images/glyphicons_social_31_twitter.png"/></a>
-        
-
-        
-        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
-        
-
-        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
-    </div>
-</div>
-
-<div class="pull-right">
-  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
-</div>
+                
+                  
+                
+              
+              
+                
+                  <h2 id="__comments">Comments</h2>
+                  <div id="disqus_thread"></div>
 <script>
-// Thanks: https://stackoverflow.com/a/4425214/613772
-$(document.links).filter(function() {
-    return this.hostname != window.location.hostname;
-}).attr('target', '_blank');
+  var disqus_config = function () {
+    this.page.url = "https://ddrscott.github.io/blog/2017/fzf-dictionary/";
+    this.page.identifier =
+      "blog/2017/fzf-dictionary/";
+  };
+  (function() {
+    var d = document, s = d.createElement("script");
+    s.src = "//ddrscottgithubio.disqus.com/embed.js";
+    s.setAttribute("data-timestamp", +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
 </script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-  <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-50126719-1', 'auto');
-ga('send', 'pageview');
-  </script>
-
-
-
-
-<script type="text/javascript">
-      var disqus_shortname = 'ddrscottgithubio';
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'https://ddrscott.github.io/blog/2017/fzf-dictionary/';
-        var disqus_url = 'https://ddrscott.github.io/blog/2017/fzf-dictionary/';
-        var disqus_script = 'embed.js';
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../how-to-get-better-at-anything/" title="How to Get Better At Anything" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                How to Get Better At Anything
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../gnu-screen/" title="GNU Screen" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                GNU Screen
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2014 - 2018 Scott Pierce
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
       
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/ddrscott" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/_ddrscott_" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
 
-
-
-
+      
     </div>
   </div>
 </footer>
-
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.cae2244d.js"></script>
+      
+      <script>app.initialize({version:"0.17.2",url:{base:"../../.."}})</script>
+      
+        <script src="https://platform.twitter.com/widgets.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})});var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})</script>
+      
+    
   </body>
 </html>

@@ -1,736 +1,1046 @@
 
+
+
+
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>@_ddrscott_</title>
-  <meta name="author" content="Scott Pierce">
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://ddrscott.github.io/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="./assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
+    
+    
+      
+        <title>Why, Scott, WHY?!?</title>
+      
+    
+    
+      <link rel="stylesheet" href="./assets/stylesheets/application.6525f7f6.css">
+      
+        <link rel="stylesheet" href="./assets/stylesheets/application-palette.792431c1.css">
+      
+    
+    
+      <script src="./assets/javascripts/modernizr.1aa3b519.js"></script>
+    
+    
+      
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    
+    
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="https://ddrscott.github.io/" />
+<meta name="twitter:creator" content="@_ddrscott_" />
 
+
+  </head>
   
-  <meta name="description" content="  {% include custom/hero.html %}      {% include custom/home_landing_row.html %}      {% for post in paginator.posts %} {% assign content = post.content %}   {% include article_listing.html %}   {% endfor %}     {% if paginator.next_page %} &larr; Older {% endif %} {% if paginator.previous_page %} Newer &rarr; {% endif %}   " />
-
+    
+    
+    
+      <body data-md-color-primary="blue-grey" data-md-color-accent="orange">
+    
   
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="https://ddrscott.github.io" />
-  <meta name="twitter:creator" content="@_ddrscott_" />
-  
-  
-  <meta property="og:description" content="  {% include custom/hero.html %}      {% include custom/home_landing_row.html %}      {% for post in paginator.posts %} {% assign content = post.content %}   {% include article_listing.html %}   {% endfor %}     {% if paginator.next_page %} &larr; Older {% endif %} {% if paginator.previous_page %} Newer &rarr; {% endif %}   " />
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="https://ddrscott.github.io">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="@_ddrscott_" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-</head>
-
-  <body>
-    <a href="/" class="home-icon">
-      <img src="/images/home.png"/>
-    </a>
-
-    <div class="home-page">
-  <div class="hero">
-    <h1>@_ddrscott_</h1>
-<p>writer of code – thinker of thoughts</p>
-
-  </div>
-
-  <div class="home-field">
-    <div class="home-landing her-row">
-      <div class="container">
-        <div class="row">
-          <div id="about-me" class="col-md-offset-3 col-md-6">
-  <h4>about me</h4>
-  <p>
-      I am a software guy with 20+ years experience.
-      When I&#8217;m not writing code, I&#8217;m thinking about it.
-      I have a wife I don&#8217;t deserve and 2 sons that don&#8217;t know better.
-  </p>
-  <ul class="list-inline">
-      <li>Ruby on Rails</li>
-      <li>HTML/CSS/JS</li>
-      <li>SocketIO</li>
-      <li>Lab</li>
-      <li>Android</li>
-      <li>iOS</li>
-      <li>SQL</li>
-      <li>Redis</li>
-      <li>Solr</li>
-      <li>CouchDB</li>
-      <li>AWS</li>
-      <li>CLI</li>
-  </ul>
-  <div class="social-icon-list">
-    <a title="GitHub" href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
-    <a title="E-Mail" href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
-  </div>
-</div>
-
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
+    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://ddrscott.github.io/" title="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                Why, Scott, WHY?!?
+              </span>
+              <span class="md-header-nav__topic">
+                Home
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="search"></label>
+  <div class="md-search__inner">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <label class="md-icon md-search__icon" for="search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
         </div>
       </div>
     </div>
-
-    <div class="article-list">
-      <div class="container">
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2018/blog-setup/">Dev Blog Tools :: A quick tour of my setup</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/my_blog_setup.png" width=1364 height=1078 alt="Annotated screenshot" /></p>
-
-
-
-
-<p>I&rsquo;ve been asked to share about my blogging setup a few times, so in the spirit of keeping things <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>, it&rsquo;s time to make a post about it.</p>
-
-
-
-
-<p><strong>TL;DR</strong> &mdash; Mac, iTerm, NeoVim, LICEcap, Octopress, Base16, Input Font, Skitch, OBS</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-03-22T02:45:00-05:00" pubdate data-updated="true">Mar 22<sup>nd</sup>, 2018</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/setup/'>setup</a>, <a class='category' href='/blog/categories/tools/'>tools</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2018/blog-setup/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2018/stream-stats-in-rust/">A Rustic Journey Through Stream Stats</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/stream_stats_demo.png" width=1364 height=1078 alt="Stream Stats Demo" /></p>
-
-
-
-
-<p>After playing <a href="/blog/2018/getting-rusty-with-vim/">Guessing Game</a> from the <a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html">Rust Book</a> a few times, it was time to make something a little more substantial. We&rsquo;re going to create <code>stream_stats</code>, a CLI program which prints throughput statistics from <code>stdin</code> while redirecting through <code>stdout</code>. Think <code>tee</code> + <code>wc -l</code> + <code>watch</code> all at the same time.</p>
-
-
-
-
-<p><strong>TL;DR</strong> &ndash; <code>cargo install stream_stats</code></p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-03-17T02:45:00-05:00" pubdate data-updated="true">Mar 17<sup>th</sup>, 2018</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/rust/'>rust</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2018/stream-stats-in-rust/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2018/getting-rusty-with-vim/">Getting Rusty with Vim</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/rusty-featured.png" width=1910 height=1436 alt="Vim Screenshot" /></p>
-
-
-
-
-<p>After dabbing in Go and Crystal, I figured I&rsquo;d give Rust a try. Of course I
-used Vim along the way. Here are some notes I compiled after my first session.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2018-03-04T06:30:00-06:00" pubdate data-updated="true">Mar 4<sup>th</sup>, 2018</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/rust/'>rust</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2018/getting-rusty-with-vim/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2017/fzf-dictionary/">FZF + WordNet = Dictionary</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/fzf_dictionary_demo.gif" width="707" height="412" title="'FZF Dictionary'" ></p>
-
-
-
-
-<p><code>FZF + WordNet = Dictionary</code>. FZF is a fuzzy finding command line tool. WordNet
-is a dictionary structured for developers. When married together, we can get
-a snappy dictionary to help us find just the right word for any occasion.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-06-12T13:30:00-05:00" pubdate data-updated="true">Jun 12<sup>th</sup>, 2017</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/fzf/'>fzf</a>, <a class='category' href='/blog/categories/shell/'>shell</a>, <a class='category' href='/blog/categories/wordnet/'>wordnet</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2017/fzf-dictionary/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2017/gnu-screen/">GNU Screen</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/gnu-screen-featured.jpg" width="1024" height="488" title="'GNU Screen Featured'" ></p>
-
-
-
-
-<blockquote><p>Screen is a full-screen window manager that multiplexes a physical terminal
-between several processes, typically interactive shells.</p></blockquote>
-
-
-
-
-<p>TL;DR &ndash; Screen keeps your ssh sessions alive on a host.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-06-01T13:30:00-05:00" pubdate data-updated="true">Jun 1<sup>st</sup>, 2017</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/screen/'>screen</a>, <a class='category' href='/blog/categories/shell/'>shell</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2017/gnu-screen/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2017/base16-shell/">Base16 Shell</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/base16-featured.png" width="1024" height="558" title="'Base16 Featured'" ></p>
-
-
-
-
-<p>After many years using the excellent Solarized color scheme, it has
-started to feel stale. Sometimes I think the dark blueish tint brings
-down my mood. Other times, I wonder what life could be like if I stared at more
-cheerful colors. Thus starts my farewell from Solarized, and hello to
-Base16.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-04-13T13:30:00-05:00" pubdate data-updated="true">Apr 13<sup>th</sup>, 2017</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/shell/'>shell</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2017/base16-shell/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2017/vim-send-text/">Vim Send Text</a></h2>
-  
-  <p>
-    <p><img class="featured" src="https://raw.githubusercontent.com/ddrscott/vim-islime2/gh-pages/demo.gif" title="'Vim Send Text Demo'" ></p>
-
-
-
-
-<p>After pairing with some Sublime users, I noticed a neat feature. Or more
-accurately, they were rubbing it in my face that their cute editor was better
-than mine. The feature was <a href="https://github.com/wch/SendText">SendText</a>. Well, I
-couldn&rsquo;t let Sublime users have all the fun, and apparently neither could a few
-other people.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-04-10T13:30:00-05:00" pubdate data-updated="true">Apr 10<sup>th</sup>, 2017</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/talk/'>talk</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2017/vim-send-text/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2017/what-the-sql-window/">What the SQL?!? WINDOW</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/what_the_sql_window.png" width="1079" height="369" title="'What the SQL?!?  WINDOW'" ></p>
-
-
-
-
-<p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>WINDOW</code>. This clause allows
-us to elegantly select results from the previous results from the previous results
-from the previous results&hellip;</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-03-22T13:30:00-05:00" pubdate data-updated="true">Mar 22<sup>nd</sup>, 2017</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/sql/'>sql</a>, <a class='category' href='/blog/categories/talk/'>talk</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2017/what-the-sql-window/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2017/what-the-sql-recursive/">What the SQL?!? Recursive</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/i_heart_recursion.png" width="1804" height="1195" title="'What the SQL?!? Recursive'" ></p>
-
-
-
-
-<p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>RECURSIVE</code>. This clause allows
-us to elegantly select results from the previous results from the previous results
-from the previous results&hellip;</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-03-15T13:30:00-05:00" pubdate data-updated="true">Mar 15<sup>th</sup>, 2017</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/sql/'>sql</a>, <a class='category' href='/blog/categories/talk/'>talk</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2017/what-the-sql-recursive/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-          
-          <div class="row">
-            <div class="col-md-offset-3 col-md-6">
-              <article>
-  <h2><a href="/blog/2017/what-the-sql-lateral/">What the SQL?!? Lateral Joins</a></h2>
-  
-  <p>
-    <p><img class="featured" src="/images/what_the_sql_lateral.png" title="'What the SQL?!? Lateral Joins'" ></p>
-
-
-
-
-<p>Today&rsquo;s &ldquo;What the SQL?!?&rdquo; features the keyword <code>LATERAL</code>. A prerequisite to
-understanding lateral joins are regular joins and subqueries. I&rsquo;ll explain those
-briefly to see how <code>LATERAL</code> can simplify a complicated SQL query.</p>
-
-
-
-
-  </p>
-  <span class="meta">
-    written 
-
-
-
-
-
-
-
-
-  
-
-
-
-<time datetime="2017-03-08T12:30:00-06:00" pubdate data-updated="true">Mar 8<sup>th</sup>, 2017</time>
-    
-
-in
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/sql/'>sql</a>, <a class='category' href='/blog/categories/talk/'>talk</a>
-  
-</span>
-
-
-  </span>
-
-  
-    <a class="full-article-link pull-right" rel="full-article" href="/blog/2017/what-the-sql-lateral/">Read on &rarr;</a>
-  
-</article>
-
-            </div>
-          </div>
-        
-      </div>
-    </div>
-
-    <hr class="divider-short"/>
-
-    <nav class="container">
-      
-        <a class="prev pull-left" href="/page2">&larr; Older</a>
-      
-      
-    </nav>
   </div>
 </div>
-
-    <footer id="footer" class="her-row">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-1">
-  <a href="/"><h4>Home</h4></a>
-</div>
-
-<div class="col-md-2">
-    <div class="social-icon-list">
+          
         
-        <a href="https://twitter.com/@_ddrscott_"><img src="/images/glyphicons_social_31_twitter.png"/></a>
-        
-
-        
-        <a href="https://github.com/ddrscott"><img src="/images/glyphicons_social_21_github.png"/></a>
-        
-
-        <a href="mailto:ddrscott@gmail.com"><img src="/images/glyphicons_social_39_e-mail.png"/></a>
+      </div>
+      
     </div>
-</div>
-
-<div class="pull-right">
-  <h4>Powered by <a href="http://octopress.org/">Octopress</a>. Designed by <a href="http://AdrianArtiles.com">Adrian Artiles</a>.</h4>
-</div>
-<script>
-// Thanks: https://stackoverflow.com/a/4425214/613772
-$(document.links).filter(function() {
-    return this.hostname != window.location.hostname;
-}).attr('target', '_blank');
-</script>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-  <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-50126719-1', 'auto');
-ga('send', 'pageview');
-  </script>
-
-
-
-
-<script type="text/javascript">
-      var disqus_shortname = 'ddrscottgithubio';
+  </nav>
+</header>
+    
+    <div class="md-container">
       
         
-        var disqus_script = 'count.js';
       
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="drawer">
+    <span class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </span>
+    Why, Scott, WHY?!?
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
 
 
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Home
+      </label>
+    
+    <a href="." title="Home" class="md-nav__link md-nav__link--active">
+      Home
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-is-scott" title="Who is Scott?" class="md-nav__link">
+    Who is Scott?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#q-a" title="Q &amp; A" class="md-nav__link">
+    Q &amp; A
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#should-sql-be-taught-in-the-class-room" title="Should SQL be taught in the class room?" class="md-nav__link">
+    Should SQL be taught in the class room?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-exit-vim" title="How to exit Vim?" class="md-nav__link">
+    How to exit Vim?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whats-your-favorite-language" title="What's your favorite language?" class="md-nav__link">
+    What's your favorite language?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-projects-have-you-worked-on" title="What projects have you worked on?" class="md-nav__link">
+    What projects have you worked on?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-about-my-question" title="What about my question?" class="md-nav__link">
+    What about my question?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
 
 
+  <li class="md-nav__item">
+    <a href="projects/" title="Projects" class="md-nav__link">
+      Projects
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Vim
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Vim
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/making-a-window-submode/" title="Making a Window Submode in Vim" class="md-nav__link">
+      Making a Window Submode in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      SQL
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        SQL
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/what-the-sql-lateral/" title="What the SQL?!? Lateral Joins" class="md-nav__link">
+      What the SQL?!? Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/what-the-sql-window/" title="What the SQL?!? WINDOW" class="md-nav__link">
+      What the SQL?!? WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/what-the-sql-recursive/" title="What the SQL?!? Recursive" class="md-nav__link">
+      What the SQL?!? Recursive
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      2018
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        2018
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2018/move-to-mkdocs/" title="Move to MkDocs" class="md-nav__link">
+      Move to MkDocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2018/stream-stats-in-rust/" title="A Rustic Journey Through Stream Stats" class="md-nav__link">
+      A Rustic Journey Through Stream Stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2018/blog-setup/" title="Dev Blog Tools :: A Quick Tour of My Setup" class="md-nav__link">
+      Dev Blog Tools :: A Quick Tour of My Setup
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      2017
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        2017
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/base16-shell/" title="Base16 Shell" class="md-nav__link">
+      Base16 Shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/how-to-get-better-at-anything/" title="How to Get Better At Anything" class="md-nav__link">
+      How to Get Better At Anything
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/fzf-dictionary/" title="FZF + WordNet = Dictionary" class="md-nav__link">
+      FZF + WordNet = Dictionary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/gnu-screen/" title="GNU Screen" class="md-nav__link">
+      GNU Screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/what-the-sql-lateral/" title="What the SQL?!? Lateral Joins" class="md-nav__link">
+      What the SQL?!? Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/what-the-sql-window/" title="What the SQL?!? WINDOW" class="md-nav__link">
+      What the SQL?!? WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/what-the-sql-recursive/" title="What the SQL?!? Recursive" class="md-nav__link">
+      What the SQL?!? Recursive
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2017/vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      2016
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        2016
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/photography-lightening-talk/" title="Photography Refactored" class="md-nav__link">
+      Photography Refactored
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/ruby-abuse/" title="Ruby Abuse: How Not to Write Ruby, But Still Have Fun" class="md-nav__link">
+      Ruby Abuse: How Not to Write Ruby, But Still Have Fun
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/making-a-window-submode/" title="Making a Window Submode in Vim" class="md-nav__link">
+      Making a Window Submode in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/ansi-codes-with-character/" title="ANSI Codes with Character" class="md-nav__link">
+      ANSI Codes with Character
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2016/bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      2014
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        2014
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2014/tech-stack-2014-edition/" title="Tech Stack 2014 Edition" class="md-nav__link">
+      Tech Stack 2014 Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="blog/2014/octopress-to-the-rescue/" title="Octopress to the Rescue" class="md-nav__link">
+      Octopress to the Rescue
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-is-scott" title="Who is Scott?" class="md-nav__link">
+    Who is Scott?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#q-a" title="Q &amp; A" class="md-nav__link">
+    Q &amp; A
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#should-sql-be-taught-in-the-class-room" title="Should SQL be taught in the class room?" class="md-nav__link">
+    Should SQL be taught in the class room?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-exit-vim" title="How to exit Vim?" class="md-nav__link">
+    How to exit Vim?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whats-your-favorite-language" title="What's your favorite language?" class="md-nav__link">
+    What's your favorite language?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-projects-have-you-worked-on" title="What projects have you worked on?" class="md-nav__link">
+    What projects have you worked on?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-about-my-question" title="What about my question?" class="md-nav__link">
+    What about my question?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="why-scott-why">Why, Scott, Why?!<a class="headerlink" href="#why-scott-why" title="Permanent link">&para;</a></h1>
+<p>"Why, Scott, Why?!" is a collection of posts and projects which catalog the developer's history in the field. The site's name reflects a common sentiment when working with him due to his proclivity for making tools for problems no one thinks they have. Need to solve <a href="https://github.com/wheeler">Wheel of Fortune</a> puzzles from the command line? Neither has anyone else.</p>
+<h2 id="who-is-scott">Who is Scott?<a class="headerlink" href="#who-is-scott" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Scott makes software. His most interesting projects are tools spoken in passing, born of statements like, "Wouldn't it be great if AWESOME_THING existed?"</p>
+</li>
+<li>
+<p>Scott makes posts. A teacher at heart who loves sharing tips and tricks to anyone who will listen. May these articles live on longer than him so future readers can appreciate how easy they have it now. Writing code in a terminal using Vim? What's that?!</p>
+</li>
+<li>
+<p>Scott makes jokes. His sense of humor is an acquired taste full of puns and absurdities. Trail and error is used extensively throughout the process. One of them has <em>got</em> to be funny.</p>
+</li>
+</ul>
+<h2 id="q-a">Q &amp; A<a class="headerlink" href="#q-a" title="Permanent link">&para;</a></h2>
+<h3 id="should-sql-be-taught-in-the-class-room">Should SQL be taught in the class room?<a class="headerlink" href="#should-sql-be-taught-in-the-class-room" title="Permanent link">&para;</a></h3>
+<p>Yes. A language that describes data should be everyone's second language. It's supported by more business tools than <a href="https://wikipedia.org/wiki/JavaScript">Javascript</a> and is easier to learn.</p>
+<h3 id="how-to-exit-vim">How to exit Vim?<a class="headerlink" href="#how-to-exit-vim" title="Permanent link">&para;</a></h3>
+<p>Type literally: <code>:qa!</code> then press <code>&lt;enter&gt;</code></p>
+<h3 id="whats-your-favorite-language">What's your favorite language?<a class="headerlink" href="#whats-your-favorite-language" title="Permanent link">&para;</a></h3>
+<p>Ruby. It's not the fastest, but the most succinct for my uses. This may change depending on the project. Some tasks need speed, some may already be mostly implemented in another language's ecosystem, and sometimes Ruby is a bad team fit if everyone isn't comfortable with it. If I'm on a desert, I'll write Ruby in the sand. <code>10.times { p &quot;HELP&quot; }</code></p>
+<h3 id="what-projects-have-you-worked-on">What projects have you worked on?<a class="headerlink" href="#what-projects-have-you-worked-on" title="Permanent link">&para;</a></h3>
+<p>See <a href="./projects/">projects</a>.</p>
+<h3 id="what-about-my-question">What about my question?<a class="headerlink" href="#what-about-my-question" title="Permanent link">&para;</a></h3>
+<p>Do you have a question for Scott? Ask in the comments and he'll post an answer here or as a separate post.</p>
+                
+                  
+                
+              
+              
+                
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+        
+          <a href="projects/" title="Projects" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Projects
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2014 - 2018 Scott Pierce
+          </div>
+        
+        powered by
+        <a href="http://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+      <a href="https://github.com/ddrscott" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/_ddrscott_" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
     </div>
   </div>
 </footer>
-
+      
+    </div>
+    
+      <script src="./assets/javascripts/application.cae2244d.js"></script>
+      
+      <script>app.initialize({version:"0.17.2",url:{base:"."}})</script>
+      
+        <script src="https://platform.twitter.com/widgets.js"></script>
+      
+    
+    
+      
+        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})});var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})</script>
+      
+    
   </body>
 </html>

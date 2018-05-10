@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: https://ddrscott.github.io/sitemap.xml 
