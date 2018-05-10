@@ -3,7 +3,7 @@
 
     
     <url>
-     <loc>https://ddrscott.github.io//</loc>
+     <loc>https://ddrscott.github.io/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -11,7 +11,7 @@
 
     
     <url>
-     <loc>https://ddrscott.github.io//projects/</loc>
+     <loc>https://ddrscott.github.io/projects/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -20,77 +20,55 @@
     
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2018/getting-rusty-with-vim/</loc>
+     <loc>https://ddrscott.github.io/blog/2018/getting-rusty-with-vim/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2017/vim-send-text/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/vim-send-text/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/vim-toggle-movement/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/vim-toggle-movement/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/yank-without-jank/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/yank-without-jank/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/sidescroll/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/sidescroll/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/side-search/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/side-search/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/making-a-window-submode/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/making-a-window-submode/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/bs-to-the-black-hole/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/bs-to-the-black-hole/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/negative-modulo/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    
-
-    
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2017/what-the-sql-lateral/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2017/what-the-sql-window/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2017/what-the-sql-recursive/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/negative-modulo/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -100,25 +78,19 @@
     
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2018/move-to-mkdocs/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/what-the-sql-lateral/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2018/stream-stats-in-rust/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/what-the-sql-window/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2018/getting-rusty-with-vim/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2018/blog-setup/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/what-the-sql-recursive/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -128,49 +100,25 @@
     
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2017/base16-shell/</loc>
+     <loc>https://ddrscott.github.io/blog/2018/move-to-mkdocs/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2017/how-to-get-better-at-anything/</loc>
+     <loc>https://ddrscott.github.io/blog/2018/stream-stats-in-rust/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2017/fzf-dictionary/</loc>
+     <loc>https://ddrscott.github.io/blog/2018/getting-rusty-with-vim/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2017/gnu-screen/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2017/what-the-sql-lateral/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2017/what-the-sql-window/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2017/what-the-sql-recursive/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2017/vim-send-text/</loc>
+     <loc>https://ddrscott.github.io/blog/2018/blog-setup/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -180,61 +128,49 @@
     
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/negative-modulo/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/base16-shell/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/photography-lightening-talk/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/ruby-abuse/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/fzf-dictionary/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/making-a-window-submode/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/gnu-screen/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/ansi-codes-with-character/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/what-the-sql-lateral/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/vim-toggle-movement/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/what-the-sql-window/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/yank-without-jank/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/what-the-sql-recursive/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2016/sidescroll/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2016/side-search/</loc>
-     <lastmod>2018-05-10</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>https://ddrscott.github.io//blog/2016/bs-to-the-black-hole/</loc>
+     <loc>https://ddrscott.github.io/blog/2017/vim-send-text/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -244,13 +180,77 @@
     
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2014/tech-stack-2014-edition/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/negative-modulo/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>https://ddrscott.github.io//blog/2014/octopress-to-the-rescue/</loc>
+     <loc>https://ddrscott.github.io/blog/2016/photography-lightening-talk/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/ruby-abuse/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/making-a-window-submode/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/ansi-codes-with-character/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/vim-toggle-movement/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/yank-without-jank/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/sidescroll/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/side-search/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2016/bs-to-the-black-hole/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2014/tech-stack-2014-edition/</loc>
+     <lastmod>2018-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://ddrscott.github.io/blog/2014/octopress-to-the-rescue/</loc>
      <lastmod>2018-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
