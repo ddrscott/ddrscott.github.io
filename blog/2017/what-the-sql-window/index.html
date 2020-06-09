@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -21,6 +21,10 @@
       
         <meta name="lang:search.language" content="en">
       
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
         <meta name="lang:search.result.none" content="No matching documents">
       
         <meta name="lang:search.result.one" content="1 matching document">
@@ -30,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
@@ -38,21 +42,56 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.6525f7f6.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.adb8469c.css">
       
-        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.792431c1.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#546e7a">
       
     
     
-      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../../../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-50126719-1", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
     
     
 <meta name="twitter:card" content="summary_large_image" />
@@ -73,9 +112,7 @@
   
     
     
-    
-      <body data-md-color-primary="blue-grey" data-md-color-accent="orange">
-    
+    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="orange">
   
     <svg class="md-svg">
       <defs>
@@ -83,49 +120,55 @@
         
       </defs>
     </svg>
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
-    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#what-the-sql-window" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
+        <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" aria-label="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
           
             <i class="md-icon"></i>
           
         </a>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
       </div>
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
-            
-              <span class="md-header-nav__topic">
-                Why, Scott, WHY?!?
-              </span>
-              <span class="md-header-nav__topic">
-                What the SQL?!? WINDOW
-              </span>
-            
+            <span class="md-header-nav__topic">
+              Why, Scott, WHY?!?
+            </span>
+            <span class="md-header-nav__topic">
+              
+                What the SQL?!? Recursive
+              
+            </span>
           
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
           
-            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
-            
 <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="search"></label>
-  <div class="md-search__inner">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
-      <label class="md-icon md-search__icon" for="search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -139,7 +182,6 @@
     </div>
   </div>
 </div>
-          
         
       </div>
       
@@ -152,7 +194,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -160,12 +202,12 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="drawer">
-    <span class="md-nav__button md-logo">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" class="md-nav__button md-logo">
       
         <i class="md-icon"></i>
       
-    </span>
+    </a>
     Why, Scott, WHY?!?
   </label>
   
@@ -352,6 +394,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../2020/sql-ninja/" title="SQL + Jinja = Templating Done Right™" class="md-nav__link">
+      SQL + Jinja = Templating Done Right™
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../what-the-sql-lateral/" title="What the SQL?! Lateral Joins" class="md-nav__link">
       What the SQL?! Lateral Joins
     </a>
@@ -364,197 +418,9 @@
 
 
   <li class="md-nav__item">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        What the SQL?! WINDOW
-      </label>
-    
-    <a href="./" title="What the SQL?! WINDOW" class="md-nav__link md-nav__link--active">
+    <a href="./" title="What the SQL?! WINDOW" class="md-nav__link">
       What the SQL?! WINDOW
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#create-sample-data" title="Create Sample Data" class="md-nav__link">
-    Create Sample Data
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#results" title="Results:" class="md-nav__link">
-    Results:
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#life-without-windows" title="Life Without Windows" class="md-nav__link">
-    Life Without Windows
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#how-many-people-live-at-each-address" title="How many people live at each address?" class="md-nav__link">
-    How many people live at each address?
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#results_1" title="Results:" class="md-nav__link">
-    Results:
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#how-many-people-live-with-each-person" title="How many people live with each person?" class="md-nav__link">
-    How many people live with each person?
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#results_2" title="Results:" class="md-nav__link">
-    Results:
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#join-works-too" title="JOIN works, too" class="md-nav__link">
-    JOIN works, too
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#and-so-does-join-lateral" title="And so does JOIN LATERAL" class="md-nav__link">
-    And so does JOIN LATERAL
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#thats-nice-but-who-moved-in-first" title="That's nice, but who moved in first?" class="md-nav__link">
-    That's nice, but who moved in first?
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#wait-i-thought-this-was-about-windows" title="Wait I thought this was about windows?!?" class="md-nav__link">
-    Wait I thought this was about windows?!?
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#results_3" title="Results" class="md-nav__link">
-    Results
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#that-doesnt-look-very-dry-finally-a-window" title="That doesn't look very DRY. Finally, a WINDOW" class="md-nav__link">
-    That doesn't look very DRY. Finally, a WINDOW
-  </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#results_4" title="Results" class="md-nav__link">
-    Results
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#results_5" title="Results" class="md-nav__link">
-    Results
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#list-window-functions" title="List Window Functions" class="md-nav__link">
-    List Window Functions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" title="References" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-      
-      
-      
-        <li class="md-nav__item">
-          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
-            Comments
-          </a>
-        </li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -597,10 +463,46 @@
       <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
-      2018
+      2020
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
       <label class="md-nav__title" for="nav-5">
+        2020
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2020/sql-ninja/" title="SQL + Jinja = Templating Done Right™" class="md-nav__link">
+      SQL + Jinja = Templating Done Right™
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      2018
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
         2018
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -680,13 +582,13 @@
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
     
-    <label class="md-nav__link" for="nav-6">
+    <label class="md-nav__link" for="nav-7">
       2017
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-6">
+      <label class="md-nav__title" for="nav-7">
         2017
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -761,12 +663,12 @@
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="toc">
+      <label class="md-nav__link md-nav__link--active" for="__toc">
         What the SQL?!? WINDOW
       </label>
     
@@ -781,11 +683,11 @@
     
   
   
-    <label class="md-nav__title" for="toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-sample-data" title="Create Sample Data" class="md-nav__link">
+  <a href="#create-sample-data" class="md-nav__link">
     Create Sample Data
   </a>
   
@@ -793,7 +695,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results" title="Results:" class="md-nav__link">
+  <a href="#results" class="md-nav__link">
     Results:
   </a>
   
@@ -805,7 +707,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#life-without-windows" title="Life Without Windows" class="md-nav__link">
+  <a href="#life-without-windows" class="md-nav__link">
     Life Without Windows
   </a>
   
@@ -813,7 +715,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#how-many-people-live-at-each-address" title="How many people live at each address?" class="md-nav__link">
+  <a href="#how-many-people-live-at-each-address" class="md-nav__link">
     How many people live at each address?
   </a>
   
@@ -821,7 +723,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_1" title="Results:" class="md-nav__link">
+  <a href="#results_1" class="md-nav__link">
     Results:
   </a>
   
@@ -833,7 +735,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#how-many-people-live-with-each-person" title="How many people live with each person?" class="md-nav__link">
+  <a href="#how-many-people-live-with-each-person" class="md-nav__link">
     How many people live with each person?
   </a>
   
@@ -841,7 +743,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_2" title="Results:" class="md-nav__link">
+  <a href="#results_2" class="md-nav__link">
     Results:
   </a>
   
@@ -853,21 +755,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#join-works-too" title="JOIN works, too" class="md-nav__link">
+  <a href="#join-works-too" class="md-nav__link">
     JOIN works, too
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#and-so-does-join-lateral" title="And so does JOIN LATERAL" class="md-nav__link">
+  <a href="#and-so-does-join-lateral" class="md-nav__link">
     And so does JOIN LATERAL
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#thats-nice-but-who-moved-in-first" title="That's nice, but who moved in first?" class="md-nav__link">
+  <a href="#thats-nice-but-who-moved-in-first" class="md-nav__link">
     That's nice, but who moved in first?
   </a>
   
@@ -879,7 +781,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wait-i-thought-this-was-about-windows" title="Wait I thought this was about windows?!?" class="md-nav__link">
+  <a href="#wait-i-thought-this-was-about-windows" class="md-nav__link">
     Wait I thought this was about windows?!?
   </a>
   
@@ -887,7 +789,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_3" title="Results" class="md-nav__link">
+  <a href="#results_3" class="md-nav__link">
     Results
   </a>
   
@@ -899,7 +801,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#that-doesnt-look-very-dry-finally-a-window" title="That doesn't look very DRY. Finally, a WINDOW" class="md-nav__link">
+  <a href="#that-doesnt-look-very-dry-finally-a-window" class="md-nav__link">
     That doesn't look very DRY. Finally, a WINDOW
   </a>
   
@@ -907,14 +809,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_4" title="Results" class="md-nav__link">
+  <a href="#results_4" class="md-nav__link">
     Results
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#results_5" title="Results" class="md-nav__link">
+  <a href="#results_5" class="md-nav__link">
     Results
   </a>
   
@@ -926,14 +828,14 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#list-window-functions" title="List Window Functions" class="md-nav__link">
+  <a href="#list-window-functions" class="md-nav__link">
     List Window Functions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#references" title="References" class="md-nav__link">
+  <a href="#references" class="md-nav__link">
     References
   </a>
   
@@ -941,8 +843,10 @@
       
       
       
+      
+      
         <li class="md-nav__item">
-          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
             Comments
           </a>
         </li>
@@ -990,13 +894,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
-    <label class="md-nav__link" for="nav-7">
+    <label class="md-nav__link" for="nav-8">
       2016
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
+      <label class="md-nav__title" for="nav-8">
         2016
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1134,13 +1038,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
-    <label class="md-nav__link" for="nav-8">
+    <label class="md-nav__link" for="nav-9">
       2014
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
+      <label class="md-nav__title" for="nav-9">
         2014
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -1192,11 +1096,11 @@
     
   
   
-    <label class="md-nav__title" for="toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-sample-data" title="Create Sample Data" class="md-nav__link">
+  <a href="#create-sample-data" class="md-nav__link">
     Create Sample Data
   </a>
   
@@ -1204,7 +1108,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results" title="Results:" class="md-nav__link">
+  <a href="#results" class="md-nav__link">
     Results:
   </a>
   
@@ -1216,7 +1120,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#life-without-windows" title="Life Without Windows" class="md-nav__link">
+  <a href="#life-without-windows" class="md-nav__link">
     Life Without Windows
   </a>
   
@@ -1224,7 +1128,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#how-many-people-live-at-each-address" title="How many people live at each address?" class="md-nav__link">
+  <a href="#how-many-people-live-at-each-address" class="md-nav__link">
     How many people live at each address?
   </a>
   
@@ -1232,7 +1136,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_1" title="Results:" class="md-nav__link">
+  <a href="#results_1" class="md-nav__link">
     Results:
   </a>
   
@@ -1244,7 +1148,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#how-many-people-live-with-each-person" title="How many people live with each person?" class="md-nav__link">
+  <a href="#how-many-people-live-with-each-person" class="md-nav__link">
     How many people live with each person?
   </a>
   
@@ -1252,7 +1156,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_2" title="Results:" class="md-nav__link">
+  <a href="#results_2" class="md-nav__link">
     Results:
   </a>
   
@@ -1264,21 +1168,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#join-works-too" title="JOIN works, too" class="md-nav__link">
+  <a href="#join-works-too" class="md-nav__link">
     JOIN works, too
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#and-so-does-join-lateral" title="And so does JOIN LATERAL" class="md-nav__link">
+  <a href="#and-so-does-join-lateral" class="md-nav__link">
     And so does JOIN LATERAL
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#thats-nice-but-who-moved-in-first" title="That's nice, but who moved in first?" class="md-nav__link">
+  <a href="#thats-nice-but-who-moved-in-first" class="md-nav__link">
     That's nice, but who moved in first?
   </a>
   
@@ -1290,7 +1194,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wait-i-thought-this-was-about-windows" title="Wait I thought this was about windows?!?" class="md-nav__link">
+  <a href="#wait-i-thought-this-was-about-windows" class="md-nav__link">
     Wait I thought this was about windows?!?
   </a>
   
@@ -1298,7 +1202,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_3" title="Results" class="md-nav__link">
+  <a href="#results_3" class="md-nav__link">
     Results
   </a>
   
@@ -1310,7 +1214,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#that-doesnt-look-very-dry-finally-a-window" title="That doesn't look very DRY. Finally, a WINDOW" class="md-nav__link">
+  <a href="#that-doesnt-look-very-dry-finally-a-window" class="md-nav__link">
     That doesn't look very DRY. Finally, a WINDOW
   </a>
   
@@ -1318,14 +1222,14 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#results_4" title="Results" class="md-nav__link">
+  <a href="#results_4" class="md-nav__link">
     Results
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#results_5" title="Results" class="md-nav__link">
+  <a href="#results_5" class="md-nav__link">
     Results
   </a>
   
@@ -1337,14 +1241,14 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#list-window-functions" title="List Window Functions" class="md-nav__link">
+  <a href="#list-window-functions" class="md-nav__link">
     List Window Functions
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#references" title="References" class="md-nav__link">
+  <a href="#references" class="md-nav__link">
     References
   </a>
   
@@ -1352,8 +1256,10 @@
       
       
       
+      
+      
         <li class="md-nav__item">
-          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
             Comments
           </a>
         </li>
@@ -1384,7 +1290,7 @@ Search online for the specific vendor's documentation if errors pop up.
 Try searching for "WINDOW queries {{DB VENDOR NAME}}". Not all database vendors
 support the keyword <code>WINDOW</code>.</p>
 <h2 id="create-sample-data">Create Sample Data<a class="headerlink" href="#create-sample-data" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><span class="k">DROP</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">sample_moves</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">sample_moves</span><span class="p">;</span>
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sample_moves</span> <span class="k">AS</span>
   <span class="k">SELECT</span>
     <span class="n">column1</span><span class="p">::</span><span class="nb">int</span>     <span class="k">AS</span> <span class="n">id</span><span class="p">,</span>
@@ -1405,7 +1311,7 @@ support the keyword <code>WINDOW</code>.</p>
 <span class="k">CREATE</span> <span class="k">INDEX</span> <span class="k">ON</span> <span class="n">sample_moves</span><span class="p">(</span><span class="n">address</span><span class="p">);</span>
 
 <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sample_moves</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 <h4 id="results">Results:<a class="headerlink" href="#results" title="Permanent link">&para;</a></h4>
 <table>
@@ -1476,13 +1382,13 @@ how many rows belong to each address.</p>
 <blockquote>
 <p><strong>Tip</strong>: <code>COUNT(1)</code> is more efficient than <code>COUNT(*)</code>.</p>
 </blockquote>
-<div class="codehilite"><pre><span></span><span class="k">SELECT</span>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
   <span class="n">address</span><span class="p">,</span>
   <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">total</span>
 <span class="k">FROM</span> <span class="n">sample_moves</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 <h4 id="results_1">Results:<a class="headerlink" href="#results_1" title="Permanent link">&para;</a></h4>
 <table>
@@ -1509,7 +1415,7 @@ how many rows belong to each address.</p>
 </table>
 <h3 id="how-many-people-live-with-each-person">How many people live with each person?<a class="headerlink" href="#how-many-people-live-with-each-person" title="Permanent link">&para;</a></h3>
 <p>Enter subquery land. Life without windows is not exciting.</p>
-<div class="codehilite"><pre><span></span><span class="k">SELECT</span>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
   <span class="o">*</span><span class="p">,</span>
   <span class="p">(</span>
     <span class="k">SELECT</span>
@@ -1519,7 +1425,7 @@ how many rows belong to each address.</p>
     <span class="k">WHERE</span> <span class="n">t2</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
   <span class="p">)</span> <span class="k">AS</span> <span class="n">others</span>
 <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 <h4 id="results_2">Results:<a class="headerlink" href="#results_2" title="Permanent link">&para;</a></h4>
 <table>
@@ -1578,7 +1484,7 @@ how many rows belong to each address.</p>
 </tbody>
 </table>
 <h3 id="join-works-too"><code>JOIN</code> works, too<a class="headerlink" href="#join-works-too" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="k">SELECT</span>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
   <span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
   <span class="n">t2</span><span class="p">.</span><span class="n">others</span>
 <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span>
@@ -1590,10 +1496,10 @@ how many rows belong to each address.</p>
   <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
   <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span>
 <span class="p">)</span> <span class="n">t2</span> <span class="k">USING</span> <span class="p">(</span><span class="n">address</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 <h3 id="and-so-does-join-lateral">And so does <code>JOIN LATERAL</code><a class="headerlink" href="#and-so-does-join-lateral" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="k">SELECT</span>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
   <span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
   <span class="n">t2</span><span class="p">.</span><span class="n">others</span>
 <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span>
@@ -1606,10 +1512,10 @@ how many rows belong to each address.</p>
   <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
   <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span>
 <span class="p">)</span> <span class="n">t2</span> <span class="k">ON</span> <span class="k">true</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 <h3 id="thats-nice-but-who-moved-in-first">That's nice, but who moved in first?<a class="headerlink" href="#thats-nice-but-who-moved-in-first" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><span class="k">SELECT</span>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
   <span class="o">*</span><span class="p">,</span>
   <span class="p">(</span>
     <span class="k">SELECT</span>
@@ -1626,7 +1532,7 @@ how many rows belong to each address.</p>
     <span class="k">LIMIT</span> <span class="mi">1</span>
   <span class="p">)</span> <span class="k">AS</span> <span class="n">first_person</span>
 <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 <h2 id="wait-i-thought-this-was-about-windows">Wait I thought this was about windows?!?<a class="headerlink" href="#wait-i-thought-this-was-about-windows" title="Permanent link">&para;</a></h2>
 <p>The keyword <code>OVER</code> is the gateway drug into <code>WINDOW</code> functions. Using <code>OVER</code>
@@ -1636,12 +1542,12 @@ statement. It can never reduce the number of records in a result set which is
 the same behavior expected of a correlated subquery.</p>
 <p><code>PARTITION BY</code> is treated the same as the traditional <code>GROUP BY</code>. The <code>ORDER BY</code>
 also has the same behavior as its use in a standard query.</p>
-<div class="codehilite"><pre><span></span><span class="k">SELECT</span>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
   <span class="o">*</span><span class="p">,</span>
   <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>                      <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
   <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span><span class="p">)</span> <span class="k">AS</span> <span class="n">first_moved</span>
 <span class="k">FROM</span> <span class="n">sample_moves</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 <h4 id="results_3">Results<a class="headerlink" href="#results_3" title="Permanent link">&para;</a></h4>
 <table>
@@ -1713,7 +1619,7 @@ also has the same behavior as its use in a standard query.</p>
 the expression <code>(...)</code> between and including the parenthesis.</p>
 <p>In the following example we add the use of <code>RANGE</code> to provide additional
 direction to the windowing clause.</p>
-<div class="codehilite"><pre><span></span><span class="k">SELECT</span>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
   <span class="o">*</span><span class="p">,</span>
   <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
   <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">first_moved</span><span class="p">,</span>
@@ -1723,7 +1629,7 @@ direction to the windowing clause.</p>
   <span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span>
   <span class="n">RANGE</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="n">PRECEDING</span> <span class="k">AND</span> <span class="n">UNBOUNDED</span> <span class="n">FOLLOWING</span>
 <span class="p">);</span>
-</pre></div>
+</code></pre></div>
 
 <h4 id="results_4">Results<a class="headerlink" href="#results_4" title="Permanent link">&para;</a></h4>
 <table>
@@ -1795,7 +1701,7 @@ direction to the windowing clause.</p>
 </tr>
 </tbody>
 </table>
-<div class="codehilite"><pre><span></span><span class="c1">-- Previous and Next Record</span>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- Previous and Next Record</span>
 <span class="k">SELECT</span>
   <span class="o">*</span><span class="p">,</span>
   <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
@@ -1810,7 +1716,7 @@ direction to the windowing clause.</p>
   <span class="n">RANGE</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="n">PRECEDING</span> <span class="k">AND</span> <span class="n">UNBOUNDED</span> <span class="n">FOLLOWING</span>
 <span class="p">)</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 
 <h4 id="results_5">Results<a class="headerlink" href="#results_5" title="Permanent link">&para;</a></h4>
 <table>
@@ -1962,25 +1868,28 @@ of all the window functions. In addition to these, <em>any regular aggregate fun
                 
                   
                 
+                
               
               
                 
-                  <h2 id="__comments">Comments</h2>
-                  <div id="disqus_thread"></div>
-<script>
-  var disqus_config = function () {
-    this.page.url = "https://ddrscott.github.io/blog/2017/what-the-sql-window/";
-    this.page.identifier =
-      "/blog/2017/what-the-sql-window/";
-  };
-  (function() {
-    var d = document, s = d.createElement("script");
-    s.src = "//ddrscottgithubio.disqus.com/embed.js";
-    s.setAttribute("data-timestamp", +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
-</script>
-                
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://ddrscott.github.io/blog/2017/what-the-sql-window/";
+      this.page.identifier =
+        "/blog/2017/what-the-sql-window/";
+    };
+    (function() {
+      var d = document, s = d.createElement("script");
+      s.src = "//ddrscottgithubio.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+
               
             </article>
           </div>
@@ -2034,40 +1943,32 @@ of all the window functions. In addition to these, <em>any regular aggregate fun
           </div>
         
         powered by
-        <a href="http://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
-        
   <div class="md-footer-social">
+    <link rel="stylesheet" href="../../../assets/fonts/font-awesome.css">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <a href="https://github.com/ddrscott" target="_blank" rel="noopener" title="github" class="md-footer-social__link fa fa-github"></a>
     
-      <a href="https://github.com/ddrscott" class="md-footer-social__link fa fa-github"></a>
-    
-      <a href="https://twitter.com/_ddrscott_" class="md-footer-social__link fa fa-twitter"></a>
+      <a href="https://twitter.com/_ddrscott_" target="_blank" rel="noopener" title="twitter" class="md-footer-social__link fa fa-twitter"></a>
     
   </div>
 
-      
     </div>
   </div>
 </footer>
       
     </div>
     
-      <script src="../../../assets/javascripts/application.cae2244d.js"></script>
+      <script src="../../../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"0.17.2",url:{base:"../../.."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:"../../.."}})</script>
       
         <script src="https://platform.twitter.com/widgets.js"></script>
-      
-    
-    
-      
-        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-50126719-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})});var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})</script>
       
     
   </body>

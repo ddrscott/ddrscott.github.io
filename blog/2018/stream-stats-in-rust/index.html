@@ -2,7 +2,7 @@
 
 
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
@@ -23,6 +23,10 @@
       
         <meta name="lang:search.language" content="en">
       
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
         <meta name="lang:search.result.none" content="No matching documents">
       
         <meta name="lang:search.result.one" content="1 matching document">
@@ -32,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
     
     
       
@@ -40,21 +44,56 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.6525f7f6.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.adb8469c.css">
       
-        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.792431c1.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#546e7a">
       
     
     
-      <script src="../../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../../../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-50126719-1", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
     
     
 <meta name="twitter:card" content="summary_large_image" />
@@ -78,9 +117,7 @@
   
     
     
-    
-      <body data-md-color-primary="blue-grey" data-md-color-accent="orange">
-    
+    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="orange">
   
     <svg class="md-svg">
       <defs>
@@ -88,49 +125,55 @@
         
       </defs>
     </svg>
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="drawer">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="search">
-    <label class="md-overlay" data-md-component="overlay" for="drawer"></label>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#a-rustic-journey-through-stream-stats" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
+        <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" aria-label="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
           
             <i class="md-icon"></i>
           
         </a>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="drawer"></label>
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
       </div>
       <div class="md-flex__cell md-flex__cell--stretch">
         <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
           
-            
-              <span class="md-header-nav__topic">
-                Why, Scott, WHY?!?
-              </span>
-              <span class="md-header-nav__topic">
+            <span class="md-header-nav__topic">
+              Why, Scott, WHY?!?
+            </span>
+            <span class="md-header-nav__topic">
+              
                 A Rustic Journey Through Stream Stats
-              </span>
-            
+              
+            </span>
           
         </div>
       </div>
       <div class="md-flex__cell md-flex__cell--shrink">
         
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
           
-            <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
-            
 <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="search"></label>
-  <div class="md-search__inner">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
-      <label class="md-icon md-search__icon" for="search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset">&#xE5CD;</button>
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -144,7 +187,6 @@
     </div>
   </div>
 </div>
-          
         
       </div>
       
@@ -157,7 +199,7 @@
         
       
       
-      <main class="md-main">
+      <main class="md-main" role="main">
         <div class="md-main__inner md-grid" data-md-component="container">
           
             
@@ -165,12 +207,12 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="drawer">
-    <span class="md-nav__button md-logo">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" class="md-nav__button md-logo">
       
         <i class="md-icon"></i>
       
-    </span>
+    </a>
     Why, Scott, WHY?!?
   </label>
   
@@ -357,6 +399,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../2020/sql-ninja/" title="SQL + Jinja = Templating Done Right™" class="md-nav__link">
+      SQL + Jinja = Templating Done Right™
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../../2017/what-the-sql-lateral/" title="What the SQL?! Lateral Joins" class="md-nav__link">
       What the SQL?! Lateral Joins
     </a>
@@ -408,18 +462,54 @@
       
       
 
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      2020
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        2020
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2020/sql-ninja/" title="SQL + Jinja = Templating Done Right™" class="md-nav__link">
+      SQL + Jinja = Templating Done Right™
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
     
-    <label class="md-nav__link" for="nav-5">
+    <label class="md-nav__link" for="nav-6">
       2018
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
+      <label class="md-nav__title" for="nav-6">
         2018
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -446,12 +536,12 @@
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="toc">
+      <label class="md-nav__link md-nav__link--active" for="__toc">
         A Rustic Journey Through Stream Stats
       </label>
     
@@ -466,53 +556,53 @@
     
   
   
-    <label class="md-nav__title" for="toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#step-1-reproducing-cat-inefficiently" title="Step 1 - Reproducing cat Inefficiently" class="md-nav__link">
+  <a href="#step-1-reproducing-cat-inefficiently" class="md-nav__link">
     Step 1 - Reproducing cat Inefficiently
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-reproducing-cat-efficiently-with-buffering" title="Step 2 - Reproducing cat Efficiently with Buffering" class="md-nav__link">
+  <a href="#step-2-reproducing-cat-efficiently-with-buffering" class="md-nav__link">
     Step 2 - Reproducing cat Efficiently with Buffering
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-count-the-lines" title="Step 3 - Count the Lines" class="md-nav__link">
+  <a href="#step-3-count-the-lines" class="md-nav__link">
     Step 3 - Count the Lines
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-write-to-devtty" title="Step 4 - Write to /dev/tty" class="md-nav__link">
+  <a href="#step-4-write-to-devtty" class="md-nav__link">
     Step 4 - Write to /dev/tty
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-5-beautify-stats-output" title="Step 5 - Beautify Stats Output" class="md-nav__link">
+  <a href="#step-5-beautify-stats-output" class="md-nav__link">
     Step 5 - Beautify Stats Output
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-6-display-the-stats-10-times-per-second" title="Step 6 - Display the stats 10 times per second" class="md-nav__link">
+  <a href="#step-6-display-the-stats-10-times-per-second" class="md-nav__link">
     Step 6 - Display the stats 10 times per second
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#closing-thoughts" title="Closing Thoughts" class="md-nav__link">
+  <a href="#closing-thoughts" class="md-nav__link">
     Closing Thoughts
   </a>
   
@@ -520,8 +610,10 @@
       
       
       
+      
+      
         <li class="md-nav__item">
-          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
             Comments
           </a>
         </li>
@@ -581,13 +673,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
     
-    <label class="md-nav__link" for="nav-6">
+    <label class="md-nav__link" for="nav-7">
       2017
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-6">
+      <label class="md-nav__title" for="nav-7">
         2017
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -701,13 +793,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
     
-    <label class="md-nav__link" for="nav-7">
+    <label class="md-nav__link" for="nav-8">
       2016
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
+      <label class="md-nav__title" for="nav-8">
         2016
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -845,13 +937,13 @@
 
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
     
-    <label class="md-nav__link" for="nav-8">
+    <label class="md-nav__link" for="nav-9">
       2014
     </label>
     <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
+      <label class="md-nav__title" for="nav-9">
         2014
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -903,53 +995,53 @@
     
   
   
-    <label class="md-nav__title" for="toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#step-1-reproducing-cat-inefficiently" title="Step 1 - Reproducing cat Inefficiently" class="md-nav__link">
+  <a href="#step-1-reproducing-cat-inefficiently" class="md-nav__link">
     Step 1 - Reproducing cat Inefficiently
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-2-reproducing-cat-efficiently-with-buffering" title="Step 2 - Reproducing cat Efficiently with Buffering" class="md-nav__link">
+  <a href="#step-2-reproducing-cat-efficiently-with-buffering" class="md-nav__link">
     Step 2 - Reproducing cat Efficiently with Buffering
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-3-count-the-lines" title="Step 3 - Count the Lines" class="md-nav__link">
+  <a href="#step-3-count-the-lines" class="md-nav__link">
     Step 3 - Count the Lines
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-4-write-to-devtty" title="Step 4 - Write to /dev/tty" class="md-nav__link">
+  <a href="#step-4-write-to-devtty" class="md-nav__link">
     Step 4 - Write to /dev/tty
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-5-beautify-stats-output" title="Step 5 - Beautify Stats Output" class="md-nav__link">
+  <a href="#step-5-beautify-stats-output" class="md-nav__link">
     Step 5 - Beautify Stats Output
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#step-6-display-the-stats-10-times-per-second" title="Step 6 - Display the stats 10 times per second" class="md-nav__link">
+  <a href="#step-6-display-the-stats-10-times-per-second" class="md-nav__link">
     Step 6 - Display the stats 10 times per second
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#closing-thoughts" title="Closing Thoughts" class="md-nav__link">
+  <a href="#closing-thoughts" class="md-nav__link">
     Closing Thoughts
   </a>
   
@@ -957,8 +1049,10 @@
       
       
       
+      
+      
         <li class="md-nav__item">
-          <a href="#__comments" title="Comments" class="md-nav__link md-nav__link--active">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
             Comments
           </a>
         </li>
@@ -978,7 +1072,7 @@
                 
                 <h1 id="a-rustic-journey-through-stream-stats">A Rustic Journey Through Stream Stats<a class="headerlink" href="#a-rustic-journey-through-stream-stats" title="Permanent link">&para;</a></h1>
 <p><img class="featured" src="/images/stream_stats_demo.png" alt="Stream Stats Demo" /></p>
-<p>After playing <a href="../../../blog/2018/getting-rusty-with-vim/">Guessing Game</a> from the <a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html">Rust Book</a> a few times, it was time to make something a little more substantial. We're going to create <code>stream_stats</code>, a CLI program which prints throughput statistics from <code>stdin</code> while redirecting through <code>stdout</code>. Think <code>tee</code> + <code>wc -l</code> + <code>watch</code> all at the same time.</p>
+<p>After playing <a href="/blog/2018/getting-rusty-with-vim/">Guessing Game</a> from the <a href="https://doc.rust-lang.org/book/first-edition/guessing-game.html">Rust Book</a> a few times, it was time to make something a little more substantial. We're going to create <code>stream_stats</code>, a CLI program which prints throughput statistics from <code>stdin</code> while redirecting through <code>stdout</code>. Think <code>tee</code> + <code>wc -l</code> + <code>watch</code> all at the same time.</p>
 <p><strong>TL;DR</strong> - <code>cargo install stream_stats</code></p>
 <!-- more -->
 
@@ -987,7 +1081,7 @@
 <p>Today, I we'll build this program up in 6 steps smallish steps. The minimum requirement of this program was the live feedback as seen in the demo <em>and</em> minimal impact on the overall performance.</p>
 <h2 id="step-1-reproducing-cat-inefficiently">Step 1 - Reproducing <code>cat</code> Inefficiently<a class="headerlink" href="#step-1-reproducing-cat-inefficiently" title="Permanent link">&para;</a></h2>
 <p>First step is to replicate <code>cat</code>. We'll do it as demonstrated by Rust's own <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html#method.read_line">documentation</a>.</p>
-<div class="codehilite"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span><span class="p">;</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span><span class="p">;</span><span class="w"></span>
 
 <span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
@@ -996,7 +1090,7 @@
 <span class="w">        </span><span class="n">buffer</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
 <blockquote>
 <p>I'm using <code>unwrap</code> to keep our program short and sweet.</p>
@@ -1011,7 +1105,7 @@ compile the program into <code>stream_stats</code>. We can now run the program w
 <p>-- <a href="https://doc.rust-lang.org/std/io/struct.BufReader.html">https://doc.rust-lang.org/std/io/struct.BufReader.html</a></p>
 </blockquote>
 <p>Lets add some buffer use to increase performance and get it near the speed of <code>cat</code>. Replace the contents of <code>stream_stats.rs</code> with the following, recompile, and run the program.</p>
-<div class="codehilite"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">BufRead</span><span class="p">,</span><span class="w"> </span><span class="n">BufReader</span><span class="p">,</span><span class="w"> </span><span class="n">BufWriter</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">BufRead</span><span class="p">,</span><span class="w"> </span><span class="n">BufReader</span><span class="p">,</span><span class="w"> </span><span class="n">BufWriter</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
 
 <span class="k">static</span><span class="w"> </span><span class="n">READ_BUF_SIZE</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span><span class="w"></span>
 
@@ -1026,19 +1120,19 @@ compile the program into <code>stream_stats</code>. We can now run the program w
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
 <p>The exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/30da32426f7ac420f4660c168678341301c68648" target="_new">viewable on Github</a>.
 Here's a one-liner which to help with the build/run cycle:</p>
-<div class="codehilite"><pre><span></span>rustc -O ./stream_stats.rs <span class="o">&amp;&amp;</span> ./stream_stats &lt; stream_stats.rs
-</pre></div>
+<div class="codehilite"><pre><span></span><code>rustc -O ./stream_stats.rs <span class="o">&amp;&amp;</span> ./stream_stats &lt; stream_stats.rs
+</code></pre></div>
 
 <p>For a few extra lines, we get a lot of performance. There are ways to get even more
 performance, but it won't be worth the code complexity at this time.</p>
 <h2 id="step-3-count-the-lines">Step 3 - Count the Lines<a class="headerlink" href="#step-3-count-the-lines" title="Permanent link">&para;</a></h2>
 <p>We're ready to start counting lines. We'll introduce a <code>struct</code> to hold a start
 time and line count.</p>
-<div class="codehilite"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">BufRead</span><span class="p">,</span><span class="w"> </span><span class="n">BufReader</span><span class="p">,</span><span class="w"> </span><span class="n">BufWriter</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">BufRead</span><span class="p">,</span><span class="w"> </span><span class="n">BufReader</span><span class="p">,</span><span class="w"> </span><span class="n">BufWriter</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">time</span>::<span class="n">Instant</span><span class="p">;</span><span class="w"></span>
 
 <span class="k">static</span><span class="w"> </span><span class="n">READ_BUF_SIZE</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">1024</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span><span class="w"></span>
@@ -1066,12 +1160,12 @@ time and line count.</p>
 <span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="n">eprintln</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;lines: {}, {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">stats</span><span class="p">.</span><span class="n">lines</span><span class="p">,</span><span class="w"> </span><span class="n">stats</span><span class="p">.</span><span class="n">started</span><span class="p">.</span><span class="n">elapsed</span><span class="p">());</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
 <p>Again the exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/4131ec8daea852ec4641cbca9ba13775ff8679d5?diff=split" target="_new">viewable on Github</a>.</p>
 <h2 id="step-4-write-to-devtty">Step 4 - Write to <code>/dev/tty</code><a class="headerlink" href="#step-4-write-to-devtty" title="Permanent link">&para;</a></h2>
 <p>Using <code>eprintln!</code> is easy, but bad practice for non-error output. The next step is moving the output to <code>/dev/tty</code>. As a reminder, we're also not using <code>println!</code> because we're reserving it for the original content piped from <code>stdin</code>.</p>
-<div class="codehilite"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="p">{</span><span class="n">File</span><span class="p">,</span><span class="w"> </span><span class="n">OpenOptions</span><span class="p">};</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="p">{</span><span class="n">File</span><span class="p">,</span><span class="w"> </span><span class="n">OpenOptions</span><span class="p">};</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">BufRead</span><span class="p">,</span><span class="w"> </span><span class="n">BufReader</span><span class="p">,</span><span class="w"> </span><span class="n">BufWriter</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">time</span>::<span class="n">Instant</span><span class="p">;</span><span class="w"></span>
 
@@ -1116,12 +1210,12 @@ time and line count.</p>
 <span class="w">        </span><span class="n">stats</span><span class="p">.</span><span class="n">started</span><span class="p">.</span><span class="n">elapsed</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Could not write to tty!&quot;</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
 <p>Exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/e15502b23c1428f5ff86fdf6c6d791221e456992?diff=split" target="_new">viewable on Github</a>.</p>
 <h2 id="step-5-beautify-stats-output">Step 5 - Beautify Stats Output<a class="headerlink" href="#step-5-beautify-stats-output" title="Permanent link">&para;</a></h2>
 <p>The display logic is going to get a little more complex. We want to move the string formatting code to a <code>fmt::Display</code> trait. We'll also add the kilobytes to the displayed stats.</p>
-<div class="codehilite"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span><span class="p">;</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span><span class="p">;</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="p">{</span><span class="n">File</span><span class="p">,</span><span class="w"> </span><span class="n">OpenOptions</span><span class="p">};</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">BufRead</span><span class="p">,</span><span class="w"> </span><span class="n">BufReader</span><span class="p">,</span><span class="w"> </span><span class="n">BufWriter</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">time</span>::<span class="n">Instant</span><span class="p">;</span><span class="w"></span>
@@ -1190,7 +1284,7 @@ time and line count.</p>
 <span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="n">writeln</span><span class="o">!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stats</span><span class="p">.</span><span class="n">tty</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">stats</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Could not write to tty!&quot;</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
 <p>Exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/d2c5ef1cfcffc6a54e4b669aae835051d262143d?diff=split" target="_new">viewable on Github</a>.</p>
 <h2 id="step-6-display-the-stats-10-times-per-second">Step 6 - Display the stats 10 times per second<a class="headerlink" href="#step-6-display-the-stats-10-times-per-second" title="Permanent link">&para;</a></h2>
@@ -1204,7 +1298,7 @@ to keep the <code>usize</code> variables would get errors regarding mutability. 
 out there can remove the <code>AtomicUsize</code> without introducing <code>unsafe</code> please let
 me know!</p>
 <p>Here's the final code listing:</p>
-<div class="codehilite"><pre><span></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span><span class="p">;</span><span class="w"></span>
+<div class="codehilite"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span><span class="p">;</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="p">{</span><span class="n">File</span><span class="p">,</span><span class="w"> </span><span class="n">OpenOptions</span><span class="p">};</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">BufRead</span><span class="p">,</span><span class="w"> </span><span class="n">BufReader</span><span class="p">,</span><span class="w"> </span><span class="n">BufWriter</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
 <span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">sync</span>::<span class="n">Arc</span><span class="p">;</span><span class="w"></span>
@@ -1289,7 +1383,7 @@ me know!</p>
 <span class="w">    </span><span class="n">writer</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="n">writeln</span><span class="o">!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stats</span><span class="p">.</span><span class="n">tty</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">stats</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Could not write to tty!&quot;</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</pre></div>
+</code></pre></div>
 
 <p>Exact difference is <a href="https://github.com/ddrscott/tutorial-stream_stats/commit/e0b51a9de1364bfe3becfac8b27040c62bf06ac2?diff=split" target="_new">viewable on Github</a>.</p>
 <h2 id="closing-thoughts">Closing Thoughts<a class="headerlink" href="#closing-thoughts" title="Permanent link">&para;</a></h2>
@@ -1301,25 +1395,28 @@ publishing the <code>cargo</code> <a href="https://github.com/ddrscott/stream_st
                 
                   
                 
+                
               
               
                 
-                  <h2 id="__comments">Comments</h2>
-                  <div id="disqus_thread"></div>
-<script>
-  var disqus_config = function () {
-    this.page.url = "https://ddrscott.github.io/blog/2018/stream-stats-in-rust/";
-    this.page.identifier =
-      "/blog/2018/stream-stats-in-rust/";
-  };
-  (function() {
-    var d = document, s = d.createElement("script");
-    s.src = "//ddrscottgithubio.disqus.com/embed.js";
-    s.setAttribute("data-timestamp", +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
-</script>
-                
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://ddrscott.github.io/blog/2018/stream-stats-in-rust/";
+      this.page.identifier =
+        "/blog/2018/stream-stats-in-rust/";
+    };
+    (function() {
+      var d = document, s = d.createElement("script");
+      s.src = "//ddrscottgithubio.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+
               
             </article>
           </div>
@@ -1373,40 +1470,32 @@ publishing the <code>cargo</code> <a href="https://github.com/ddrscott/stream_st
           </div>
         
         powered by
-        <a href="http://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
-        
   <div class="md-footer-social">
+    <link rel="stylesheet" href="../../../assets/fonts/font-awesome.css">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <a href="https://github.com/ddrscott" target="_blank" rel="noopener" title="github" class="md-footer-social__link fa fa-github"></a>
     
-      <a href="https://github.com/ddrscott" class="md-footer-social__link fa fa-github"></a>
-    
-      <a href="https://twitter.com/_ddrscott_" class="md-footer-social__link fa fa-twitter"></a>
+      <a href="https://twitter.com/_ddrscott_" target="_blank" rel="noopener" title="twitter" class="md-footer-social__link fa fa-twitter"></a>
     
   </div>
 
-      
     </div>
   </div>
 </footer>
       
     </div>
     
-      <script src="../../../assets/javascripts/application.cae2244d.js"></script>
+      <script src="../../../assets/javascripts/application.c33a9706.js"></script>
       
-      <script>app.initialize({version:"0.17.2",url:{base:"../../.."}})</script>
+      <script>app.initialize({version:"1.1",url:{base:"../../.."}})</script>
       
         <script src="https://platform.twitter.com/widgets.js"></script>
-      
-    
-    
-      
-        <script>!function(e,a,t,n,o,c,i){e.GoogleAnalyticsObject=o,e.ga=e.ga||function(){(e.ga.q=e.ga.q||[]).push(arguments)},e.ga.l=1*new Date,c=a.createElement(t),i=a.getElementsByTagName(t)[0],c.async=1,c.src="https://www.google-analytics.com/analytics.js",i.parentNode.insertBefore(c,i)}(window,document,"script",0,"ga"),ga("create","UA-50126719-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview");var links=document.getElementsByTagName("a");Array.prototype.map.call(links,function(e){e.host!=document.location.host&&e.addEventListener("click",function(){var a=e.getAttribute("data-md-action")||"follow";ga("send","event","outbound",a,e.href)})});var query=document.forms.search.query;query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})</script>
       
     
   </body>

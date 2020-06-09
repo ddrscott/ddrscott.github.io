@@ -1,0 +1,1530 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="SQL + Jinja = SQL Templating Done Right™">
+      
+      
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2020/sql-ninja/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-4.6.3">
+    
+    
+      
+        <title>Slice and Dice SQL with SQL Ninja</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/application.adb8469c.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/application-palette.a8b3c06d.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#546e7a">
+      
+    
+    
+      <script src="../../../assets/javascripts/modernizr.86422ebf.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+        
+<script>
+  window.ga = window.ga || function() {
+    (ga.q = ga.q || []).push(arguments)
+  }
+  ga.l = +new Date
+  /* Setup integration and send page view */
+  ga("create", "UA-50126719-1", "auto")
+  ga("set", "anonymizeIp", true)
+  ga("send", "pageview")
+  /* Register handler to log search on blur */
+  document.addEventListener("DOMContentLoaded", () => {
+    if (document.forms.search) {
+      var query = document.forms.search.query
+      query.addEventListener("blur", function() {
+        if (this.value) {
+          var path = document.location.pathname;
+          ga("send", "pageview", path + "?q=" + this.value)
+        }
+      })
+    }
+  })
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2020/sql-ninja/" />
+<meta name="twitter:creator" content="@_ddrscott_" />
+
+  
+<meta property="og:title" content="Slice and Dice SQL with SQL Ninja" />
+  
+  
+<meta name="twitter:image" content="/images/stream_stats_demo.png" />
+<meta property="og:image" content="/images/stream_stats_demo.png" />
+  
+  
+<meta property="og:description" content="SQL + Jinja = SQL Templating Done Right™" />
+<meta name="description" content="SQL + Jinja = SQL Templating Done Right™">
+  
+
+
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue-grey" data-md-color-accent="orange">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#slice-and-dice-sql-with-sql-ninja" tabindex="0" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" aria-label="Why, Scott, WHY?!?" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Why, Scott, WHY?!?
+            </span>
+            <span class="md-header-nav__topic">
+              
+                Slice and Dice SQL with SQL Ninja
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main" role="main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://ddrscott.github.io" title="Why, Scott, WHY?!?" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    Why, Scott, WHY?!?
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../projects/" title="Projects" class="md-nav__link">
+      Projects
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Vim
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Vim
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/making-a-window-submode/" title="Making a Window Submode in Vim" class="md-nav__link">
+      Making a Window Submode in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      SQL
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        SQL
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        SQL + Jinja = Templating Done Right™
+      </label>
+    
+    <a href="./" title="SQL + Jinja = Templating Done Right™" class="md-nav__link md-nav__link--active">
+      SQL + Jinja = Templating Done Right™
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" class="md-nav__link">
+    Problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    Solution
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-a-new-project" class="md-nav__link">
+    Starting a New Project
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-the-query" class="md-nav__link">
+    Build The Query
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subquery-workflow" class="md-nav__link">
+    Subquery Workflow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-not-jinja-sql" class="md-nav__link">
+    Why not Jinja SQL?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-lateral/" title="What the SQL?! Lateral Joins" class="md-nav__link">
+      What the SQL?! Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-window/" title="What the SQL?! WINDOW" class="md-nav__link">
+      What the SQL?! WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-recursive/" title="What the SQL?! Recursive" class="md-nav__link">
+      What the SQL?! Recursive
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/join-me-at-union-station/" title="What the SQL?! JOIN me at UNION Station" class="md-nav__link">
+      What the SQL?! JOIN me at UNION Station
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      2020
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        2020
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        SQL + Jinja = Templating Done Right™
+      </label>
+    
+    <a href="./" title="SQL + Jinja = Templating Done Right™" class="md-nav__link md-nav__link--active">
+      SQL + Jinja = Templating Done Right™
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" class="md-nav__link">
+    Problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    Solution
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-a-new-project" class="md-nav__link">
+    Starting a New Project
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-the-query" class="md-nav__link">
+    Build The Query
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subquery-workflow" class="md-nav__link">
+    Subquery Workflow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-not-jinja-sql" class="md-nav__link">
+    Why not Jinja SQL?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      2018
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        2018
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/move-to-mkdocs/" title="Move to MkDocs" class="md-nav__link">
+      Move to MkDocs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/stream-stats-in-rust/" title="A Rustic Journey Through Stream Stats" class="md-nav__link">
+      A Rustic Journey Through Stream Stats
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/getting-rusty-with-vim/" title="Getting Rusty with Vim" class="md-nav__link">
+      Getting Rusty with Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/blog-setup/" title="Dev Blog Tools :: A Quick Tour of My Setup" class="md-nav__link">
+      Dev Blog Tools :: A Quick Tour of My Setup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2018/join-me-at-union-station/" title="What the SQL?! JOIN me at UNION Station" class="md-nav__link">
+      What the SQL?! JOIN me at UNION Station
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      2017
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        2017
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/base16-shell/" title="Base16 Shell" class="md-nav__link">
+      Base16 Shell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/how-to-get-better-at-anything/" title="How to Get Better At Anything" class="md-nav__link">
+      How to Get Better At Anything
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/fzf-dictionary/" title="FZF + WordNet = Dictionary" class="md-nav__link">
+      FZF + WordNet = Dictionary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/gnu-screen/" title="GNU Screen" class="md-nav__link">
+      GNU Screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-lateral/" title="What the SQL?!? Lateral Joins" class="md-nav__link">
+      What the SQL?!? Lateral Joins
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-window/" title="What the SQL?!? WINDOW" class="md-nav__link">
+      What the SQL?!? WINDOW
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/what-the-sql-recursive/" title="What the SQL?!? Recursive" class="md-nav__link">
+      What the SQL?!? Recursive
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2017/vim-send-text/" title="Vim Send Text" class="md-nav__link">
+      Vim Send Text
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      2016
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        2016
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/negative-modulo/" title="PSA: Vim Modulo '%' Returns Negative Numbers!" class="md-nav__link">
+      PSA: Vim Modulo '%' Returns Negative Numbers!
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/photography-lightening-talk/" title="Photography Refactored" class="md-nav__link">
+      Photography Refactored
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/ruby-abuse/" title="Ruby Abuse: How Not to Write Ruby, But Still Have Fun" class="md-nav__link">
+      Ruby Abuse: How Not to Write Ruby, But Still Have Fun
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/making-a-window-submode/" title="Making a Window Submode in Vim" class="md-nav__link">
+      Making a Window Submode in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/ansi-codes-with-character/" title="ANSI Codes with Character" class="md-nav__link">
+      ANSI Codes with Character
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/vim-toggle-movement/" title="Vim Toggle Movement: I Just Want to Go Home" class="md-nav__link">
+      Vim Toggle Movement: I Just Want to Go Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/yank-without-jank/" title="Yank Without Jank" class="md-nav__link">
+      Yank Without Jank
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/sidescroll/" title="Sensible Horizontal Scroll in Vim" class="md-nav__link">
+      Sensible Horizontal Scroll in Vim
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/side-search/" title="Vim Side Search: Making Search Fun Again" class="md-nav__link">
+      Vim Side Search: Making Search Fun Again
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2016/bs-to-the-black-hole/" title="BS to the Black Hole" class="md-nav__link">
+      BS to the Black Hole
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      2014
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        2014
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2014/tech-stack-2014-edition/" title="Tech Stack 2014 Edition" class="md-nav__link">
+      Tech Stack 2014 Edition
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../2014/octopress-to-the-rescue/" title="Octopress to the Rescue" class="md-nav__link">
+      Octopress to the Rescue
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem" class="md-nav__link">
+    Problem
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    Solution
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#starting-a-new-project" class="md-nav__link">
+    Starting a New Project
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build-the-query" class="md-nav__link">
+    Build The Query
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subquery-workflow" class="md-nav__link">
+    Subquery Workflow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-not-jinja-sql" class="md-nav__link">
+    Why not Jinja SQL?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" class="md-nav__link md-nav__link--active">
+            Comments
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="slice-and-dice-sql-with-sql-ninja">Slice and Dice SQL with <a href="https://github.com/ddrscott/sql-ninja">SQL Ninja</a><a class="headerlink" href="#slice-and-dice-sql-with-sql-ninja" title="Permanent link">&para;</a></h1>
+<p><img class="featured" src="/images/2020/sql-ninja-head.png" alt="SQL Ninja Header" /></p>
+<p>I write a lot of SQL. It's my primary language for various reasons which we won't get into at here,
+but even after using it for so long, SQL can still be a pain for some repetitive tasks.</p>
+<h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">&para;</a></h2>
+<p>Here's a SQL expression for pivoting some expenses by category:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+    <span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span> <span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">year_month</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;katanas&#39;</span>   <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">katanas</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;shurikens&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">shurikens</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;hooks&#39;</span>     <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hooks</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;shoes&#39;</span>     <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">shoes</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;disguises&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">disguises</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span>
+       <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;katanas&#39;</span><span class="p">,</span><span class="s1">&#39;shurikens&#39;</span><span class="p">,</span><span class="s1">&#39;hooks&#39;</span><span class="p">,</span><span class="s1">&#39;shoes&#39;</span><span class="p">,</span><span class="s1">&#39;disguises&#39;</span><span class="p">)</span>
+       <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span>
+    <span class="p">)</span> <span class="k">AS</span> <span class="n">other_amount</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total_amount</span>
+<span class="k">FROM</span> <span class="n">expenses</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_month</span><span class="p">,</span> <span class="n">total_amount</span>
+</code></pre></div>
+
+<p>Can we see the repetitive SQL going on? Here's a hint: <code>SUM(CASE WHEN(...)) AS ...</code>.</p>
+<p>Wouldn't it be nice to make a list of categories and have the SQL generated for you?
+Wouldn't it be nice to use generated SQL directly from command line?</p>
+<h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
+<p>SQL is a declarative language. HTML is a declarative language. HTML has so many template languages to choose from,
+but SQL has so few.</p>
+<p>Enter SQL Ninja.</p>
+<p>SQL Ninja uses the popular <a href="https://jinja.palletsprojects.com/">Jinja Templating Engine</a> which typically generates
+HTML, but we can use it to generate SQL.</p>
+<div class="codehilite"><pre><span></span><code>pip install sql-ninja
+</code></pre></div>
+
+<p>Now, let's create a simple SQL file:</p>
+<div class="codehilite"><pre><span></span><code>cat &gt; hello.sql <span class="s">&lt;&lt;SQL</span>
+<span class="s">SELECT &#39;world&#39;</span>
+<span class="s">SQL</span>
+</code></pre></div>
+
+<p>From here, we can use the <code>sql</code> command provided by <a href="https://pypi.org/project/sql-ninja/">sql-ninja</a> to transform the
+SQL.</p>
+<div class="codehilite"><pre><span></span><code>sql hello.sql
+<span class="c1"># =&gt; SELECT &#39;world&#39;</span>
+</code></pre></div>
+
+<p>That wasn't very exciting. Let's try to template it:</p>
+<div class="codehilite"><pre><span></span><code>cat &gt; hello.sql <span class="s">&lt;&lt;SQL</span>
+<span class="s">SELECT &#39;{{ msg }}&#39;</span>
+<span class="s">SQL</span>
+</code></pre></div>
+
+<p>And render the template:
+<div class="codehilite"><pre><span></span><code>sql hello.sql
+<span class="c1"># =&gt; SELECT &#39;&#39;</span>
+</code></pre></div></p>
+<p>What happened? We got a blank message. This is because we didn't provide one to the template engine.
+Try this instead:</p>
+<div class="codehilite"><pre><span></span><code>sql hello.sql <span class="nv">msg</span><span class="o">=</span><span class="s1">&#39;World!!!&#39;</span>
+<span class="c1"># =&gt; SELECT &#39;World!!!&#39;</span>
+</code></pre></div>
+
+<p>We did it!</p>
+<h3 id="starting-a-new-project">Starting a New Project<a class="headerlink" href="#starting-a-new-project" title="Permanent link">&para;</a></h3>
+<p>In the real world, we work with work with projects that have a lot of other files. We probably don't want our main
+projects root directory littered with <code>*.sql</code> files. SQL Ninja recommends putting templates in the following directory:</p>
+<div class="codehilite"><pre><span></span><code>.
+└── sql
+    └── templates
+        └── hello.sql
+</code></pre></div>
+
+<p>So let's do that with our <code>hello.sql</code></p>
+<div class="codehilite"><pre><span></span><code>mkdir -p sql/templates
+mv hello.sql sql/templates/
+</code></pre></div>
+
+<p>And from here, we can run our exact <code>sql</code> command from before:</p>
+<div class="codehilite"><pre><span></span><code>sql hello.sql <span class="nv">msg</span><span class="o">=</span><span class="s1">&#39;World!!!&#39;</span>
+<span class="c1"># =&gt; SELECT &#39;World!!!&#39;</span>
+</code></pre></div>
+
+<p>It still works because SQL Ninja has sensible defaults. Files in current the current working directory and
+<code>sql/templates</code> are the default search paths.</p>
+<div class="admonition note">
+<p class="admonition-title">Default Searched Directories</p>
+<ol>
+<li>Current working directory</li>
+<li><code>sql/templates</code></li>
+</ol>
+<p>Please use one or the other, but not both.</p>
+</div>
+<h3 id="build-the-query">Build The Query<a class="headerlink" href="#build-the-query" title="Permanent link">&para;</a></h3>
+<p>Create <code>sql/templates/expenses.sql</code></p>
+<div class="codehilite"><pre><span></span><code><span class="err">{</span><span class="o">%-</span> <span class="k">set</span> <span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span> <span class="k">or</span> <span class="s1">&#39;katanas shurikens hooks shoes disguises&#39;</span> <span class="o">-%</span><span class="err">}</span>
+<span class="err">{</span><span class="o">%-</span> <span class="k">set</span> <span class="n">pivots</span> <span class="o">=</span> <span class="n">categories</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="o">-%</span><span class="err">}</span>
+<span class="k">SELECT</span>
+    <span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span> <span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">year_month</span><span class="p">,</span>
+    <span class="err">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">pivot</span> <span class="k">in</span> <span class="n">pivots</span> <span class="o">%</span><span class="err">}</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;{{ pivot }}&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="err">{{</span> <span class="n">pivot</span> <span class="err">}}</span><span class="p">,</span>
+    <span class="err">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">%</span><span class="err">}</span>
+    <span class="k">SUM</span><span class="p">(</span>
+       <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span>
+       <span class="err">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">pivot</span> <span class="k">in</span> <span class="n">pivots</span> <span class="o">-%</span><span class="err">}</span>
+       <span class="s1">&#39;{{pivot}}&#39;</span><span class="err">{{</span><span class="s1">&#39;,&#39;</span> <span class="k">if</span> <span class="k">not</span> <span class="n">loop</span><span class="p">.</span><span class="k">last</span><span class="err">}}</span>
+       <span class="err">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="err">}</span><span class="p">)</span>
+       <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span>
+    <span class="p">)</span> <span class="k">AS</span> <span class="n">other_amount</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total_amount</span>
+<span class="k">FROM</span> <span class="n">expenses</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_month</span><span class="p">,</span> <span class="n">total_amount</span>
+</code></pre></div>
+
+<p>Let's run it:
+<div class="codehilite"><pre><span></span><code>sql expenses.sql <span class="nv">categories</span><span class="o">=</span><span class="s1">&#39;food transportation&#39;</span>
+<span class="c1">#=&gt;</span>
+SELECT
+    DATEFORMAT<span class="o">(</span>entry_dt, <span class="s1">&#39;yyyy-mm&#39;</span><span class="o">)</span> as year_month,
+    SUM<span class="o">(</span>CASE WHEN <span class="nv">category</span> <span class="o">=</span> <span class="s1">&#39;food&#39;</span> THEN amount END<span class="o">)</span> AS food,
+    SUM<span class="o">(</span>CASE WHEN <span class="nv">category</span> <span class="o">=</span> <span class="s1">&#39;transportation&#39;</span> THEN amount END<span class="o">)</span> AS transportation,
+    SUM<span class="o">(</span>
+       CASE WHEN category NOT IN <span class="o">(</span><span class="s1">&#39;food&#39;</span>,<span class="s1">&#39;transportation&#39;</span><span class="o">)</span>
+       THEN amount END
+    <span class="o">)</span> AS other_amount,
+    SUM<span class="o">(</span>amount<span class="o">)</span> AS total_amount
+FROM expenses
+ORDER BY year_month, total_amount
+</code></pre></div></p>
+<h3 id="subquery-workflow">Subquery Workflow<a class="headerlink" href="#subquery-workflow" title="Permanent link">&para;</a></h3>
+<p>Jinja supports including templates in other templates. This is perfect for sub queries!</p>
+<p>Let's break up the expenses query into two:</p>
+<ol>
+<li>summaries by category</li>
+<li>pivot the results</li>
+</ol>
+<div class="codehilite"><pre><span></span><code><span class="c1">-- sql/templates/expenses/summary.sql</span>
+<span class="k">SELECT</span>
+    <span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span> <span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">year_month</span><span class="p">,</span>
+    <span class="n">category</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">amount</span>
+<span class="k">FROM</span> <span class="n">expenses</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_month</span><span class="p">,</span> <span class="n">category</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="c1">-- sql/templates/expenses/pivot.sql</span>
+<span class="err">{</span><span class="o">%-</span> <span class="k">set</span> <span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span> <span class="k">or</span> <span class="s1">&#39;katanas shurikens hooks shoes disguises&#39;</span> <span class="o">-%</span><span class="err">}</span>
+<span class="err">{</span><span class="o">%-</span> <span class="k">set</span> <span class="n">pivots</span> <span class="o">=</span> <span class="n">categories</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="o">-%</span><span class="err">}</span>
+<span class="k">SELECT</span>
+    <span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span> <span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">year_month</span><span class="p">,</span>
+    <span class="err">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">pivot</span> <span class="k">in</span> <span class="n">pivots</span> <span class="o">%</span><span class="err">}</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;{{ pivot }}&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="err">{{</span> <span class="n">pivot</span> <span class="err">}}</span><span class="p">,</span>
+    <span class="err">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">%</span><span class="err">}</span>
+    <span class="k">SUM</span><span class="p">(</span>
+       <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span>
+       <span class="err">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">pivot</span> <span class="k">in</span> <span class="n">pivots</span> <span class="o">-%</span><span class="err">}</span>
+       <span class="s1">&#39;{{pivot}}&#39;</span><span class="err">{{</span><span class="s1">&#39;,&#39;</span> <span class="k">if</span> <span class="k">not</span> <span class="n">loop</span><span class="p">.</span><span class="k">last</span><span class="err">}}</span>
+       <span class="err">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="err">}</span><span class="p">)</span>
+       <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span>
+    <span class="p">)</span> <span class="k">AS</span> <span class="n">other_amount</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total_amount</span>
+<span class="k">FROM</span> <span class="p">(</span>
+<span class="err">{</span><span class="o">%</span> <span class="n">include</span> <span class="s1">&#39;expenses/summary.sql&#39;</span> <span class="o">%</span><span class="err">}</span>
+<span class="p">)</span> <span class="k">AS</span> <span class="n">summary</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_month</span><span class="p">,</span> <span class="n">total_amount</span>
+</code></pre></div>
+
+<p>Render the new template with: <code>sql expenses/pivot.sql</code> and override <code>categories</code> or not:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">SELECT</span>
+    <span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span> <span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">year_month</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;katanas&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">katanas</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;shurikens&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">shurikens</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;hooks&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">hooks</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;shoes&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">shoes</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="o">=</span> <span class="s1">&#39;disguises&#39;</span> <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span><span class="p">)</span> <span class="k">AS</span> <span class="n">disguises</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span>
+       <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">category</span> <span class="k">NOT</span> <span class="k">IN</span> <span class="p">(</span><span class="s1">&#39;katanas&#39;</span><span class="p">,</span><span class="s1">&#39;shurikens&#39;</span><span class="p">,</span><span class="s1">&#39;hooks&#39;</span><span class="p">,</span><span class="s1">&#39;shoes&#39;</span><span class="p">,</span><span class="s1">&#39;disguises&#39;</span><span class="p">)</span>
+       <span class="k">THEN</span> <span class="n">amount</span> <span class="k">END</span>
+    <span class="p">)</span> <span class="k">AS</span> <span class="n">other_amount</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total_amount</span>
+<span class="k">FROM</span> <span class="p">(</span>
+<span class="k">SELECT</span>
+    <span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span> <span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">year_month</span><span class="p">,</span>
+    <span class="n">category</span><span class="p">,</span>
+    <span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">amount</span>
+<span class="k">FROM</span> <span class="n">expenses</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_month</span><span class="p">,</span> <span class="n">category</span>
+<span class="p">)</span> <span class="k">AS</span> <span class="n">summary</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">year_month</span><span class="p">,</span> <span class="n">total_amount</span>
+</code></pre></div>
+
+<h2 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h2>
+<p>A <a href="https://hub.docker.com/repository/docker/ddrscott/sql-ninja">docker image</a> has been built if installing Python is a problem:</p>
+<div class="codehilite"><pre><span></span><code>docker pull ddrscott/sql-ninja
+</code></pre></div>
+
+<p>Docker containers don't have access to local file system, so we need to mount the volume into the container.</p>
+<div class="codehilite"><pre><span></span><code>docker run --rm -v <span class="nv">$PWD</span>:/app -w /app ddrscott/sql-ninja expenses/pivot.sql
+<span class="c1">#            ^   ^            ^      ^                  ^</span>
+<span class="c1">#            |   |            |      |                  |</span>
+<span class="c1">#            |   |            |      |                  + the template</span>
+<span class="c1">#            |   |            |      |</span>
+<span class="c1">#            |   |            |      + the image</span>
+<span class="c1">#            |   |            |</span>
+<span class="c1">#            |   |            + start in /app path</span>
+<span class="c1">#            |   |            </span>
+<span class="c1">#            |   + volume mount current path to /app</span>
+<span class="c1">#            |</span>
+<span class="c1">#            + remove container when complete</span>
+</code></pre></div>
+
+<p>Make an alias if ya want:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Pick one or name it whatever is most memorable to you:</span>
+<span class="nb">alias</span> <span class="nv">sql</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
+<span class="nb">alias</span> <span class="nv">sqln</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
+<span class="nb">alias</span> <span class="nv">sqlninja</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
+</code></pre></div>
+
+<h2 id="why-not-jinja-sql">Why not <a href="https://github.com/hashedin/jinjasql">Jinja SQL</a>?<a class="headerlink" href="#why-not-jinja-sql" title="Permanent link">&para;</a></h2>
+<p>The <code>jinjasql</code> project has 452 stars as of this writing and it uses Jinja, too. The project
+requires the user to write they SQL as Python strings. If we're going to write SQL in Python strings, then we
+don't need a templating engine. Just format strings and use Python. With SQL Ninja we want to write SQL in <code>.sql</code>
+files. Period.</p>
+<p><a href="https://hashedin.com/blog/introducing-jinjasql-generate-sql-using-jinja-templates/">https://hashedin.com/blog/introducing-jinjasql-generate-sql-using-jinja-templates/</a>)</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>I'm currently using it in my day job and it has helped parameterize several aspects of some large SQL statements.
+Jinja's <code>macro</code> and <code>include</code> features really standout and make writing SQL almost dreamy. Almost.</p>
+<p>Please let us know how this project is working for you and how to make it better!</p>
+                
+                  
+                
+                
+              
+              
+                
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://ddrscott.github.io/blog/2020/sql-ninja/";
+      this.page.identifier =
+        "/blog/2020/sql-ninja/";
+    };
+    (function() {
+      var d = document, s = d.createElement("script");
+      s.src = "//ddrscottgithubio.disqus.com/embed.js";
+      s.setAttribute("data-timestamp", +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../../2018/join-me-at-union-station/" title="What the SQL?! JOIN me at UNION Station" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                What the SQL?! JOIN me at UNION Station
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../../2018/move-to-mkdocs/" title="Move to MkDocs" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Move to MkDocs
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2014 - 2018 Scott Pierce
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../../assets/fonts/font-awesome.css">
+    
+      <a href="https://github.com/ddrscott" target="_blank" rel="noopener" title="github" class="md-footer-social__link fa fa-github"></a>
+    
+      <a href="https://twitter.com/_ddrscott_" target="_blank" rel="noopener" title="twitter" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/application.c33a9706.js"></script>
+      
+      <script>app.initialize({version:"1.1",url:{base:"../../.."}})</script>
+      
+        <script src="https://platform.twitter.com/widgets.js"></script>
+      
+    
+  </body>
+</html>
