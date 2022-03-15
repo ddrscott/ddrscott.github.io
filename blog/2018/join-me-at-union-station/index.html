@@ -1288,23 +1288,23 @@
 <p>We're going to use a 2 table database. People belong to a zip code and zip codes have a named region.</p>
 <div class="admonition success">
 <p class="admonition-title">Schema</p>
-<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">people</span> <span class="k">AS</span>
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="p">(</span>
-<span class="k">VALUES</span>
-  <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Candy&#39;</span><span class="p">,</span> <span class="s1">&#39;60001&#39;</span><span class="p">),</span>
-  <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Mandy&#39;</span><span class="p">,</span> <span class="s1">&#39;70001&#39;</span><span class="p">),</span>
-  <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Randy&#39;</span><span class="p">,</span> <span class="s1">&#39;80001&#39;</span><span class="p">),</span>
-  <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Andy&#39;</span><span class="p">,</span>  <span class="s1">&#39;89991&#39;</span><span class="p">)</span>
-<span class="p">)</span> <span class="k">AS</span> <span class="n">t</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">zip_code</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">people</span><span class="w"> </span><span class="k">AS</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="k">VALUES</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Candy&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;60001&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Mandy&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;70001&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Randy&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;80001&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Andy&#39;</span><span class="p">,</span><span class="w">  </span><span class="s1">&#39;89991&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">zip_code</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">zip_codes</span> <span class="k">AS</span>
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="p">(</span>
-<span class="k">VALUES</span>
-  <span class="p">(</span><span class="s1">&#39;60001&#39;</span><span class="p">,</span> <span class="s1">&#39;North&#39;</span><span class="p">),</span>
-  <span class="p">(</span><span class="s1">&#39;70001&#39;</span><span class="p">,</span> <span class="s1">&#39;South&#39;</span><span class="p">),</span>
-  <span class="p">(</span><span class="s1">&#39;80001&#39;</span><span class="p">,</span> <span class="s1">&#39;East&#39;</span><span class="p">),</span>
-  <span class="p">(</span><span class="s1">&#39;90001&#39;</span><span class="p">,</span> <span class="s1">&#39;West&#39;</span><span class="p">)</span>
-<span class="p">)</span> <span class="k">AS</span> <span class="n">t</span> <span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">region</span><span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">zip_codes</span><span class="w"> </span><span class="k">AS</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="k">VALUES</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="s1">&#39;60001&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;North&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="s1">&#39;70001&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;South&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="s1">&#39;80001&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;East&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="s1">&#39;90001&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;West&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="p">,</span><span class="w"> </span><span class="n">region</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </div>
 <h2 id="join-problems">JOIN Problems<a class="headerlink" href="#join-problems" title="Permanent link">&para;</a></h2>
@@ -1315,13 +1315,13 @@
 Create a query with each person correlated to the zip code <code>region</code>?</p>
 <div class="admonition success">
 <p class="admonition-title">Solution</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="n">people</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
-  <span class="n">people</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
-  <span class="n">people</span><span class="p">.</span><span class="n">zip_code</span><span class="p">,</span>
-  <span class="n">zip_codes</span><span class="p">.</span><span class="n">region</span>
-<span class="k">FROM</span> <span class="n">people</span>
-<span class="k">JOIN</span> <span class="n">zip_codes</span> <span class="k">ON</span> <span class="n">zip_codes</span><span class="p">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">people</span><span class="p">.</span><span class="n">zip_code</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">people</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">people</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">people</span><span class="p">.</span><span class="n">zip_code</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">zip_codes</span><span class="p">.</span><span class="n">region</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="w"></span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">zip_codes</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zip_codes</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">people</span><span class="p">.</span><span class="n">zip_code</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <table>
 <thead>
@@ -1358,14 +1358,14 @@ Create a query with each person correlated to the zip code <code>region</code>?<
 <p>List all the people who belong to an unknown zip code?</p>
 <div class="admonition success">
 <p class="admonition-title">Solution</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="n">people</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
-  <span class="n">people</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
-  <span class="n">people</span><span class="p">.</span><span class="n">zip_code</span><span class="p">,</span>
-  <span class="n">zip_codes</span><span class="p">.</span><span class="n">region</span>
-<span class="k">FROM</span> <span class="n">people</span>
-<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">zip_codes</span> <span class="k">ON</span> <span class="n">zip_codes</span><span class="p">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">people</span><span class="p">.</span><span class="n">zip_code</span>
-<span class="k">WHERE</span> <span class="n">zip_codes</span><span class="p">.</span><span class="n">code</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">people</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">people</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">people</span><span class="p">.</span><span class="n">zip_code</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">zip_codes</span><span class="p">.</span><span class="n">region</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="w"></span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">zip_codes</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">zip_codes</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">people</span><span class="p">.</span><span class="n">zip_code</span><span class="w"></span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">zip_codes</span><span class="p">.</span><span class="n">code</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <table>
 <thead>
@@ -1403,13 +1403,13 @@ Create a query with each person correlated to the zip code <code>region</code>?<
 <p>Return a list of keywords from both the people and the zip code tables.</p>
 <div class="admonition success">
 <p class="admonition-title">Solution</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="n">name</span> <span class="k">AS</span> <span class="n">keyword</span>
-<span class="k">FROM</span> <span class="n">people</span>
-<span class="k">UNION</span>
-<span class="k">SELECT</span>
-  <span class="n">region</span>
-<span class="k">FROM</span> <span class="n">zip_codes</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">keyword</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="w"></span>
+<span class="k">UNION</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">region</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">zip_codes</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <table>
 <thead>
@@ -1449,18 +1449,18 @@ Create a query with each person correlated to the zip code <code>region</code>?<
 <p>The search department likes the results, but wants to be able to correlate the row back to its source table and row.</p>
 <div class="admonition success">
 <p class="admonition-title">Solution</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="s1">&#39;people&#39;</span>    <span class="k">AS</span> <span class="k">source</span><span class="p">,</span>
-  <span class="n">id</span><span class="p">::</span><span class="nb">varchar</span> <span class="k">AS</span> <span class="k">key</span><span class="p">,</span>
-  <span class="n">name</span> <span class="k">AS</span> <span class="n">keyword</span>
-<span class="k">FROM</span> <span class="n">people</span>
-<span class="k">UNION</span>
-<span class="k">SELECT</span>
-  <span class="s1">&#39;zip_codes&#39;</span><span class="p">,</span>
-  <span class="n">code</span><span class="p">,</span>
-  <span class="n">region</span>
-<span class="k">FROM</span> <span class="n">zip_codes</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="s1">&#39;people&#39;</span><span class="w">    </span><span class="k">AS</span><span class="w"> </span><span class="k">source</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">id</span><span class="p">::</span><span class="nb">varchar</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">key</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">keyword</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="w"></span>
+<span class="k">UNION</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="s1">&#39;zip_codes&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">code</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">region</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">zip_codes</span><span class="w"></span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <table>
 <thead>
@@ -1529,18 +1529,18 @@ Create a query with each person correlated to the zip code <code>region</code>?<
 </ul>
 <div class="admonition success">
 <p class="admonition-title">Solution</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="n">people</span><span class="p">.</span><span class="o">*</span>
-<span class="k">FROM</span> <span class="n">people</span>
-<span class="k">WHERE</span> <span class="n">zip_code</span> <span class="k">IN</span> <span class="p">(</span>
-  <span class="k">SELECT</span>
-    <span class="n">zip_code</span>
-  <span class="k">FROM</span> <span class="n">people</span>
-  <span class="k">EXCEPT</span>
-  <span class="k">SELECT</span>
-    <span class="n">code</span>
-  <span class="k">FROM</span> <span class="n">zip_codes</span>
-<span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">people</span><span class="p">.</span><span class="o">*</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="w"></span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">zip_code</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">zip_code</span><span class="w"></span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">people</span><span class="w"></span>
+<span class="w">  </span><span class="k">EXCEPT</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">code</span><span class="w"></span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">zip_codes</span><span class="w"></span>
+<span class="p">);</span><span class="w"></span>
 </code></pre></div>
 <table>
 <thead>
@@ -1562,8 +1562,8 @@ Create a query with each person correlated to the zip code <code>region</code>?<
 <h2 id="closing">Closing<a class="headerlink" href="#closing" title="Permanent link">&para;</a></h2>
 <div class="admonition success">
 <p class="admonition-title">Clean Up</p>
-<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">people</span><span class="p">;</span>
-<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">zip_codes</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">people</span><span class="p">;</span><span class="w"></span>
+<span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">zip_codes</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 </div>
 <p><code>JOIN</code> and <code>UNION</code> are an essential part of a SQL users tool belt. On a day to day basis, <code>JOIN</code> is used more often than <code>UNION</code>, so we would recommend understanding it first. <code>UNION</code> gets it power when we realize our data is more alike than originally intended. Both clauses should be withheld at dinner parties and other social events.</p>
@@ -1630,7 +1630,7 @@ Create a query with each person correlated to the zip code <code>region</code>?<
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2021 Scott Pierce
+            Copyright &copy; 2014 - 2022 Scott Pierce
           </div>
         
         Made with
@@ -1673,10 +1673,15 @@ Create a query with each person correlated to the zip code <code>region</code>?<
     <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.76f349be.min.js"></script>
-      
-        <script src="https://platform.twitter.com/widgets.js"></script>
-      
-    
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <script type="text/javascript">
+    (function(w, d, s, u) {
+        w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true; j.src = 'https://chat.y.chickencow.org/livechat/rocketchat-livechat.min.js?_=201903270000';
+        h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.y.chickencow.org/livechat');
+    </script>
+
   </body>
 </html>

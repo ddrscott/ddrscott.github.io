@@ -1185,25 +1185,25 @@ configuration file.</p>
 </code></pre></div></p>
 <p>After getting the files to the correct directory, the site hierarchy needs to be configured in <code>mkdocs.yml</code>. That file contains much more than the page structure. You'll need to read more about it from their <a href="http://www.mkdocs.org/">documentation</a>.</p>
 <p><strong>mkdocs.yml</strong>:
-<div class="highlight"><pre><span></span><code><span class="c1"># .. stuff before this section ..</span>
-<span class="nt">pages</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="nt">Home</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">index.md</span>
-  <span class="p p-Indicator">-</span> <span class="nt">Projects</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">projects.md</span>
-  <span class="p p-Indicator">-</span> <span class="s">&#39;2018&#39;</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;Move</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">MkDocs&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2018/move-to-mkdocs.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;A</span><span class="nv"> </span><span class="s">Rustic</span><span class="nv"> </span><span class="s">Journey</span><span class="nv"> </span><span class="s">Through</span><span class="nv"> </span><span class="s">Stream</span><span class="nv"> </span><span class="s">Stats&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2018/stream-stats-in-rust.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;Getting</span><span class="nv"> </span><span class="s">Rusty</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Vim&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2018/getting-rusty-with-vim.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;Dev</span><span class="nv"> </span><span class="s">Blog</span><span class="nv"> </span><span class="s">Tools</span><span class="nv"> </span><span class="s">::</span><span class="nv"> </span><span class="s">A</span><span class="nv"> </span><span class="s">Quick</span><span class="nv"> </span><span class="s">Tour</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">My</span><span class="nv"> </span><span class="s">Setup&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2018/blog-setup.markdown</span>
-  <span class="p p-Indicator">-</span> <span class="s">&#39;2017&#39;</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;Base16</span><span class="nv"> </span><span class="s">Shell&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/base16-shell.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;How</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Get</span><span class="nv"> </span><span class="s">Better</span><span class="nv"> </span><span class="s">At</span><span class="nv"> </span><span class="s">Anything&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/how-to-get-better-at-anything.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;FZF</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">WordNet</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">Dictionary&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/fzf-dictionary.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;GNU</span><span class="nv"> </span><span class="s">Screen&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/gnu-screen.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;What</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">SQL?!?</span><span class="nv"> </span><span class="s">Lateral</span><span class="nv"> </span><span class="s">Joins&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/what-the-sql-lateral.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;What</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">SQL?!?</span><span class="nv"> </span><span class="s">WINDOW&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/what-the-sql-window.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;What</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">SQL?!?</span><span class="nv"> </span><span class="s">Recursive&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/what-the-sql-recursive.markdown</span>
-    <span class="p p-Indicator">-</span> <span class="s">&#39;Vim</span><span class="nv"> </span><span class="s">Send</span><span class="nv"> </span><span class="s">Text&#39;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">blog/2017/vim-send-text.markdown</span>
-<span class="c1"># .. more stuff ..</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># .. stuff before this section ..</span><span class="w"></span>
+<span class="nt">pages</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Home</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">index.md</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Projects</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">projects.md</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;2018&#39;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;Move</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">MkDocs&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2018/move-to-mkdocs.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;A</span><span class="nv"> </span><span class="s">Rustic</span><span class="nv"> </span><span class="s">Journey</span><span class="nv"> </span><span class="s">Through</span><span class="nv"> </span><span class="s">Stream</span><span class="nv"> </span><span class="s">Stats&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2018/stream-stats-in-rust.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;Getting</span><span class="nv"> </span><span class="s">Rusty</span><span class="nv"> </span><span class="s">with</span><span class="nv"> </span><span class="s">Vim&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2018/getting-rusty-with-vim.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;Dev</span><span class="nv"> </span><span class="s">Blog</span><span class="nv"> </span><span class="s">Tools</span><span class="nv"> </span><span class="s">::</span><span class="nv"> </span><span class="s">A</span><span class="nv"> </span><span class="s">Quick</span><span class="nv"> </span><span class="s">Tour</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">My</span><span class="nv"> </span><span class="s">Setup&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2018/blog-setup.markdown</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;2017&#39;</span><span class="p p-Indicator">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;Base16</span><span class="nv"> </span><span class="s">Shell&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/base16-shell.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;How</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Get</span><span class="nv"> </span><span class="s">Better</span><span class="nv"> </span><span class="s">At</span><span class="nv"> </span><span class="s">Anything&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/how-to-get-better-at-anything.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;FZF</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">WordNet</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">Dictionary&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/fzf-dictionary.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;GNU</span><span class="nv"> </span><span class="s">Screen&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/gnu-screen.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;What</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">SQL?!?</span><span class="nv"> </span><span class="s">Lateral</span><span class="nv"> </span><span class="s">Joins&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/what-the-sql-lateral.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;What</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">SQL?!?</span><span class="nv"> </span><span class="s">WINDOW&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/what-the-sql-window.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;What</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">SQL?!?</span><span class="nv"> </span><span class="s">Recursive&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/what-the-sql-recursive.markdown</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;Vim</span><span class="nv"> </span><span class="s">Send</span><span class="nv"> </span><span class="s">Text&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">blog/2017/vim-send-text.markdown</span><span class="w"></span>
+<span class="c1"># .. more stuff ..</span><span class="w"></span>
 </code></pre></div></p>
 <p>Once <code>mkdocs.yml</code> is configured we can run:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># start a web server to preview the site</span>
@@ -1295,7 +1295,7 @@ mkdocs gh-deploy
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2021 Scott Pierce
+            Copyright &copy; 2014 - 2022 Scott Pierce
           </div>
         
         Made with
@@ -1338,10 +1338,15 @@ mkdocs gh-deploy
     <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.76f349be.min.js"></script>
-      
-        <script src="https://platform.twitter.com/widgets.js"></script>
-      
-    
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <script type="text/javascript">
+    (function(w, d, s, u) {
+        w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true; j.src = 'https://chat.y.chickencow.org/livechat/rocketchat-livechat.min.js?_=201903270000';
+        h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.y.chickencow.org/livechat');
+    </script>
+
   </body>
 </html>

@@ -1186,23 +1186,23 @@ every number after the first two is the sum of the two preceding ones:</p>
 <h2 id="sql-solution">SQL Solution<a class="headerlink" href="#sql-solution" title="Permanent link">&para;</a></h2>
 <p>Our SQL solution will make use of the <code>RECURSIVE</code> <a href="https://www.postgresql.org/docs/9.3/static/queries-with.html">CTE</a>
 keyword.</p>
-<div class="highlight"><pre><span></span><code><span class="k">WITH</span> <span class="k">RECURSIVE</span> <span class="n">t</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">fi</span><span class="p">,</span> <span class="n">fib</span><span class="p">)</span> <span class="k">AS</span> <span class="p">(</span>
-  <span class="k">SELECT</span>
-    <span class="mi">1</span><span class="p">,</span>
-    <span class="mi">0</span><span class="p">::</span><span class="nb">NUMERIC</span><span class="p">,</span>
-    <span class="mi">1</span><span class="p">::</span><span class="nb">NUMERIC</span>
-  <span class="k">UNION</span> <span class="k">ALL</span>
-  <span class="k">SELECT</span>
-    <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">fib</span><span class="p">,</span>
-    <span class="n">fi</span> <span class="o">+</span> <span class="n">fib</span>
-  <span class="k">FROM</span> <span class="n">t</span>
-  <span class="k">WHERE</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span>
-<span class="p">)</span>
-<span class="k">SELECT</span>
-  <span class="n">i</span><span class="p">,</span>
-  <span class="n">fib</span>
-<span class="k">FROM</span> <span class="n">t</span>
+<div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">fi</span><span class="p">,</span><span class="w"> </span><span class="n">fib</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="mi">0</span><span class="p">::</span><span class="nb">NUMERIC</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="mi">1</span><span class="p">::</span><span class="nb">NUMERIC</span><span class="w"></span>
+<span class="w">  </span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">fib</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">fi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fib</span><span class="w"></span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">i</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">fib</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
 </code></pre></div>
 <h2 id="the-ins-and-outs">The Ins and Outs<a class="headerlink" href="#the-ins-and-outs" title="Permanent link">&para;</a></h2>
 <p>Here's some inline colorful comments to explain the sections:
@@ -1235,24 +1235,24 @@ numbers less than 166 digits long.</p>
 <p>Fibonacci sequence is nice and all, but you have real data concerns. You're
 thinking, "Show me the DATA!". So here's the data...</p>
 <div class="highlight"><pre><span></span><code><span class="c1">-- Build `sample_people` table</span>
-<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sample_people</span> <span class="k">AS</span>
-  <span class="k">SELECT</span>
-    <span class="n">column1</span><span class="p">::</span><span class="nb">int</span>     <span class="k">AS</span> <span class="n">id</span><span class="p">,</span>
-    <span class="n">column2</span><span class="p">::</span><span class="nb">varchar</span> <span class="k">AS</span> <span class="n">name</span><span class="p">,</span>
-    <span class="n">column3</span><span class="p">::</span><span class="nb">int</span>     <span class="k">AS</span> <span class="n">parent_id</span>
-  <span class="k">FROM</span> <span class="p">(</span>
-    <span class="k">VALUES</span>
-      <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Root&#39;</span> <span class="p">,</span> <span class="k">null</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span>  <span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Cat&#39;</span>  <span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Dan&#39;</span>  <span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Evan&#39;</span> <span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;Frank&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-  <span class="p">)</span> <span class="k">as</span> <span class="n">t</span>
-  <span class="p">;</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">sample_people</span><span class="w"> </span><span class="k">AS</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">column1</span><span class="p">::</span><span class="nb">int</span><span class="w">     </span><span class="k">AS</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">column2</span><span class="p">::</span><span class="nb">varchar</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">column3</span><span class="p">::</span><span class="nb">int</span><span class="w">     </span><span class="k">AS</span><span class="w"> </span><span class="n">parent_id</span><span class="w"></span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">VALUES</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Root&#39;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Bob&#39;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Cat&#39;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Dan&#39;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Evan&#39;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Frank&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
+<span class="w">  </span><span class="p">;</span><span class="w"></span>
 
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sample_people</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_people</span><span class="p">;</span><span class="w"></span>
 <span class="c1">--  id | name  | parent_id</span>
 <span class="c1">-- ----+-------+-----------</span>
 <span class="c1">--   0 | Root  |</span>
@@ -1266,30 +1266,30 @@ thinking, "Show me the DATA!". So here's the data...</p>
 <p>Our <code>sample_people</code> table represents a person by name and that person may have a
 parent. The parent of all the parents is <code>Root</code>.</p>
 <p>And finally our recursive query to get a nice display of the hierarchy.</p>
-<div class="highlight"><pre><span></span><code><span class="k">WITH</span> <span class="k">RECURSIVE</span> <span class="n">tree</span> <span class="c1">-- `tree` is the table alias.</span>
-                    <span class="c1">-- It must be used as part of the `UNION` statement.</span>
-  <span class="k">AS</span> <span class="p">(</span>
-  <span class="c1">-- 1) Initialize table with all the top level rows.</span>
-  <span class="c1">--    Anything without a parent is a parent. Is that apparent?</span>
-  <span class="k">SELECT</span>
-    <span class="mi">0</span> <span class="k">AS</span> <span class="k">level</span><span class="p">,</span>        <span class="c1">-- 2) Set the level to 0.</span>
-    <span class="n">sample_people</span><span class="p">.</span><span class="o">*</span>    <span class="c1">-- 3) Return the initial row</span>
-  <span class="k">FROM</span> <span class="n">sample_people</span>
-  <span class="k">WHERE</span> <span class="n">parent_id</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1">-- 4) Top level doesn&#39;t have a parent.</span>
-  <span class="k">UNION</span> <span class="k">ALL</span>
-  <span class="c1">-- 5) Union all the parents with their children.</span>
-  <span class="k">SELECT</span>
-    <span class="n">tree</span><span class="p">.</span><span class="k">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>    <span class="c1">-- 6) Increment the level every time we loop.</span>
-    <span class="n">sample_people</span><span class="p">.</span><span class="o">*</span>    <span class="c1">-- 7) Return the current row - the child row. </span>
-  <span class="k">FROM</span> <span class="n">tree</span>    <span class="c1">-- 8) `tree` is populated with the previous results.</span>
-               <span class="c1">--    Every loop gets a new record from current result.</span>
-  <span class="k">JOIN</span> <span class="n">sample_people</span> <span class="k">ON</span> <span class="n">sample_people</span><span class="p">.</span><span class="n">parent_id</span> <span class="o">=</span> <span class="n">tree</span><span class="p">.</span><span class="n">id</span>
-<span class="p">)</span>
-<span class="k">SELECT</span>
-  <span class="n">repeat</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="k">level</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">||</span> <span class="n">name</span> <span class="k">AS</span> <span class="n">display</span>
-<span class="k">FROM</span> <span class="n">tree</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="k">level</span><span class="p">,</span> <span class="n">name</span>
-<span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">WITH</span><span class="w"> </span><span class="k">RECURSIVE</span><span class="w"> </span><span class="n">tree</span><span class="w"> </span><span class="c1">-- `tree` is the table alias.</span>
+<span class="w">                    </span><span class="c1">-- It must be used as part of the `UNION` statement.</span>
+<span class="w">  </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="c1">-- 1) Initialize table with all the top level rows.</span>
+<span class="w">  </span><span class="c1">--    Anything without a parent is a parent. Is that apparent?</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="mi">0</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">level</span><span class="p">,</span><span class="w">        </span><span class="c1">-- 2) Set the level to 0.</span>
+<span class="w">    </span><span class="n">sample_people</span><span class="p">.</span><span class="o">*</span><span class="w">    </span><span class="c1">-- 3) Return the initial row</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_people</span><span class="w"></span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">parent_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="c1">-- 4) Top level doesn&#39;t have a parent.</span>
+<span class="w">  </span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span><span class="w"></span>
+<span class="w">  </span><span class="c1">-- 5) Union all the parents with their children.</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">tree</span><span class="p">.</span><span class="k">level</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">    </span><span class="c1">-- 6) Increment the level every time we loop.</span>
+<span class="w">    </span><span class="n">sample_people</span><span class="p">.</span><span class="o">*</span><span class="w">    </span><span class="c1">-- 7) Return the current row - the child row. </span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">tree</span><span class="w">    </span><span class="c1">-- 8) `tree` is populated with the previous results.</span>
+<span class="w">               </span><span class="c1">--    Every loop gets a new record from current result.</span>
+<span class="w">  </span><span class="k">JOIN</span><span class="w"> </span><span class="n">sample_people</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">sample_people</span><span class="p">.</span><span class="n">parent_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tree</span><span class="p">.</span><span class="n">id</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">repeat</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="k">level</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">display</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">tree</span><span class="w"></span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">level</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 
 <span class="c1">--    display</span>
 <span class="c1">-- -------------</span>
@@ -1380,7 +1380,7 @@ save together!</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2021 Scott Pierce
+            Copyright &copy; 2014 - 2022 Scott Pierce
           </div>
         
         Made with
@@ -1423,10 +1423,15 @@ save together!</p>
     <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.76f349be.min.js"></script>
-      
-        <script src="https://platform.twitter.com/widgets.js"></script>
-      
-    
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <script type="text/javascript">
+    (function(w, d, s, u) {
+        w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true; j.src = 'https://chat.y.chickencow.org/livechat/rocketchat-livechat.min.js?_=201903270000';
+        h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.y.chickencow.org/livechat');
+    </script>
+
   </body>
 </html>

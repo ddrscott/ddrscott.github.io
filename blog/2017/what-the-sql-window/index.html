@@ -1373,27 +1373,27 @@ Search online for the specific vendor's documentation if errors pop up.
 Try searching for "WINDOW queries $DB_VENDOR_NAME". Not all database vendors
 support the keyword <code>WINDOW</code>.</p>
 <h2 id="create-sample-data">Create Sample Data<a class="headerlink" href="#create-sample-data" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">EXISTS</span> <span class="n">sample_moves</span><span class="p">;</span>
-<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">sample_moves</span> <span class="k">AS</span>
-  <span class="k">SELECT</span>
-    <span class="n">column1</span><span class="p">::</span><span class="nb">int</span>     <span class="k">AS</span> <span class="n">id</span><span class="p">,</span>
-    <span class="n">column2</span><span class="p">::</span><span class="nb">varchar</span> <span class="k">AS</span> <span class="n">name</span><span class="p">,</span>
-    <span class="n">column3</span><span class="p">::</span><span class="nb">varchar</span> <span class="k">AS</span> <span class="n">address</span><span class="p">,</span>
-    <span class="n">column4</span><span class="p">::</span><span class="nb">date</span> <span class="k">AS</span> <span class="n">moved_at</span>
-  <span class="k">FROM</span> <span class="p">(</span>
-    <span class="k">VALUES</span>
-      <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Alice&#39;</span> <span class="p">,</span> <span class="s1">&#39;1 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-01-01&#39;</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span>   <span class="p">,</span> <span class="s1">&#39;2 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-02-01&#39;</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Cat&#39;</span>   <span class="p">,</span> <span class="s1">&#39;2 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-03-01&#39;</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Dan Sr&#39;</span>  <span class="p">,</span> <span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span>  <span class="s1">&#39;1970-04-01&#39;</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Dan Jr&#39;</span>  <span class="p">,</span> <span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span>  <span class="s1">&#39;2001-04-01&#39;</span><span class="p">),</span>
-      <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;Dan 3rd&#39;</span> <span class="p">,</span> <span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-04-01&#39;</span><span class="p">)</span>
-  <span class="p">)</span> <span class="k">as</span> <span class="n">t</span>
-<span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">sample_moves</span><span class="p">;</span><span class="w"></span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="k">AS</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">column1</span><span class="p">::</span><span class="nb">int</span><span class="w">     </span><span class="k">AS</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">column2</span><span class="p">::</span><span class="nb">varchar</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">column3</span><span class="p">::</span><span class="nb">varchar</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">address</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">column4</span><span class="p">::</span><span class="nb">date</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">moved_at</span><span class="w"></span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">VALUES</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Alice&#39;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;1 Main St&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-01-01&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Bob&#39;</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2 Main St&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-02-01&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Cat&#39;</span><span class="w">   </span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2 Main St&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Dan Sr&#39;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span><span class="w">  </span><span class="s1">&#39;1970-04-01&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Dan Jr&#39;</span><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span><span class="w">  </span><span class="s1">&#39;2001-04-01&#39;</span><span class="p">),</span><span class="w"></span>
+<span class="w">      </span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Dan 3rd&#39;</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;3 Main St&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-04-01&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">t</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 
-<span class="k">CREATE</span> <span class="k">INDEX</span> <span class="k">ON</span> <span class="n">sample_moves</span><span class="p">(</span><span class="n">address</span><span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">sample_moves</span><span class="p">(</span><span class="n">address</span><span class="p">);</span><span class="w"></span>
 
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">sample_moves</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <h4 id="results">Results:<a class="headerlink" href="#results" title="Permanent link">&para;</a></h4>
 <table>
@@ -1464,12 +1464,12 @@ how many rows belong to each address.</p>
 <blockquote>
 <p><strong>Tip</strong>: <code>COUNT(1)</code> is more efficient than <code>COUNT(*)</code>.</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="n">address</span><span class="p">,</span>
-  <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">total</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span>
-<span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">address</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">total</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"></span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"></span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <h4 id="results_1">Results:<a class="headerlink" href="#results_1" title="Permanent link">&para;</a></h4>
 <table>
@@ -1496,16 +1496,16 @@ how many rows belong to each address.</p>
 </table>
 <h3 id="how-many-people-live-with-each-person">How many people live with each person?<a class="headerlink" href="#how-many-people-live-with-each-person" title="Permanent link">&para;</a></h3>
 <p>Enter subquery land. Life without windows is not exciting.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="o">*</span><span class="p">,</span>
-  <span class="p">(</span>
-    <span class="k">SELECT</span>
-      <span class="c1">-- everyone at the address, minus the person</span>
-      <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t2</span>
-    <span class="k">WHERE</span> <span class="n">t2</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
-  <span class="p">)</span> <span class="k">AS</span> <span class="n">others</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="o">*</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">      </span><span class="c1">-- everyone at the address, minus the person</span>
+<span class="w">      </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">t2</span><span class="w"></span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t1</span><span class="p">.</span><span class="n">address</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">others</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">t1</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <h4 id="results_2">Results:<a class="headerlink" href="#results_2" title="Permanent link">&para;</a></h4>
 <table>
@@ -1564,52 +1564,52 @@ how many rows belong to each address.</p>
 </tbody>
 </table>
 <h3 id="join-works-too"><code>JOIN</code> works, too<a class="headerlink" href="#join-works-too" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-  <span class="n">t2</span><span class="p">.</span><span class="n">others</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span>
-<span class="k">JOIN</span> <span class="p">(</span>
-  <span class="k">SELECT</span>
-    <span class="n">address</span><span class="p">,</span>
-    <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">as</span> <span class="n">others</span>
-  <span class="k">FROM</span> <span class="n">sample_moves</span>
-  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
-  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span>
-<span class="p">)</span> <span class="n">t2</span> <span class="k">USING</span> <span class="p">(</span><span class="n">address</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">t2</span><span class="p">.</span><span class="n">others</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">t1</span><span class="w"></span>
+<span class="k">JOIN</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">address</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">others</span><span class="w"></span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"></span>
+<span class="w">  </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"></span>
+<span class="w">  </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"></span>
+<span class="p">)</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="p">(</span><span class="n">address</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 <h3 id="and-so-does-join-lateral">And so does <code>JOIN LATERAL</code><a class="headerlink" href="#and-so-does-join-lateral" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-  <span class="n">t2</span><span class="p">.</span><span class="n">others</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span>
-<span class="k">JOIN</span> <span class="k">LATERAL</span> <span class="p">(</span>
-  <span class="k">SELECT</span>
-    <span class="n">address</span><span class="p">,</span>
-    <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">as</span> <span class="n">others</span>
-  <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">sub</span>
-  <span class="k">WHERE</span> <span class="n">sub</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
-  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">address</span>
-  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span>
-<span class="p">)</span> <span class="n">t2</span> <span class="k">ON</span> <span class="k">true</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="n">t1</span><span class="p">.</span><span class="o">*</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">t2</span><span class="p">.</span><span class="n">others</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">t1</span><span class="w"></span>
+<span class="k">JOIN</span><span class="w"> </span><span class="k">LATERAL</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">    </span><span class="n">address</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">others</span><span class="w"></span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">sub</span><span class="w"></span>
+<span class="w">  </span><span class="k">WHERE</span><span class="w"> </span><span class="n">sub</span><span class="p">.</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t1</span><span class="p">.</span><span class="n">address</span><span class="w"></span>
+<span class="w">  </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"></span>
+<span class="w">  </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"></span>
+<span class="p">)</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">true</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <h3 id="thats-nice-but-who-moved-in-first">That's nice, but who moved in first?<a class="headerlink" href="#thats-nice-but-who-moved-in-first" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="o">*</span><span class="p">,</span>
-  <span class="p">(</span>
-    <span class="k">SELECT</span>
-      <span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t2</span>
-    <span class="k">WHERE</span> <span class="n">t2</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
-  <span class="p">)</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
-  <span class="p">(</span>
-    <span class="k">SELECT</span>
-      <span class="n">name</span>
-    <span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t3</span>
-    <span class="k">WHERE</span> <span class="n">t3</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">t1</span><span class="p">.</span><span class="n">address</span>
-    <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span> <span class="k">ASC</span>
-    <span class="k">LIMIT</span> <span class="mi">1</span>
-  <span class="p">)</span> <span class="k">AS</span> <span class="n">first_person</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span> <span class="n">t1</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="o">*</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">      </span><span class="k">COUNT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">t2</span><span class="w"></span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t2</span><span class="p">.</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t1</span><span class="p">.</span><span class="n">address</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">others</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"></span>
+<span class="w">      </span><span class="n">name</span><span class="w"></span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">t3</span><span class="w"></span>
+<span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">t3</span><span class="p">.</span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t1</span><span class="p">.</span><span class="n">address</span><span class="w"></span>
+<span class="w">    </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">moved_at</span><span class="w"> </span><span class="k">ASC</span><span class="w"></span>
+<span class="w">    </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">first_person</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"> </span><span class="n">t1</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <h2 id="wait-i-thought-this-was-about-windows">Wait I thought this was about windows?!?<a class="headerlink" href="#wait-i-thought-this-was-about-windows" title="Permanent link">&para;</a></h2>
 <p>The keyword <code>OVER</code> is the gateway drug into <code>WINDOW</code> functions. Using <code>OVER</code>
@@ -1619,11 +1619,11 @@ statement. It can never reduce the number of records in a result set which is
 the same behavior expected of a correlated subquery.</p>
 <p><code>PARTITION BY</code> is treated the same as the traditional <code>GROUP BY</code>. The <code>ORDER BY</code>
 also has the same behavior as its use in a standard query.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="o">*</span><span class="p">,</span>
-  <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>                      <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
-  <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span><span class="p">)</span> <span class="k">AS</span> <span class="n">first_moved</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="o">*</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w">                      </span><span class="k">AS</span><span class="w"> </span><span class="n">others</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">moved_at</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">first_moved</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <h4 id="results_3">Results<a class="headerlink" href="#results_3" title="Permanent link">&para;</a></h4>
 <table>
@@ -1695,16 +1695,16 @@ also has the same behavior as its use in a standard query.</p>
 the expression <code>(...)</code> between and including the parenthesis.</p>
 <p>In the following example we add the use of <code>RANGE</code> to provide additional
 direction to the windowing clause.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-  <span class="o">*</span><span class="p">,</span>
-  <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
-  <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">first_moved</span><span class="p">,</span>
-  <span class="n">last_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>  <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">last_moved</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span>
-<span class="n">WINDOW</span> <span class="n">w</span> <span class="k">AS</span> <span class="p">(</span>
-  <span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span>
-  <span class="n">RANGE</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="n">PRECEDING</span> <span class="k">AND</span> <span class="n">UNBOUNDED</span> <span class="n">FOLLOWING</span>
-<span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="o">*</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">others</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">first_moved</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">last_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w">  </span><span class="n">OVER</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">last_moved</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"></span>
+<span class="n">WINDOW</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">moved_at</span><span class="w"></span>
+<span class="w">  </span><span class="n">RANGE</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="n">UNBOUNDED</span><span class="w"> </span><span class="n">PRECEDING</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UNBOUNDED</span><span class="w"> </span><span class="n">FOLLOWING</span><span class="w"></span>
+<span class="p">);</span><span class="w"></span>
 </code></pre></div>
 <h4 id="results_4">Results<a class="headerlink" href="#results_4" title="Permanent link">&para;</a></h4>
 <table>
@@ -1777,20 +1777,20 @@ direction to the windowing clause.</p>
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="c1">-- Previous and Next Record</span>
-<span class="k">SELECT</span>
-  <span class="o">*</span><span class="p">,</span>
-  <span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">others</span><span class="p">,</span>
-  <span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">first_moved</span><span class="p">,</span>
-  <span class="n">last_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>  <span class="n">OVER</span> <span class="n">w</span> <span class="k">AS</span> <span class="n">last_moved</span><span class="p">,</span>
-  <span class="n">lag</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">prev_id</span><span class="p">,</span>
-  <span class="n">lead</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">next_id</span>
-<span class="k">FROM</span> <span class="n">sample_moves</span>
-<span class="n">WINDOW</span> <span class="n">w</span> <span class="k">AS</span> <span class="p">(</span>
-  <span class="n">PARTITION</span> <span class="k">BY</span> <span class="n">address</span> 
-  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">moved_at</span>
-  <span class="n">RANGE</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="n">PRECEDING</span> <span class="k">AND</span> <span class="n">UNBOUNDED</span> <span class="n">FOLLOWING</span>
-<span class="p">)</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">address</span><span class="p">;</span>
+<span class="k">SELECT</span><span class="w"></span>
+<span class="w">  </span><span class="o">*</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="p">(</span><span class="k">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">others</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">first_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">first_moved</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">last_value</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w">  </span><span class="n">OVER</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">last_moved</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">lag</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">prev_id</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">lead</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="p">(</span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">next_id</span><span class="w"></span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">sample_moves</span><span class="w"></span>
+<span class="n">WINDOW</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
+<span class="w">  </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="w"> </span>
+<span class="w">  </span><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">moved_at</span><span class="w"></span>
+<span class="w">  </span><span class="n">RANGE</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="n">UNBOUNDED</span><span class="w"> </span><span class="n">PRECEDING</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">UNBOUNDED</span><span class="w"> </span><span class="n">FOLLOWING</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">address</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 <h4 id="results_5">Results<a class="headerlink" href="#results_5" title="Permanent link">&para;</a></h4>
 <table>
@@ -2001,7 +2001,7 @@ of all the window functions. In addition to these, <em>any regular aggregate fun
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2021 Scott Pierce
+            Copyright &copy; 2014 - 2022 Scott Pierce
           </div>
         
         Made with
@@ -2044,10 +2044,15 @@ of all the window functions. In addition to these, <em>any regular aggregate fun
     <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.76f349be.min.js"></script>
-      
-        <script src="https://platform.twitter.com/widgets.js"></script>
-      
-    
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <script type="text/javascript">
+    (function(w, d, s, u) {
+        w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true; j.src = 'https://chat.y.chickencow.org/livechat/rocketchat-livechat.min.js?_=201903270000';
+        h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.y.chickencow.org/livechat');
+    </script>
+
   </body>
 </html>
