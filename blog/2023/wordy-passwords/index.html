@@ -1195,7 +1195,7 @@
                 
                 <h1 id="how-to-generate-a-wordy-password">How to Generate a Wordy Password<a class="headerlink" href="#how-to-generate-a-wordy-password" title="Permanent link">&para;</a></h1>
 <h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>grep -oP <span class="s1">&#39;[a-z]{3,}&#39;</span> /usr/share/dict/words <span class="p">|</span> shuf -n4  <span class="p">|</span> paste -sd- -
+<div class="highlight"><pre><span></span><code>grep -E <span class="s1">&#39;^[a-z]{3,}$&#39;</span> /usr/share/dict/words <span class="p">|</span> shuf -n4 <span class="p">|</span> paste -sd- -
 </code></pre></div>
 <h2 id="intro">Intro<a class="headerlink" href="#intro" title="Permanent link">&para;</a></h2>
 <p>It is 2023 and passwords are still a thing. They are hard to remember and easy to crack.
@@ -1216,12 +1216,12 @@ so Wordy Passwords™ (TM cause you heard it here first!) came to mind to meet a
 got to be a simpler way.</p>
 <h2 id="simpler-way">Simpler Way<a class="headerlink" href="#simpler-way" title="Permanent link">&para;</a></h2>
 <p>If your on Mac or Linux, the simpler way is already in your terminal.</p>
-<div class="highlight"><pre><span></span><code>grep -oP <span class="s1">&#39;[a-z]{3,}&#39;</span> /usr/share/dict/words <span class="p">|</span> shuf -n4 <span class="p">|</span> paste -sd- -
+<div class="highlight"><pre><span></span><code>grep -E <span class="s1">&#39;^[a-z]{3,}$&#39;</span> /usr/share/dict/words <span class="p">|</span> shuf -n4 <span class="p">|</span> paste -sd- -
 </code></pre></div>
 <p>Let's explain:</p>
 <ul>
 <li><code>/usr/share/dict/words</code> is a file with a list of all English words, about 100k of them.</li>
-<li><code>grep -oP '[a-z]{3,}' /usr/share/dict/words</code> filters for lowercase words with 3 or more letters.</li>
+<li><code>grep -E '^[a-z]{3,}$' /usr/share/dict/words</code> filters for lowercase words with 3 or more letters.</li>
 <li><code>shuf -n4</code> picks 4 random entries from the filtered list. Change <code>4</code> to whatever is needed for your use case.</li>
 <li><code>paste -sd- -</code> joins all the lines with <code>-</code> symbol. This can also be changed to <code>-sd ' '</code> for spaces or <code>-sd ','</code> for commas, etc.
   Note, the last <code>-</code> tells the command to read from <code>/dev/stdin</code> and is necessary on Mac.</li>
@@ -1249,8 +1249,8 @@ This will provide access to a Linux shell which has all the aforementioned comma
 <p>If you're not sure where to type in these fancy commands, try searching for "learn linux terminal". We'll eventually post additional
 articles regarding our love for the terminal and why commands like these keep us in it.</p>
 <h2 id="alternative-word-list">Alternative Word List<a class="headerlink" href="#alternative-word-list" title="Permanent link">&para;</a></h2>
-<p>We experimented with other word lists. <a href="https://www.dataturd.com/words/doyle.txt">doyle.txt</a> contains words from
-Sherlock Holmes. Source code for how the word list was built is <a href="https://github.com/ddrscott/wordy-passwords">here</a></p>
+<p>We experimented with other word lists. <a href="https://www.dataturd.com/words/doyle.txt">doyle.txt</a> contains words extracted from books
+featuring Sherlock Holmes. Source code for how the word list was built is located at <a href="https://github.com/ddrscott/wordy-passwords">https://github.com/ddrscott/wordy-passwords</a> .</p>
 <p>Feel free to search the Internet for other word lists.</p>
 <h2 id="closing">Closing<a class="headerlink" href="#closing" title="Permanent link">&para;</a></h2>
 <p>The terminal is a magical place where mountains of code can be replaced with a few razor sharp commands.
