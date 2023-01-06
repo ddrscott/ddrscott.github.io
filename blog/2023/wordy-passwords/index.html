@@ -6,17 +6,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="How to Generate a Wordy Password">
       
       
       
-        <link rel="canonical" href="https://ddrscott.github.io/blog/2016/side-search/">
+      
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2023/wordy-passwords/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2, mkdocs-material-7.1.7">
     
     
       
-        <title>Vim Side Search: Making Search Fun Again - Why, Scott, WHY?!?</title>
+        <title>Wordy Passwords - Why, Scott, WHY?!?</title>
       
     
     
@@ -51,16 +53,19 @@
     
     
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="https://ddrscott.github.io/blog/2016/side-search/" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2023/wordy-passwords/" />
 <meta name="twitter:creator" content="@_ddrscott_" />
 
   
-<meta property="og:title" content="Vim Side Search: Making Search Fun Again" />
+<meta property="og:title" content="Wordy Passwords" />
   
   
-<meta name="twitter:image" content="/images/vim_ag_unicorn.png" />
-<meta property="og:image" content="/images/vim_ag_unicorn.png" />
+<meta name="twitter:image" content="https://imgs.xkcd.com/comics/password_strength.png" />
+<meta property="og:image" content="https://imgs.xkcd.com/comics/password_strength.png" />
   
+  
+<meta property="og:description" content="How to Generate a Wordy Password" />
+<meta name="description" content="How to Generate a Wordy Password">
   
 
 
@@ -83,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vim-side-search-making-search-fun-again" class="md-skip">
+        <a href="#how-to-generate-a-wordy-password" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Vim Side Search: Making Search Fun Again
+              Wordy Passwords
             
           </span>
         </div>
@@ -283,7 +288,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vim-toggle-movement/" class="md-nav__link">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
         Vim Toggle Movement: I Just Want to Go Home
       </a>
     </li>
@@ -295,7 +300,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../yank-without-jank/" class="md-nav__link">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
         Yank Without Jank
       </a>
     </li>
@@ -307,7 +312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sidescroll/" class="md-nav__link">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
         Sensible Horizontal Scroll in Vim
       </a>
     </li>
@@ -319,102 +324,9 @@
   
   
     <li class="md-nav__item">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Vim Side Search: Making Search Fun Again
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="../../2016/side-search/" class="md-nav__link">
         Vim Side Search: Making Search Fun Again
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-a-the-unix-way" class="md-nav__link">
-    Solution A - The Unix Way
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-b-vim-without-quickfix" class="md-nav__link">
-    Solution B - Vim without Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-c-quickfix" class="md-nav__link">
-    Solution C - Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-d-side-search-plugin" class="md-nav__link">
-    Solution D - Side Search Plugin
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#closing" class="md-nav__link">
-    Closing
-  </a>
-  
-    <nav class="md-nav" aria-label="Closing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#in-the-news" class="md-nav__link">
-    In The News
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -424,7 +336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../making-a-window-submode/" class="md-nav__link">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
         Making a Window Submode in Vim
       </a>
     </li>
@@ -436,7 +348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bs-to-the-black-hole/" class="md-nav__link">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
         BS to the Black Hole
       </a>
     </li>
@@ -448,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../negative-modulo/" class="md-nav__link">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
         PSA: Vim Modulo '%' Returns Negative Numbers!
       </a>
     </li>
@@ -557,12 +469,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
       
       <label class="md-nav__link" for="__nav_6">
         2023
@@ -578,11 +492,92 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../2023/wordy-passwords/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Wordy Passwords
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Wordy Passwords
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    TL;DR
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intro" class="md-nav__link">
+    Intro
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simpler-way" class="md-nav__link">
+    Simpler Way
+  </a>
+  
+    <nav class="md-nav" aria-label="Simpler Way">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-pc" class="md-nav__link">
+    Windows PC
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternative-word-list" class="md-nav__link">
+    Alternative Word List
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#closing" class="md-nav__link">
+    Closing
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -899,14 +894,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
       
       <label class="md-nav__link" for="__nav_11">
         2016
@@ -924,7 +917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../negative-modulo/" class="md-nav__link">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
         PSA: Vim Modulo '%' Returns Negative Numbers!
       </a>
     </li>
@@ -936,7 +929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../photography-lightening-talk/" class="md-nav__link">
+      <a href="../../2016/photography-lightening-talk/" class="md-nav__link">
         Photography Refactored
       </a>
     </li>
@@ -948,7 +941,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ruby-abuse/" class="md-nav__link">
+      <a href="../../2016/ruby-abuse/" class="md-nav__link">
         Ruby Abuse: How Not to Write Ruby, But Still Have Fun
       </a>
     </li>
@@ -960,7 +953,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../making-a-window-submode/" class="md-nav__link">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
         Making a Window Submode in Vim
       </a>
     </li>
@@ -972,7 +965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ansi-codes-with-character/" class="md-nav__link">
+      <a href="../../2016/ansi-codes-with-character/" class="md-nav__link">
         ANSI Codes with Character
       </a>
     </li>
@@ -984,7 +977,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vim-toggle-movement/" class="md-nav__link">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
         Vim Toggle Movement: I Just Want to Go Home
       </a>
     </li>
@@ -996,7 +989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../yank-without-jank/" class="md-nav__link">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
         Yank Without Jank
       </a>
     </li>
@@ -1008,7 +1001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sidescroll/" class="md-nav__link">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
         Sensible Horizontal Scroll in Vim
       </a>
     </li>
@@ -1018,106 +1011,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Vim Side Search: Making Search Fun Again
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../2016/side-search/" class="md-nav__link">
         Vim Side Search: Making Search Fun Again
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-a-the-unix-way" class="md-nav__link">
-    Solution A - The Unix Way
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-b-vim-without-quickfix" class="md-nav__link">
-    Solution B - Vim without Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-c-quickfix" class="md-nav__link">
-    Solution C - Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-d-side-search-plugin" class="md-nav__link">
-    Solution D - Side Search Plugin
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#closing" class="md-nav__link">
-    Closing
-  </a>
-  
-    <nav class="md-nav" aria-label="Closing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#in-the-news" class="md-nav__link">
-    In The News
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1127,7 +1025,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bs-to-the-black-hole/" class="md-nav__link">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
         BS to the Black Hole
       </a>
     </li>
@@ -1235,36 +1133,42 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
+  <a href="#tldr" class="md-nav__link">
+    TL;DR
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#solution-a-the-unix-way" class="md-nav__link">
-    Solution A - The Unix Way
+  <a href="#intro" class="md-nav__link">
+    Intro
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#solution-b-vim-without-quickfix" class="md-nav__link">
-    Solution B - Vim without Quickfix
+  <a href="#simpler-way" class="md-nav__link">
+    Simpler Way
   </a>
+  
+    <nav class="md-nav" aria-label="Simpler Way">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-pc" class="md-nav__link">
+    Windows PC
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#solution-c-quickfix" class="md-nav__link">
-    Solution C - Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-d-side-search-plugin" class="md-nav__link">
-    Solution D - Side Search Plugin
+  <a href="#alternative-word-list" class="md-nav__link">
+    Alternative Word List
   </a>
   
 </li>
@@ -1273,26 +1177,6 @@
   <a href="#closing" class="md-nav__link">
     Closing
   </a>
-  
-    <nav class="md-nav" aria-label="Closing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#in-the-news" class="md-nav__link">
-    In The News
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1309,112 +1193,68 @@
               
                 
                 
-                <h1 id="vim-side-search-making-search-fun-again">Vim Side Search: Making Search Fun Again<a class="headerlink" href="#vim-side-search-making-search-fun-again" title="Permanent link">&para;</a></h1>
-<p><img src="/images/vim_ag_unicorn.png" alt='Vim + Ag = Unicorn' /></p>
-<p>The <code>quickfix</code> feature is nice, but it doesn't give enough context around the
-search term that leads to use <code>ag</code> from terminal and switch back and forth
-between programs. I do this search dance every day and I've had it! There must
-be better way!</p>
-<!-- more -->
-
-<h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">&para;</a></h2>
-<p><img src="/images/side-search-a.png" alt='Quickfix for help' />
-Look at the <code>quickfix</code> window above. It spends most of its space showing the file name
-of the hit, then the remainder is spent on text around it. In projects using 
-<a href="http://guides.rubyonrails.org/engines.html">Rails Engines</a> with deeply nested
-directory structures, this often leaves me with just a bunch of paths in the <code>quickfix</code>.</p>
-<h2 id="solution-a-the-unix-way">Solution A - The Unix Way<a class="headerlink" href="#solution-a-the-unix-way" title="Permanent link">&para;</a></h2>
-<p>Some may argue Vim isn't suppose to do search. Vim rightly delegates to the
-<a href="http://www.catb.org/esr/writings/taoup/html/ch01s06.html">Unix philosophy</a> by
-allowing an external program do its searching. Let's try that for this
-solution using <code>grep</code>, <code>ack</code>, and <code>ag</code>.</p>
-<p><img src="/images/side-search-compare.png" alt='grep vs ack vs ag' /></p>
-<p>We've run the 3 separate programs (normally, I would only use <code>ag</code>) then
-browse the results to see if there's an interesting file. At this point I start
-using my handy-dandy mouse to scroll around, precisely highlight the path of
-interest, copy, and type <code>vim &lt;Paste&gt;</code>. Intuitive? Yes. Fast? No!</p>
-<p>Maybe I should use <code>tmux</code> or <code>screen</code> so I don't need to mouse around, but
-trying to select a path is still pretty slow for me and requires more cognitive
-load than I have patience for. After all, I'm trying to concentrate on a
-refactor or something, not how to open a bunch of files. Should I practice more?
-Yes. Will I? No!</p>
-<p>We're going to use <code>ag</code> from now on, since it's faster than <code>ack</code>, and has
-prettier output than <code>grep</code>. I really really really tried to get <code>grep</code> to
-output for humans, but couldn't figure it out.</p>
-<h2 id="solution-b-vim-without-quickfix">Solution B - Vim without Quickfix<a class="headerlink" href="#solution-b-vim-without-quickfix" title="Permanent link">&para;</a></h2>
-<p>Let Vim do some work for us.</p>
-<div class="highlight"><pre><span></span><code>vim `ag --ignore=\*.{css,scss} -l help` +&#39;/help&#39;
+                <h1 id="how-to-generate-a-wordy-password">How to Generate a Wordy Password<a class="headerlink" href="#how-to-generate-a-wordy-password" title="Permanent link">&para;</a></h1>
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>grep -oP <span class="s1">&#39;[a-z]{3,}&#39;</span> /usr/share/dict/words <span class="p">|</span> shuf -n4  <span class="p">|</span> paste -sd- -
 </code></pre></div>
-<p>What's that?!? Open Vim passing the result of <code>ag</code> command. <code>ag</code> is run with
-some file exclusions, <code>-l</code> only file names, and <code>help</code> is the search term.
-<code>+'/help'</code> tells Vim to immediately start searching for 'help'.</p>
-<p>After all that, Vim should have started with a bunch of buffers. View them with
-<code>:ls</code>. Take notice of the buffer numbers to see how many files were found. Use
-<code>n</code> and <code>N</code> to jump through search matches in the file. Use <code>:bn</code> to go to the
-next buffer and start hitting <code>n</code> again to cycle through the changes. If the
-number of files is small enough, you may be able to use <code>:ball</code> to open every
-buffer in its own window.</p>
-<p>Thats a lot of work to jump through changes. Good thing the <code>quickfix</code> exists.</p>
-<h2 id="solution-c-quickfix">Solution C - Quickfix<a class="headerlink" href="#solution-c-quickfix" title="Permanent link">&para;</a></h2>
-<p>This is here for posterity. <code>quickfix</code> DOES make cycling through changes easier
-than Solution B, but as I stated in the intro, it doesn't give the context that
-we want.</p>
-<p><a href="https://robots.thoughtbot.com/faster-grepping-in-vim">Thoughtbot has a pretty good article</a>
-about how to setup Vim to use <code>ag</code>. Once you do that, you can <code>:grep help</code> to
-get the following output:</p>
-<p><img src="/images/side-search-a.png" alt='Quickfix for help' /></p>
-<p>Use <code>:cnext</code>, <code>:cprev</code>, <code>:cfirst</code>, <code>:clast</code> to go to next, previous, first, and
-last <code>quickfix</code> result respectively. Map those to keys to make it easier to
-navigate.</p>
-<div class="highlight"><pre><span></span><code>nnoremap [q :cprev&lt;CR&gt;
-nnoremap ]q :cnext&lt;CR&gt;
-nnoremap [Q :cfirst&lt;CR&gt;
-nnoremap ]Q :clast&lt;CR&gt;
-</code></pre></div>
-<p>Get more help about <code>quickfix</code> using <code>:help quickfix</code>. Cry after realizing
-even <code>:help quickfix</code> can't show more context. I'll be here when you're done.</p>
-<h2 id="solution-d-side-search-plugin">Solution D - Side Search Plugin<a class="headerlink" href="#solution-d-side-search-plugin" title="Permanent link">&para;</a></h2>
-<p>So how do we get the best of both worlds? How do we enter the land of a thousand
-wives/husbands? How do we get <code>ag</code> output and quick navigation? For me, it
-was writing a plugin in. For you it's using it. <a href="https://github.com/ddrscott/vim-side-search">https://github.com/ddrscott/vim-side-search</a></p>
-<p>After installing the plugin using your favorite package manager, you'll have
-access to the following functionality:</p>
-<p><img src="/images/side-search-demo-b.gif" alt='Side Search Demo' /></p>
-<p>Things to notice:</p>
+<h2 id="intro">Intro<a class="headerlink" href="#intro" title="Permanent link">&para;</a></h2>
+<p>It is 2023 and passwords are still a thing. They are hard to remember and easy to crack.
+Many sites talk about using words instead of letters, numbers and symbols:</p>
 <ul>
-<li><code>ag</code> output is in a buffer with additional syntax highlighting!</li>
-<li><code>n</code> and <code>N</code> used to jump to matches. Regular Vim navigation works, too!</li>
-<li><code>&lt;CR&gt;</code> and <code>&lt;C-w&gt;&lt;CR&gt;</code> used to open change and jump to change!</li>
-<li>Number of matches shown in the buffer name!</li>
-<li>I use too many exclamation points!!!</li>
+<li><a href="https://www.useapassphrase.com/">https://www.useapassphrase.com/</a></li>
+<li><a href="https://www.nexcess.net/web-tools/secure-password-generator/">https://www.nexcess.net/web-tools/secure-password-generator/</a></li>
+<li><a href="https://xkpasswd.net/s/">https://xkpasswd.net/s/</a></li>
 </ul>
-<p>The plugin's <code>README</code> has more details.</p>
+<p>Most of them were inspired by this comic:</p>
+<p><img class="featured" src="https://imgs.xkcd.com/comics/password_strength.png" alt="XKCD" /></p>
+<p>We recently needed to generate hard to guess, but recognizable URLs to share
+some data analysis with clients. We also planned to speak the URLs to our clients via video conferencing.
+GUIDs (Globally Unique Identifiers) are nearly impossible to comprehend and speak accurately:
+<code>f95b9390f8fe5d7a6aecd9d563b5f8a5</code> and <code>b987370e-6906-498b-a5d4-84c1c92c6e64</code>,
+so Wordy Passwords™ (TM cause you heard it here first!) came to mind to meet all the requirements.</p>
+<p>There are sites that can generate these things which we could scrape as needed, but we thought there's
+got to be a simpler way.</p>
+<h2 id="simpler-way">Simpler Way<a class="headerlink" href="#simpler-way" title="Permanent link">&para;</a></h2>
+<p>If your on Mac or Linux, the simpler way is already in your terminal.</p>
+<div class="highlight"><pre><span></span><code>grep -oP <span class="s1">&#39;[a-z]{3,}&#39;</span> /usr/share/dict/words <span class="p">|</span> shuf -n4 <span class="p">|</span> paste -sd- -
+</code></pre></div>
+<p>Let's explain:</p>
+<ul>
+<li><code>/usr/share/dict/words</code> is a file with a list of all English words, about 100k of them.</li>
+<li><code>grep -oP '[a-z]{3,}' /usr/share/dict/words</code> filters for lowercase words with 3 or more letters.</li>
+<li><code>shuf -n4</code> picks 4 random entries from the filtered list. Change <code>4</code> to whatever is needed for your use case.</li>
+<li><code>paste -sd- -</code> joins all the lines with <code>-</code> symbol. This can also be changed to <code>-sd ' '</code> for spaces or <code>-sd ','</code> for commas, etc.
+  Note, the last <code>-</code> tells the command to read from <code>/dev/stdin</code> and is necessary on Mac.</li>
+</ul>
+<p>Use <code>man grep</code>, <code>man shuf</code>, or <code>man paste</code> to get additional details about each command.</p>
+<p>Example Output:</p>
+<ul>
+<li><code>mentions-grouses-datelines-mouses</code></li>
+<li><code>cellulite-sukiyaki-ardner-rusted</code></li>
+<li><code>naturalness-indicate-dependent-beset</code></li>
+<li><code>irony-excursion-flashily-crawl</code></li>
+</ul>
+<p>We can then use these in our data generation URLs to get something like:</p>
+<ul>
+<li><code>https://your.dataturd.com/mentions-grouses-datelines-mouses</code></li>
+<li><code>https://your.dataturd.com/cellulite-sukiyaki-ardner-rusted</code></li>
+<li><code>https://your.dataturd.com/naturalness-indicate-dependent-beset</code></li>
+<li><code>https://your.dataturd.com/irony-excursion-flashily-crawl</code></li>
+</ul>
+<p>In case <code>/usr/share/dict/words</code> doesn't exist, try installing with <code>apt install wamerican</code>.
+To pick another language try <code>apt search wordlist</code> which will return a bunch of other options for specific languages.</p>
+<h3 id="windows-pc">Windows PC<a class="headerlink" href="#windows-pc" title="Permanent link">&para;</a></h3>
+<p>If you're in Windows, we'd recommend using <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a>.
+This will provide access to a Linux shell which has all the aforementioned commands.</p>
+<p>If you're not sure where to type in these fancy commands, try searching for "learn linux terminal". We'll eventually post additional
+articles regarding our love for the terminal and why commands like these keep us in it.</p>
+<h2 id="alternative-word-list">Alternative Word List<a class="headerlink" href="#alternative-word-list" title="Permanent link">&para;</a></h2>
+<p>We experimented with other word lists. <a href="https://www.dataturd.com/words/doyle.txt">doyle.txt</a> contains words from
+Sherlock Holmes. Source code for how the word list was build is <a href="https://github.com/ddrscott/wordy-passwords">here</a></p>
+<p>Feel free to search the Internet for other word lists.</p>
 <h2 id="closing">Closing<a class="headerlink" href="#closing" title="Permanent link">&para;</a></h2>
-<p>I've been using this plugin ever since its inception and don't know where I'd
-be without it. It gets some inspiration from <a href="https://github.com/tpope/vim-fugitive">fugitive's</a>
-<code>:Gstatus</code> mode/buffer, and I wish there were more plugins that added
-functionality from <code>stdout</code> instead of transforming it into a different format. Unix
-tools makers spend a lot of time thinking about the output. Let's use it to our
-advantage.</p>
-<p>I've learn a lot creating this plugin and plan to write about it in a future post.
-Do you love it or hate it? Have more ideas for Side Search? Please let me know what you
-think of it. Have more ideas or issues for Side Search? Hit me up on <a href="https://github.com/ddrscott/vim-side-search">Github</a>.</p>
-<h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h3>
-<ul>
-<li><a href="https://github.com/ggreer/the_silver_searcher">The Silver Searcher</a> by Geoff Greer</li>
-<li><code>man ag</code></li>
-<li><code>man grep</code></li>
-<li><code>man tmux</code></li>
-<li><code>man screen</code></li>
-<li><code>:help quickfix</code></li>
-<li><a href="https://robots.thoughtbot.com/faster-grepping-in-vim">Faster Grepping in Vim</a> by Thoughtbot</li>
-<li><a href="https://www.google.com/search?q=the+number+12">The number 12</a></li>
-</ul>
-<h3 id="in-the-news">In The News<a class="headerlink" href="#in-the-news" title="Permanent link">&para;</a></h3>
-<ul>
-<li><a href="https://news.ycombinator.com/item?id=11787085">Hacker News</a></li>
-<li><a href="https://www.reddit.com/r/vim/comments/4lbdur/vim_side_search_plugin_making_search_fun_again/">Reddit</a></li>
-</ul>
+<p>The terminal is a magical place where mountains of code can be replaced with a few razor sharp commands.
+<code>shuf</code> and <code>paste</code> can make short work many tasks. Let us know what you come up with in the comments below!</p>
                 
                   
                 
@@ -1425,7 +1265,7 @@ think of it. Have more ideas or issues for Side Search? Hit me up on <a href="ht
 
   <h2 id="__comments">Comments</h2>
   <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2016/side-search/",this.page.identifier="blog/2016/side-search/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
+  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2023/wordy-passwords/",this.page.identifier="blog/2023/wordy-passwords/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
 
               
             </article>
@@ -1440,7 +1280,7 @@ think of it. Have more ideas or issues for Side Search? Hit me up on <a href="ht
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../sidescroll/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sensible Horizontal Scroll in Vim" rel="prev">
+        <a href="../../2018/join-me-at-union-station/" class="md-footer__link md-footer__link--prev" aria-label="Previous: What the SQL?! JOIN me at UNION Station" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1449,20 +1289,20 @@ think of it. Have more ideas or issues for Side Search? Hit me up on <a href="ht
               <span class="md-footer__direction">
                 Previous
               </span>
-              Sensible Horizontal Scroll in Vim
+              What the SQL?! JOIN me at UNION Station
             </div>
           </div>
         </a>
       
       
         
-        <a href="../bs-to-the-black-hole/" class="md-footer__link md-footer__link--next" aria-label="Next: BS to the Black Hole" rel="next">
+        <a href="../../2021/i-heart-make/" class="md-footer__link md-footer__link--next" aria-label="Next: I Heart Make" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              BS to the Black Hole
+              I Heart Make
             </div>
           </div>
           <div class="md-footer__button md-icon">

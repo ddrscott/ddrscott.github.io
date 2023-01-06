@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://ddrscott.github.io/blog/2016/side-search/">
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2022/how-to-airflow-with-helm/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2, mkdocs-material-7.1.7">
     
     
       
-        <title>Vim Side Search: Making Search Fun Again - Why, Scott, WHY?!?</title>
+        <title>How to Setup Airflow in its own Kubernetes namespace using Helm - Why, Scott, WHY?!?</title>
       
     
     
@@ -51,17 +51,8 @@
     
     
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="https://ddrscott.github.io/blog/2016/side-search/" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2022/how-to-airflow-with-helm/" />
 <meta name="twitter:creator" content="@_ddrscott_" />
-
-  
-<meta property="og:title" content="Vim Side Search: Making Search Fun Again" />
-  
-  
-<meta name="twitter:image" content="/images/vim_ag_unicorn.png" />
-<meta property="og:image" content="/images/vim_ag_unicorn.png" />
-  
-  
 
 
   </head>
@@ -83,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vim-side-search-making-search-fun-again" class="md-skip">
+        <a href="#how-to-setup-airflow-in-its-own-kubernetes-namespace-using-helm" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Vim Side Search: Making Search Fun Again
+              How to Setup Airflow in its own Kubernetes namespace using Helm
             
           </span>
         </div>
@@ -283,7 +274,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vim-toggle-movement/" class="md-nav__link">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
         Vim Toggle Movement: I Just Want to Go Home
       </a>
     </li>
@@ -295,7 +286,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../yank-without-jank/" class="md-nav__link">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
         Yank Without Jank
       </a>
     </li>
@@ -307,7 +298,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sidescroll/" class="md-nav__link">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
         Sensible Horizontal Scroll in Vim
       </a>
     </li>
@@ -319,102 +310,9 @@
   
   
     <li class="md-nav__item">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Vim Side Search: Making Search Fun Again
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="../../2016/side-search/" class="md-nav__link">
         Vim Side Search: Making Search Fun Again
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-a-the-unix-way" class="md-nav__link">
-    Solution A - The Unix Way
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-b-vim-without-quickfix" class="md-nav__link">
-    Solution B - Vim without Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-c-quickfix" class="md-nav__link">
-    Solution C - Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-d-side-search-plugin" class="md-nav__link">
-    Solution D - Side Search Plugin
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#closing" class="md-nav__link">
-    Closing
-  </a>
-  
-    <nav class="md-nav" aria-label="Closing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#in-the-news" class="md-nav__link">
-    In The News
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -424,7 +322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../making-a-window-submode/" class="md-nav__link">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
         Making a Window Submode in Vim
       </a>
     </li>
@@ -436,7 +334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bs-to-the-black-hole/" class="md-nav__link">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
         BS to the Black Hole
       </a>
     </li>
@@ -448,7 +346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../negative-modulo/" class="md-nav__link">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
         PSA: Vim Modulo '%' Returns Negative Numbers!
       </a>
     </li>
@@ -899,14 +797,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
       
       <label class="md-nav__link" for="__nav_11">
         2016
@@ -924,7 +820,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../negative-modulo/" class="md-nav__link">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
         PSA: Vim Modulo '%' Returns Negative Numbers!
       </a>
     </li>
@@ -936,7 +832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../photography-lightening-talk/" class="md-nav__link">
+      <a href="../../2016/photography-lightening-talk/" class="md-nav__link">
         Photography Refactored
       </a>
     </li>
@@ -948,7 +844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ruby-abuse/" class="md-nav__link">
+      <a href="../../2016/ruby-abuse/" class="md-nav__link">
         Ruby Abuse: How Not to Write Ruby, But Still Have Fun
       </a>
     </li>
@@ -960,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../making-a-window-submode/" class="md-nav__link">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
         Making a Window Submode in Vim
       </a>
     </li>
@@ -972,7 +868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ansi-codes-with-character/" class="md-nav__link">
+      <a href="../../2016/ansi-codes-with-character/" class="md-nav__link">
         ANSI Codes with Character
       </a>
     </li>
@@ -984,7 +880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vim-toggle-movement/" class="md-nav__link">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
         Vim Toggle Movement: I Just Want to Go Home
       </a>
     </li>
@@ -996,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../yank-without-jank/" class="md-nav__link">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
         Yank Without Jank
       </a>
     </li>
@@ -1008,7 +904,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sidescroll/" class="md-nav__link">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
         Sensible Horizontal Scroll in Vim
       </a>
     </li>
@@ -1018,106 +914,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Vim Side Search: Making Search Fun Again
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../2016/side-search/" class="md-nav__link">
         Vim Side Search: Making Search Fun Again
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-a-the-unix-way" class="md-nav__link">
-    Solution A - The Unix Way
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-b-vim-without-quickfix" class="md-nav__link">
-    Solution B - Vim without Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-c-quickfix" class="md-nav__link">
-    Solution C - Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-d-side-search-plugin" class="md-nav__link">
-    Solution D - Side Search Plugin
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#closing" class="md-nav__link">
-    Closing
-  </a>
-  
-    <nav class="md-nav" aria-label="Closing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#in-the-news" class="md-nav__link">
-    In The News
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1127,7 +928,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bs-to-the-black-hole/" class="md-nav__link">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
         BS to the Black Hole
       </a>
     </li>
@@ -1235,64 +1036,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#problem" class="md-nav__link">
-    Problem
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-a-the-unix-way" class="md-nav__link">
-    Solution A - The Unix Way
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-b-vim-without-quickfix" class="md-nav__link">
-    Solution B - Vim without Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-c-quickfix" class="md-nav__link">
-    Solution C - Quickfix
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#solution-d-side-search-plugin" class="md-nav__link">
-    Solution D - Side Search Plugin
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#closing" class="md-nav__link">
-    Closing
-  </a>
-  
-    <nav class="md-nav" aria-label="Closing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#references" class="md-nav__link">
     References
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#in-the-news" class="md-nav__link">
-    In The News
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1309,114 +1055,79 @@
               
                 
                 
-                <h1 id="vim-side-search-making-search-fun-again">Vim Side Search: Making Search Fun Again<a class="headerlink" href="#vim-side-search-making-search-fun-again" title="Permanent link">&para;</a></h1>
-<p><img src="/images/vim_ag_unicorn.png" alt='Vim + Ag = Unicorn' /></p>
-<p>The <code>quickfix</code> feature is nice, but it doesn't give enough context around the
-search term that leads to use <code>ag</code> from terminal and switch back and forth
-between programs. I do this search dance every day and I've had it! There must
-be better way!</p>
-<!-- more -->
+                <h1 id="how-to-setup-airflow-in-its-own-kubernetes-namespace-using-helm">How to Setup Airflow in its own Kubernetes namespace using Helm<a class="headerlink" href="#how-to-setup-airflow-in-its-own-kubernetes-namespace-using-helm" title="Permanent link">&para;</a></h1>
+<p>Create a Helm values file to contain settings specific to your needs.
+The main settings we listed demonstrate a few things:</p>
+<ol>
+<li>pull dags from a git repository</li>
+<li>enable Airflow API endpoints</li>
+<li>enable Airflow to use KubernetesPodOperator on itself</li>
+<li>use simple database setup</li>
+<li>disable Redis and enable KubernetesExecutor</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">git</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">dags</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">    </span><span class="nt">repositories</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://ro_user:seeeecret@bitbucket.org/some-project/dags-repo.git</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">some-project</span><span class="w"></span>
+<span class="w">        </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w"></span>
 
-<h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">&para;</a></h2>
-<p><img src="/images/side-search-a.png" alt='Quickfix for help' />
-Look at the <code>quickfix</code> window above. It spends most of its space showing the file name
-of the hit, then the remainder is spent on text around it. In projects using 
-<a href="http://guides.rubyonrails.org/engines.html">Rails Engines</a> with deeply nested
-directory structures, this often leaves me with just a bunch of paths in the <code>quickfix</code>.</p>
-<h2 id="solution-a-the-unix-way">Solution A - The Unix Way<a class="headerlink" href="#solution-a-the-unix-way" title="Permanent link">&para;</a></h2>
-<p>Some may argue Vim isn't suppose to do search. Vim rightly delegates to the
-<a href="http://www.catb.org/esr/writings/taoup/html/ch01s06.html">Unix philosophy</a> by
-allowing an external program do its searching. Let's try that for this
-solution using <code>grep</code>, <code>ack</code>, and <code>ag</code>.</p>
-<p><img src="/images/side-search-compare.png" alt='grep vs ack vs ag' /></p>
-<p>We've run the 3 separate programs (normally, I would only use <code>ag</code>) then
-browse the results to see if there's an interesting file. At this point I start
-using my handy-dandy mouse to scroll around, precisely highlight the path of
-interest, copy, and type <code>vim &lt;Paste&gt;</code>. Intuitive? Yes. Fast? No!</p>
-<p>Maybe I should use <code>tmux</code> or <code>screen</code> so I don't need to mouse around, but
-trying to select a path is still pretty slow for me and requires more cognitive
-load than I have patience for. After all, I'm trying to concentrate on a
-refactor or something, not how to open a bunch of files. Should I practice more?
-Yes. Will I? No!</p>
-<p>We're going to use <code>ag</code> from now on, since it's faster than <code>ack</code>, and has
-prettier output than <code>grep</code>. I really really really tried to get <code>grep</code> to
-output for humans, but couldn't figure it out.</p>
-<h2 id="solution-b-vim-without-quickfix">Solution B - Vim without Quickfix<a class="headerlink" href="#solution-b-vim-without-quickfix" title="Permanent link">&para;</a></h2>
-<p>Let Vim do some work for us.</p>
-<div class="highlight"><pre><span></span><code>vim `ag --ignore=\*.{css,scss} -l help` +&#39;/help&#39;
+<span class="nt">scheduler</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span><span class="w"></span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span><span class="w"></span>
+
+<span class="nt">web</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span><span class="w"></span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX</span><span class="w"></span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;True&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW_BASE_URL</span><span class="w"></span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://airflow.example.com</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__API__AUTH_BACKEND</span><span class="w"></span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;airflow.api.auth.backend.default&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__API__ENABLE_EXPERIMENTAL_API</span><span class="w"></span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;True&quot;</span><span class="w"></span>
+
+<span class="nt">worker</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span><span class="w"></span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span><span class="w"></span>
+
+<span class="c1"># begin https://artifacthub.io/packages/helm/bitnami/airflow#kubernetesexecutor</span><span class="w"></span>
+<span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubernetesExecutor</span><span class="w"></span>
+<span class="nt">redis</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">endable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="nt">serviceAccount</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="nt">rbac</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="c1"># end   https://artifacthub.io/packages/helm/bitnami/airflow#kubernetesexecutor</span><span class="w"></span>
+
+<span class="nt">postgresql</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="c1"># standalone is default, but its nice to call it out in case we forget.</span><span class="w"></span>
+<span class="w">  </span><span class="nt">architecture</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standalone</span><span class="w"></span>
 </code></pre></div>
-<p>What's that?!? Open Vim passing the result of <code>ag</code> command. <code>ag</code> is run with
-some file exclusions, <code>-l</code> only file names, and <code>help</code> is the search term.
-<code>+'/help'</code> tells Vim to immediately start searching for 'help'.</p>
-<p>After all that, Vim should have started with a bunch of buffers. View them with
-<code>:ls</code>. Take notice of the buffer numbers to see how many files were found. Use
-<code>n</code> and <code>N</code> to jump through search matches in the file. Use <code>:bn</code> to go to the
-next buffer and start hitting <code>n</code> again to cycle through the changes. If the
-number of files is small enough, you may be able to use <code>:ball</code> to open every
-buffer in its own window.</p>
-<p>Thats a lot of work to jump through changes. Good thing the <code>quickfix</code> exists.</p>
-<h2 id="solution-c-quickfix">Solution C - Quickfix<a class="headerlink" href="#solution-c-quickfix" title="Permanent link">&para;</a></h2>
-<p>This is here for posterity. <code>quickfix</code> DOES make cycling through changes easier
-than Solution B, but as I stated in the intro, it doesn't give the context that
-we want.</p>
-<p><a href="https://robots.thoughtbot.com/faster-grepping-in-vim">Thoughtbot has a pretty good article</a>
-about how to setup Vim to use <code>ag</code>. Once you do that, you can <code>:grep help</code> to
-get the following output:</p>
-<p><img src="/images/side-search-a.png" alt='Quickfix for help' /></p>
-<p>Use <code>:cnext</code>, <code>:cprev</code>, <code>:cfirst</code>, <code>:clast</code> to go to next, previous, first, and
-last <code>quickfix</code> result respectively. Map those to keys to make it easier to
-navigate.</p>
-<div class="highlight"><pre><span></span><code>nnoremap [q :cprev&lt;CR&gt;
-nnoremap ]q :cnext&lt;CR&gt;
-nnoremap [Q :cfirst&lt;CR&gt;
-nnoremap ]Q :clast&lt;CR&gt;
+<p>Install it using Helm</p>
+<div class="highlight"><pre><span></span><code>helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm repo update
+
+helm upgrade --install --namespace funland <span class="se">\</span>
+    airflow bitnami/airflow                <span class="se">\</span>
+    --version <span class="m">12</span>.0.14                      <span class="se">\</span>
+    --values deploy/h2m-airflow-prod.yml
 </code></pre></div>
-<p>Get more help about <code>quickfix</code> using <code>:help quickfix</code>. Cry after realizing
-even <code>:help quickfix</code> can't show more context. I'll be here when you're done.</p>
-<h2 id="solution-d-side-search-plugin">Solution D - Side Search Plugin<a class="headerlink" href="#solution-d-side-search-plugin" title="Permanent link">&para;</a></h2>
-<p>So how do we get the best of both worlds? How do we enter the land of a thousand
-wives/husbands? How do we get <code>ag</code> output and quick navigation? For me, it
-was writing a plugin in. For you it's using it. <a href="https://github.com/ddrscott/vim-side-search">https://github.com/ddrscott/vim-side-search</a></p>
-<p>After installing the plugin using your favorite package manager, you'll have
-access to the following functionality:</p>
-<p><img src="/images/side-search-demo-b.gif" alt='Side Search Demo' /></p>
-<p>Things to notice:</p>
+<p>Get the admin password</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="k">$(</span>kubectl get secret --namespace <span class="s2">&quot;ilabs&quot;</span> airflow -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&quot;{.data.airflow-password}&quot;</span> <span class="p">|</span> base64 --decode<span class="k">)</span>
+</code></pre></div>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>ag</code> output is in a buffer with additional syntax highlighting!</li>
-<li><code>n</code> and <code>N</code> used to jump to matches. Regular Vim navigation works, too!</li>
-<li><code>&lt;CR&gt;</code> and <code>&lt;C-w&gt;&lt;CR&gt;</code> used to open change and jump to change!</li>
-<li>Number of matches shown in the buffer name!</li>
-<li>I use too many exclamation points!!!</li>
+<li><a href="https://docs.bitnami.com/kubernetes/infrastructure/apache-airflow/">https://docs.bitnami.com/kubernetes/infrastructure/apache-airflow/</a></li>
+<li><a href="https://artifacthub.io/packages/helm/bitnami/airflow">https://artifacthub.io/packages/helm/bitnami/airflow</a></li>
 </ul>
-<p>The plugin's <code>README</code> has more details.</p>
-<h2 id="closing">Closing<a class="headerlink" href="#closing" title="Permanent link">&para;</a></h2>
-<p>I've been using this plugin ever since its inception and don't know where I'd
-be without it. It gets some inspiration from <a href="https://github.com/tpope/vim-fugitive">fugitive's</a>
-<code>:Gstatus</code> mode/buffer, and I wish there were more plugins that added
-functionality from <code>stdout</code> instead of transforming it into a different format. Unix
-tools makers spend a lot of time thinking about the output. Let's use it to our
-advantage.</p>
-<p>I've learn a lot creating this plugin and plan to write about it in a future post.
-Do you love it or hate it? Have more ideas for Side Search? Please let me know what you
-think of it. Have more ideas or issues for Side Search? Hit me up on <a href="https://github.com/ddrscott/vim-side-search">Github</a>.</p>
-<h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h3>
-<ul>
-<li><a href="https://github.com/ggreer/the_silver_searcher">The Silver Searcher</a> by Geoff Greer</li>
-<li><code>man ag</code></li>
-<li><code>man grep</code></li>
-<li><code>man tmux</code></li>
-<li><code>man screen</code></li>
-<li><code>:help quickfix</code></li>
-<li><a href="https://robots.thoughtbot.com/faster-grepping-in-vim">Faster Grepping in Vim</a> by Thoughtbot</li>
-<li><a href="https://www.google.com/search?q=the+number+12">The number 12</a></li>
-</ul>
-<h3 id="in-the-news">In The News<a class="headerlink" href="#in-the-news" title="Permanent link">&para;</a></h3>
-<ul>
-<li><a href="https://news.ycombinator.com/item?id=11787085">Hacker News</a></li>
-<li><a href="https://www.reddit.com/r/vim/comments/4lbdur/vim_side_search_plugin_making_search_fun_again/">Reddit</a></li>
-</ul>
-                
-                  
                 
               
               
@@ -1425,7 +1136,7 @@ think of it. Have more ideas or issues for Side Search? Hit me up on <a href="ht
 
   <h2 id="__comments">Comments</h2>
   <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2016/side-search/",this.page.identifier="blog/2016/side-search/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
+  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2022/how-to-airflow-with-helm/",this.page.identifier="blog/2022/how-to-airflow-with-helm/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
 
               
             </article>
@@ -1436,41 +1147,6 @@ think of it. Have more ideas or issues for Side Search? Hit me up on <a href="ht
       
         
 <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../sidescroll/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sensible Horizontal Scroll in Vim" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Sensible Horizontal Scroll in Vim
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../bs-to-the-black-hole/" class="md-footer__link md-footer__link--next" aria-label="Next: BS to the Black Hole" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              BS to the Black Hole
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
