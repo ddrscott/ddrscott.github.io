@@ -1198,9 +1198,9 @@ a snappy dictionary to help us find just the right word for any occasion.</p>
 <p>These directions are for Max OSX with <code>homebrew</code> installed. If you're on
 a different system, read the docs from the sites above to get the programs for
 your operating system.</p>
-<div class="highlight"><pre><span></span><code>brew install fzf
-brew cask install xquartz
-brew install wordnet
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>fzf
+brew<span class="w"> </span>cask<span class="w"> </span>install<span class="w"> </span>xquartz
+brew<span class="w"> </span>install<span class="w"> </span>wordnet
 </code></pre></div>
 <h2 id="fzf">FZF<a class="headerlink" href="#fzf" title="Permanent link">&para;</a></h2>
 <p>FZF stands for Fuzzy Finder. It is a program which enables the user to filter
@@ -1258,20 +1258,20 @@ default behavior can break in the middle of a word and assumes a terminal width
 of 80 columns. Our <code>fold</code> function breaks at spaces and passes the whole
 terminal width to it when no other arguments are provided.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Default `fold` to screen width and break at spaces</span>
-<span class="k">function</span> fold <span class="o">{</span>
-  <span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    /usr/bin/fold -w <span class="nv">$COLUMNS</span> -s
-  <span class="k">else</span>
-    /usr/bin/fold <span class="nv">$*</span>
-  <span class="k">fi</span>
+<span class="k">function</span><span class="w"> </span>fold<span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>/usr/bin/fold<span class="w"> </span>-w<span class="w"> </span><span class="nv">$COLUMNS</span><span class="w"> </span>-s
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span>/usr/bin/fold<span class="w"> </span><span class="nv">$*</span>
+<span class="w">  </span><span class="k">fi</span>
 <span class="o">}</span>
 </code></pre></div>
 <p><code>spell</code> is the FZF portion of our script. This fuzzy matches the built in Mac
 dictionary with a preview window containing the WordNet overview of the selected
 word.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Use `fzf` against system dictionary</span>
-<span class="k">function</span> spell <span class="o">{</span>
-  cat /usr/share/dict/words <span class="p">|</span> fzf --preview <span class="s1">&#39;wn {} -over | fold&#39;</span> --preview-window<span class="o">=</span>up:60%
+<span class="k">function</span><span class="w"> </span>spell<span class="w"> </span><span class="o">{</span>
+<span class="w">  </span>cat<span class="w"> </span>/usr/share/dict/words<span class="w"> </span><span class="p">|</span><span class="w"> </span>fzf<span class="w"> </span>--preview<span class="w"> </span><span class="s1">&#39;wn {} -over | fold&#39;</span><span class="w"> </span>--preview-window<span class="o">=</span>up:60%
 <span class="o">}</span>
 </code></pre></div>
 <p>The <code>dic</code> script uses <code>spell</code> to help find a word then outputs WordNet's
@@ -1282,12 +1282,12 @@ definition.</p>
 <span class="c1"># Requires:</span>
 <span class="c1">#   brew install wordnet</span>
 <span class="c1">#   brew install fzf</span>
-<span class="k">function</span> dic <span class="o">{</span>
-  <span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    wn <span class="sb">`</span>spell<span class="sb">`</span> -over <span class="p">|</span> fold
-  <span class="k">else</span>
-    wn <span class="nv">$1</span> -over <span class="p">|</span> fold
-  <span class="k">fi</span>
+<span class="k">function</span><span class="w"> </span>dic<span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>wn<span class="w"> </span><span class="sb">`</span>spell<span class="sb">`</span><span class="w"> </span>-over<span class="w"> </span><span class="p">|</span><span class="w"> </span>fold
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span>wn<span class="w"> </span><span class="nv">$1</span><span class="w"> </span>-over<span class="w"> </span><span class="p">|</span><span class="w"> </span>fold
+<span class="w">  </span><span class="k">fi</span>
 <span class="o">}</span>
 </code></pre></div>
 <p>Here's another demo of the <code>dic</code> function:
@@ -1357,7 +1357,7 @@ recipes you come up with in the comments below.</p>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with

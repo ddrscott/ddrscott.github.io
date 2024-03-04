@@ -1222,9 +1222,9 @@ Bad news: It didn't put me to sleep.</p>
 <h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">&para;</a></h2>
 <p>I have a bunch of CBR (<a href="https://en.wikipedia.org/wiki/Comic_book_archive">Comic Book Reader</a>) files that I need to convert to PDF (<a href="https://en.wikipedia.org/wiki/PDF">Portable Document Format</a>) files. </p>
 <p>The general step for a single file would look something like:</p>
-<div class="highlight"><pre><span></span><code>rar x naruto-001.cbr .images             <span class="c1"># 1) unpack archive into .images/*.jpg</span>
-magick convert .images/* naruto-001.pdf  <span class="c1"># 2) convert all the images into pdf file</span>
-rm -rf .images                           <span class="c1"># 3) remove the images.</span>
+<div class="highlight"><pre><span></span><code>rar<span class="w"> </span>x<span class="w"> </span>naruto-001.cbr<span class="w"> </span>.images<span class="w">             </span><span class="c1"># 1) unpack archive into .images/*.jpg</span>
+magick<span class="w"> </span>convert<span class="w"> </span>.images/*<span class="w"> </span>naruto-001.pdf<span class="w">  </span><span class="c1"># 2) convert all the images into pdf file</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>.images<span class="w">                           </span><span class="c1"># 3) remove the images.</span>
 </code></pre></div>
 <p>But we're not here to convert a single file. We're here to convert a ton of them.</p>
 <p>Without <code>make</code>, we could probably:</p>
@@ -1244,46 +1244,46 @@ rm -rf .images                           <span class="c1"># 3) remove the images
 <p>Make way for <code>make</code>! A <code>Makefile</code> can handle most of our iteration problems automatically.
 It already has the facilities to handle multiple files, error handling, and skipping finished files.</p>
 <h3 id="a-full-makefile">A Full <code>Makefile</code><a class="headerlink" href="#a-full-makefile" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nv">cbr_files</span> <span class="o">=</span> <span class="k">$(</span>wildcard *.cbr<span class="k">)</span>
-<span class="nv">pdf_files</span> <span class="o">=</span> <span class="k">$(</span>cbr_files:.cbr<span class="o">=</span>.pdf<span class="k">)</span>
-<span class="nv">image_dir</span> <span class="o">=</span> .images-$&lt;
+<div class="highlight"><pre><span></span><code><span class="nv">cbr_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span>*.cbr<span class="k">)</span>
+<span class="nv">pdf_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>cbr_files:.cbr<span class="o">=</span>.pdf<span class="k">)</span>
+<span class="nv">image_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>.images-$&lt;
 
-<span class="nf">all</span><span class="o">:</span> ${<span class="n">pdf_files</span>}
-    @echo All <span class="k">done</span>
+<span class="nf">all</span><span class="o">:</span><span class="w"> </span>${<span class="n">pdf_files</span>}
+<span class="w">    </span>@echo<span class="w"> </span>All<span class="w"> </span><span class="k">done</span>
 
 <span class="nf">clean</span><span class="o">:</span>
-    rm <span class="si">${</span><span class="nv">pdf_files</span><span class="si">}</span>
+<span class="w">    </span>rm<span class="w"> </span><span class="si">${</span><span class="nv">pdf_files</span><span class="si">}</span>
 
-<span class="nf">%.pdf</span><span class="o">:</span> %.<span class="n">cbr</span>
-    @echo Building $&lt; into <span class="nv">$@</span>
-    rar x $&lt; <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/
-    find <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/ -size <span class="m">0</span> -ls -delete
-    magick convert <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/* <span class="nv">$@</span>
-    rm -rf <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>
-    @echo <span class="nv">$@</span> is ready
+<span class="nf">%.pdf</span><span class="o">:</span><span class="w"> </span>%.<span class="n">cbr</span>
+<span class="w">    </span>@echo<span class="w"> </span>Building<span class="w"> </span>$&lt;<span class="w"> </span>into<span class="w"> </span><span class="nv">$@</span>
+<span class="w">    </span>rar<span class="w"> </span>x<span class="w"> </span>$&lt;<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/
+<span class="w">    </span>find<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/<span class="w"> </span>-size<span class="w"> </span><span class="m">0</span><span class="w"> </span>-ls<span class="w"> </span>-delete
+<span class="w">    </span>magick<span class="w"> </span>convert<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/*<span class="w"> </span><span class="nv">$@</span>
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>
+<span class="w">    </span>@echo<span class="w"> </span><span class="nv">$@</span><span class="w"> </span>is<span class="w"> </span>ready
 </code></pre></div>
 <h3 id="makefile-with-in-line-comments"><code>Makefile</code> with in-Line Comments<a class="headerlink" href="#makefile-with-in-line-comments" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c"># 1. Get a list of all CBR files in the current directory</span>
-<span class="nv">cbr_files</span> <span class="o">=</span> <span class="k">$(</span>wildcard *.cbr<span class="k">)</span>
+<span class="nv">cbr_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span>*.cbr<span class="k">)</span>
 
 <span class="c"># 2. Get a list of all PDFs I want to build by renaming CBR list to PDF</span>
-<span class="nv">pdf_files</span> <span class="o">=</span> <span class="k">$(</span>cbr_files:.cbr<span class="o">=</span>.pdf<span class="k">)</span>
+<span class="nv">pdf_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>cbr_files:.cbr<span class="o">=</span>.pdf<span class="k">)</span>
 
 <span class="c"># 3. Set where the unpacked images should go. We&#39;ll delete them after each build</span>
-<span class="nv">image_dir</span> <span class="o">=</span> .images-$&lt;
+<span class="nv">image_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>.images-$&lt;
 
 <span class="c"># 4. The first target specified is always the default when we run `make` without any arguments</span>
-<span class="nf">all</span><span class="o">:</span> ${<span class="n">pdf_files</span>}
-    @echo All <span class="k">done</span>
+<span class="nf">all</span><span class="o">:</span><span class="w"> </span>${<span class="n">pdf_files</span>}
+<span class="w">    </span>@echo<span class="w"> </span>All<span class="w"> </span><span class="k">done</span>
 
 <span class="c"># 5. `make clean` will remove all the generated PDFs</span>
 <span class="nf">clean</span><span class="o">:</span>
-    rm <span class="si">${</span><span class="nv">pdf_files</span><span class="si">}</span>
+<span class="w">    </span>rm<span class="w"> </span><span class="si">${</span><span class="nv">pdf_files</span><span class="si">}</span>
 
 <span class="c"># 6. Use Pattern Rules to build an individual PDF file</span>
-<span class="nf">%.pdf</span><span class="o">:</span> %.<span class="n">cbr</span>
+<span class="nf">%.pdf</span><span class="o">:</span><span class="w"> </span>%.<span class="n">cbr</span>
 <span class="c">    # use @ to prevent `make` from printing the command it is executing</span>
-    @echo Building $&lt; into <span class="nv">$@</span>
+<span class="w">    </span>@echo<span class="w"> </span>Building<span class="w"> </span>$&lt;<span class="w"> </span>into<span class="w"> </span><span class="nv">$@</span>
 <span class="c">    #               ^      ^</span>
 <span class="c">    #               |      |</span>
 <span class="c">    #               |      |</span>
@@ -1291,7 +1291,7 @@ It already has the facilities to handle multiple files, error handling, and skip
 <span class="c">    #               |</span>
 <span class="c">    #               +- foo.cbr</span>
 <span class="c">    #</span>
-    rar x $&lt; <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/
+<span class="w">    </span>rar<span class="w"> </span>x<span class="w"> </span>$&lt;<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/
 <span class="c">    #   ^  ^     ^</span>
 <span class="c">    #   |  |     |</span>
 <span class="c">    #   |  |     +- unpack to destination directory</span>
@@ -1300,7 +1300,7 @@ It already has the facilities to handle multiple files, error handling, and skip
 <span class="c">    #   |</span>
 <span class="c">    #   +- extract</span>
 <span class="c">    #</span>
-    find <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/ -size <span class="m">0</span> -ls -delete
+<span class="w">    </span>find<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/<span class="w"> </span>-size<span class="w"> </span><span class="m">0</span><span class="w"> </span>-ls<span class="w"> </span>-delete
 <span class="c">    #         ^           ^     ^     ^</span>
 <span class="c">    #         |           |     |     |</span>
 <span class="c">    #         |           |     |     +- delete the file</span>
@@ -1310,19 +1310,19 @@ It already has the facilities to handle multiple files, error handling, and skip
 <span class="c">    #         |           +- only files with zero size</span>
 <span class="c">    #         +- find in image directory</span>
 <span class="c">    # </span>
-    magick convert <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/* <span class="nv">$@</span>
+<span class="w">    </span>magick<span class="w"> </span>convert<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>/*<span class="w"> </span><span class="nv">$@</span>
 <span class="c">    #                   ^          ^</span>
 <span class="c">    #                   |          |</span>
 <span class="c">    #                   |          +- foo.pdf</span>
 <span class="c">    #                   |</span>
 <span class="c">    #                   +- all files in image directory</span>
 <span class="c">    # </span>
-    rm -rf <span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><span class="nv">image_dir</span><span class="si">}</span>
 <span class="c">    #           ^</span>
 <span class="c">    #           |</span>
 <span class="c">    #           +- delete entire image director. We don&#39;t need it anymore.</span>
 <span class="c">    # </span>
-    @echo <span class="nv">$@</span> is ready
+<span class="w">    </span>@echo<span class="w"> </span><span class="nv">$@</span><span class="w"> </span>is<span class="w"> </span>ready
 </code></pre></div>
 <p>Code the contents of either snippet into a <code>Makefile</code> and put the <code>Makefile</code> in the same directory as all the <code>cbr</code> files.
 Then execute <code>make</code> and a pile of <code>pdf</code> files should get created.
@@ -1405,7 +1405,7 @@ More details about Makefile variable use can be found in their <a href="https://
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with

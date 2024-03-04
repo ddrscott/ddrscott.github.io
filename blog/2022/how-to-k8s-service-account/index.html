@@ -1120,12 +1120,12 @@
                 <h1 id="how-to-use-kubernetes-namespaces-and-service-accounts-for-fun-and-profit">How to use Kubernetes Namespaces and Service Accounts for Fun and Profit<a class="headerlink" href="#how-to-use-kubernetes-namespaces-and-service-accounts-for-fun-and-profit" title="Permanent link">&para;</a></h1>
 <p>We'll create a namespace named <code>funland</code> and show how to use a token to access it.</p>
 <h2 id="create-a-namespace">Create a Namespace<a class="headerlink" href="#create-a-namespace" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl create namespace funland
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>funland
 </code></pre></div>
 <h2 id="create-a-service-account">Create a Service Account<a class="headerlink" href="#create-a-service-account" title="Permanent link">&para;</a></h2>
 <p>This creates a new service account, an "owner" role, and assigns the owner to the new service account <em>and</em> to the <code>default</code>
 service account.</p>
-<div class="highlight"><pre><span></span><code>kubectl -n funland apply -f- <span class="s">&lt;&lt;YAML</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>funland<span class="w"> </span>apply<span class="w"> </span>-f-<span class="w"> </span><span class="s">&lt;&lt;YAML</span>
 <span class="s">---</span>
 <span class="s">apiVersion: v1</span>
 <span class="s">kind: ServiceAccount</span>
@@ -1163,20 +1163,20 @@ service account.</p>
 </code></pre></div>
 <h2 id="get-the-token-for-the-team">Get the token for the team<a class="headerlink" href="#get-the-token-for-the-team" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># Step by Step</span>
-<span class="nv">SECRET_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl -n funland get secrets <span class="p">|</span> awk <span class="s1">&#39;/funland-sa/ {print $1}&#39;</span><span class="k">)</span>
+<span class="nv">SECRET_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span>funland<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;/funland-sa/ {print $1}&#39;</span><span class="k">)</span>
 
-<span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>kubectl -n funland get secrets <span class="si">${</span><span class="nv">SECRET_NAME</span><span class="si">}</span> -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.token}&#39;</span> <span class="p">|</span> base64 --decode<span class="k">)</span>
+<span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span>funland<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span><span class="si">${</span><span class="nv">SECRET_NAME</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.token}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
 
 <span class="c1"># ** OR ** All at once</span>
-<span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>kubectl -n funland get secrets <span class="k">$(</span>kubectl -n funland get secrets <span class="p">|</span> awk <span class="s1">&#39;/funland-sa/ {print $1}&#39;</span><span class="k">)</span> -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.token}&#39;</span> <span class="p">|</span> base64 --decode<span class="k">)</span>
+<span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span>funland<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span>funland<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;/funland-sa/ {print $1}&#39;</span><span class="k">)</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.token}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
 </code></pre></div>
 <h2 id="use-the-token-from-another-host">Use the Token from another host<a class="headerlink" href="#use-the-token-from-another-host" title="Permanent link">&para;</a></h2>
 <p>The <code>$TOKEN</code> variable is confidential and should be treated with care.
 Transfer it carefully to the target client or user.</p>
-<div class="highlight"><pre><span></span><code>kubectl config set-credentials funland-sa --token<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
-kubectl config set-cluster funland --server<span class="o">=</span>https://1.2.3.4 --insecure-skip-tls-verify
-kubectl config set-context funland --user funland-sa --cluster funland --namespace<span class="o">=</span>funland
-kubectl config use-context funland
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>set-credentials<span class="w"> </span>funland-sa<span class="w"> </span>--token<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot;</span>
+kubectl<span class="w"> </span>config<span class="w"> </span>set-cluster<span class="w"> </span>funland<span class="w"> </span>--server<span class="o">=</span>https://1.2.3.4<span class="w"> </span>--insecure-skip-tls-verify
+kubectl<span class="w"> </span>config<span class="w"> </span>set-context<span class="w"> </span>funland<span class="w"> </span>--user<span class="w"> </span>funland-sa<span class="w"> </span>--cluster<span class="w"> </span>funland<span class="w"> </span>--namespace<span class="o">=</span>funland
+kubectl<span class="w"> </span>config<span class="w"> </span>use-context<span class="w"> </span>funland
 </code></pre></div>
 <h2 id="take-it-for-a-spins">Take it for a Spins<a class="headerlink" href="#take-it-for-a-spins" title="Permanent link">&para;</a></h2>
 <p>Verify it has nothing installed</p>
@@ -1187,22 +1187,22 @@ kubectl config use-context funland
 </code></pre></div>
 <h2 id="add-certificate-authority">Add Certificate Authority<a class="headerlink" href="#add-certificate-authority" title="Permanent link">&para;</a></h2>
 <p>Get <code>certificate-authority-data</code> from the <code>cluster</code> entry for the target server.</p>
-<div class="highlight"><pre><span></span><code>kubectl config view --flatten --minify
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span>--flatten<span class="w"> </span>--minify
 </code></pre></div>
 <p>Edit <code>~/.kube/config</code> and replace <code>insecure-skip-tls-verify</code> with the <code>certificate-authority-data</code> from the previous step.</p>
 <p>We could use the <code>--certificate</code> option in <code>kubectl config set-cluster</code>, but we find this is easier than juggling
 additional variables.</p>
 <p>Here is the <code>kubectl config set-cluster</code> method:</p>
-<div class="highlight"><pre><span></span><code>kubectl config set-cluster funland --server<span class="o">=</span>https://1.2.3.4 --certificate-authority<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CERT_CA_DATA</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>set-cluster<span class="w"> </span>funland<span class="w"> </span>--server<span class="o">=</span>https://1.2.3.4<span class="w"> </span>--certificate-authority<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CERT_CA_DATA</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div>
 <h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl delete namespace funland
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>namespace<span class="w"> </span>funland
 
-kubectl config delete-context funland
+kubectl<span class="w"> </span>config<span class="w"> </span>delete-context<span class="w"> </span>funland
 
-kubectl config delete-cluster funland
+kubectl<span class="w"> </span>config<span class="w"> </span>delete-cluster<span class="w"> </span>funland
 
-kubectl config delete-user funland-sa
+kubectl<span class="w"> </span>config<span class="w"> </span>delete-user<span class="w"> </span>funland-sa
 </code></pre></div>
                 
               
@@ -1229,7 +1229,7 @@ kubectl config delete-user funland-sa
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with

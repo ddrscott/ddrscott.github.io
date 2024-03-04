@@ -1316,51 +1316,51 @@ faster.</p>
 <p>The thing we miss by not having database queries is table joins. Joins are available in Solr, but have a similar
 performance hit as DB. The workaround for joins was to have a wide data set.</p>
 <h4 id="example-sunspot-model-config">Example Sunspot Model Config<a class="headerlink" href="#example-sunspot-model-config" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Node</span>
-  <span class="n">belongs_to</span> <span class="ss">:title</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Node</span>
+<span class="w">  </span><span class="n">belongs_to</span><span class="w"> </span><span class="ss">:title</span>
 <span class="k">end</span>
 
-<span class="k">class</span> <span class="nc">Title</span>
-  <span class="n">has_many</span> <span class="ss">:nodes</span>
-  <span class="n">has_many</span> <span class="ss">:prices</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Title</span>
+<span class="w">  </span><span class="n">has_many</span><span class="w"> </span><span class="ss">:nodes</span>
+<span class="w">  </span><span class="n">has_many</span><span class="w"> </span><span class="ss">:prices</span>
 
-  <span class="n">searchable</span> <span class="k">do</span>
-    <span class="n">text</span> <span class="ss">:name</span>
-    <span class="n">text</span> <span class="ss">:contributors</span>
-    <span class="n">text</span> <span class="ss">:snippet</span>
+<span class="w">  </span><span class="n">searchable</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="n">text</span><span class="w"> </span><span class="ss">:name</span>
+<span class="w">    </span><span class="n">text</span><span class="w"> </span><span class="ss">:contributors</span>
+<span class="w">    </span><span class="n">text</span><span class="w"> </span><span class="ss">:snippet</span>
 
-      <span class="n">integer</span> <span class="ss">:nodes</span><span class="p">,</span> <span class="ss">multiple</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span> <span class="n">solr_nodes</span><span class="p">;</span> <span class="k">end</span>
-      <span class="n">string</span> <span class="ss">:countries</span><span class="p">,</span> <span class="ss">multiple</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span> <span class="n">solr_countries</span><span class="p">;</span> <span class="k">end</span>
-      <span class="n">string</span> <span class="ss">:currencies</span><span class="p">,</span> <span class="ss">multiple</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span> <span class="n">solr_currencies</span><span class="p">;</span> <span class="k">end</span>
-    <span class="no">Price</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="ss">:country</span><span class="p">,</span> <span class="ss">:currency</span><span class="p">)</span><span class="o">.</span><span class="n">uniq</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">price</span><span class="o">|</span>
-        <span class="n">double</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">price</span><span class="o">.</span><span class="n">country</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">price</span><span class="o">.</span><span class="n">currency</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span> <span class="n">solr_country_currency</span><span class="p">(</span><span class="n">price</span><span class="p">);</span> <span class="k">end</span>
-    <span class="k">end</span>
+<span class="w">      </span><span class="n">integer</span><span class="w"> </span><span class="ss">:nodes</span><span class="p">,</span><span class="w"> </span><span class="ss">multiple</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">solr_nodes</span><span class="p">;</span><span class="w"> </span><span class="k">end</span>
+<span class="w">      </span><span class="n">string</span><span class="w"> </span><span class="ss">:countries</span><span class="p">,</span><span class="w"> </span><span class="ss">multiple</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">solr_countries</span><span class="p">;</span><span class="w"> </span><span class="k">end</span>
+<span class="w">      </span><span class="n">string</span><span class="w"> </span><span class="ss">:currencies</span><span class="p">,</span><span class="w"> </span><span class="ss">multiple</span><span class="p">:</span><span class="w"> </span><span class="kp">true</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">solr_currencies</span><span class="p">;</span><span class="w"> </span><span class="k">end</span>
+<span class="w">    </span><span class="no">Price</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="ss">:country</span><span class="p">,</span><span class="w"> </span><span class="ss">:currency</span><span class="p">)</span><span class="o">.</span><span class="n">uniq</span><span class="o">.</span><span class="n">each</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="o">|</span><span class="n">price</span><span class="o">|</span>
+<span class="w">        </span><span class="n">double</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">price</span><span class="o">.</span><span class="n">country</span><span class="si">}</span><span class="s2">_</span><span class="si">#{</span><span class="n">price</span><span class="o">.</span><span class="n">currency</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="n">solr_country_currency</span><span class="p">(</span><span class="n">price</span><span class="p">);</span><span class="w"> </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
 
-    <span class="c1"># ... many other fields</span>
+<span class="w">    </span><span class="c1"># ... many other fields</span>
 
-  <span class="k">end</span>
+<span class="w">  </span><span class="k">end</span>
 
-  <span class="k">def</span> <span class="nf">solr_countries</span>
-    <span class="n">prices</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:country</span><span class="p">)</span>
-  <span class="k">end</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">solr_countries</span>
+<span class="w">    </span><span class="n">prices</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:country</span><span class="p">)</span>
+<span class="w">  </span><span class="k">end</span>
 
-  <span class="k">def</span> <span class="nf">solr_currencies</span>
-    <span class="n">prices</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:currency</span><span class="p">)</span>
-  <span class="k">end</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">solr_currencies</span>
+<span class="w">    </span><span class="n">prices</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:currency</span><span class="p">)</span>
+<span class="w">  </span><span class="k">end</span>
 
-  <span class="k">def</span> <span class="nf">solr_country_currency</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
-    <span class="n">prices</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">country</span><span class="p">:</span> <span class="n">price</span><span class="o">.</span><span class="n">country</span><span class="p">,</span> <span class="ss">currency</span><span class="p">:</span> <span class="n">price</span><span class="o">.</span><span class="n">currency</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:price</span><span class="p">)</span>
-  <span class="k">end</span>
+<span class="w">  </span><span class="k">def</span><span class="w"> </span><span class="nf">solr_country_currency</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+<span class="w">    </span><span class="n">prices</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">country</span><span class="p">:</span><span class="w"> </span><span class="n">price</span><span class="o">.</span><span class="n">country</span><span class="p">,</span><span class="w"> </span><span class="ss">currency</span><span class="p">:</span><span class="w"> </span><span class="n">price</span><span class="o">.</span><span class="n">currency</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:price</span><span class="p">)</span>
+<span class="w">  </span><span class="k">end</span>
 <span class="k">end</span>
 
-<span class="k">class</span> <span class="nc">Price</span>
-  <span class="n">belongs_to</span> <span class="ss">:title</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Price</span>
+<span class="w">  </span><span class="n">belongs_to</span><span class="w"> </span><span class="ss">:title</span>
 <span class="k">end</span>
 </code></pre></div>
 <h4 id="example-sunspot-search">Example Sunspot Search<a class="headerlink" href="#example-sunspot-search" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="no">Title</span><span class="o">.</span><span class="n">search</span> <span class="k">do</span>
-    <span class="n">full_text</span><span class="p">(</span><span class="s1">&#39;cats&#39;</span><span class="p">)</span>
-    <span class="n">with</span><span class="p">(</span><span class="ss">:US_USD</span><span class="p">)</span><span class="o">.</span><span class="n">less_than</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="no">Title</span><span class="o">.</span><span class="n">search</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span><span class="n">full_text</span><span class="p">(</span><span class="s1">&#39;cats&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">with</span><span class="p">(</span><span class="ss">:US_USD</span><span class="p">)</span><span class="o">.</span><span class="n">less_than</span><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
 <p>The Sunspot site has many examples: <a href="http://sunspot.github.io/">http://sunspot.github.io/</a></p>
@@ -1455,7 +1455,7 @@ Most of the cool factor of your system revolves around the use of Socket.io to b
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with

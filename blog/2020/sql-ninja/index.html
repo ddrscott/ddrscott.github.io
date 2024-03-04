@@ -1340,20 +1340,20 @@
 but even after using it for so long, SQL can still be a pain for some repetitive tasks.</p>
 <h2 id="problem">Problem<a class="headerlink" href="#problem" title="Permanent link">&para;</a></h2>
 <p>Here's a SQL expression for pivoting some expenses by category:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
-<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;katanas&#39;</span><span class="w">   </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">katanas</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shurikens&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shurikens</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hooks&#39;</span><span class="w">     </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hooks</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shoes&#39;</span><span class="w">     </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shoes</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;disguises&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">disguises</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="w"></span>
-<span class="w">       </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;katanas&#39;</span><span class="p">,</span><span class="s1">&#39;shurikens&#39;</span><span class="p">,</span><span class="s1">&#39;hooks&#39;</span><span class="p">,</span><span class="s1">&#39;shoes&#39;</span><span class="p">,</span><span class="s1">&#39;disguises&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">       </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="w"></span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">other_amount</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_amount</span><span class="w"></span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">expenses</span><span class="w"></span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">total_amount</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;katanas&#39;</span><span class="w">   </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">katanas</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shurikens&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shurikens</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hooks&#39;</span><span class="w">     </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hooks</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shoes&#39;</span><span class="w">     </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shoes</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;disguises&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">disguises</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span>
+<span class="w">       </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;katanas&#39;</span><span class="p">,</span><span class="s1">&#39;shurikens&#39;</span><span class="p">,</span><span class="s1">&#39;hooks&#39;</span><span class="p">,</span><span class="s1">&#39;shoes&#39;</span><span class="p">,</span><span class="s1">&#39;disguises&#39;</span><span class="p">)</span>
+<span class="w">       </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">other_amount</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_amount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">expenses</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">total_amount</span>
 </code></pre></div>
 <p>Can we see the repetitive SQL going on? Here's a hint: <code>SUM(CASE WHEN(...)) AS ...</code>.</p>
 <p>Wouldn't it be nice to make a list of categories and have the SQL generated for you?
@@ -1364,30 +1364,30 @@ but SQL has so few.</p>
 <p>Enter SQL Ninja.</p>
 <p>SQL Ninja uses the popular <a href="https://jinja.palletsprojects.com/">Jinja Templating Engine</a> which typically generates
 HTML, but we can use it to generate SQL.</p>
-<div class="highlight"><pre><span></span><code>pip install sql-ninja
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>sql-ninja
 </code></pre></div>
 <p>Now, let's create a simple SQL file:</p>
-<div class="highlight"><pre><span></span><code>cat &gt; hello.sql <span class="s">&lt;&lt;SQL</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>hello.sql<span class="w"> </span><span class="s">&lt;&lt;SQL</span>
 <span class="s">SELECT &#39;world&#39;</span>
 <span class="s">SQL</span>
 </code></pre></div>
 <p>From here, we can use the <code>sql</code> command provided by <a href="https://pypi.org/project/sql-ninja/">sql-ninja</a> to transform the
 SQL.</p>
-<div class="highlight"><pre><span></span><code>sql hello.sql
+<div class="highlight"><pre><span></span><code>sql<span class="w"> </span>hello.sql
 <span class="c1"># =&gt; SELECT &#39;world&#39;</span>
 </code></pre></div>
 <p>That wasn't very exciting. Let's try to template it:</p>
-<div class="highlight"><pre><span></span><code>cat &gt; hello.sql <span class="s">&lt;&lt;SQL</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>hello.sql<span class="w"> </span><span class="s">&lt;&lt;SQL</span>
 <span class="s">SELECT &#39;&#39;</span>
 <span class="s">SQL</span>
 </code></pre></div>
 <p>And render the template:
-<div class="highlight"><pre><span></span><code>sql hello.sql
+<div class="highlight"><pre><span></span><code>sql<span class="w"> </span>hello.sql
 <span class="c1"># =&gt; SELECT &#39;&#39;</span>
 </code></pre></div></p>
 <p>What happened? We got a blank message. This is because we didn't provide one to the template engine.
 Try this instead:</p>
-<div class="highlight"><pre><span></span><code>sql hello.sql <span class="nv">msg</span><span class="o">=</span><span class="s1">&#39;World!!!&#39;</span>
+<div class="highlight"><pre><span></span><code>sql<span class="w"> </span>hello.sql<span class="w"> </span><span class="nv">msg</span><span class="o">=</span><span class="s1">&#39;World!!!&#39;</span>
 <span class="c1"># =&gt; SELECT &#39;World!!!&#39;</span>
 </code></pre></div>
 <p>We did it!</p>
@@ -1400,11 +1400,11 @@ projects root directory littered with <code>*.sql</code> files. SQL Ninja recomm
         └── hello.sql
 </code></pre></div>
 <p>So let's do that with our <code>hello.sql</code></p>
-<div class="highlight"><pre><span></span><code>mkdir -p sql/templates
-mv hello.sql sql/templates/
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>sql/templates
+mv<span class="w"> </span>hello.sql<span class="w"> </span>sql/templates/
 </code></pre></div>
 <p>And from here, we can run our exact <code>sql</code> command from before:</p>
-<div class="highlight"><pre><span></span><code>sql hello.sql <span class="nv">msg</span><span class="o">=</span><span class="s1">&#39;World!!!&#39;</span>
+<div class="highlight"><pre><span></span><code>sql<span class="w"> </span>hello.sql<span class="w"> </span><span class="nv">msg</span><span class="o">=</span><span class="s1">&#39;World!!!&#39;</span>
 <span class="c1"># =&gt; SELECT &#39;World!!!&#39;</span>
 </code></pre></div>
 <p>It still works because SQL Ninja has sensible defaults. Files in current the current working directory and
@@ -1431,19 +1431,19 @@ FROM expenses
 ORDER BY year_month, total_amount
 </code></pre></div>
 <p>Let's run it:
-<div class="highlight"><pre><span></span><code>sql expenses.sql <span class="nv">categories</span><span class="o">=</span><span class="s1">&#39;food transportation&#39;</span>
+<div class="highlight"><pre><span></span><code>sql<span class="w"> </span>expenses.sql<span class="w"> </span><span class="nv">categories</span><span class="o">=</span><span class="s1">&#39;food transportation&#39;</span>
 <span class="c1">#=&gt;</span>
 SELECT
-    DATEFORMAT<span class="o">(</span>entry_dt, <span class="s1">&#39;yyyy-mm&#39;</span><span class="o">)</span> as year_month,
-    SUM<span class="o">(</span>CASE WHEN <span class="nv">category</span> <span class="o">=</span> <span class="s1">&#39;food&#39;</span> THEN amount END<span class="o">)</span> AS food,
-    SUM<span class="o">(</span>CASE WHEN <span class="nv">category</span> <span class="o">=</span> <span class="s1">&#39;transportation&#39;</span> THEN amount END<span class="o">)</span> AS transportation,
-    SUM<span class="o">(</span>
-       CASE WHEN category NOT IN <span class="o">(</span><span class="s1">&#39;food&#39;</span>,<span class="s1">&#39;transportation&#39;</span><span class="o">)</span>
-       THEN amount END
-    <span class="o">)</span> AS other_amount,
-    SUM<span class="o">(</span>amount<span class="o">)</span> AS total_amount
-FROM expenses
-ORDER BY year_month, total_amount
+<span class="w">    </span>DATEFORMAT<span class="o">(</span>entry_dt,<span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="o">)</span><span class="w"> </span>as<span class="w"> </span>year_month,
+<span class="w">    </span>SUM<span class="o">(</span>CASE<span class="w"> </span>WHEN<span class="w"> </span><span class="nv">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;food&#39;</span><span class="w"> </span>THEN<span class="w"> </span>amount<span class="w"> </span>END<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>food,
+<span class="w">    </span>SUM<span class="o">(</span>CASE<span class="w"> </span>WHEN<span class="w"> </span><span class="nv">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;transportation&#39;</span><span class="w"> </span>THEN<span class="w"> </span>amount<span class="w"> </span>END<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>transportation,
+<span class="w">    </span>SUM<span class="o">(</span>
+<span class="w">       </span>CASE<span class="w"> </span>WHEN<span class="w"> </span>category<span class="w"> </span>NOT<span class="w"> </span>IN<span class="w"> </span><span class="o">(</span><span class="s1">&#39;food&#39;</span>,<span class="s1">&#39;transportation&#39;</span><span class="o">)</span>
+<span class="w">       </span>THEN<span class="w"> </span>amount<span class="w"> </span>END
+<span class="w">    </span><span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>other_amount,
+<span class="w">    </span>SUM<span class="o">(</span>amount<span class="o">)</span><span class="w"> </span>AS<span class="w"> </span>total_amount
+FROM<span class="w"> </span>expenses
+ORDER<span class="w"> </span>BY<span class="w"> </span>year_month,<span class="w"> </span>total_amount
 </code></pre></div></p>
 <h3 id="subquery-workflow">Subquery Workflow<a class="headerlink" href="#subquery-workflow" title="Permanent link">&para;</a></h3>
 <p>Jinja supports including templates in other templates. This is perfect for sub queries!</p>
@@ -1453,56 +1453,56 @@ ORDER BY year_month, total_amount
 <li>pivot the results</li>
 </ol>
 <div class="highlight"><pre><span></span><code><span class="c1">-- sql/templates/expenses/summary.sql</span>
-<span class="k">SELECT</span><span class="w"></span>
-<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">category</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">amount</span><span class="w"></span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">expenses</span><span class="w"></span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">category</span><span class="w"></span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">category</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">amount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">expenses</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">category</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="c1">-- sql/templates/expenses/pivot.sqlSELECT</span>
-<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;SQL&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">SQL</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Python&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Python</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="w"></span>
-<span class="w">       </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;SQL&#39;</span><span class="p">,</span><span class="s1">&#39;Python&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">       </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="w"></span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">other_amount</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_amount</span><span class="w"></span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
-<span class="err">{</span><span class="o">%</span><span class="w"> </span><span class="n">include</span><span class="w"> </span><span class="s1">&#39;expenses/summary.sql&#39;</span><span class="w"> </span><span class="o">%</span><span class="err">}</span><span class="w"></span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">summary</span><span class="w"></span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">total_amount</span><span class="w"></span>
+<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;SQL&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">SQL</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Python&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Python</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span>
+<span class="w">       </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;SQL&#39;</span><span class="p">,</span><span class="s1">&#39;Python&#39;</span><span class="p">)</span>
+<span class="w">       </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">other_amount</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_amount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
+<span class="err">{</span><span class="o">%</span><span class="w"> </span><span class="n">include</span><span class="w"> </span><span class="s1">&#39;expenses/summary.sql&#39;</span><span class="w"> </span><span class="o">%</span><span class="err">}</span>
+<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">summary</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">total_amount</span>
 </code></pre></div>
 <p>Render the new template with: <code>sql expenses/pivot.sql</code> and override <code>categories</code> or not:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"></span>
-<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;katanas&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">katanas</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shurikens&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shurikens</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hooks&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hooks</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shoes&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shoes</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;disguises&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">disguises</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="w"></span>
-<span class="w">       </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;katanas&#39;</span><span class="p">,</span><span class="s1">&#39;shurikens&#39;</span><span class="p">,</span><span class="s1">&#39;hooks&#39;</span><span class="p">,</span><span class="s1">&#39;shoes&#39;</span><span class="p">,</span><span class="s1">&#39;disguises&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">       </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="w"></span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">other_amount</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_amount</span><span class="w"></span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span><span class="w"></span>
-<span class="k">SELECT</span><span class="w"></span>
-<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">category</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">amount</span><span class="w"></span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">expenses</span><span class="w"></span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">category</span><span class="w"></span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">summary</span><span class="w"></span>
-<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">total_amount</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;katanas&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">katanas</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shurikens&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shurikens</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;hooks&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hooks</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;shoes&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">shoes</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;disguises&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">disguises</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span>
+<span class="w">       </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;katanas&#39;</span><span class="p">,</span><span class="s1">&#39;shurikens&#39;</span><span class="p">,</span><span class="s1">&#39;hooks&#39;</span><span class="p">,</span><span class="s1">&#39;shoes&#39;</span><span class="p">,</span><span class="s1">&#39;disguises&#39;</span><span class="p">)</span>
+<span class="w">       </span><span class="k">THEN</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="k">END</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">other_amount</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_amount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
+<span class="k">SELECT</span>
+<span class="w">    </span><span class="n">DATEFORMAT</span><span class="p">(</span><span class="n">entry_dt</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyy-mm&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span>
+<span class="w">    </span><span class="n">category</span><span class="p">,</span>
+<span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">amount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">expenses</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">category</span>
+<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">summary</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">year_month</span><span class="p">,</span><span class="w"> </span><span class="n">total_amount</span>
 </code></pre></div>
 <h2 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h2>
 <p>A <a href="https://hub.docker.com/repository/docker/ddrscott/sql-ninja">docker image</a> has been built if installing Python is a problem:</p>
-<div class="highlight"><pre><span></span><code>docker pull ddrscott/sql-ninja
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>ddrscott/sql-ninja
 </code></pre></div>
 <p>Docker containers don't have access to local file system, so we need to mount the volume into the container.</p>
-<div class="highlight"><pre><span></span><code>docker run --rm -v <span class="nv">$PWD</span>:/app -w /app ddrscott/sql-ninja expenses/pivot.sql
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-v<span class="w"> </span><span class="nv">$PWD</span>:/app<span class="w"> </span>-w<span class="w"> </span>/app<span class="w"> </span>ddrscott/sql-ninja<span class="w"> </span>expenses/pivot.sql
 <span class="c1">#            ^   ^            ^      ^                  ^</span>
 <span class="c1">#            |   |            |      |                  |</span>
 <span class="c1">#            |   |            |      |                  + the template</span>
@@ -1517,9 +1517,9 @@ ORDER BY year_month, total_amount
 </code></pre></div>
 <p>Make an alias if ya want:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Pick one or name it whatever is most memorable to you:</span>
-<span class="nb">alias</span> <span class="nv">sql</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
-<span class="nb">alias</span> <span class="nv">sqln</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
-<span class="nb">alias</span> <span class="nv">sqlninja</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">sql</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">sqln</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">sqlninja</span><span class="o">=</span><span class="s1">&#39;docker run --rm -v $PWD:/app -w /app ddrscott/sql-ninja&#39;</span>
 </code></pre></div>
 <h2 id="why-not-jinja-sql">Why not <a href="https://github.com/hashedin/jinjasql">Jinja SQL</a>?<a class="headerlink" href="#why-not-jinja-sql" title="Permanent link">&para;</a></h2>
 <p>The <code>jinjasql</code> project has 452 stars as of this writing and it uses Jinja, too. The project
@@ -1593,7 +1593,7 @@ Jinja's <code>macro</code> and <code>include</code> features really standout and
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with

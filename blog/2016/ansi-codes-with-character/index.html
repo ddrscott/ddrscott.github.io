@@ -1178,31 +1178,31 @@ computer terminals.</p>
 outputting text. </p>
 <p>What does that mean?!? Let the examples do the talking.</p>
 <h2 id="color-examples">Color Examples<a class="headerlink" href="#color-examples" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span> -e <span class="s2">&quot;\e[2J\e[32m It&#39;s not easy being green \e[0m&quot;</span>
-<span class="nb">echo</span> -e <span class="s2">&quot;\e[2J\e[31m Apples are red  \e[0m&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\e[2J\e[32m It&#39;s not easy being green \e[0m&quot;</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\e[2J\e[31m Apples are red  \e[0m&quot;</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">30</span><span class="o">..</span><span class="mi">37</span><span class="p">)</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;i: </span><span class="se">\e</span><span class="s2">[</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">m </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="se">\e</span><span class="s2">[0m&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">30</span><span class="o">..</span><span class="mi">37</span><span class="p">)</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span><span class="w"> </span><span class="nb">puts</span><span class="w"> </span><span class="s2">&quot;i: </span><span class="se">\e</span><span class="s2">[</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">m </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2"> </span><span class="se">\e</span><span class="s2">[0m&quot;</span><span class="p">}</span>
 </code></pre></div>
 <h2 id="position-examples">Position Examples<a class="headerlink" href="#position-examples" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="n">x</span><span class="o">=</span><span class="sb">`tput cols`</span><span class="o">.</span><span class="n">to_i</span>
 <span class="n">y</span><span class="o">=</span><span class="sb">`tput lines`</span><span class="o">.</span><span class="n">to_i</span>
-<span class="kp">loop</span> <span class="k">do</span>
-  <span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[s&quot;</span> <span class="c1"># Save current cursor position</span>
-  <span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[</span><span class="si">#{</span><span class="nb">rand</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">;</span><span class="si">#{</span><span class="nb">rand</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">H&quot;</span>  <span class="c1"># move to row/column</span>
-  <span class="nb">print</span> <span class="s2">&quot;💩&quot;</span>    <span class="c1"># print POOP!</span>
-  <span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[u&quot;</span> <span class="c1"># restore position</span>
-  <span class="nb">sleep</span><span class="p">(</span><span class="nb">rand</span><span class="p">)</span>
+<span class="kp">loop</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="nb">print</span><span class="w"> </span><span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[s&quot;</span><span class="w"> </span><span class="c1"># Save current cursor position</span>
+<span class="w">  </span><span class="nb">print</span><span class="w"> </span><span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[</span><span class="si">#{</span><span class="nb">rand</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">;</span><span class="si">#{</span><span class="nb">rand</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">H&quot;</span><span class="w">  </span><span class="c1"># move to row/column</span>
+<span class="w">  </span><span class="nb">print</span><span class="w"> </span><span class="s2">&quot;💩&quot;</span><span class="w">    </span><span class="c1"># print POOP!</span>
+<span class="w">  </span><span class="nb">print</span><span class="w"> </span><span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[u&quot;</span><span class="w"> </span><span class="c1"># restore position</span>
+<span class="w">  </span><span class="nb">sleep</span><span class="p">(</span><span class="nb">rand</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="c1"># Ruby oneliner troll</span>
-ruby -e <span class="s1">&#39;x=`tput cols`.to_i; y=`tput lines`.to_i; loop {print &quot;\e[s\e[#{rand(y)};#{rand(x)}H💩\e[u&quot;; sleep(rand)}&#39;</span>
+ruby<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;x=`tput cols`.to_i; y=`tput lines`.to_i; loop {print &quot;\e[s\e[#{rand(y)};#{rand(x)}H💩\e[u&quot;; sleep(rand)}&#39;</span>
 </code></pre></div>
 <h2 id="ansi-nine-examples">ANSI-nine Examples<a class="headerlink" href="#ansi-nine-examples" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># Poop-field</span>
-curl -s https://raw.githubusercontent.com/ddrscott/ansinine/master/stars <span class="p">|</span> ruby
+curl<span class="w"> </span>-s<span class="w"> </span>https://raw.githubusercontent.com/ddrscott/ansinine/master/stars<span class="w"> </span><span class="p">|</span><span class="w"> </span>ruby
 
 <span class="c1"># Smoke</span>
-curl -s https://raw.githubusercontent.com/ddrscott/ansinine/master/fire.rb <span class="p">|</span> ruby
+curl<span class="w"> </span>-s<span class="w"> </span>https://raw.githubusercontent.com/ddrscott/ansinine/master/fire.rb<span class="w"> </span><span class="p">|</span><span class="w"> </span>ruby
 </code></pre></div>
                 
                   
@@ -1266,7 +1266,7 @@ curl -s https://raw.githubusercontent.com/ddrscott/ansinine/master/fire.rb <span
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with

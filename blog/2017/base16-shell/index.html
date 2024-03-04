@@ -1178,12 +1178,12 @@ tweaking, no downloading this other thing and importing stuff into iTerm. It was
 literally 2 steps performed in shell and then pick a theme.</p>
 <p>Here's what you do. (FYI. This is pretty much copy/paste from their repo)</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># 1. clone the repo to `~/.config/base16-shell`</span>
-git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/chriskempson/base16-shell.git<span class="w"> </span>~/.config/base16-shell
 
 <span class="c1"># 2. update ~/.bashrc or ~/.zshrc</span>
-cat &gt;&gt; ~/.zshrc <span class="s">&lt;&lt;&#39;SH&#39;</span>
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.zshrc<span class="w"> </span><span class="s">&lt;&lt;&#39;SH&#39;</span>
 <span class="s">BASE16_SH</span>ELL<span class="o">=</span><span class="nv">$HOME</span>/.config/base16-shell/
-<span class="o">[</span> -n <span class="s2">&quot;</span><span class="nv">$PS1</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> -s <span class="nv">$BASE16_SHELL</span>/profile_helper.sh <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">eval</span> <span class="s2">&quot;</span><span class="k">$(</span><span class="nv">$BASE16_SHELL</span>/profile_helper.sh<span class="k">)</span><span class="s2">&quot;</span>
+<span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PS1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-s<span class="w"> </span><span class="nv">$BASE16_SHELL</span>/profile_helper.sh<span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nv">$BASE16_SHELL</span>/profile_helper.sh<span class="k">)</span><span class="s2">&quot;</span>
 SH
 </code></pre></div>
 <p>After you're done with those steps, start a new terminal session or source the
@@ -1268,7 +1268,7 @@ I'm just a shell command away from changing. Indecision has never been so easy.<
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with

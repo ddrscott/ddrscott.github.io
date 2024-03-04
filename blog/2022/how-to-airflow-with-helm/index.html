@@ -1085,63 +1085,63 @@ The main settings we listed demonstrate a few things:</p>
 <li>use simple database setup</li>
 <li>disable Redis and enable KubernetesExecutor</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="nt">git</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">dags</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="w">    </span><span class="nt">repositories</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://ro_user:seeeecret@bitbucket.org/some-project/dags-repo.git</span><span class="w"></span>
-<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">some-project</span><span class="w"></span>
-<span class="w">        </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="nt">git</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dags</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">repositories</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://ro_user:seeeecret@bitbucket.org/some-project/dags-repo.git</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">some-project</span>
+<span class="w">        </span><span class="nt">branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
 
-<span class="nt">scheduler</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span><span class="w"></span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span><span class="w"></span>
+<span class="nt">scheduler</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span>
 
-<span class="nt">web</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span><span class="w"></span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX</span><span class="w"></span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;True&quot;</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW_BASE_URL</span><span class="w"></span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://airflow.example.com</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__API__AUTH_BACKEND</span><span class="w"></span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;airflow.api.auth.backend.default&quot;</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__API__ENABLE_EXPERIMENTAL_API</span><span class="w"></span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;True&quot;</span><span class="w"></span>
+<span class="nt">web</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;True&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW_BASE_URL</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://airflow.example.com</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__API__AUTH_BACKEND</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;airflow.api.auth.backend.default&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AIRFLOW__API__ENABLE_EXPERIMENTAL_API</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;True&quot;</span>
 
-<span class="nt">worker</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span><span class="w"></span>
-<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span><span class="w"></span>
+<span class="nt">worker</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extraEnvVars</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PYTHONPATH</span>
+<span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/opt/bitnami/airflow/dags/git_some-project/dags</span>
 
-<span class="c1"># begin https://artifacthub.io/packages/helm/bitnami/airflow#kubernetesexecutor</span><span class="w"></span>
-<span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubernetesExecutor</span><span class="w"></span>
-<span class="nt">redis</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">endable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
-<span class="nt">serviceAccount</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="nt">rbac</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
-<span class="c1"># end   https://artifacthub.io/packages/helm/bitnami/airflow#kubernetesexecutor</span><span class="w"></span>
+<span class="c1"># begin https://artifacthub.io/packages/helm/bitnami/airflow#kubernetesexecutor</span>
+<span class="nt">executor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KubernetesExecutor</span>
+<span class="nt">redis</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">endable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">serviceAccount</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">rbac</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">create</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="c1"># end   https://artifacthub.io/packages/helm/bitnami/airflow#kubernetesexecutor</span>
 
-<span class="nt">postgresql</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="c1"># standalone is default, but its nice to call it out in case we forget.</span><span class="w"></span>
-<span class="w">  </span><span class="nt">architecture</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standalone</span><span class="w"></span>
+<span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># standalone is default, but its nice to call it out in case we forget.</span>
+<span class="w">  </span><span class="nt">architecture</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standalone</span>
 </code></pre></div>
 <p>Install it using Helm</p>
-<div class="highlight"><pre><span></span><code>helm repo add bitnami https://charts.bitnami.com/bitnami
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>bitnami<span class="w"> </span>https://charts.bitnami.com/bitnami
 
-helm repo update
+helm<span class="w"> </span>repo<span class="w"> </span>update
 
-helm upgrade --install --namespace funland <span class="se">\</span>
-    airflow bitnami/airflow                <span class="se">\</span>
-    --version <span class="m">12</span>.0.14                      <span class="se">\</span>
-    --values deploy/h2m-airflow-prod.yml
+helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>--namespace<span class="w"> </span>funland<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>airflow<span class="w"> </span>bitnami/airflow<span class="w">                </span><span class="se">\</span>
+<span class="w">    </span>--version<span class="w"> </span><span class="m">12</span>.0.14<span class="w">                      </span><span class="se">\</span>
+<span class="w">    </span>--values<span class="w"> </span>deploy/h2m-airflow-prod.yml
 </code></pre></div>
 <p>Get the admin password</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="k">$(</span>kubectl get secret --namespace <span class="s2">&quot;ilabs&quot;</span> airflow -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&quot;{.data.airflow-password}&quot;</span> <span class="p">|</span> base64 --decode<span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>--namespace<span class="w"> </span><span class="s2">&quot;ilabs&quot;</span><span class="w"> </span>airflow<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s2">&quot;{.data.airflow-password}&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
 </code></pre></div>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1173,7 +1173,7 @@ helm upgrade --install --namespace funland <span class="se">\</span>
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 Scott Pierce
+            Copyright &copy; 2014 - 2024 Scott Pierce
           </div>
         
         Made with
