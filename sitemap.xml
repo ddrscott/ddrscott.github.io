@@ -2,237 +2,242 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://ddrscott.github.io/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/about/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/projects/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2014/octopress-to-the-rescue/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2014/tech-stack-2014-edition/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/ansi-codes-with-character/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/bs-to-the-black-hole/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/making-a-window-submode/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/negative-modulo/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/photography-lightening-talk/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/ruby-abuse/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/side-search/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/sidescroll/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/vim-toggle-movement/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2016/yank-without-jank/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/base16-shell/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/fzf-dictionary/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/gnu-screen/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/vim-send-text/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/what-the-sql-lateral/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/what-the-sql-recursive/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2017/what-the-sql-window/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2018/blog-setup/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2018/getting-rusty-with-vim/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2018/join-me-at-union-station/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2018/move-to-mkdocs/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2018/stream-stats-in-rust/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2020/sql-ninja/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2021/i-heart-make/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2022/how-to-airflow-with-helm/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2022/how-to-k8s-service-account/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2022/instant-replay-live/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2023/how-to-make-a-website-via-github/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2023/larry-pierce-aka-dad/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2023/wordy-passwords/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/126-projects-and-0-dollars-later/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/do-not-call-list/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/event-listener/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/how-being-a-sql-expert-held-me-back/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/karaoke-podcast/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/karaoke/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/prompt-sql-article/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/prompt/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/recovering-10x-developer/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/taking-humor-seriously/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://ddrscott.github.io/blog/2024/the-strongest-word/</loc>
-         <lastmod>2024-09-23</lastmod>
+         <lastmod>2024-09-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://ddrscott.github.io/blog/2024/tts-comparision/</loc>
+         <lastmod>2024-09-24</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
