@@ -6,17 +6,20 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="How to view large CSV files.
+">
       
       
       
-        <link rel="canonical" href="https://ddrscott.github.io/blog/2017/vim-send-text/">
+      
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2024/column-with-a-g/">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2, mkdocs-material-7.1.7">
     
     
       
-        <title>Vim Send Text - Why, Scott, WHY?!?</title>
+        <title>Column with a G - Why, Scott, WHY?!?</title>
       
     
     
@@ -47,13 +50,21 @@
     
     
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="https://ddrscott.github.io/blog/2017/vim-send-text/" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2024/column-with-a-g/" />
 <meta name="twitter:creator" content="@_ddrscott_" />
 
   
-<meta property="og:title" content="Vim Send Text" />
+<meta property="og:title" content="Column with a G" />
   
   
+<meta name="twitter:image" content="/images/2024/golumn-screen.jpg" />
+<meta property="og:image" content="/images/2024/golumn-screen.jpg" />
+  
+  
+<meta property="og:description" content="How to view large CSV files.
+" />
+<meta name="description" content="How to view large CSV files.
+">
   
 
 
@@ -76,7 +87,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vim-send-text" class="md-skip">
+        <a href="#column-with-a-g" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Vim Send Text
+              Column with a G
             
           </span>
         </div>
@@ -264,68 +275,9 @@
   
   
     <li class="md-nav__item">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Vim Send Text
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="../../2017/vim-send-text/" class="md-nav__link">
         Vim Send Text
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#history" class="md-nav__link">
-    History
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-mappings" class="md-nav__link">
-    Recommended Mappings
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-operator-pending" class="md-nav__link">
-    Vim Operator Pending
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conclusion" class="md-nav__link">
-    Conclusion
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -449,7 +401,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2024/sql-bowling/" class="md-nav__link">
+      <a href="../sql-bowling/" class="md-nav__link">
         Bowling Scores the SQL Way
       </a>
     </li>
@@ -473,7 +425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-the-sql-lateral/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-lateral/" class="md-nav__link">
         What the SQL?! Lateral Joins
       </a>
     </li>
@@ -485,7 +437,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-the-sql-window/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-window/" class="md-nav__link">
         What the SQL?! WINDOW
       </a>
     </li>
@@ -497,7 +449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-the-sql-recursive/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-recursive/" class="md-nav__link">
         What the SQL?! Recursive
       </a>
     </li>
@@ -528,12 +480,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
       
       <label class="md-nav__link" for="__nav_6">
         2024
@@ -549,11 +503,79 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../2024/column-with-a-g/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Column with a G
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Column with a G
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#my-deepest-needs" class="md-nav__link">
+    My Deepest Needs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-line-junky" class="md-nav__link">
+    Command Line Junky
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#golumn-is-born" class="md-nav__link">
+    Golumn is Born
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-source-and-legacy" class="md-nav__link">
+    Open Source and Legacy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -563,7 +585,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2024/sql-bowling/" class="md-nav__link">
+      <a href="../sql-bowling/" class="md-nav__link">
         Bowling Scores the SQL Way
       </a>
     </li>
@@ -575,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2024/tts-comparision/" class="md-nav__link">
+      <a href="../tts-comparision/" class="md-nav__link">
         TTS Comparision
       </a>
     </li>
@@ -587,7 +609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2024/karaoke-podcast/" class="md-nav__link">
+      <a href="../karaoke-podcast/" class="md-nav__link">
         Karaoke Podcast
       </a>
     </li>
@@ -599,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2024/karaoke/" class="md-nav__link">
+      <a href="../karaoke/" class="md-nav__link">
         Karaoke
       </a>
     </li>
@@ -611,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2024/taking-humor-seriously/" class="md-nav__link">
+      <a href="../taking-humor-seriously/" class="md-nav__link">
         Taking Humour Seriously
       </a>
     </li>
@@ -623,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../2024/recovering-10x-developer/" class="md-nav__link">
+      <a href="../recovering-10x-developer/" class="md-nav__link">
         Recovering 10x Developer
       </a>
     </li>
@@ -882,14 +904,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
       
       <label class="md-nav__link" for="__nav_11">
         2017
@@ -907,7 +927,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../base16-shell/" class="md-nav__link">
+      <a href="../../2017/base16-shell/" class="md-nav__link">
         Base16 Shell
       </a>
     </li>
@@ -919,7 +939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../how-to-get-better-at-anything/" class="md-nav__link">
+      <a href="../../2017/how-to-get-better-at-anything/" class="md-nav__link">
         How to Get Better At Anything
       </a>
     </li>
@@ -931,7 +951,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../fzf-dictionary/" class="md-nav__link">
+      <a href="../../2017/fzf-dictionary/" class="md-nav__link">
         FZF + WordNet = Dictionary
       </a>
     </li>
@@ -943,7 +963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gnu-screen/" class="md-nav__link">
+      <a href="../../2017/gnu-screen/" class="md-nav__link">
         GNU Screen
       </a>
     </li>
@@ -955,7 +975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-the-sql-lateral/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-lateral/" class="md-nav__link">
         What the SQL?!? Lateral Joins
       </a>
     </li>
@@ -967,7 +987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-the-sql-window/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-window/" class="md-nav__link">
         What the SQL?!? WINDOW
       </a>
     </li>
@@ -979,7 +999,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-the-sql-recursive/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-recursive/" class="md-nav__link">
         What the SQL?!? Recursive
       </a>
     </li>
@@ -989,72 +1009,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Vim Send Text
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../2017/vim-send-text/" class="md-nav__link">
         Vim Send Text
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#history" class="md-nav__link">
-    History
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#recommended-mappings" class="md-nav__link">
-    Recommended Mappings
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-operator-pending" class="md-nav__link">
-    Vim Operator Pending
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conclusion" class="md-nav__link">
-    Conclusion
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1310,22 +1269,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#history" class="md-nav__link">
-    History
+  <a href="#my-deepest-needs" class="md-nav__link">
+    My Deepest Needs
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#recommended-mappings" class="md-nav__link">
-    Recommended Mappings
+  <a href="#command-line-junky" class="md-nav__link">
+    Command Line Junky
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#vim-operator-pending" class="md-nav__link">
-    Vim Operator Pending
+  <a href="#golumn-is-born" class="md-nav__link">
+    Golumn is Born
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-source-and-legacy" class="md-nav__link">
+    Open Source and Legacy
   </a>
   
 </li>
@@ -1350,62 +1316,46 @@
               
                 
                 
-                <h1 id="vim-send-text">Vim Send Text<a class="headerlink" href="#vim-send-text" title="Permanent link">&para;</a></h1>
-<p><img src="https://raw.githubusercontent.com/ddrscott/vim-islime2/gh-pages/demo.gif" alt='Vim Send Text Demo' /></p>
-<p>After pairing with some Sublime users, I noticed a neat feature. Or more
-accurately, they were rubbing it in my face that their cute editor was better
-than mine. The feature was <a href="https://github.com/wch/SendText">SendText</a>. Well, I
-couldn't let Sublime users have all the fun, and apparently neither could a few
-other people.</p>
-<!-- more -->
-
-<h2 id="history">History<a class="headerlink" href="#history" title="Permanent link">&para;</a></h2>
-<p>There have been a few other implementations at this feature. These
-implementations sent the text to a screen or tmux split. Since I don't use
-either, I couldn't use them a la carte.</p>
+                <h1 id="column-with-a-g">Column with a G<a class="headerlink" href="#column-with-a-g" title="Permanent link">&para;</a></h1>
+<p><img class="featured" src="/images/2024/golumn-demo.png" alt="screenshot of data grid" /></p>
+<p>I have a pet named <code>Golumn</code>, pronounced like "column" with a "G". It's a pet project to be more precise, and out of all my pets Golumn is my favorite, just don't tell the others.</p>
+<p>Have you ever received a CSV (Comma Separated Value) file that's a gigabyte or more from a data vendor that you're just checking out for the first time, try to open it and wait for Excel to read everything into memory and then crashes with an "Out of Memory" error? So then you have to split up the file into something smaller, and try again. But how can you make it smaller if you can't open it in Excel? So you roll up your sleeves and break out some ETL tools to view it. Then you realize you have a to write a script because ETL needs the data in a slightly different format? Well, after repeating this pattern for 19 years (2017 - 1998) or so, I had to fix this once and for all. No more work before the work. I needed a way to preview the data before doing any heavy lifting.</p>
+<p>Even in 2024, this is still a problem!</p>
 <ul>
-<li><a href="https://github.com/vim-scripts/tslime.vim">https://github.com/vim-scripts/tslime.vim</a></li>
-<li><a href="https://github.com/jpalardy/vim-slime">https://github.com/jpalardy/vim-slime</a></li>
-<li><a href="https://github.com/ervandew/screen">https://github.com/ervandew/screen</a></li>
+<li>Excel Crashing with 1.5GB File - Any Suggestions? <a href="https://www.reddit.com/r/excel/comments/1f74uyo/excel_crashing_with_15gb_file_any_suggestions/">Reddit</a></li>
+<li>What to do if a data set is too large for the Excel grid <a href="https://support.microsoft.com/en-us/office/what-to-do-if-a-data-set-is-too-large-for-the-excel-grid-976e6a34-9756-48f4-828c-ca80b3d0e15c">Microsoft</a></li>
 </ul>
-<p>This next implementation was good. It's only flaw, IMHO, was it's mappings and
-naming. The naming "ISlime2" is impossible for me to type on the first try. The
-mappings overlapped my existing mappings.
-<a href="https://github.com/matschaffer/vim-islime2">ISlime2</a> did all the hard work
-AppleScript work and provides the Vim function to pass into the AppleScript.</p>
-<p>Enter <a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a>.
-<a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a> is a fork of <a href="https://github.com/matschaffer/vim-islime2">ISlime2</a>.
-My fork removes all the mappings, exposes useful internal functions, and adds
-recommended mappings to the README.md.</p>
-<h2 id="recommended-mappings">Recommended Mappings<a class="headerlink" href="#recommended-mappings" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c">&quot; Send current line</span>
-<span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">i</span><span class="p">&lt;</span>CR<span class="p">&gt;</span> :SendTextCurrentLine<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-
-<span class="c">&quot; Send in/around text object - operation pending</span>
-<span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">i</span> :<span class="k">set</span> <span class="nb">opfunc</span><span class="p">=</span>sendtext#iTermSendOperator<span class="p">&lt;</span>CR<span class="p">&gt;</span><span class="k">g</span>@
-
-<span class="c">&quot; Send visual selection</span>
-<span class="nb">vnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">i</span> :<span class="p">&lt;</span>C<span class="p">-</span><span class="k">u</span><span class="p">&gt;</span><span class="k">call</span> sendtext#iTermSendOperator<span class="p">(</span>visualmode<span class="p">(),</span> <span class="m">1</span><span class="p">)&lt;</span>CR<span class="p">&gt;</span>
-
-<span class="c">&quot; Move to next line then send it</span>
-<span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span><span class="k">ij</span> :SendTextNextLine<span class="p">&lt;</span>CR<span class="p">&gt;</span>
-
-<span class="c">&quot; Move to previous line then send it</span>
-<span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="p">&lt;</span>Leader<span class="p">&gt;</span>ik :SendTextPreviousLine<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+<p><img class="featured" src="https://support.content.office.net/en-us/media/2dc0545d-1e3c-40df-8e0b-dd98e5afa45d.png" alt="Excel Warning, Data set too large" /></p>
+<p>In 2017, I set out to create the <strong>fastest</strong> CSV viewer known to the Internet. I searched for alternatives to Excel to make sure the my problem wasn't already solved. I found some that were IDE specific, for IDE's that I don't use. I found some that were Electron based, but Electron's startup time was slow back then. And there were some open source options, but they didn't scratch the itch. Many of the tools still required me to know the structure of the file before opening it.</p>
+<h2 id="my-deepest-needs">My Deepest Needs<a class="headerlink" href="#my-deepest-needs" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Speed!</strong> I need to view the data before it finishes loading it.</li>
+<li><strong>Good Guessing</strong>. I don't want to pick the column separator,line delimiter, or quoting before preview.</li>
+<li><strong>Fault tolerance</strong>. Let me see the data even if the guessed format is bad so I can be more informed for the next attempt.</li>
+</ul>
+<h2 id="command-line-junky">Command Line Junky<a class="headerlink" href="#command-line-junky" title="Permanent link">&para;</a></h2>
+<p>Did you know CSVs can be read from command line? This is the way I lived before Golumn. If you're in a POSIX (Linux, Mac, Unix) environment, you can try:</p>
+<div class="highlight"><pre><span></span><code>head<span class="w"> </span>-100<span class="w"> </span>/path/to/file.csv<span class="w"> </span><span class="p">|</span><span class="w"> </span>column<span class="w"> </span>-ts,<span class="w"> </span><span class="p">|</span><span class="w"> </span>less<span class="w"> </span>-S
 </code></pre></div>
-<h2 id="vim-operator-pending">Vim Operator Pending<a class="headerlink" href="#vim-operator-pending" title="Permanent link">&para;</a></h2>
-<p>One of the main reasons to use Vim is Operator pending.  It's at the heart of
-<code>vip</code>, <code>dip</code>, <code>ciw</code>, etc.
-<a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a> provides an operator
-pending function so we can logically do <code>{SEND}ap</code>, <code>{SEND}ip</code>, <code>{SEND}if</code>, etc.
-The identical function works in visual mode to help build confidence in our text
-object targets.</p>
-<p>To read more about operator pending functions and how to create them try:
-<div class="highlight"><pre><span></span><code><span class="p">:</span><span class="k">h</span> map<span class="p">-</span>operator
-</code></pre></div></p>
+<p><strong>Command Breakdown</strong>:</p>
+<ul>
+<li><code>head -100 /path/to/file</code> get the first 100 lines of a file</li>
+<li><code>column -ts,</code> print in table <code>-t</code> format separated by comma <code>-s,</code></li>
+<li><code>less -NS</code> paginate the result with line numbers <code>-N</code> and horizontal scrolling <code>-S</code></li>
+</ul>
+<p>The command line way, checks all 3 needs. It's fast, it let's me see results, and it's fault tolerant. It <em>may</em> look like crap if the delimiter is wrong, but that's easy to remediate with different flags, and because I can see something, it allows for quick adjustments. For instance, <code>column -t-s\|</code> would split on pipe instead of comma.</p>
+<p>This is nice and all, but every once in a while, a graphical interface is needed to get a better feel for the data. GUIs provide for smooth scrolling and higher resolution than the terminal. It's also nice to have numbers aligned properly and clickable things.</p>
+<h2 id="golumn-is-born">Golumn is Born<a class="headerlink" href="#golumn-is-born" title="Permanent link">&para;</a></h2>
+<p>Golumn is a Python project built with wxPython built on wxWidgets. It leverages Python's CSV sniffer and SQLite for data processing.</p>
+<p><a href="https://pypi.org/project/golumn/">https://pypi.org/project/golumn/</a></p>
+<p><img class="featured" src="/images/2024/golumn-pypi.png" alt="screenshot of data grid" /></p>
+<p>The command, <code>golumn /path/to/file.csv</code>, will open a GUI Window showing data in 0.1 seconds with a simple grid of data scrollable till my fingers get tired.</p>
+<p>Overtime, I've added keyboard shortcuts to quick filter/unfilter data based on the current selection, sort columns, and search and filter any column for a piece of text, but at it's core, it's a sharp tool that does 1 thing well: <strong>View CSV files</strong></p>
+<h2 id="open-source-and-legacy">Open Source and Legacy<a class="headerlink" href="#open-source-and-legacy" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/ddrscott/golumn">Golumn</a> is open source. One day, someone other than myself can contribute to it. Someone other than myself could have the same impatience for CSV load times. Someone could have similar hotkey preferences. Or maybe not. I don't put it out there for fame or fortune. I but it out there because it's my favorite pet project and everyone should have a change to play with it. <code>Golumn</code> is buddy that has served me well for 7+ years, and I want it to have a home beyond me. History is made by sharing, not hoarding.</p>
 <h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
-<p>Hope <a href="https://github.com/ddrscott/vim-sendtext">vim-sendtext</a> can remove some
-feature envy from Sublime. Happy console hacking!</p>
+<p>Thanks for getting this far. I hope you find Golumn useful, and reach out to me if you have any questions or
+suggestions. I'm always looking for ways to make it better.</p>
                 
                   
                 
@@ -1416,7 +1366,7 @@ feature envy from Sublime. Happy console hacking!</p>
 
   <h2 id="__comments">Comments</h2>
   <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2017/vim-send-text/",this.page.identifier="blog/2017/vim-send-text/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
+  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2024/column-with-a-g/",this.page.identifier="blog/2024/column-with-a-g/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
 
               
             </article>
@@ -1431,7 +1381,7 @@ feature envy from Sublime. Happy console hacking!</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../what-the-sql-recursive/" class="md-footer__link md-footer__link--prev" aria-label="Previous: What the SQL?!? Recursive" rel="prev">
+        <a href="../../2018/join-me-at-union-station/" class="md-footer__link md-footer__link--prev" aria-label="Previous: What the SQL?! JOIN me at UNION Station" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1440,20 +1390,20 @@ feature envy from Sublime. Happy console hacking!</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              What the SQL?!? Recursive
+              What the SQL?! JOIN me at UNION Station
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../2016/negative-modulo/" class="md-footer__link md-footer__link--next" aria-label="Next: PSA: Vim Modulo '%' Returns Negative Numbers!" rel="next">
+        <a href="../sql-bowling/" class="md-footer__link md-footer__link--next" aria-label="Next: Bowling Scores the SQL Way" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              PSA: Vim Modulo '%' Returns Negative Numbers!
+              Bowling Scores the SQL Way
             </div>
           </div>
           <div class="md-footer__button md-icon">
