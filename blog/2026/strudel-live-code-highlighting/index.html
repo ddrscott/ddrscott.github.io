@@ -1,0 +1,2869 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How Strudel implements real-time code highlighting during music playback - a unique approach to connecting notation and sound in live coding environments.">
+      
+      
+      
+      
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2026/strudel-live-code-highlighting/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2, mkdocs-material-7.1.7">
+    
+    
+      
+        <title>Live Code Highlighting: A Technical Deep Dive - Why, Scott, WHY?!?</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ca7ac06f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.f1a3b89f.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#546d78">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2026/strudel-live-code-highlighting/" />
+<meta name="twitter:creator" content="@_ddrscott_" />
+
+  
+<meta property="og:title" content="Live Code Highlighting: A Technical Deep Dive" />
+  
+  
+<meta name="twitter:image" content="/images/strudel-live-code-highlighting.png" />
+<meta property="og:image" content="/images/strudel-live-code-highlighting.png" />
+  
+  
+<meta property="og:description" content="How Strudel implements real-time code highlighting during music playback - a unique approach to connecting notation and sound in live coding environments." />
+<meta name="description" content="How Strudel implements real-time code highlighting during music playback - a unique approach to connecting notation and sound in live coding environments.">
+  
+
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="orange">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#strudels-live-code-highlighting-a-technical-deep-dive" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Why, Scott, WHY?!?" class="md-header__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Why, Scott, WHY?!?
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Live Code Highlighting: A Technical Deep Dive
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Why, Scott, WHY?!?" class="md-nav__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Why, Scott, WHY?!?
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Latest Posts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/" class="md-nav__link">
+        Projects
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Vim
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Vim" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Vim
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2018/getting-rusty-with-vim/" class="md-nav__link">
+        Getting Rusty with Vim
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/vim-send-text/" class="md-nav__link">
+        Vim Send Text
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
+        Vim Toggle Movement: I Just Want to Go Home
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
+        Yank Without Jank
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
+        Sensible Horizontal Scroll in Vim
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/side-search/" class="md-nav__link">
+        Vim Side Search: Making Search Fun Again
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
+        Making a Window Submode in Vim
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
+        BS to the Black Hole
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
+        PSA: Vim Modulo '%' Returns Negative Numbers!
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        SQL
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQL" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          SQL
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
+        Go SQL Injection: A Tale of Two Queries
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/why-are-llms-bad-at-sql/" class="md-nav__link">
+        Why are LLMs bad at SQL?
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/sql-bowling/" class="md-nav__link">
+        Bowling Scores the SQL Way
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2020/sql-ninja/" class="md-nav__link">
+        SQL + Jinja = Templating Done Right™
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/what-the-sql-lateral/" class="md-nav__link">
+        What the SQL?! Lateral Joins
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/what-the-sql-window/" class="md-nav__link">
+        What the SQL?! WINDOW
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/what-the-sql-recursive/" class="md-nav__link">
+        What the SQL?! Recursive
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2018/join-me-at-union-station/" class="md-nav__link">
+        What the SQL?! JOIN me at UNION Station
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      <label class="md-nav__link" for="__nav_6">
+        2026
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2026" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          2026
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Live Code Highlighting: A Technical Deep Dive
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Live Code Highlighting: A Technical Deep Dive
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    Abstract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    1. Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-problem-of-liveness" class="md-nav__link">
+    1.1 The Problem of Liveness
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-strudels-solution" class="md-nav__link">
+    1.2 Strudel's Solution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-prior-art-and-related-work" class="md-nav__link">
+    2. Prior Art and Related Work
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Prior Art and Related Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-gibber-annotations-and-visualizations" class="md-nav__link">
+    2.1 Gibber: Annotations and Visualizations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-estuary-collaborative-projectional-editing" class="md-nav__link">
+    2.2 Estuary: Collaborative Projectional Editing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-traditional-debugger-approaches" class="md-nav__link">
+    2.3 Traditional Debugger Approaches
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-codemirror-decoration-system" class="md-nav__link">
+    2.4 CodeMirror Decoration System
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-architecture-overview" class="md-nav__link">
+    3. Architecture Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-implementation-deep-dive" class="md-nav__link">
+    4. Implementation Deep Dive
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Implementation Deep Dive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-source-location-extraction" class="md-nav__link">
+    4.1 Source Location Extraction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-location-propagation-through-patterns" class="md-nav__link">
+    4.2 Location Propagation Through Patterns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-the-hap-data-structure" class="md-nav__link">
+    4.3 The Hap Data Structure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-codemirror-state-management" class="md-nav__link">
+    4.4 CodeMirror State Management
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 CodeMirror State Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-minilocations-structural-storage" class="md-nav__link">
+    4.4.1 miniLocations - Structural Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-visibleminilocations-active-hap-tracking" class="md-nav__link">
+    4.4.2 visibleMiniLocations - Active Hap Tracking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#443-minilocationhighlights-computed-decorations" class="md-nav__link">
+    4.4.3 miniLocationHighlights - Computed Decorations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-the-animation-loop" class="md-nav__link">
+    4.5 The Animation Loop
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-design-decisions-and-trade-offs" class="md-nav__link">
+    5. Design Decisions and Trade-offs
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Design Decisions and Trade-offs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-location-ids-vs-direct-references" class="md-nav__link">
+    5.1 Location IDs vs. Direct References
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-outline-vs-background-highlighting" class="md-nav__link">
+    5.2 Outline vs. Background Highlighting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-60fps-update-rate" class="md-nav__link">
+    5.3 60fps Update Rate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-color-propagation" class="md-nav__link">
+    5.4 Color Propagation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-comparison-with-alternative-approaches" class="md-nav__link">
+    6. Comparison with Alternative Approaches
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Comparison with Alternative Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-widget-injection-gibber-style" class="md-nav__link">
+    6.1 Widget Injection (Gibber-style)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-line-level-highlighting-debugger-style" class="md-nav__link">
+    6.2 Line-Level Highlighting (Debugger-style)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-cursor-following-sequencer-style" class="md-nav__link">
+    6.3 Cursor Following (Sequencer-style)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-strudels-approach-temporal-source-mapping" class="md-nav__link">
+    6.4 Strudel's Approach (Temporal Source Mapping)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-performance-characteristics" class="md-nav__link">
+    7. Performance Characteristics
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-time-complexity" class="md-nav__link">
+    7.1 Time Complexity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-space-complexity" class="md-nav__link">
+    7.2 Space Complexity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-observed-behavior" class="md-nav__link">
+    7.3 Observed Behavior
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-extensibility-and-customization" class="md-nav__link">
+    8. Extensibility and Customization
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Extensibility and Customization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-custom-styling" class="md-nav__link">
+    8.1 Custom Styling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-toggle-control" class="md-nav__link">
+    8.2 Toggle Control
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-integration-with-other-visualizations" class="md-nav__link">
+    8.3 Integration with Other Visualizations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-future-directions" class="md-nav__link">
+    9. Future Directions
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Future Directions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-expression-level-tracking" class="md-nav__link">
+    9.1 Expression-Level Tracking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-historical-visualization" class="md-nav__link">
+    9.2 Historical Visualization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-bidirectional-editing" class="md-nav__link">
+    9.3 Bidirectional Editing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-cross-editor-support" class="md-nav__link">
+    9.4 Cross-Editor Support
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-conclusion" class="md-nav__link">
+    10. Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-key-source-files" class="md-nav__link">
+    Appendix A: Key Source Files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-b-minimal-implementation" class="md-nav__link">
+    Appendix B: Minimal Implementation
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shark-bite-prevention/" class="md-nav__link">
+        How to Avoid Shark Bites: A Data-Driven Approach
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../browser-agent-plugin/" class="md-nav__link">
+        Browser Agent: Claude Code Plugin for Playwright
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../md-to-print-markdown-pdf-generator/" class="md-nav__link">
+        md-to-print: Because Screen Reading Killed My Eyes
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      <label class="md-nav__link" for="__nav_7">
+        2025
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2025" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          2025
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
+        Go SQL Injection: A Tale of Two Queries
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/nano-banana-2/" class="md-nav__link">
+        The Greatness of Nano Banana 2
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/ringlite-virtual-ring-light/" class="md-nav__link">
+        RingLite: A Virtual Ring Light That Doesn't Exist
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/tmate-is-dead-long-live-tmate/" class="md-nav__link">
+        tmate is Dead, Long Live tmate
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/what-is-a-string/" class="md-nav__link">
+        Double Quotes in Novels and Code
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/chatterbox-tts-voice-cloning/" class="md-nav__link">
+        How to say the impossible: Voice Cloning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2025/why-are-llms-bad-at-sql/" class="md-nav__link">
+        Why are LLMs bad at SQL?
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      <label class="md-nav__link" for="__nav_8">
+        2024
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2024" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          2024
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/column-with-a-g/" class="md-nav__link">
+        Column with a G
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/sql-bowling/" class="md-nav__link">
+        Bowling Scores the SQL Way
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/tts-comparision/" class="md-nav__link">
+        TTS Comparision
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/karaoke-podcast/" class="md-nav__link">
+        Karaoke Podcast
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/karaoke/" class="md-nav__link">
+        Karaoke
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/taking-humor-seriously/" class="md-nav__link">
+        Taking Humour Seriously
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2024/recovering-10x-developer/" class="md-nav__link">
+        Recovering 10x Developer
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      <label class="md-nav__link" for="__nav_9">
+        2023
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2023" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          2023
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2023/how-to-make-a-website-via-github/" class="md-nav__link">
+        How to Make a Website from Scratch via Github
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2023/larry-pierce-aka-dad/" class="md-nav__link">
+        Larry Pierce, aka Dad
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2023/wordy-passwords/" class="md-nav__link">
+        Wordy Passwords
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      <label class="md-nav__link" for="__nav_10">
+        2021
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2021" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          2021
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2021/i-heart-make/" class="md-nav__link">
+        I Heart Make
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      <label class="md-nav__link" for="__nav_11">
+        2020
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2020" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          2020
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2020/sql-ninja/" class="md-nav__link">
+        SQL + Jinja = Templating Done Right™
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
+      
+      <label class="md-nav__link" for="__nav_12">
+        2018
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2018" data-md-level="1">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          2018
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2018/move-to-mkdocs/" class="md-nav__link">
+        Move to MkDocs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2018/stream-stats-in-rust/" class="md-nav__link">
+        A Rustic Journey Through Stream Stats
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2018/getting-rusty-with-vim/" class="md-nav__link">
+        Getting Rusty with Vim
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2018/blog-setup/" class="md-nav__link">
+        Dev Blog Tools :: A Quick Tour of My Setup
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2018/join-me-at-union-station/" class="md-nav__link">
+        What the SQL?! JOIN me at UNION Station
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_13" type="checkbox" id="__nav_13" >
+      
+      <label class="md-nav__link" for="__nav_13">
+        2017
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2017" data-md-level="1">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          2017
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/base16-shell/" class="md-nav__link">
+        Base16 Shell
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/how-to-get-better-at-anything/" class="md-nav__link">
+        How to Get Better At Anything
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/fzf-dictionary/" class="md-nav__link">
+        FZF + WordNet = Dictionary
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/gnu-screen/" class="md-nav__link">
+        GNU Screen
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/what-the-sql-lateral/" class="md-nav__link">
+        What the SQL?!? Lateral Joins
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/what-the-sql-window/" class="md-nav__link">
+        What the SQL?!? WINDOW
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/what-the-sql-recursive/" class="md-nav__link">
+        What the SQL?!? Recursive
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2017/vim-send-text/" class="md-nav__link">
+        Vim Send Text
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_14" type="checkbox" id="__nav_14" >
+      
+      <label class="md-nav__link" for="__nav_14">
+        2016
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2016" data-md-level="1">
+        <label class="md-nav__title" for="__nav_14">
+          <span class="md-nav__icon md-icon"></span>
+          2016
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
+        PSA: Vim Modulo '%' Returns Negative Numbers!
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/photography-lightening-talk/" class="md-nav__link">
+        Photography Refactored
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/ruby-abuse/" class="md-nav__link">
+        Ruby Abuse: How Not to Write Ruby, But Still Have Fun
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
+        Making a Window Submode in Vim
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/ansi-codes-with-character/" class="md-nav__link">
+        ANSI Codes with Character
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
+        Vim Toggle Movement: I Just Want to Go Home
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
+        Yank Without Jank
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
+        Sensible Horizontal Scroll in Vim
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/side-search/" class="md-nav__link">
+        Vim Side Search: Making Search Fun Again
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
+        BS to the Black Hole
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_15" type="checkbox" id="__nav_15" >
+      
+      <label class="md-nav__link" for="__nav_15">
+        2014
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="2014" data-md-level="1">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          2014
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2014/tech-stack-2014-edition/" class="md-nav__link">
+        Tech Stack 2014 Edition
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2014/octopress-to-the-rescue/" class="md-nav__link">
+        Octopress to the Rescue
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    Abstract
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    1. Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-problem-of-liveness" class="md-nav__link">
+    1.1 The Problem of Liveness
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-strudels-solution" class="md-nav__link">
+    1.2 Strudel's Solution
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-prior-art-and-related-work" class="md-nav__link">
+    2. Prior Art and Related Work
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Prior Art and Related Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-gibber-annotations-and-visualizations" class="md-nav__link">
+    2.1 Gibber: Annotations and Visualizations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-estuary-collaborative-projectional-editing" class="md-nav__link">
+    2.2 Estuary: Collaborative Projectional Editing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-traditional-debugger-approaches" class="md-nav__link">
+    2.3 Traditional Debugger Approaches
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-codemirror-decoration-system" class="md-nav__link">
+    2.4 CodeMirror Decoration System
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-architecture-overview" class="md-nav__link">
+    3. Architecture Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-implementation-deep-dive" class="md-nav__link">
+    4. Implementation Deep Dive
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Implementation Deep Dive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-source-location-extraction" class="md-nav__link">
+    4.1 Source Location Extraction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-location-propagation-through-patterns" class="md-nav__link">
+    4.2 Location Propagation Through Patterns
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-the-hap-data-structure" class="md-nav__link">
+    4.3 The Hap Data Structure
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-codemirror-state-management" class="md-nav__link">
+    4.4 CodeMirror State Management
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 CodeMirror State Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-minilocations-structural-storage" class="md-nav__link">
+    4.4.1 miniLocations - Structural Storage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-visibleminilocations-active-hap-tracking" class="md-nav__link">
+    4.4.2 visibleMiniLocations - Active Hap Tracking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#443-minilocationhighlights-computed-decorations" class="md-nav__link">
+    4.4.3 miniLocationHighlights - Computed Decorations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-the-animation-loop" class="md-nav__link">
+    4.5 The Animation Loop
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-design-decisions-and-trade-offs" class="md-nav__link">
+    5. Design Decisions and Trade-offs
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Design Decisions and Trade-offs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-location-ids-vs-direct-references" class="md-nav__link">
+    5.1 Location IDs vs. Direct References
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-outline-vs-background-highlighting" class="md-nav__link">
+    5.2 Outline vs. Background Highlighting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-60fps-update-rate" class="md-nav__link">
+    5.3 60fps Update Rate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-color-propagation" class="md-nav__link">
+    5.4 Color Propagation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-comparison-with-alternative-approaches" class="md-nav__link">
+    6. Comparison with Alternative Approaches
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Comparison with Alternative Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-widget-injection-gibber-style" class="md-nav__link">
+    6.1 Widget Injection (Gibber-style)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-line-level-highlighting-debugger-style" class="md-nav__link">
+    6.2 Line-Level Highlighting (Debugger-style)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-cursor-following-sequencer-style" class="md-nav__link">
+    6.3 Cursor Following (Sequencer-style)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-strudels-approach-temporal-source-mapping" class="md-nav__link">
+    6.4 Strudel's Approach (Temporal Source Mapping)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-performance-characteristics" class="md-nav__link">
+    7. Performance Characteristics
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Performance Characteristics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-time-complexity" class="md-nav__link">
+    7.1 Time Complexity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-space-complexity" class="md-nav__link">
+    7.2 Space Complexity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-observed-behavior" class="md-nav__link">
+    7.3 Observed Behavior
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-extensibility-and-customization" class="md-nav__link">
+    8. Extensibility and Customization
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Extensibility and Customization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-custom-styling" class="md-nav__link">
+    8.1 Custom Styling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-toggle-control" class="md-nav__link">
+    8.2 Toggle Control
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-integration-with-other-visualizations" class="md-nav__link">
+    8.3 Integration with Other Visualizations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-future-directions" class="md-nav__link">
+    9. Future Directions
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Future Directions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-expression-level-tracking" class="md-nav__link">
+    9.1 Expression-Level Tracking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-historical-visualization" class="md-nav__link">
+    9.2 Historical Visualization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-bidirectional-editing" class="md-nav__link">
+    9.3 Bidirectional Editing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-cross-editor-support" class="md-nav__link">
+    9.4 Cross-Editor Support
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-conclusion" class="md-nav__link">
+    10. Conclusion
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-a-key-source-files" class="md-nav__link">
+    Appendix A: Key Source Files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-b-minimal-implementation" class="md-nav__link">
+    Appendix B: Minimal Implementation
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="strudels-live-code-highlighting-a-technical-deep-dive">Strudel's Live Code Highlighting: A Technical Deep Dive<a class="headerlink" href="#strudels-live-code-highlighting-a-technical-deep-dive" title="Permanent link">&para;</a></h1>
+<p><img class="featured" src="/images/strudel-live-code-highlighting.png" alt="Featured image showing code editor with glowing syntax highlighting and musical waveforms" /></p>
+<p><strong>How Strudel implements real-time code highlighting during music playback - a unique approach to connecting notation and sound in live coding environments.</strong></p>
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>Live coding environments for music have long grappled with a fundamental challenge: how to visually connect the code musicians write with the sounds they hear. While most live coding systems provide static syntax highlighting and flash feedback on evaluation, Strudel - a JavaScript port of TidalCycles - implements a sophisticated system that dynamically highlights code elements as they produce sound in real-time. This whitepaper examines Strudel's implementation in detail, surveys prior art in the field, and analyzes the architectural decisions that make this feature possible.</p>
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
+<h3 id="11-the-problem-of-liveness">1.1 The Problem of Liveness<a class="headerlink" href="#11-the-problem-of-liveness" title="Permanent link">&para;</a></h3>
+<p>In traditional programming environments, there's a clear separation between writing code and executing it. The feedback loop consists of: write code, run it, observe output. Live coding environments compress this loop dramatically, but even in systems like TidalCycles or Sonic Pi, the visual connection between code and sound remains indirect.</p>
+<p>Consider a pattern like:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">s</span><span class="p">(</span><span class="s2">&quot;bd hh sd hh&quot;</span><span class="p">).</span><span class="nx">note</span><span class="p">(</span><span class="s2">&quot;c3 e3 g3 b3&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>When this plays, a musician hears a sequence of sounds. But <em>which</em> part of the code is producing the current sound? Is it the <code>bd</code> (bass drum) or the <code>hh</code> (hi-hat)? The <code>c3</code> or the <code>g3</code>? Traditional syntax highlighting provides no answer - it colors keywords by their syntactic role, not their temporal activity.</p>
+<h3 id="12-strudels-solution">1.2 Strudel's Solution<a class="headerlink" href="#12-strudels-solution" title="Permanent link">&para;</a></h3>
+<p>Strudel solves this by implementing what we might call <strong>temporal source mapping</strong> - a system that maintains bidirectional links between:</p>
+<ol>
+<li><strong>Source code positions</strong> (character ranges in the editor)</li>
+<li><strong>Musical events</strong> (called "Haps" in Tidal terminology)</li>
+</ol>
+<p>When a Hap becomes active (i.e., its time span includes "now"), the corresponding source code is visually highlighted with a colored outline. This creates an immediate, visceral connection between notation and sound.</p>
+<p><img alt="Conceptual diagram of temporal source mapping" src="https://strudel.cc/learn/mini-notation" /></p>
+<h2 id="2-prior-art-and-related-work">2. Prior Art and Related Work<a class="headerlink" href="#2-prior-art-and-related-work" title="Permanent link">&para;</a></h2>
+<h3 id="21-gibber-annotations-and-visualizations">2.1 Gibber: Annotations and Visualizations<a class="headerlink" href="#21-gibber-annotations-and-visualizations" title="Permanent link">&para;</a></h3>
+<p>Charlie Roberts' research on Gibber represents the closest prior art to Strudel's approach. In his 2015 NIME paper "Beyond Editing: Extended Interaction with Textual Code Fragments," Roberts describes techniques for:</p>
+<ul>
+<li><strong>Inline annotations</strong>: Displaying runtime values directly in source code</li>
+<li><strong>Sparkline visualizations</strong>: Showing continuous signals as miniature graphs</li>
+<li><strong>Pattern playhead indicators</strong>: Visual markers showing current position in sequences</li>
+</ul>
+<p>Roberts' key insight was that source code could serve dual purposes: as notation (what to play) and as visualization (what is playing). His 2018 web essay "Realtime Annotations &amp; Visualizations in Live Coding Performance" catalogs these techniques extensively.</p>
+<p>However, Gibber's approach differs from Strudel's in a crucial way: Gibber's annotations are <strong>injected widgets</strong> that appear alongside or within code, whereas Strudel's highlighting <strong>decorates the existing code</strong> without modifying its visual structure.</p>
+<h3 id="22-estuary-collaborative-projectional-editing">2.2 Estuary: Collaborative Projectional Editing<a class="headerlink" href="#22-estuary-collaborative-projectional-editing" title="Permanent link">&para;</a></h3>
+<p>The Estuary project (Ogborn et al., 2017) explored collaborative live coding in the browser with TidalCycles-style patterns. While Estuary focused primarily on collaborative editing and "projectional" interfaces, it contributed to the ecosystem of browser-based live coding that Strudel builds upon.</p>
+<h3 id="23-traditional-debugger-approaches">2.3 Traditional Debugger Approaches<a class="headerlink" href="#23-traditional-debugger-approaches" title="Permanent link">&para;</a></h3>
+<p>Traditional debugging tools have long provided execution visualization:</p>
+<ul>
+<li><strong>Breakpoint highlighting</strong>: Current line indicators in step debuggers</li>
+<li><strong>Coverage highlighting</strong>: Showing which lines were executed</li>
+<li><strong>Profiler heat maps</strong>: Coloring code by execution frequency</li>
+</ul>
+<p>These approaches treat code as sequential instructions. Strudel's challenge is different: patterns are <strong>declarative and cyclical</strong>, not imperative and linear. A pattern like <code>"bd hh"</code> doesn't execute once - it continuously generates events across time.</p>
+<h3 id="24-codemirror-decoration-system">2.4 CodeMirror Decoration System<a class="headerlink" href="#24-codemirror-decoration-system" title="Permanent link">&para;</a></h3>
+<p>Strudel's implementation leverages CodeMirror 6's decoration system, which provides:</p>
+<ul>
+<li><strong>Mark decorations</strong>: Styling ranges of text</li>
+<li><strong>Widget decorations</strong>: Inserting DOM elements</li>
+<li><strong>Line decorations</strong>: Styling entire lines</li>
+<li><strong>Computed decorations</strong>: Dynamically generated based on state</li>
+</ul>
+<p>The key innovation in CodeMirror 6 is that decorations are computed from <strong>immutable state</strong>, enabling efficient updates without DOM thrashing.</p>
+<h2 id="3-architecture-overview">3. Architecture Overview<a class="headerlink" href="#3-architecture-overview" title="Permanent link">&para;</a></h2>
+<p>Strudel's live highlighting system consists of five interconnected components:</p>
+<div class="highlight"><pre><span></span><code>┌─────────────────────────────────────────────────────────────────┐
+│                         USER CODE                                │
+│                    s(&quot;bd hh&quot;).note(&quot;c&quot;)                         │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                        TRANSPILER                                │
+│   Parses code, extracts miniLocations: [[3, 10], [17, 20]]      │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │
+               ┌───────────────┴───────────────┐
+               ▼                               ▼
+┌──────────────────────────┐    ┌─────────────────────────────────┐
+│     PATTERN ENGINE       │    │          CODEMIRROR             │
+│  Attaches locations to   │    │   Stores locations as invisible │
+│  Haps via context        │    │   decorations with IDs          │
+└────────────┬─────────────┘    └──────────────┬──────────────────┘
+             │                                  │
+             ▼                                  │
+┌──────────────────────────┐                   │
+│       SCHEDULER          │                   │
+│  Queries pattern for     │                   │
+│  active haps @ 60fps     │                   │
+└────────────┬─────────────┘                   │
+             │                                  │
+             ▼                                  │
+┌──────────────────────────┐                   │
+│         DRAWER           │                   │
+│   Animation loop calls   │───────────────────┘
+│   highlight(haps, time)  │
+└────────────┬─────────────┘
+             │
+             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    VISUAL HIGHLIGHTING                           │
+│   CodeMirror computes decorations for active locations          │
+│   User sees: s(&quot;bd hh&quot;).note(&quot;c&quot;)                               │
+│                 ^^^^^^ ← outlined while sounding                │
+└─────────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h2 id="4-implementation-deep-dive">4. Implementation Deep Dive<a class="headerlink" href="#4-implementation-deep-dive" title="Permanent link">&para;</a></h2>
+<h3 id="41-source-location-extraction">4.1 Source Location Extraction<a class="headerlink" href="#41-source-location-extraction" title="Permanent link">&para;</a></h3>
+<p>The transpiler (<code>packages/transpiler/transpiler.mjs</code>) uses Acorn for JavaScript parsing and Peggy for mini notation parsing. During transpilation, it captures the character positions of each pattern element:</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">transpiler</span><span class="p">(</span><span class="nx">input</span><span class="p">,</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">emitMiniLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">options</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">miniLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">collectMiniLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">node</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">leafLocs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getLeafLocations</span><span class="p">(</span><span class="sb">`&quot;</span><span class="si">${</span><span class="nx">value</span><span class="si">}</span><span class="sb">&quot;`</span><span class="p">,</span><span class="w"> </span><span class="nx">node</span><span class="p">.</span><span class="nx">start</span><span class="p">,</span><span class="w"> </span><span class="nx">input</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">miniLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">miniLocations</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">leafLocs</span><span class="p">);</span>
+<span class="w">  </span><span class="p">};</span>
+
+<span class="w">  </span><span class="c1">// Walk AST, collect locations for mini notation strings...</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">output</span><span class="p">,</span><span class="w"> </span><span class="nx">miniLocations</span><span class="p">,</span><span class="w"> </span><span class="nx">widgets</span><span class="p">,</span><span class="w"> </span><span class="nx">sliders</span><span class="p">,</span><span class="w"> </span><span class="nx">labels</span><span class="w"> </span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The output format is an array of <code>[start, end]</code> tuples representing character ranges:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// For: s(&quot;bd hh&quot;).note(&quot;c3&quot;)</span>
+<span class="nx">miniLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">[</span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="mf">5</span><span class="p">],</span><span class="w">    </span><span class="c1">// &quot;bd&quot;</span>
+<span class="w">  </span><span class="p">[</span><span class="mf">6</span><span class="p">,</span><span class="w"> </span><span class="mf">8</span><span class="p">],</span><span class="w">    </span><span class="c1">// &quot;hh&quot;</span>
+<span class="w">  </span><span class="p">[</span><span class="mf">17</span><span class="p">,</span><span class="w"> </span><span class="mf">19</span><span class="p">],</span><span class="w">  </span><span class="c1">// &quot;c3&quot;</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="42-location-propagation-through-patterns">4.2 Location Propagation Through Patterns<a class="headerlink" href="#42-location-propagation-through-patterns" title="Permanent link">&para;</a></h3>
+<p>Patterns in Strudel carry a <code>context</code> object that propagates through all transformations. The <code>withLoc()</code> method attaches source positions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// packages/core/pattern.mjs</span>
+<span class="nx">withLoc</span><span class="p">(</span><span class="nx">start</span><span class="p">,</span><span class="w"> </span><span class="nx">end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">start</span><span class="p">,</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">};</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">withContext</span><span class="p">((</span><span class="nx">context</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">locations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">locations</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">[]).</span><span class="nx">concat</span><span class="p">([</span><span class="nx">location</span><span class="p">]);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="nx">context</span><span class="p">,</span><span class="w"> </span><span class="nx">locations</span><span class="w"> </span><span class="p">};</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This is crucial: when patterns are composed (via <code>stack</code>, <code>cat</code>, <code>slow</code>, <code>fast</code>, etc.), the location context is preserved and combined. A Hap created from <code>s("bd").stack(s("hh"))</code> will carry locations from <em>both</em> source patterns.</p>
+<h3 id="43-the-hap-data-structure">4.3 The Hap Data Structure<a class="headerlink" href="#43-the-hap-data-structure" title="Permanent link">&para;</a></h3>
+<p>A Hap (Happening) is the fundamental event unit in Tidal/Strudel:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// packages/core/hap.mjs</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">Hap</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">whole</span><span class="p">,</span><span class="w"> </span><span class="nx">part</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="nx">stateful</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">whole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">whole</span><span class="p">;</span><span class="w">      </span><span class="c1">// TimeSpan: when the event &quot;conceptually&quot; occurs</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">part</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">part</span><span class="p">;</span><span class="w">        </span><span class="c1">// TimeSpan: the portion being queried</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">value</span><span class="p">;</span><span class="w">      </span><span class="c1">// The sound/note/control data</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">context</span><span class="p">;</span><span class="w">  </span><span class="c1">// Includes locations!</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">stateful</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">stateful</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nx">isActive</span><span class="p">(</span><span class="nx">time</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">whole</span><span class="p">.</span><span class="nx">begin</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">time</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">endClipped</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">time</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The <code>context.locations</code> array enables reverse-mapping from event to source code.</p>
+<h3 id="44-codemirror-state-management">4.4 CodeMirror State Management<a class="headerlink" href="#44-codemirror-state-management" title="Permanent link">&para;</a></h3>
+<p>Strudel uses three CodeMirror 6 StateFields to manage highlighting:</p>
+<h4 id="441-minilocations-structural-storage">4.4.1 <code>miniLocations</code> - Structural Storage<a class="headerlink" href="#441-minilocations-structural-storage" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1">// packages/codemirror/highlight.mjs</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">miniLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StateField</span><span class="p">.</span><span class="nx">define</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">create</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">Decoration</span><span class="p">.</span><span class="nx">none</span><span class="p">;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">update</span><span class="p">(</span><span class="nx">locations</span><span class="p">,</span><span class="w"> </span><span class="nx">tr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">tr</span><span class="p">.</span><span class="nx">effects</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="nx">setMiniLocations</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">marks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">locations</span><span class="p">.</span><span class="nx">map</span><span class="p">(([</span><span class="kr">from</span><span class="p">,</span><span class="w"> </span><span class="nx">to</span><span class="p">])</span><span class="w"> </span><span class="p">=&gt;</span>
+<span class="w">          </span><span class="nx">Decoration</span><span class="p">.</span><span class="nx">mark</span><span class="p">({</span>
+<span class="w">            </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="kr">from</span><span class="si">}</span><span class="sb">:</span><span class="si">${</span><span class="nx">to</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span><span class="w">  </span><span class="c1">// Key for matching!</span>
+<span class="w">            </span><span class="nx">attributes</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">style</span><span class="o">:</span><span class="w"> </span><span class="sb">`background-color: #00CA2880`</span><span class="w"> </span><span class="p">},</span>
+<span class="w">          </span><span class="p">}).</span><span class="nx">range</span><span class="p">(</span><span class="kr">from</span><span class="p">,</span><span class="w"> </span><span class="nx">to</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="nx">locations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Decoration</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">marks</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">locations</span><span class="p">;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Each decoration carries an <code>id</code> in the format <code>"start:end"</code>, enabling O(1) lookup when matching active Haps.</p>
+<h4 id="442-visibleminilocations-active-hap-tracking">4.4.2 <code>visibleMiniLocations</code> - Active Hap Tracking<a class="headerlink" href="#442-visibleminilocations-active-hap-tracking" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">visibleMiniLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StateField</span><span class="p">.</span><span class="nx">define</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">create</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">atTime</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w"> </span><span class="nx">haps</span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="p">()</span><span class="w"> </span><span class="p">};</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">update</span><span class="p">(</span><span class="nx">visible</span><span class="p">,</span><span class="w"> </span><span class="nx">tr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">tr</span><span class="p">.</span><span class="nx">effects</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="nx">showMiniLocations</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">haps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Map</span><span class="p">();</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">hap</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">haps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">hap</span><span class="p">.</span><span class="nx">context</span><span class="o">?</span><span class="p">.</span><span class="nx">locations</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="nx">hap</span><span class="p">.</span><span class="nx">whole</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">          </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">start</span><span class="p">,</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">hap</span><span class="p">.</span><span class="nx">context</span><span class="p">.</span><span class="nx">locations</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">start</span><span class="si">}</span><span class="sb">:</span><span class="si">${</span><span class="nx">end</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">            </span><span class="c1">// Keep earliest-starting hap for each location</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">haps</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nx">haps</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">id</span><span class="p">).</span><span class="nx">whole</span><span class="p">.</span><span class="nx">begin</span><span class="p">.</span><span class="nx">lt</span><span class="p">(</span><span class="nx">hap</span><span class="p">.</span><span class="nx">whole</span><span class="p">.</span><span class="nx">begin</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nx">haps</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">hap</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">atTime</span><span class="o">:</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">atTime</span><span class="p">,</span><span class="w"> </span><span class="nx">haps</span><span class="w"> </span><span class="p">};</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">visible</span><span class="p">;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>This builds a Map from location IDs to their currently active Haps.</p>
+<h4 id="443-minilocationhighlights-computed-decorations">4.4.3 <code>miniLocationHighlights</code> - Computed Decorations<a class="headerlink" href="#443-minilocationhighlights-computed-decorations" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">miniLocationHighlights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">EditorView</span><span class="p">.</span><span class="nx">decorations</span><span class="p">.</span><span class="nx">compute</span><span class="p">(</span>
+<span class="w">  </span><span class="p">[</span><span class="nx">miniLocations</span><span class="p">,</span><span class="w"> </span><span class="nx">visibleMiniLocations</span><span class="p">,</span><span class="w"> </span><span class="nx">displayMiniLocationsState</span><span class="p">],</span>
+<span class="w">  </span><span class="p">(</span><span class="nx">state</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">shouldDisplay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">state</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="nx">displayMiniLocationsState</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">shouldDisplay</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">Decoration</span><span class="p">.</span><span class="nx">none</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">state</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="nx">miniLocations</span><span class="p">).</span><span class="nx">iter</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">haps</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">state</span><span class="p">.</span><span class="nx">field</span><span class="p">(</span><span class="nx">visibleMiniLocations</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">RangeSetBuilder</span><span class="p">();</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">iterator</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">from</span><span class="p">,</span><span class="w"> </span><span class="nx">to</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">spec</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">iterator</span><span class="p">;</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">haps</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">id</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">hap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">haps</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">hap</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">color</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s1">&#39;var(--foreground)&#39;</span><span class="p">;</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">hap</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">markcss</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="sb">`outline: solid 2px </span><span class="si">${</span><span class="nx">color</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">        </span><span class="nx">builder</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kr">from</span><span class="p">,</span><span class="w"> </span><span class="nx">to</span><span class="p">,</span><span class="w"> </span><span class="nx">Decoration</span><span class="p">.</span><span class="nx">mark</span><span class="p">({</span><span class="w"> </span><span class="nx">attributes</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">style</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}));</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="nx">iterator</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">builder</span><span class="p">.</span><span class="nx">finish</span><span class="p">();</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">);</span>
+</code></pre></div>
+<p>This is the heart of the system: it iterates through all stored locations, checks which have active Haps, and generates visible outline decorations for those.</p>
+<h3 id="45-the-animation-loop">4.5 The Animation Loop<a class="headerlink" href="#45-the-animation-loop" title="Permanent link">&para;</a></h3>
+<p>The Drawer class (<code>packages/draw/draw.mjs</code>) runs at <code>requestAnimationFrame</code> speed (~60fps):</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Drawer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">onDraw</span><span class="p">,</span><span class="w"> </span><span class="nx">drawTime</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">framer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Framer</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">phase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">scheduler</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">lookahead</span><span class="p">;</span>
+
+<span class="w">      </span><span class="c1">// Query the pattern for currently active haps</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">haps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">scheduler</span><span class="p">.</span><span class="nx">pattern</span><span class="p">.</span><span class="nx">queryArc</span><span class="p">(</span>
+<span class="w">        </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">lastFrame</span><span class="p">,</span><span class="w"> </span><span class="nx">phase</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="o">/</span><span class="mf">10</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">phase</span>
+<span class="w">      </span><span class="p">);</span>
+
+<span class="w">      </span><span class="c1">// Maintain visible haps with lookbehind for visual continuity</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">visibleHaps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">visibleHaps</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">[])</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">h</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">h</span><span class="p">.</span><span class="nx">whole</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">h</span><span class="p">.</span><span class="nx">endClipped</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nx">phase</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">lookbehind</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">lookahead</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">haps</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">h</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">h</span><span class="p">.</span><span class="nx">hasOnset</span><span class="p">()));</span>
+
+<span class="w">      </span><span class="c1">// Call the callback with current state</span>
+<span class="w">      </span><span class="nx">onDraw</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">visibleHaps</span><span class="p">,</span><span class="w"> </span><span class="nx">phase</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">lookahead</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">painters</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The StrudelMirror class connects this to CodeMirror:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// packages/codemirror/codemirror.mjs</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">drawer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Drawer</span><span class="p">((</span><span class="nx">haps</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">painters</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">currentFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">haps</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">hap</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">hap</span><span class="p">.</span><span class="nx">isActive</span><span class="p">(</span><span class="nx">time</span><span class="p">));</span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">highlight</span><span class="p">(</span><span class="nx">currentFrame</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">);</span><span class="w">  </span><span class="c1">// Updates CodeMirror!</span>
+<span class="w">  </span><span class="k">this</span><span class="p">.</span><span class="nx">onDraw</span><span class="p">(</span><span class="nx">haps</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">,</span><span class="w"> </span><span class="nx">painters</span><span class="p">);</span>
+<span class="p">},</span><span class="w"> </span><span class="nx">drawTime</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="5-design-decisions-and-trade-offs">5. Design Decisions and Trade-offs<a class="headerlink" href="#5-design-decisions-and-trade-offs" title="Permanent link">&para;</a></h2>
+<h3 id="51-location-ids-vs-direct-references">5.1 Location IDs vs. Direct References<a class="headerlink" href="#51-location-ids-vs-direct-references" title="Permanent link">&para;</a></h3>
+<p>Strudel uses string-based location IDs (<code>"start:end"</code>) rather than direct object references. This enables:</p>
+<ul>
+<li><strong>Serialization</strong>: Locations can be stored, transmitted, and compared</li>
+<li><strong>Immutability</strong>: CodeMirror state remains pure</li>
+<li><strong>Efficiency</strong>: Map lookups are O(1)</li>
+</ul>
+<p>The trade-off is potential collisions if two distinct code elements share identical positions (rare in practice).</p>
+<h3 id="52-outline-vs-background-highlighting">5.2 Outline vs. Background Highlighting<a class="headerlink" href="#52-outline-vs-background-highlighting" title="Permanent link">&para;</a></h3>
+<p>Strudel uses CSS <code>outline</code> rather than <code>background-color</code> for active highlighting:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">hap</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">markcss</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="sb">`outline: solid 2px </span><span class="si">${</span><span class="nx">color</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+</code></pre></div>
+<p>Outlines don't affect layout, don't obscure text, and can overlap without visual confusion. This is important when multiple elements are active simultaneously.</p>
+<h3 id="53-60fps-update-rate">5.3 60fps Update Rate<a class="headerlink" href="#53-60fps-update-rate" title="Permanent link">&para;</a></h3>
+<p>The animation loop runs at display refresh rate. This provides smooth visual updates but requires careful performance optimization:</p>
+<ul>
+<li><strong>Query window limiting</strong>: Only query a small time window</li>
+<li><strong>Hap filtering</strong>: Remove old haps from the visible list</li>
+<li><strong>Efficient state updates</strong>: CodeMirror's computed decorations only recompute when dependencies change</li>
+</ul>
+<h3 id="54-color-propagation">5.4 Color Propagation<a class="headerlink" href="#54-color-propagation" title="Permanent link">&para;</a></h3>
+<p>Hap colors come from the pattern's <code>value</code> object:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">hap</span><span class="p">.</span><span class="nx">value</span><span class="o">?</span><span class="p">.</span><span class="nx">color</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="s1">&#39;var(--foreground)&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>This enables patterns like:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">s</span><span class="p">(</span><span class="s2">&quot;bd hh&quot;</span><span class="p">).</span><span class="nx">color</span><span class="p">(</span><span class="s2">&quot;red blue&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Where different elements of the pattern can have different highlight colors.</p>
+<h2 id="6-comparison-with-alternative-approaches">6. Comparison with Alternative Approaches<a class="headerlink" href="#6-comparison-with-alternative-approaches" title="Permanent link">&para;</a></h2>
+<h3 id="61-widget-injection-gibber-style">6.1 Widget Injection (Gibber-style)<a class="headerlink" href="#61-widget-injection-gibber-style" title="Permanent link">&para;</a></h3>
+<p><strong>Approach</strong>: Insert DOM elements alongside or within code to show state.</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Can display rich information (graphs, sliders)</li>
+<li>Doesn't require pattern-to-source mapping</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Changes visual layout</li>
+<li>Requires custom parser/renderer</li>
+<li>Can clutter the editor</li>
+</ul>
+<h3 id="62-line-level-highlighting-debugger-style">6.2 Line-Level Highlighting (Debugger-style)<a class="headerlink" href="#62-line-level-highlighting-debugger-style" title="Permanent link">&para;</a></h3>
+<p><strong>Approach</strong>: Highlight entire lines that are "active."</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Simple to implement</li>
+<li>Works with any language</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Too coarse for pattern-based music</li>
+<li>Patterns often span multiple elements on one line</li>
+</ul>
+<h3 id="63-cursor-following-sequencer-style">6.3 Cursor Following (Sequencer-style)<a class="headerlink" href="#63-cursor-following-sequencer-style" title="Permanent link">&para;</a></h3>
+<p><strong>Approach</strong>: Move a cursor/playhead across the code as time progresses.</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Intuitive for linear sequences</li>
+<li>Familiar from DAWs</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Doesn't work for polyphonic patterns</li>
+<li>Assumes left-to-right temporal ordering</li>
+</ul>
+<h3 id="64-strudels-approach-temporal-source-mapping">6.4 Strudel's Approach (Temporal Source Mapping)<a class="headerlink" href="#64-strudels-approach-temporal-source-mapping" title="Permanent link">&para;</a></h3>
+<p><strong>Approach</strong>: Map musical events to source positions, highlight active positions.</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Works for polyphonic, polyrhythmic patterns</li>
+<li>Preserves code readability</li>
+<li>Scales to complex compositions</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Requires deep integration with pattern engine</li>
+<li>Performance overhead from continuous updates</li>
+<li>Limited to pattern elements (not arbitrary expressions)</li>
+</ul>
+<h2 id="7-performance-characteristics">7. Performance Characteristics<a class="headerlink" href="#7-performance-characteristics" title="Permanent link">&para;</a></h2>
+<h3 id="71-time-complexity">7.1 Time Complexity<a class="headerlink" href="#71-time-complexity" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location extraction (transpile)</td>
+<td>O(n) where n = AST nodes</td>
+</tr>
+<tr>
+<td>Location storage (CodeMirror)</td>
+<td>O(m) where m = locations</td>
+</tr>
+<tr>
+<td>Active hap lookup</td>
+<td>O(k) where k = active haps</td>
+</tr>
+<tr>
+<td>Decoration computation</td>
+<td>O(m) worst case, typically O(k)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-space-complexity">7.2 Space Complexity<a class="headerlink" href="#72-space-complexity" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Data Structure</th>
+<th>Space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>miniLocations array</td>
+<td>O(m)</td>
+</tr>
+<tr>
+<td>CodeMirror decorations</td>
+<td>O(m)</td>
+</tr>
+<tr>
+<td>Active haps Map</td>
+<td>O(k)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73-observed-behavior">7.3 Observed Behavior<a class="headerlink" href="#73-observed-behavior" title="Permanent link">&para;</a></h3>
+<p>In practice, with typical live coding patterns (10-50 locations), the system maintains smooth 60fps updates. Performance degrades with:</p>
+<ul>
+<li>Very long code (thousands of locations)</li>
+<li>High-density patterns (hundreds of simultaneous events)</li>
+<li>Low-powered devices</li>
+</ul>
+<h2 id="8-extensibility-and-customization">8. Extensibility and Customization<a class="headerlink" href="#8-extensibility-and-customization" title="Permanent link">&para;</a></h2>
+<h3 id="81-custom-styling">8.1 Custom Styling<a class="headerlink" href="#81-custom-styling" title="Permanent link">&para;</a></h3>
+<p>Users can customize highlight appearance via <code>.markcss()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">s</span><span class="p">(</span><span class="s2">&quot;bd hh&quot;</span><span class="p">).</span><span class="nx">markcss</span><span class="p">(</span><span class="s2">&quot;background: rgba(255,0,0,0.3); border-radius: 4px&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="82-toggle-control">8.2 Toggle Control<a class="headerlink" href="#82-toggle-control" title="Permanent link">&para;</a></h3>
+<p>Highlighting can be enabled/disabled:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Via CodeMirror effect</span>
+<span class="nx">view</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">({</span><span class="w"> </span><span class="nx">effects</span><span class="o">:</span><span class="w"> </span><span class="nx">displayMiniLocations</span><span class="p">.</span><span class="k">of</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<h3 id="83-integration-with-other-visualizations">8.3 Integration with Other Visualizations<a class="headerlink" href="#83-integration-with-other-visualizations" title="Permanent link">&para;</a></h3>
+<p>The same Hap data drives other visualizations (pianoroll, waveform) via the Drawer's <code>onDraw</code> callback, enabling synchronized multi-modal feedback.</p>
+<h2 id="9-future-directions">9. Future Directions<a class="headerlink" href="#9-future-directions" title="Permanent link">&para;</a></h2>
+<h3 id="91-expression-level-tracking">9.1 Expression-Level Tracking<a class="headerlink" href="#91-expression-level-tracking" title="Permanent link">&para;</a></h3>
+<p>Currently, only mini notation elements are tracked. Extending to arbitrary JavaScript expressions would enable highlighting for:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">note</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">12</span><span class="p">)</span><span class="w">  </span><span class="c1">// Which random value is playing?</span>
+</code></pre></div>
+<h3 id="92-historical-visualization">9.2 Historical Visualization<a class="headerlink" href="#92-historical-visualization" title="Permanent link">&para;</a></h3>
+<p>Showing recently-played elements with fading opacity could provide temporal context beyond the current instant.</p>
+<h3 id="93-bidirectional-editing">9.3 Bidirectional Editing<a class="headerlink" href="#93-bidirectional-editing" title="Permanent link">&para;</a></h3>
+<p>Clicking a highlighted element during playback could select that Hap for modification, enabling direct manipulation of playing sounds.</p>
+<h3 id="94-cross-editor-support">9.4 Cross-Editor Support<a class="headerlink" href="#94-cross-editor-support" title="Permanent link">&para;</a></h3>
+<p>The architecture could be ported to other editors (Monaco, Ace) by abstracting the CodeMirror-specific decoration system.</p>
+<h2 id="10-conclusion">10. Conclusion<a class="headerlink" href="#10-conclusion" title="Permanent link">&para;</a></h2>
+<p>Strudel's live code highlighting represents a significant advancement in live coding interfaces. By maintaining bidirectional links between source code and musical events, it creates an immediate visual connection between notation and sound that enhances both performance and learning.</p>
+<p>The key architectural insights are:</p>
+<ol>
+<li><strong>Capture locations during parsing</strong> - not execution</li>
+<li><strong>Propagate locations through pattern composition</strong> - maintaining context</li>
+<li><strong>Use efficient lookup structures</strong> - location IDs enable O(1) matching</li>
+<li><strong>Leverage editor decoration systems</strong> - CodeMirror's computed decorations</li>
+<li><strong>Run at animation frame rate</strong> - smooth visual updates</li>
+</ol>
+<p>This approach is generalizable to other domains where code produces time-varying output: animation, simulation, robotics, or any system where "which code is active now?" is a meaningful question.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Roberts, C., Wright, M., &amp; Kuchera-Morin, J. (2015). "Beyond Editing: Extended Interaction with Textual Code Fragments." NIME 2015.</p>
+</li>
+<li>
+<p>Roberts, C. (2018). "Realtime Annotations &amp; Visualizations in Live Coding Performance." Web Essay. <a href="https://charlieroberts.github.io/annotationsAndVisualizations/">https://charlieroberts.github.io/annotationsAndVisualizations/</a></p>
+</li>
+<li>
+<p>Ogborn, D., Beverley, J., del Angel, L. N., Tsabary, E., &amp; McLean, A. (2017). "Estuary: Browser-based Collaborative Projectional Live Coding of Musical Patterns." ICLC 2017.</p>
+</li>
+<li>
+<p>Roos, F. &amp; McLean, A. (2023). "Strudel: Live Coding Patterns on the Web." ICLC 2023.</p>
+</li>
+<li>
+<p>CodeMirror. "Decoration Example." <a href="https://codemirror.net/examples/decoration/">https://codemirror.net/examples/decoration/</a></p>
+</li>
+<li>
+<p>Roberts, C. &amp; Wakefield, G. (2017). "gibberwocky: New Live-Coding Instruments for Musical Performance." NIME 2017.</p>
+</li>
+<li>
+<p>McLean, A. (2014). "Making Programming Languages to Dance to: Live Coding with Tidal." FARM 2014.</p>
+</li>
+<li>
+<p>Xambó, A. &amp; Roma, G. (2024). "Human-machine agencies in live coding for music performance." Journal of New Music Research.</p>
+</li>
+</ol>
+<h2 id="appendix-a-key-source-files">Appendix A: Key Source Files<a class="headerlink" href="#appendix-a-key-source-files" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>packages/transpiler/transpiler.mjs</code></td>
+<td>Source location extraction</td>
+</tr>
+<tr>
+<td><code>packages/core/pattern.mjs</code></td>
+<td><code>withLoc()</code> method, context propagation</td>
+</tr>
+<tr>
+<td><code>packages/core/hap.mjs</code></td>
+<td>Hap class with <code>isActive()</code></td>
+</tr>
+<tr>
+<td><code>packages/core/repl.mjs</code></td>
+<td>Evaluation and location passing</td>
+</tr>
+<tr>
+<td><code>packages/draw/draw.mjs</code></td>
+<td>Animation loop</td>
+</tr>
+<tr>
+<td><code>packages/codemirror/highlight.mjs</code></td>
+<td>StateFields and decorations</td>
+</tr>
+<tr>
+<td><code>packages/codemirror/codemirror.mjs</code></td>
+<td>StrudelMirror integration</td>
+</tr>
+</tbody>
+</table>
+<h2 id="appendix-b-minimal-implementation">Appendix B: Minimal Implementation<a class="headerlink" href="#appendix-b-minimal-implementation" title="Permanent link">&para;</a></h2>
+<p>For developers interested in implementing similar functionality, here's a minimal example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 1. During parsing, capture source positions</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">locations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="nx">ast</span><span class="p">.</span><span class="nx">walk</span><span class="p">(</span><span class="nx">node</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">isPatternElement</span><span class="p">(</span><span class="nx">node</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">locations</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">node</span><span class="p">.</span><span class="nx">start</span><span class="p">,</span><span class="w"> </span><span class="nx">node</span><span class="p">.</span><span class="nx">end</span><span class="p">]);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// 2. Attach locations to events</span>
+<span class="kd">class</span><span class="w"> </span><span class="nx">Event</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">constructor</span><span class="p">(</span><span class="nx">time</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">locations</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">time</span><span class="p">;</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">value</span><span class="p">;</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">locations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">locations</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="nx">isActive</span><span class="p">(</span><span class="nx">now</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">time</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">time</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">duration</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 3. Animation loop</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">animate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">scheduler</span><span class="p">.</span><span class="nx">currentTime</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">activeEvents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">events</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">e</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">isActive</span><span class="p">(</span><span class="nx">now</span><span class="p">));</span>
+
+<span class="w">  </span><span class="c1">// 4. Update editor decorations</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">activeLocations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nb">Set</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">activeEvents</span><span class="p">.</span><span class="nx">flatMap</span><span class="p">(</span><span class="nx">e</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">locations</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">l</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">l</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="si">}</span><span class="sb">:</span><span class="si">${</span><span class="nx">l</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span><span class="si">}</span><span class="sb">`</span><span class="p">))</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="w">  </span><span class="nx">editor</span><span class="p">.</span><span class="nx">updateDecorations</span><span class="p">(</span><span class="nx">activeLocations</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">requestAnimationFrame</span><span class="p">(</span><span class="nx">animate</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<p><em>This whitepaper is based on analysis of Strudel version 1.3.0, hosted at <a href="https://strudel.cc">strudel.cc</a> and <a href="https://codeberg.org/strudel">codeberg.org/strudel</a>.</em></p>
+                
+                  
+                
+              
+              
+                
+
+
+  <h2 id="__comments">Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2026/strudel-live-code-highlighting/",this.page.identifier="blog/2026/strudel-live-code-highlighting/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../../2018/join-me-at-union-station/" class="md-footer__link md-footer__link--prev" aria-label="Previous: What the SQL?! JOIN me at UNION Station" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              What the SQL?! JOIN me at UNION Station
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../shark-bite-prevention/" class="md-footer__link md-footer__link--next" aria-label="Next: How to Avoid Shark Bites: A Data-Driven Approach" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              How to Avoid Shark Bites: A Data-Driven Approach
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2014 - 2026 Scott Pierce
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/ddrscott" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/_ddrscott_" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    
+    
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <script type="text/javascript">
+    (function(w, d, s, u) {
+        w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true; j.src = 'https://chat.chickencow.org/livechat/rocketchat-livechat.min.js?_=201903270000';
+        h.parentNode.insertBefore(j, h);
+    })(window, document, 'script', 'https://chat.chickencow.org/livechat');
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C68DD62WS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-9C68DD62WS');
+    </script>
+    <script defer data-domain="ddrscott.github.io" src="https://plausible.dataturd.com/js/script.outbound-links.js"></script>
+
+  </body>
+</html>
