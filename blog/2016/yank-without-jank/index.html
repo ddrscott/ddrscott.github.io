@@ -59,6 +59,46 @@
   
   
 
+<style>
+  .sponsor-sidebar {
+    margin: 1.6rem 0.6rem 1rem 0.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--md-default-fg-color--lightest);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .sponsor-sidebar__copy {
+    font-size: 0.7rem;
+    color: var(--md-default-fg-color--light);
+    margin: 0;
+    line-height: 1.3;
+  }
+  .sponsor-sidebar iframe {
+    border: 0;
+    border-radius: 6px;
+    width: 114px;
+    height: 32px;
+    display: block;
+  }
+  .sponsor-header-button {
+    display: none;
+    margin: 0 0.4rem;
+    align-self: center;
+  }
+  .sponsor-header-button iframe {
+    border: 0;
+    border-radius: 6px;
+    width: 114px;
+    height: 32px;
+    display: block;
+  }
+  @media screen and (max-width: 76.1875em) {
+    .sponsor-sidebar { display: none; }
+    .sponsor-header-button { display: flex; }
+  }
+</style>
 
   </head>
   
@@ -572,6 +612,18 @@
           2026
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2026/postgres-via-cloudflare-tunnel/" class="md-nav__link">
+        Postgres via Cloudflare Tunnel
+      </a>
+    </li>
+  
+
           
             
   
@@ -1738,6 +1790,28 @@ Thanks <a class="magiclink magiclink-github magiclink-mention" href="https://git
       gtag('config', 'G-9C68DD62WS');
     </script>
     <script defer data-domain="ddrscott.github.io" src="https://plausible.dataturd.com/js/script.outbound-links.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var navInner = document.querySelector(".md-sidebar--primary .md-sidebar__inner");
+      if (navInner) {
+        var sidebar = document.createElement("div");
+        sidebar.className = "sponsor-sidebar";
+        sidebar.innerHTML =
+          '<p class="sponsor-sidebar__copy">Like this? Motivate me to write more!</p>' +
+          '<iframe src="https://github.com/sponsors/ddrscott/button" title="Sponsor ddrscott" loading="lazy"></iframe>';
+        navInner.appendChild(sidebar);
+      }
+
+      var headerInner = document.querySelector(".md-header__inner");
+      if (headerInner) {
+        var btn = document.createElement("div");
+        btn.className = "sponsor-header-button";
+        btn.innerHTML = '<iframe src="https://github.com/sponsors/ddrscott/button" title="Sponsor ddrscott" loading="lazy"></iframe>';
+        headerInner.appendChild(btn);
+      }
+    });
+    </script>
 
   </body>
 </html>

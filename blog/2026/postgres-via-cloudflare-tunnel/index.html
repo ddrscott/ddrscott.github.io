@@ -6,24 +6,27 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="Expose your local Postgres to the world without opening firewall ports.
+">
       
       
       
-        <link rel="canonical" href="https://ddrscott.github.io/projects/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+        <link rel="canonical" href="https://ddrscott.github.io/blog/2026/postgres-via-cloudflare-tunnel/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2, mkdocs-material-7.1.7">
     
     
       
-        <title>Projects - Why, Scott, WHY?!?</title>
+        <title>Postgres via Cloudflare Tunnel - Why, Scott, WHY?!?</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ca7ac06f.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ca7ac06f.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.f1a3b89f.min.css">
         
           
           
@@ -47,8 +50,22 @@
     
     
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="https://ddrscott.github.io/projects/" />
+<meta name="twitter:site" content="https://ddrscott.github.io/blog/2026/postgres-via-cloudflare-tunnel/" />
 <meta name="twitter:creator" content="@_ddrscott_" />
+
+  
+<meta property="og:title" content="Postgres via Cloudflare Tunnel" />
+  
+  
+<meta name="twitter:image" content="/images/2026/postgres-via-cloudflare-tunnel.jpg" />
+<meta property="og:image" content="/images/2026/postgres-via-cloudflare-tunnel.jpg" />
+  
+  
+<meta property="og:description" content="Expose your local Postgres to the world without opening firewall ports.
+" />
+<meta name="description" content="Expose your local Postgres to the world without opening firewall ports.
+">
+  
 
 <style>
   .sponsor-sidebar {
@@ -102,7 +119,7 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="orange">
   
     
-    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -110,7 +127,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#projects" class="md-skip">
+        <a href="#postgres-via-cloudflare-tunnel" class="md-skip">
           Skip to content
         </a>
       
@@ -121,7 +138,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Why, Scott, WHY?!?" class="md-header__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
+    <a href="../../.." title="Why, Scott, WHY?!?" class="md-header__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -140,7 +157,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Projects
+              Postgres via Cloudflare Tunnel
             
           </span>
         </div>
@@ -201,7 +218,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Why, Scott, WHY?!?" class="md-nav__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
+    <a href="../../.." title="Why, Scott, WHY?!?" class="md-nav__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -220,7 +237,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         Latest Posts
       </a>
     </li>
@@ -235,7 +252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../about/" class="md-nav__link">
+      <a href="../../../about/" class="md-nav__link">
         About
       </a>
     </li>
@@ -248,212 +265,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Projects
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../projects/" class="md-nav__link">
         Projects
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#smoke" class="md-nav__link">
-    Smoke
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fake-pipe-anonymizer" class="md-nav__link">
-    Fake Pipe / Anonymizer
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#thread-logger" class="md-nav__link">
-    Thread Logger
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ansinine" class="md-nav__link">
-    Ansinine
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flameboyant" class="md-nav__link">
-    Flameboyant
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gcp-directory" class="md-nav__link">
-    GCP Directory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#golumn" class="md-nav__link">
-    Golumn
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hipaatitis" class="md-nav__link">
-    Hipaatitis
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#listen-sql" class="md-nav__link">
-    Listen SQL
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#math-finder" class="md-nav__link">
-    Math Finder
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#model-mirror" class="md-nav__link">
-    Model Mirror
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#poppy" class="md-nav__link">
-    Poppy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#s3-index" class="md-nav__link">
-    S3 Index
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slack-cli" class="md-nav__link">
-    Slack CLI
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#socket2me" class="md-nav__link">
-    Socket2me
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sql-probe" class="md-nav__link">
-    SQL Probe
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stream-stats" class="md-nav__link">
-    Stream Stats
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sudoku" class="md-nav__link">
-    Sudoku
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-cycle-movements" class="md-nav__link">
-    vim-cycle-movements
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-sendtext" class="md-nav__link">
-    vim-sendtext
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-side-search" class="md-nav__link">
-    vim-side-search
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-textobj-anyblock" class="md-nav__link">
-    vim-textobj-anyblock
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-window" class="md-nav__link">
-    vim-window
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#wheeler" class="md-nav__link">
-    wheeler
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -487,7 +303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2018/getting-rusty-with-vim/" class="md-nav__link">
+      <a href="../../2018/getting-rusty-with-vim/" class="md-nav__link">
         Getting Rusty with Vim
       </a>
     </li>
@@ -499,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/vim-send-text/" class="md-nav__link">
+      <a href="../../2017/vim-send-text/" class="md-nav__link">
         Vim Send Text
       </a>
     </li>
@@ -511,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/vim-toggle-movement/" class="md-nav__link">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
         Vim Toggle Movement: I Just Want to Go Home
       </a>
     </li>
@@ -523,7 +339,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/yank-without-jank/" class="md-nav__link">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
         Yank Without Jank
       </a>
     </li>
@@ -535,7 +351,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/sidescroll/" class="md-nav__link">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
         Sensible Horizontal Scroll in Vim
       </a>
     </li>
@@ -547,7 +363,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/side-search/" class="md-nav__link">
+      <a href="../../2016/side-search/" class="md-nav__link">
         Vim Side Search: Making Search Fun Again
       </a>
     </li>
@@ -559,7 +375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/making-a-window-submode/" class="md-nav__link">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
         Making a Window Submode in Vim
       </a>
     </li>
@@ -571,7 +387,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/bs-to-the-black-hole/" class="md-nav__link">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
         BS to the Black Hole
       </a>
     </li>
@@ -583,7 +399,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/negative-modulo/" class="md-nav__link">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
         PSA: Vim Modulo '%' Returns Negative Numbers!
       </a>
     </li>
@@ -625,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
+      <a href="../../2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
         Go SQL Injection: A Tale of Two Queries
       </a>
     </li>
@@ -637,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/why-are-llms-bad-at-sql/" class="md-nav__link">
+      <a href="../../2025/why-are-llms-bad-at-sql/" class="md-nav__link">
         Why are LLMs bad at SQL?
       </a>
     </li>
@@ -649,7 +465,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/sql-bowling/" class="md-nav__link">
+      <a href="../../2024/sql-bowling/" class="md-nav__link">
         Bowling Scores the SQL Way
       </a>
     </li>
@@ -661,7 +477,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2020/sql-ninja/" class="md-nav__link">
+      <a href="../../2020/sql-ninja/" class="md-nav__link">
         SQL + Jinja = Templating Done Right™
       </a>
     </li>
@@ -673,7 +489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/what-the-sql-lateral/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-lateral/" class="md-nav__link">
         What the SQL?! Lateral Joins
       </a>
     </li>
@@ -685,7 +501,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/what-the-sql-window/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-window/" class="md-nav__link">
         What the SQL?! WINDOW
       </a>
     </li>
@@ -697,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/what-the-sql-recursive/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-recursive/" class="md-nav__link">
         What the SQL?! Recursive
       </a>
     </li>
@@ -709,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2018/join-me-at-union-station/" class="md-nav__link">
+      <a href="../../2018/join-me-at-union-station/" class="md-nav__link">
         What the SQL?! JOIN me at UNION Station
       </a>
     </li>
@@ -728,12 +544,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
       
       <label class="md-nav__link" for="__nav_6">
         2026
@@ -749,11 +567,72 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../blog/2026/postgres-via-cloudflare-tunnel/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Postgres via Cloudflare Tunnel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Postgres via Cloudflare Tunnel
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#start-the-pg-server-using-docker" class="md-nav__link">
+    Start the PG Server using Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-local-connection-using-docker" class="md-nav__link">
+    Test Local Connection using Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-tunnel" class="md-nav__link">
+    Create the Tunnel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-from-remote" class="md-nav__link">
+    Connect from Remote
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -763,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2026/strudel-live-code-highlighting/" class="md-nav__link">
+      <a href="../strudel-live-code-highlighting/" class="md-nav__link">
         Live Code Highlighting: A Technical Deep Dive
       </a>
     </li>
@@ -775,7 +654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2026/shark-bite-prevention/" class="md-nav__link">
+      <a href="../shark-bite-prevention/" class="md-nav__link">
         How to Avoid Shark Bites: A Data-Driven Approach
       </a>
     </li>
@@ -787,7 +666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2026/browser-agent-plugin/" class="md-nav__link">
+      <a href="../browser-agent-plugin/" class="md-nav__link">
         Browser Agent: Claude Code Plugin for Playwright
       </a>
     </li>
@@ -799,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2026/md-to-print-markdown-pdf-generator/" class="md-nav__link">
+      <a href="../md-to-print-markdown-pdf-generator/" class="md-nav__link">
         md-to-print: Because Screen Reading Killed My Eyes
       </a>
     </li>
@@ -841,7 +720,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
+      <a href="../../2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
         Go SQL Injection: A Tale of Two Queries
       </a>
     </li>
@@ -853,7 +732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/nano-banana-2/" class="md-nav__link">
+      <a href="../../2025/nano-banana-2/" class="md-nav__link">
         The Greatness of Nano Banana 2
       </a>
     </li>
@@ -865,7 +744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/ringlite-virtual-ring-light/" class="md-nav__link">
+      <a href="../../2025/ringlite-virtual-ring-light/" class="md-nav__link">
         RingLite: A Virtual Ring Light That Doesn't Exist
       </a>
     </li>
@@ -877,7 +756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/tmate-is-dead-long-live-tmate/" class="md-nav__link">
+      <a href="../../2025/tmate-is-dead-long-live-tmate/" class="md-nav__link">
         tmate is Dead, Long Live tmate
       </a>
     </li>
@@ -889,7 +768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/what-is-a-string/" class="md-nav__link">
+      <a href="../../2025/what-is-a-string/" class="md-nav__link">
         Double Quotes in Novels and Code
       </a>
     </li>
@@ -901,7 +780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/chatterbox-tts-voice-cloning/" class="md-nav__link">
+      <a href="../../2025/chatterbox-tts-voice-cloning/" class="md-nav__link">
         How to say the impossible: Voice Cloning
       </a>
     </li>
@@ -913,7 +792,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2025/why-are-llms-bad-at-sql/" class="md-nav__link">
+      <a href="../../2025/why-are-llms-bad-at-sql/" class="md-nav__link">
         Why are LLMs bad at SQL?
       </a>
     </li>
@@ -955,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/column-with-a-g/" class="md-nav__link">
+      <a href="../../2024/column-with-a-g/" class="md-nav__link">
         Column with a G
       </a>
     </li>
@@ -967,7 +846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/sql-bowling/" class="md-nav__link">
+      <a href="../../2024/sql-bowling/" class="md-nav__link">
         Bowling Scores the SQL Way
       </a>
     </li>
@@ -979,7 +858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/tts-comparision/" class="md-nav__link">
+      <a href="../../2024/tts-comparision/" class="md-nav__link">
         TTS Comparision
       </a>
     </li>
@@ -991,7 +870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/karaoke-podcast/" class="md-nav__link">
+      <a href="../../2024/karaoke-podcast/" class="md-nav__link">
         Karaoke Podcast
       </a>
     </li>
@@ -1003,7 +882,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/karaoke/" class="md-nav__link">
+      <a href="../../2024/karaoke/" class="md-nav__link">
         Karaoke
       </a>
     </li>
@@ -1015,7 +894,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/taking-humor-seriously/" class="md-nav__link">
+      <a href="../../2024/taking-humor-seriously/" class="md-nav__link">
         Taking Humour Seriously
       </a>
     </li>
@@ -1027,7 +906,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2024/recovering-10x-developer/" class="md-nav__link">
+      <a href="../../2024/recovering-10x-developer/" class="md-nav__link">
         Recovering 10x Developer
       </a>
     </li>
@@ -1069,7 +948,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2023/how-to-make-a-website-via-github/" class="md-nav__link">
+      <a href="../../2023/how-to-make-a-website-via-github/" class="md-nav__link">
         How to Make a Website from Scratch via Github
       </a>
     </li>
@@ -1081,7 +960,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2023/larry-pierce-aka-dad/" class="md-nav__link">
+      <a href="../../2023/larry-pierce-aka-dad/" class="md-nav__link">
         Larry Pierce, aka Dad
       </a>
     </li>
@@ -1093,7 +972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2023/wordy-passwords/" class="md-nav__link">
+      <a href="../../2023/wordy-passwords/" class="md-nav__link">
         Wordy Passwords
       </a>
     </li>
@@ -1135,7 +1014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2021/i-heart-make/" class="md-nav__link">
+      <a href="../../2021/i-heart-make/" class="md-nav__link">
         I Heart Make
       </a>
     </li>
@@ -1177,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2020/sql-ninja/" class="md-nav__link">
+      <a href="../../2020/sql-ninja/" class="md-nav__link">
         SQL + Jinja = Templating Done Right™
       </a>
     </li>
@@ -1219,7 +1098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2018/move-to-mkdocs/" class="md-nav__link">
+      <a href="../../2018/move-to-mkdocs/" class="md-nav__link">
         Move to MkDocs
       </a>
     </li>
@@ -1231,7 +1110,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2018/stream-stats-in-rust/" class="md-nav__link">
+      <a href="../../2018/stream-stats-in-rust/" class="md-nav__link">
         A Rustic Journey Through Stream Stats
       </a>
     </li>
@@ -1243,7 +1122,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2018/getting-rusty-with-vim/" class="md-nav__link">
+      <a href="../../2018/getting-rusty-with-vim/" class="md-nav__link">
         Getting Rusty with Vim
       </a>
     </li>
@@ -1255,7 +1134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2018/blog-setup/" class="md-nav__link">
+      <a href="../../2018/blog-setup/" class="md-nav__link">
         Dev Blog Tools :: A Quick Tour of My Setup
       </a>
     </li>
@@ -1267,7 +1146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2018/join-me-at-union-station/" class="md-nav__link">
+      <a href="../../2018/join-me-at-union-station/" class="md-nav__link">
         What the SQL?! JOIN me at UNION Station
       </a>
     </li>
@@ -1309,7 +1188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/base16-shell/" class="md-nav__link">
+      <a href="../../2017/base16-shell/" class="md-nav__link">
         Base16 Shell
       </a>
     </li>
@@ -1321,7 +1200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/how-to-get-better-at-anything/" class="md-nav__link">
+      <a href="../../2017/how-to-get-better-at-anything/" class="md-nav__link">
         How to Get Better At Anything
       </a>
     </li>
@@ -1333,7 +1212,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/fzf-dictionary/" class="md-nav__link">
+      <a href="../../2017/fzf-dictionary/" class="md-nav__link">
         FZF + WordNet = Dictionary
       </a>
     </li>
@@ -1345,7 +1224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/gnu-screen/" class="md-nav__link">
+      <a href="../../2017/gnu-screen/" class="md-nav__link">
         GNU Screen
       </a>
     </li>
@@ -1357,7 +1236,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/what-the-sql-lateral/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-lateral/" class="md-nav__link">
         What the SQL?!? Lateral Joins
       </a>
     </li>
@@ -1369,7 +1248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/what-the-sql-window/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-window/" class="md-nav__link">
         What the SQL?!? WINDOW
       </a>
     </li>
@@ -1381,7 +1260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/what-the-sql-recursive/" class="md-nav__link">
+      <a href="../../2017/what-the-sql-recursive/" class="md-nav__link">
         What the SQL?!? Recursive
       </a>
     </li>
@@ -1393,7 +1272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2017/vim-send-text/" class="md-nav__link">
+      <a href="../../2017/vim-send-text/" class="md-nav__link">
         Vim Send Text
       </a>
     </li>
@@ -1435,7 +1314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/negative-modulo/" class="md-nav__link">
+      <a href="../../2016/negative-modulo/" class="md-nav__link">
         PSA: Vim Modulo '%' Returns Negative Numbers!
       </a>
     </li>
@@ -1447,7 +1326,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/photography-lightening-talk/" class="md-nav__link">
+      <a href="../../2016/photography-lightening-talk/" class="md-nav__link">
         Photography Refactored
       </a>
     </li>
@@ -1459,7 +1338,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/ruby-abuse/" class="md-nav__link">
+      <a href="../../2016/ruby-abuse/" class="md-nav__link">
         Ruby Abuse: How Not to Write Ruby, But Still Have Fun
       </a>
     </li>
@@ -1471,7 +1350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/making-a-window-submode/" class="md-nav__link">
+      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
         Making a Window Submode in Vim
       </a>
     </li>
@@ -1483,7 +1362,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/ansi-codes-with-character/" class="md-nav__link">
+      <a href="../../2016/ansi-codes-with-character/" class="md-nav__link">
         ANSI Codes with Character
       </a>
     </li>
@@ -1495,7 +1374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/vim-toggle-movement/" class="md-nav__link">
+      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
         Vim Toggle Movement: I Just Want to Go Home
       </a>
     </li>
@@ -1507,7 +1386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/yank-without-jank/" class="md-nav__link">
+      <a href="../../2016/yank-without-jank/" class="md-nav__link">
         Yank Without Jank
       </a>
     </li>
@@ -1519,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/sidescroll/" class="md-nav__link">
+      <a href="../../2016/sidescroll/" class="md-nav__link">
         Sensible Horizontal Scroll in Vim
       </a>
     </li>
@@ -1531,7 +1410,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/side-search/" class="md-nav__link">
+      <a href="../../2016/side-search/" class="md-nav__link">
         Vim Side Search: Making Search Fun Again
       </a>
     </li>
@@ -1543,7 +1422,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2016/bs-to-the-black-hole/" class="md-nav__link">
+      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
         BS to the Black Hole
       </a>
     </li>
@@ -1585,7 +1464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2014/tech-stack-2014-edition/" class="md-nav__link">
+      <a href="../../2014/tech-stack-2014-edition/" class="md-nav__link">
         Tech Stack 2014 Edition
       </a>
     </li>
@@ -1597,7 +1476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blog/2014/octopress-to-the-rescue/" class="md-nav__link">
+      <a href="../../2014/octopress-to-the-rescue/" class="md-nav__link">
         Octopress to the Rescue
       </a>
     </li>
@@ -1618,7 +1497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../about/" class="md-nav__link">
+      <a href="../../../about/" class="md-nav__link">
         About
       </a>
     </li>
@@ -1651,169 +1530,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#smoke" class="md-nav__link">
-    Smoke
+  <a href="#start-the-pg-server-using-docker" class="md-nav__link">
+    Start the PG Server using Docker
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#fake-pipe-anonymizer" class="md-nav__link">
-    Fake Pipe / Anonymizer
+  <a href="#test-local-connection-using-docker" class="md-nav__link">
+    Test Local Connection using Docker
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#thread-logger" class="md-nav__link">
-    Thread Logger
+  <a href="#create-the-tunnel" class="md-nav__link">
+    Create the Tunnel
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#ansinine" class="md-nav__link">
-    Ansinine
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flameboyant" class="md-nav__link">
-    Flameboyant
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gcp-directory" class="md-nav__link">
-    GCP Directory
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#golumn" class="md-nav__link">
-    Golumn
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hipaatitis" class="md-nav__link">
-    Hipaatitis
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#listen-sql" class="md-nav__link">
-    Listen SQL
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#math-finder" class="md-nav__link">
-    Math Finder
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#model-mirror" class="md-nav__link">
-    Model Mirror
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#poppy" class="md-nav__link">
-    Poppy
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#s3-index" class="md-nav__link">
-    S3 Index
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slack-cli" class="md-nav__link">
-    Slack CLI
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#socket2me" class="md-nav__link">
-    Socket2me
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sql-probe" class="md-nav__link">
-    SQL Probe
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stream-stats" class="md-nav__link">
-    Stream Stats
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sudoku" class="md-nav__link">
-    Sudoku
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-cycle-movements" class="md-nav__link">
-    vim-cycle-movements
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-sendtext" class="md-nav__link">
-    vim-sendtext
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-side-search" class="md-nav__link">
-    vim-side-search
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-textobj-anyblock" class="md-nav__link">
-    vim-textobj-anyblock
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vim-window" class="md-nav__link">
-    vim-window
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#wheeler" class="md-nav__link">
-    wheeler
+  <a href="#connect-from-remote" class="md-nav__link">
+    Connect from Remote
   </a>
   
 </li>
@@ -1831,83 +1570,45 @@
               
                 
                 
-                <h1 id="projects">Projects<a class="headerlink" href="#projects" title="Permanent link">&para;</a></h1>
-<p>Here's a list of Scott's public projects. The Vim projects are the most popular. Most of the projects could and use some TLC, but they worked at one point in time and served the author well.</p>
-<h2 id="smoke">Smoke<a class="headerlink" href="#smoke" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/smoke">https://github.com/ddrscott/smoke</a></p>
-<p>Make your terminal smoke.</p>
-<h2 id="fake-pipe-anonymizer">Fake Pipe / Anonymizer<a class="headerlink" href="#fake-pipe-anonymizer" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/fake_pipe">https://github.com/ddrscott/fake_pipe</a></p>
-<p>A simply way to <a href="https://en.wikipedia.org/wiki/Data_anonymization">anonymize data</a> for exporting to various departments for analytics and troubleshooting. This tool allows us to annotate a DB schema with special comments that can trigger different data mutations.</p>
-<h2 id="thread-logger">Thread Logger<a class="headerlink" href="#thread-logger" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/thread_logger">https://github.com/ddrscott/thread_logger</a></p>
-<p>This is a logger wrapper that keeps in memory a ring buffer of log lines isolated to the Thread.current. The main use of this is to have access to log history for when exception happen.</p>
-<h2 id="ansinine">Ansinine<a class="headerlink" href="#ansinine" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/ansinine">https://github.com/ddrscott/ansinine</a></p>
-<p>Asinine things to do with ANSI escape codes.</p>
-<h2 id="flameboyant">Flameboyant<a class="headerlink" href="#flameboyant" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/flameboyant">https://github.com/ddrscott/flameboyant</a></p>
-<p>Ruby profile with flame graphs.</p>
-<h2 id="gcp-directory">GCP Directory<a class="headerlink" href="#gcp-directory" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/gcp_directory">https://github.com/ddrscott/gcp_directory</a></p>
-<p>Listen to a directory for new files and send them to Google Cloud Print.</p>
-<h2 id="golumn">Golumn<a class="headerlink" href="#golumn" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/golumn">https://github.com/ddrscott/golumn</a></p>
-<p>Golumn is a desktop CSV viewer to replace the <code>column</code> command. Think column with a "g". It behaves similar to the <code>column</code> command, but with a graphic user interface. It bridges the command line and desktop divide by allowing us to present tabular data outside the confines of the terminal.</p>
-<h2 id="hipaatitis">Hipaatitis<a class="headerlink" href="#hipaatitis" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/hipaatitis">https://github.com/ddrscott/hipaatitis</a></p>
-<p>A fake reference medical CRM with fake data and naughty queries.</p>
-<h2 id="listen-sql">Listen SQL<a class="headerlink" href="#listen-sql" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/listen_sql">https://github.com/ddrscott/listen_sql</a></p>
-<p>Helper scripts to monitor SQL file changes and execute them using psql.</p>
-<h2 id="math-finder">Math Finder<a class="headerlink" href="#math-finder" title="Permanent link">&para;</a></h2>
-<p><a href="https://ddrscott.github.io/math-finder/">https://ddrscott.github.io/math-finder/</a></p>
-<p>Find math problems in the number grid. Kids love it. Solver included.</p>
-<h2 id="model-mirror">Model Mirror<a class="headerlink" href="#model-mirror" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/model_mirror">https://github.com/ddrscott/model_mirror</a></p>
-<p>This project provides a basic viewer of your Rails models without needing to configure your model relationships in YACF (Yet Another Config File).</p>
-<p><code>ModelMirror</code> inspects your existing ActiveRecord associations using reflection to figure out the relationships.</p>
-<h2 id="poppy">Poppy<a class="headerlink" href="#poppy" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/poppy">https://github.com/ddrscott/poppy</a></p>
-<p>Always on top resizable dialog displaying a URL.</p>
-<h2 id="s3-index">S3 Index<a class="headerlink" href="#s3-index" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/s3_index">https://github.com/ddrscott/s3_index</a></p>
-<p>This gem is intended to provide a catalog of S3 objects in order to easily query the metadata about those objects. S3 can provide a list of objects, but that is slow. With S3Index, you can save and query that list using standard database tools and SQL.</p>
-<h2 id="slack-cli">Slack CLI<a class="headerlink" href="#slack-cli" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/slack_cli">https://github.com/ddrscott/slack_cli</a></p>
-<p>Post Slack messages from CLI.</p>
-<h2 id="socket2me">Socket2me<a class="headerlink" href="#socket2me" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/socket2me">https://github.com/ddrscott/socket2me</a></p>
-<p>Execute Javascript in the browser from the server using WebSockets.</p>
-<h2 id="sql-probe">SQL Probe<a class="headerlink" href="#sql-probe" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/sql_probe">https://github.com/ddrscott/sql_probe</a></p>
-<p>SQL Probe is a tool to trace SQL utilization in your application and provides a UI to investigate how tables are accessed.</p>
-<h2 id="stream-stats">Stream Stats<a class="headerlink" href="#stream-stats" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/stream_stats">https://github.com/ddrscott/stream_stats</a></p>
-<p>Output statistics about data from stdin while redirecting the data to stdout. The statistics are bytes read, bytes read per second, lines read, lines read per second and total seconds.</p>
-<p>Similar to <code>pv</code> command which I didn't know about until after I created this project.</p>
-<h2 id="sudoku">Sudoku<a class="headerlink" href="#sudoku" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/sudoku">https://github.com/ddrscott/sudoku</a></p>
-<p>Solver using backtracking prioritizing fewer choices first.</p>
-<h2 id="vim-cycle-movements">vim-cycle-movements<a class="headerlink" href="#vim-cycle-movements" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/vim-cycle-movements">https://github.com/ddrscott/vim-cycle-movements</a></p>
-<p><a href="http://ddrscott.github.io/blog/2016/vim-toggle-movement">http://ddrscott.github.io/blog/2016/vim-toggle-movement</a></p>
-<p>Provides a mechanism to perform different movements based on repetition.</p>
-<h2 id="vim-sendtext">vim-sendtext<a class="headerlink" href="#vim-sendtext" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/vim-sendtext">https://github.com/ddrscott/vim-sendtext</a></p>
-<p>SendText-like support for running Vim with iTerm2</p>
-<h2 id="vim-side-search">vim-side-search<a class="headerlink" href="#vim-side-search" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/vim-side-search">https://github.com/ddrscott/vim-side-search</a></p>
-<p>This plugin adds ag output to a side buffer with quick navigation mappings using comfortable Vim conventions.</p>
-<h2 id="vim-textobj-anyblock">vim-textobj-anyblock<a class="headerlink" href="#vim-textobj-anyblock" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/vim-textobj-anyblock">https://github.com/ddrscott/vim-textobj-anyblock</a></p>
-<p>Guess the surrounding text object.</p>
-<h2 id="vim-window">vim-window<a class="headerlink" href="#vim-window" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/vim-window">https://github.com/ddrscott/vim-window</a></p>
-<p>This aims to make Vim window layouts a easier. The default mappings and commands make managing more than a couple windows difficult.</p>
-<h2 id="wheeler">wheeler<a class="headerlink" href="#wheeler" title="Permanent link">&para;</a></h2>
-<p><a href="https://github.com/ddrscott/wheeler">https://github.com/ddrscott/wheeler</a></p>
-<p>Wheeler is a naive Wheel of Fortune solver. It does this by indexing sampled text from where ever into every possible contiguous combination of words up to a max phrase length.</p>
+                <h1 id="postgres-via-cloudflare-tunnel">Postgres via Cloudflare Tunnel<a class="headerlink" href="#postgres-via-cloudflare-tunnel" title="Permanent link">&para;</a></h1>
+<p><img class="featured" src="/images/2026/postgres-via-cloudflare-tunnel.jpg" alt="PostgreSQL elephant connected to Cloudflare cloud via secure tunnel" /></p>
+<p><strong>Access your home Postgres from anywhere with Cloudflare Tunnels.</strong></p>
+<h2 id="start-the-pg-server-using-docker">Start the PG Server using Docker<a class="headerlink" href="#start-the-pg-server-using-docker" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>pg16<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>secret<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="m">15432</span>:5432<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span>pg16_data:/var/lib/postgresql/data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgvector/pgvector:pg16
+</code></pre></div>
+<h2 id="test-local-connection-using-docker">Test Local Connection using Docker<a class="headerlink" href="#test-local-connection-using-docker" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span>secret<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgvector/pgvector:pg16<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-h<span class="w"> </span><span class="m">192</span>.168.86.250<span class="w"> </span>-U<span class="w"> </span>postgres<span class="w"> </span>-p<span class="w"> </span><span class="m">15432</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;select version()&#39;</span>
+</code></pre></div>
+<blockquote>
+<p>Replace <code>192.168.86.250</code> with your machine's private IP.</p>
+</blockquote>
+<h2 id="create-the-tunnel">Create the Tunnel<a class="headerlink" href="#create-the-tunnel" title="Permanent link">&para;</a></h2>
+<p>Install <code>cloudflared</code> on the Docker host following the <a href="https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/get-started/create-remote-tunnel/">official guide</a>.</p>
+<p>Configure the tunnel to point to <code>localhost:15432</code>.</p>
+<h2 id="connect-from-remote">Connect from Remote<a class="headerlink" href="#connect-from-remote" title="Permanent link">&para;</a></h2>
+<p>On any remote machine:</p>
+<div class="highlight"><pre><span></span><code>cloudflared<span class="w"> </span>access<span class="w"> </span>tcp<span class="w"> </span>--hostname<span class="w"> </span>pg16.dataturd.com<span class="w"> </span>--url<span class="w"> </span>localhost:15432
+</code></pre></div>
+<p>Then connect your client to <code>localhost:15432</code> as if Postgres were local:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># With Docker</span>
+docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span>secret<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--network<span class="w"> </span>host<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgvector/pgvector:pg16<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-U<span class="w"> </span>postgres<span class="w"> </span>-p<span class="w"> </span><span class="m">15432</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;select version()&#39;</span>
+
+<span class="c1"># Or with local psql</span>
+<span class="nv">PGPASSWORD</span><span class="o">=</span>secret<span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>localhost<span class="w"> </span>-U<span class="w"> </span>postgres<span class="w"> </span>-p<span class="w"> </span><span class="m">15432</span><span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;select version()&#39;</span>
+</code></pre></div>
+                
+                  
                 
               
               
@@ -1916,7 +1617,7 @@
 
   <h2 id="__comments">Comments</h2>
   <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/projects/",this.page.identifier="projects/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
+  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2026/postgres-via-cloudflare-tunnel/",this.page.identifier="blog/2026/postgres-via-cloudflare-tunnel/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
 
               
             </article>
@@ -1931,7 +1632,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../about/" class="md-footer__link md-footer__link--prev" aria-label="Previous: About" rel="prev">
+        <a href="../../2018/join-me-at-union-station/" class="md-footer__link md-footer__link--prev" aria-label="Previous: What the SQL?! JOIN me at UNION Station" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1940,20 +1641,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              About
+              What the SQL?! JOIN me at UNION Station
             </div>
           </div>
         </a>
       
       
         
-        <a href="../blog/2018/getting-rusty-with-vim/" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Rusty with Vim" rel="next">
+        <a href="../strudel-live-code-highlighting/" class="md-footer__link md-footer__link--next" aria-label="Next: Live Code Highlighting: A Technical Deep Dive" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Getting Rusty with Vim
+              Live Code Highlighting: A Technical Deep Dive
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -2008,7 +1709,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
     <!-- Start of Rocket.Chat Livechat Script -->
