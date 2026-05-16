@@ -1,2070 +1,415 @@
-
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-      
-        <link rel="canonical" href="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/">
-      
-      <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2, mkdocs-material-7.1.7">
-    
-    
-      
-        <title>What the SQL?!? Lateral Joins - Why, Scott, WHY?!?</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ca7ac06f.min.css">
-      
-        
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.f1a3b89f.min.css">
-        
-          
-          
-          <meta name="theme-color" content="#546d78">
-        
-      
-    
-    
-    
-      
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
-      
-    
-    
-    
-    
-      
-    
-    
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/" />
-<meta name="twitter:creator" content="@_ddrscott_" />
-
-  
-<meta property="og:title" content="What the SQL?!? Lateral Joins" />
-  
-  
-<meta name="twitter:image" content="/images/what_the_sql_lateral.png" />
-<meta property="og:image" content="/images/what_the_sql_lateral.png" />
-  
-  
-
-<style>
-  .sponsor-sidebar {
-    margin: 1.6rem 0.6rem 1rem 0.6rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--md-default-fg-color--lightest);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  .sponsor-sidebar__copy {
-    font-size: 0.7rem;
-    color: var(--md-default-fg-color--light);
-    margin: 0;
-    line-height: 1.3;
-  }
-  .sponsor-sidebar iframe {
-    border: 0;
-    border-radius: 6px;
-    width: 114px;
-    height: 32px;
-    display: block;
-  }
-  .sponsor-header-button {
-    display: none;
-    margin: 0 0.4rem;
-    align-self: center;
-  }
-  .sponsor-header-button iframe {
-    border: 0;
-    border-radius: 6px;
-    width: 114px;
-    height: 32px;
-    display: block;
-  }
-  @media screen and (max-width: 76.1875em) {
-    .sponsor-sidebar { display: none; }
-    .sponsor-header-button { display: flex; }
-  }
-</style>
-
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue-grey" data-md-color-accent="orange">
-  
-    
-    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#what-the-sql-lateral-joins" class="md-skip">
-          Skip to content
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Why, Scott, WHY?!?" class="md-header__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            Why, Scott, WHY?!?
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              What the SQL?!? Lateral Joins
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Initializing search
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-  </nav>
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Why, Scott, WHY?!?" class="md-nav__button md-logo" aria-label="Why, Scott, WHY?!?" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    Why, Scott, WHY?!?
-  </label>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
-        Latest Posts
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../about/" class="md-nav__link">
-        About
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../projects/" class="md-nav__link">
-        Projects
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      <label class="md-nav__link" for="__nav_4">
-        Vim
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="Vim" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          Vim
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2018/getting-rusty-with-vim/" class="md-nav__link">
-        Getting Rusty with Vim
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vim-send-text/" class="md-nav__link">
-        Vim Send Text
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
-        Vim Toggle Movement: I Just Want to Go Home
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/yank-without-jank/" class="md-nav__link">
-        Yank Without Jank
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/sidescroll/" class="md-nav__link">
-        Sensible Horizontal Scroll in Vim
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/side-search/" class="md-nav__link">
-        Vim Side Search: Making Search Fun Again
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
-        Making a Window Submode in Vim
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
-        BS to the Black Hole
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/negative-modulo/" class="md-nav__link">
-        PSA: Vim Modulo '%' Returns Negative Numbers!
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
-      
-      <label class="md-nav__link" for="__nav_5">
-        SQL
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="SQL" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
-          <span class="md-nav__icon md-icon"></span>
-          SQL
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
-        Go SQL Injection: A Tale of Two Queries
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/why-are-llms-bad-at-sql/" class="md-nav__link">
-        Why are LLMs bad at SQL?
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/sql-bowling/" class="md-nav__link">
-        Bowling Scores the SQL Way
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2020/sql-ninja/" class="md-nav__link">
-        SQL + Jinja = Templating Done Right™
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="./" class="md-nav__link">
-        What the SQL?! Lateral Joins
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../what-the-sql-window/" class="md-nav__link">
-        What the SQL?! WINDOW
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../what-the-sql-recursive/" class="md-nav__link">
-        What the SQL?! Recursive
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2018/join-me-at-union-station/" class="md-nav__link">
-        What the SQL?! JOIN me at UNION Station
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
-      
-      <label class="md-nav__link" for="__nav_6">
-        2026
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2026" data-md-level="1">
-        <label class="md-nav__title" for="__nav_6">
-          <span class="md-nav__icon md-icon"></span>
-          2026
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2026/postgres-via-cloudflare-tunnel/" class="md-nav__link">
-        Postgres via Cloudflare Tunnel
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2026/strudel-live-code-highlighting/" class="md-nav__link">
-        Live Code Highlighting: A Technical Deep Dive
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2026/shark-bite-prevention/" class="md-nav__link">
-        How to Avoid Shark Bites: A Data-Driven Approach
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2026/browser-agent-plugin/" class="md-nav__link">
-        Browser Agent: Claude Code Plugin for Playwright
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2026/md-to-print-markdown-pdf-generator/" class="md-nav__link">
-        md-to-print: Because Screen Reading Killed My Eyes
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
-      
-      <label class="md-nav__link" for="__nav_7">
-        2025
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2025" data-md-level="1">
-        <label class="md-nav__title" for="__nav_7">
-          <span class="md-nav__icon md-icon"></span>
-          2025
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/go-sql-injection-the-wrong-way/" class="md-nav__link">
-        Go SQL Injection: A Tale of Two Queries
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/nano-banana-2/" class="md-nav__link">
-        The Greatness of Nano Banana 2
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/ringlite-virtual-ring-light/" class="md-nav__link">
-        RingLite: A Virtual Ring Light That Doesn't Exist
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/tmate-is-dead-long-live-tmate/" class="md-nav__link">
-        tmate is Dead, Long Live tmate
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/what-is-a-string/" class="md-nav__link">
-        Double Quotes in Novels and Code
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/chatterbox-tts-voice-cloning/" class="md-nav__link">
-        How to say the impossible: Voice Cloning
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2025/why-are-llms-bad-at-sql/" class="md-nav__link">
-        Why are LLMs bad at SQL?
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
-      
-      <label class="md-nav__link" for="__nav_8">
-        2024
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2024" data-md-level="1">
-        <label class="md-nav__title" for="__nav_8">
-          <span class="md-nav__icon md-icon"></span>
-          2024
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/column-with-a-g/" class="md-nav__link">
-        Column with a G
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/sql-bowling/" class="md-nav__link">
-        Bowling Scores the SQL Way
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/tts-comparision/" class="md-nav__link">
-        TTS Comparision
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/karaoke-podcast/" class="md-nav__link">
-        Karaoke Podcast
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/karaoke/" class="md-nav__link">
-        Karaoke
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/taking-humor-seriously/" class="md-nav__link">
-        Taking Humour Seriously
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2024/recovering-10x-developer/" class="md-nav__link">
-        Recovering 10x Developer
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
-      
-      <label class="md-nav__link" for="__nav_9">
-        2023
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2023" data-md-level="1">
-        <label class="md-nav__title" for="__nav_9">
-          <span class="md-nav__icon md-icon"></span>
-          2023
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2023/how-to-make-a-website-via-github/" class="md-nav__link">
-        How to Make a Website from Scratch via Github
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2023/larry-pierce-aka-dad/" class="md-nav__link">
-        Larry Pierce, aka Dad
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2023/wordy-passwords/" class="md-nav__link">
-        Wordy Passwords
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
-      
-      <label class="md-nav__link" for="__nav_10">
-        2021
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2021" data-md-level="1">
-        <label class="md-nav__title" for="__nav_10">
-          <span class="md-nav__icon md-icon"></span>
-          2021
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2021/i-heart-make/" class="md-nav__link">
-        I Heart Make
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
-      
-      <label class="md-nav__link" for="__nav_11">
-        2020
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2020" data-md-level="1">
-        <label class="md-nav__title" for="__nav_11">
-          <span class="md-nav__icon md-icon"></span>
-          2020
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2020/sql-ninja/" class="md-nav__link">
-        SQL + Jinja = Templating Done Right™
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
-      
-      <label class="md-nav__link" for="__nav_12">
-        2018
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2018" data-md-level="1">
-        <label class="md-nav__title" for="__nav_12">
-          <span class="md-nav__icon md-icon"></span>
-          2018
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2018/move-to-mkdocs/" class="md-nav__link">
-        Move to MkDocs
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2018/stream-stats-in-rust/" class="md-nav__link">
-        A Rustic Journey Through Stream Stats
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2018/getting-rusty-with-vim/" class="md-nav__link">
-        Getting Rusty with Vim
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2018/blog-setup/" class="md-nav__link">
-        Dev Blog Tools :: A Quick Tour of My Setup
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2018/join-me-at-union-station/" class="md-nav__link">
-        What the SQL?! JOIN me at UNION Station
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_13" type="checkbox" id="__nav_13" checked>
-      
-      <label class="md-nav__link" for="__nav_13">
-        2017
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2017" data-md-level="1">
-        <label class="md-nav__title" for="__nav_13">
-          <span class="md-nav__icon md-icon"></span>
-          2017
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../base16-shell/" class="md-nav__link">
-        Base16 Shell
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../how-to-get-better-at-anything/" class="md-nav__link">
-        How to Get Better At Anything
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../fzf-dictionary/" class="md-nav__link">
-        FZF + WordNet = Dictionary
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gnu-screen/" class="md-nav__link">
-        GNU Screen
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          What the SQL?!? Lateral Joins
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        What the SQL?!? Lateral Joins
-      </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#a-problem-to-solve" class="md-nav__link">
-    A Problem to Solve
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sample-uptime-data" class="md-nav__link">
-    Sample Uptime Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#left-join" class="md-nav__link">
-    Left Join
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#time-to-compute-some-timing" class="md-nav__link">
-    Time to compute some timing
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#subquery-subquery-whats-the-worry" class="md-nav__link">
-    Subquery, Subquery, What's the Worry?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enough-nesting-lateral-join-save-me" class="md-nav__link">
-    Enough Nesting, LATERAL join save me!
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plot-the-hours" class="md-nav__link">
-    Plot the Hours
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#more-than-cte-and-cross-join" class="md-nav__link">
-    More than CTE and Cross Join
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../what-the-sql-window/" class="md-nav__link">
-        What the SQL?!? WINDOW
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../what-the-sql-recursive/" class="md-nav__link">
-        What the SQL?!? Recursive
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vim-send-text/" class="md-nav__link">
-        Vim Send Text
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_14" type="checkbox" id="__nav_14" >
-      
-      <label class="md-nav__link" for="__nav_14">
-        2016
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2016" data-md-level="1">
-        <label class="md-nav__title" for="__nav_14">
-          <span class="md-nav__icon md-icon"></span>
-          2016
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/negative-modulo/" class="md-nav__link">
-        PSA: Vim Modulo '%' Returns Negative Numbers!
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/photography-lightening-talk/" class="md-nav__link">
-        Photography Refactored
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/ruby-abuse/" class="md-nav__link">
-        Ruby Abuse: How Not to Write Ruby, But Still Have Fun
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/making-a-window-submode/" class="md-nav__link">
-        Making a Window Submode in Vim
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/ansi-codes-with-character/" class="md-nav__link">
-        ANSI Codes with Character
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/vim-toggle-movement/" class="md-nav__link">
-        Vim Toggle Movement: I Just Want to Go Home
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/yank-without-jank/" class="md-nav__link">
-        Yank Without Jank
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/sidescroll/" class="md-nav__link">
-        Sensible Horizontal Scroll in Vim
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/side-search/" class="md-nav__link">
-        Vim Side Search: Making Search Fun Again
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2016/bs-to-the-black-hole/" class="md-nav__link">
-        BS to the Black Hole
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_15" type="checkbox" id="__nav_15" >
-      
-      <label class="md-nav__link" for="__nav_15">
-        2014
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="2014" data-md-level="1">
-        <label class="md-nav__title" for="__nav_15">
-          <span class="md-nav__icon md-icon"></span>
-          2014
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2014/tech-stack-2014-edition/" class="md-nav__link">
-        Tech Stack 2014 Edition
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../2014/octopress-to-the-rescue/" class="md-nav__link">
-        Octopress to the Rescue
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../about/" class="md-nav__link">
-        About
-      </a>
-    </li>
-  
-
-    
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#a-problem-to-solve" class="md-nav__link">
-    A Problem to Solve
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sample-uptime-data" class="md-nav__link">
-    Sample Uptime Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#left-join" class="md-nav__link">
-    Left Join
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#time-to-compute-some-timing" class="md-nav__link">
-    Time to compute some timing
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#subquery-subquery-whats-the-worry" class="md-nav__link">
-    Subquery, Subquery, What's the Worry?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enough-nesting-lateral-join-save-me" class="md-nav__link">
-    Enough Nesting, LATERAL join save me!
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plot-the-hours" class="md-nav__link">
-    Plot the Hours
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#more-than-cte-and-cross-join" class="md-nav__link">
-    More than CTE and Cross Join
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    References
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                
-                <h1 id="what-the-sql-lateral-joins">What the SQL?!? Lateral Joins<a class="headerlink" href="#what-the-sql-lateral-joins" title="Permanent link">&para;</a></h1>
-<p><img src="/images/what_the_sql_lateral.png" alt='What the SQL?!? Lateral Joins' /></p>
-<p>Today's "What the SQL?!?" features the keyword <code>LATERAL</code>. A prerequisite to
-understanding lateral joins are regular joins and subqueries. I'll explain those
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>What the SQL?!? Lateral Joins — Why, Scott, WHY?!?</title><link rel="canonical" href="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/"><link rel="alternate" type="application/rss+xml" title="Why, Scott, WHY?!?" href="/rss.xml"><meta property="og:type" content="article"><meta property="og:title" content="What the SQL?!? Lateral Joins"><meta property="og:url" content="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/"><meta property="og:site_name" content="Why, Scott, WHY?!?"><meta property="og:image" content="https://ddrscott.github.io/images/what_the_sql_lateral.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:creator" content="@_ddrscott_"><meta name="twitter:site" content="@_ddrscott_"><meta name="twitter:image" content="https://ddrscott.github.io/images/what_the_sql_lateral.png"><link rel="icon" type="image/png" href="/favicon.png"><script defer data-domain="ddrscott.github.io" src="https://plausible.dataturd.com/js/script.outbound-links.js"></script><link rel="stylesheet" href="/_astro/Base.CKfiKiB4.css"></head> <body> <header class="site-header"> <div class="site-header__inner"> <a href="/" class="site-header__brand">Why, Scott, WHY?!?</a> <nav class="site-nav"> <a href="/">Latest</a> <a href="/tags/vim/">Vim</a> <a href="/tags/sql/">SQL</a> <a href="/tags/ai/">AI</a> <a href="/archive/">Archive</a> <a href="/about/">About</a> <a href="/search/" aria-label="Search">⌕</a> </nav> </div> </header> <main class>  <article class="article"> <header class="article__header"> <h1 class="article__title">What the SQL?!? Lateral Joins</h1> <div class="article__meta"> <time datetime="2017-03-08">2017-03-08</time> <span> <a href="/tags/sql/">sql</a>  </span> </div> </header> <img class="featured" src="/images/what_the_sql_lateral.png" alt="What the SQL?!? Lateral Joins" loading="lazy"> <div class="article__body">  <p>Today’s “What the SQL?!?” features the keyword <code>LATERAL</code>. A prerequisite to
+understanding lateral joins are regular joins and subqueries. I’ll explain those
 briefly to see how <code>LATERAL</code> can simplify a complicated SQL query.</p>
 <!-- more -->
-
 <p>Please note, our target database is PostgreSQL. These examples may work with
 other databases, but might need some massaging to get them to work properly.
-Search online for the specific vendor's documentation if errors pop up.
-Try searching for "lateral joins $DB_VENDOR_NAME". Not all database vendors
+Search online for the specific vendor’s documentation if errors pop up.
+Try searching for “lateral joins $DB_VENDOR_NAME”. Not all database vendors
 support the keyword <code>LATERAL</code>.</p>
-<h2 id="a-problem-to-solve">A Problem to Solve<a class="headerlink" href="#a-problem-to-solve" title="Permanent link">&para;</a></h2>
+<h2 id="a-problem-to-solve">A Problem to Solve</h2>
 <p>We have a table with system uptimes. The table records a start timestamp and an
 end timestamp. If the service is still running, the end timestamp is left null
-because it hasn't ended. We want a query to display an overview this data.</p>
+because it hasn’t ended. We want a query to display an overview this data.</p>
 <p>Our final solution will return a row per day and 24 columns containing an uptime
 percentage for each hour in the day. It will look like the following.</p>
-<div class="highlight"><pre><span></span><code>  cal_date  | hour_0 | hour_1 | hour_2 | hour_3 | ... | hour_21 | hour_22 | hour_23
-------------+--------+--------+--------+--------+-----+---------+---------+---------
- 2017-03-01 |      0 |   0.75 |   0.25 |      0 | ... |       0 |       0 |       0
- 2017-03-02 |      0 |      0 |      0 |      0 | ... |       1 |       1 |       1
-(2 rows)
-</code></pre></div>
-<p>Please note we'll use <code>...</code> abbreviate some of the results. All queries are
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>  cal_date  | hour_0 | hour_1 | hour_2 | hour_3 | ... | hour_21 | hour_22 | hour_23</span></span>
+<span class="line"><span>------------+--------+--------+--------+--------+-----+---------+---------+---------</span></span>
+<span class="line"><span> 2017-03-01 |      0 |   0.75 |   0.25 |      0 | ... |       0 |       0 |       0</span></span>
+<span class="line"><span> 2017-03-02 |      0 |      0 |      0 |      0 | ... |       1 |       1 |       1</span></span>
+<span class="line"><span>(2 rows)</span></span></code></pre>
+<p>Please note we’ll use <code>...</code> abbreviate some of the results. All queries are
 schema independent and should be copy/paste-able into any <code>psql</code> session.</p>
-<h2 id="sample-uptime-data">Sample Uptime Data<a class="headerlink" href="#sample-uptime-data" title="Permanent link">&para;</a></h2>
+<h2 id="sample-uptime-data">Sample Uptime Data</h2>
 <p>The sample uptime data is derived from a virtual table built from the following query:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">  </span><span class="o">*</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="k">VALUES</span>
-<span class="w">  </span><span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
-<span class="w">  </span><span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
-<span class="w">  </span><span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">end_ts</span><span class="p">)</span>
-</code></pre></div>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#D73A49">  *</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#D73A49">  VALUES</span></span>
+<span class="line"><span style="color:#24292E">  (</span><span style="color:#032F62">'2017-03-01 01:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 02:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">  (</span><span style="color:#032F62">'2017-03-01 08:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 20:00:00-06'</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">  (</span><span style="color:#032F62">'2017-03-02 19:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#D73A49">null</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts, end_ts)</span></span></code></pre>
 <p>The data looks like:</p>
-<div class="highlight"><pre><span></span><code>      start_ts       |       end_ts
----------------------+---------------------
- 2017-03-01 01:15:00 | 2017-03-01 02:15:00
- 2017-03-01 08:00:00 | 2017-03-01 20:00:00
- 2017-03-02 19:00:00 |
-(3 rows)
-</code></pre></div>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span>      start_ts       |       end_ts</span></span>
+<span class="line"><span>---------------------+---------------------</span></span>
+<span class="line"><span> 2017-03-01 01:15:00 | 2017-03-01 02:15:00</span></span>
+<span class="line"><span> 2017-03-01 08:00:00 | 2017-03-01 20:00:00</span></span>
+<span class="line"><span> 2017-03-02 19:00:00 |</span></span>
+<span class="line"><span>(3 rows)</span></span></code></pre>
 <p>We want to plot the time against a time sliced table representing all the
-effective hours in the uptime window. We'll make use of another virtual table to
+effective hours in the uptime window. We’ll make use of another virtual table to
 build up all the time slices:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">    </span><span class="n">start_ts</span><span class="p">,</span>
-<span class="w">    </span><span class="n">start_ts</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">end_ts</span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
-<span class="w">                     </span><span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
-<span class="w">                     </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span>
-<span class="w">                    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
-</code></pre></div>
-<p>This we make use of PostgreSQL's <a href="https://www.postgresql.org/docs/9.3/static/functions-srf.html">generate_series</a>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#24292E">    start_ts,</span></span>
+<span class="line"><span style="color:#24292E">    start_ts </span><span style="color:#D73A49">+</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#D73A49"> AS</span><span style="color:#24292E"> end_ts</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#005CC5"> generate_series</span><span style="color:#24292E">(</span><span style="color:#032F62">'2017-03-01'</span><span style="color:#24292E">::</span><span style="color:#D73A49">date</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                     '2017-03-03'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#D73A49"> -</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">                     interval </span><span style="color:#032F62">'1 hour'</span></span>
+<span class="line"><span style="color:#24292E">                    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts)</span></span></code></pre>
+<p>This we make use of PostgreSQL’s <a href="https://www.postgresql.org/docs/9.3/static/functions-srf.html">generate_series</a>
 to return all the hours between a time range. The data looks like:</p>
-<div class="highlight"><pre><span></span><code>      start_ts       |       end_ts
----------------------+---------------------
- 2017-03-01 00:00:00 | 2017-03-01 01:00:00
- 2017-03-01 01:00:00 | 2017-03-01 02:00:00
- 2017-03-01 02:00:00 | 2017-03-01 03:00:00
- -- ... many more rows ...
- 2017-03-01 03:00:00 | 2017-03-01 04:00:00
- 2017-03-02 22:00:00 | 2017-03-02 23:00:00
- 2017-03-02 23:00:00 | 2017-03-03 00:00:00
-(48 rows)
-</code></pre></div>
-<h2 id="left-join">Left Join<a class="headerlink" href="#left-join" title="Permanent link">&para;</a></h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span>      start_ts       |       end_ts</span></span>
+<span class="line"><span>---------------------+---------------------</span></span>
+<span class="line"><span> 2017-03-01 00:00:00 | 2017-03-01 01:00:00</span></span>
+<span class="line"><span> 2017-03-01 01:00:00 | 2017-03-01 02:00:00</span></span>
+<span class="line"><span> 2017-03-01 02:00:00 | 2017-03-01 03:00:00</span></span>
+<span class="line"><span> -- ... many more rows ...</span></span>
+<span class="line"><span> 2017-03-01 03:00:00 | 2017-03-01 04:00:00</span></span>
+<span class="line"><span> 2017-03-02 22:00:00 | 2017-03-02 23:00:00</span></span>
+<span class="line"><span> 2017-03-02 23:00:00 | 2017-03-03 00:00:00</span></span>
+<span class="line"><span>(48 rows)</span></span></code></pre>
+<h2 id="left-join">Left Join</h2>
 <p>We use a left join to glue together overlapping time ranges between these two
 data sets. We want all the data on the <code>LEFT</code> side in the <code>FROM</code> clause to return
 regardless of an uptime record existing within its time slice.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">    </span><span class="o">*</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of all hours between</span>
-<span class="w">    </span><span class="c1">-- a date range</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">      </span><span class="n">start_ts</span><span class="p">,</span>
-<span class="w">      </span><span class="n">start_ts</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">end_ts</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">generate_series</span><span class="p">(</span>
-<span class="w">           </span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
-<span class="w">           </span><span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
-<span class="w">           </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal</span>
-<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of uptimes</span>
-<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">      </span><span class="k">VALUES</span>
-<span class="w">      </span><span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
-<span class="w">      </span><span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
-<span class="w">      </span><span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">end_ts</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">uptime</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="k">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">)</span>
-</code></pre></div>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#D73A49">    *</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of all hours between</span></span>
+<span class="line"><span style="color:#6A737D">    -- a date range</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span></span>
+<span class="line"><span style="color:#24292E">      start_ts,</span></span>
+<span class="line"><span style="color:#24292E">      start_ts </span><span style="color:#D73A49">+</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#D73A49"> AS</span><span style="color:#24292E"> end_ts</span></span>
+<span class="line"><span style="color:#D73A49">    FROM</span><span style="color:#005CC5"> generate_series</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#032F62">           '2017-03-01'</span><span style="color:#24292E">::</span><span style="color:#D73A49">date</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">           '2017-03-03'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#D73A49"> -</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">           interval </span><span style="color:#032F62">'1 hour'</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts)</span></span>
+<span class="line"><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal</span></span>
+<span class="line"><span style="color:#D73A49">LEFT JOIN</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of uptimes</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span><span style="color:#D73A49"> *</span></span>
+<span class="line"><span style="color:#D73A49">    FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#D73A49">      VALUES</span></span>
+<span class="line"><span style="color:#24292E">      (</span><span style="color:#032F62">'2017-03-01 01:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 02:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">      (</span><span style="color:#032F62">'2017-03-01 08:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 20:00:00-06'</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">      (</span><span style="color:#032F62">'2017-03-02 19:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#D73A49">null</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts, end_ts)</span></span>
+<span class="line"><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> uptime </span><span style="color:#D73A49">ON</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#D73A49"> ></span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> AND</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> &#x3C;=</span><span style="color:#005CC5"> coalesce</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, current_timestamp)</span></span></code></pre>
 <p>The result set shows we have some variety in our sample data. With 3 slices
 up time and 3 slices of downtime.</p>
-<div class="highlight"><pre><span></span><code>      start_ts       |       end_ts        |      start_ts       |       end_ts
----------------------+---------------------+---------------------+---------------------
- 2017-03-01 00:00:00 | 2017-03-01 01:00:00 |                     |
- 2017-03-01 01:00:00 | 2017-03-01 02:00:00 | 2017-03-01 01:15:00 | 2017-03-01 02:15:00
- 2017-03-01 02:00:00 | 2017-03-01 03:00:00 | 2017-03-01 01:15:00 | 2017-03-01 02:15:00
- 2017-03-01 03:00:00 | 2017-03-01 04:00:00 |                     |
- ...
- 2017-03-01 07:00:00 | 2017-03-01 08:00:00 |                     |
- 2017-03-01 08:00:00 | 2017-03-01 09:00:00 | 2017-03-01 08:00:00 | 2017-03-01 20:00:00
- ...
- 2017-03-01 20:00:00 | 2017-03-01 21:00:00 | 2017-03-01 08:00:00 | 2017-03-01 20:00:00
- 2017-03-01 21:00:00 | 2017-03-01 22:00:00 |                     |
- ...
- 2017-03-02 18:00:00 | 2017-03-02 19:00:00 |                     |
- 2017-03-02 19:00:00 | 2017-03-02 20:00:00 | 2017-03-02 19:00:00 |
- ...
- 2017-03-02 23:00:00 | 2017-03-03 00:00:00 | 2017-03-02 19:00:00 |
-(48 rows)
-</code></pre></div>
-<p>If we try without the <code>LEFT</code> clause, we'll only see 20 rows containing the up slices.</p>
-<h2 id="time-to-compute-some-timing">Time to compute some timing<a class="headerlink" href="#time-to-compute-some-timing" title="Permanent link">&para;</a></h2>
-<p>Let's add some times and sensible column names and replace the <code>*</code></p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">    </span><span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
-<span class="w">    </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span>
-<span class="w">        </span><span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="k">END</span><span class="w">                                               </span><span class="k">AS</span><span class="w"> </span><span class="n">first_ts</span><span class="p">,</span>
-<span class="w">    </span><span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span><span class="w">                  </span><span class="k">AS</span><span class="w"> </span><span class="n">last_ts</span><span class="p">,</span>
-<span class="w">    </span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span><span class="w">             </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_date</span><span class="p">,</span>
-<span class="w">    </span><span class="k">extract</span><span class="p">(</span><span class="n">hour</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span><span class="w">                   </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_hour</span><span class="p">,</span>
-<span class="w">    </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_seconds</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of all hours between</span>
-<span class="w">    </span><span class="c1">-- a date range</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">        </span><span class="n">start_ts</span><span class="p">,</span>
-<span class="w">        </span><span class="n">start_ts</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">end_ts</span>
-<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
-<span class="w">                             </span><span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
-<span class="w">                             </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal</span>
-<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of uptimes</span>
-<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">        </span><span class="k">VALUES</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">end_ts</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">uptime</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="k">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">)</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>      first_ts       |       last_ts       |  cal_date  | cal_hour | cal_seconds
----------------------+---------------------+------------+----------+-------------
-                     | 2017-03-01 01:00:00 | 2017-03-01 |        0 |        3600
- 2017-03-01 01:15:00 | 2017-03-01 02:00:00 | 2017-03-01 |        1 |        3600
- 2017-03-01 02:00:00 | 2017-03-01 02:15:00 | 2017-03-01 |        2 |        3600
-                     | 2017-03-01 04:00:00 | 2017-03-01 |        3 |        3600
-                     | 2017-03-01 05:00:00 | 2017-03-01 |        4 |        3600
-                     | 2017-03-01 06:00:00 | 2017-03-01 |        5 |        3600
-                     | 2017-03-01 07:00:00 | 2017-03-01 |        6 |        3600
-                     | 2017-03-01 08:00:00 | 2017-03-01 |        7 |        3600
- 2017-03-01 08:00:00 | 2017-03-01 09:00:00 | 2017-03-01 |        8 |        3600
- ...
- 2017-03-01 20:00:00 | 2017-03-01 20:00:00 | 2017-03-01 |       20 |        3600
-                     | 2017-03-01 22:00:00 | 2017-03-01 |       21 |        3600
- ... 
-                     | 2017-03-02 19:00:00 | 2017-03-02 |       18 |        3600
- 2017-03-02 19:00:00 | 2017-03-02 20:00:00 | 2017-03-02 |       19 |        3600
- ...
- 2017-03-02 23:00:00 | 2017-03-03 00:00:00 | 2017-03-02 |       23 |        3600
-(48 rows)
-</code></pre></div>
-<h2 id="subquery-subquery-whats-the-worry">Subquery, Subquery, What's the Worry?<a class="headerlink" href="#subquery-subquery-whats-the-worry" title="Permanent link">&para;</a></h2>
-<p>SQL is all about nested subqueries. It's hard to escape without creating
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span>      start_ts       |       end_ts        |      start_ts       |       end_ts</span></span>
+<span class="line"><span>---------------------+---------------------+---------------------+---------------------</span></span>
+<span class="line"><span> 2017-03-01 00:00:00 | 2017-03-01 01:00:00 |                     |</span></span>
+<span class="line"><span> 2017-03-01 01:00:00 | 2017-03-01 02:00:00 | 2017-03-01 01:15:00 | 2017-03-01 02:15:00</span></span>
+<span class="line"><span> 2017-03-01 02:00:00 | 2017-03-01 03:00:00 | 2017-03-01 01:15:00 | 2017-03-01 02:15:00</span></span>
+<span class="line"><span> 2017-03-01 03:00:00 | 2017-03-01 04:00:00 |                     |</span></span>
+<span class="line"><span> ...</span></span>
+<span class="line"><span> 2017-03-01 07:00:00 | 2017-03-01 08:00:00 |                     |</span></span>
+<span class="line"><span> 2017-03-01 08:00:00 | 2017-03-01 09:00:00 | 2017-03-01 08:00:00 | 2017-03-01 20:00:00</span></span>
+<span class="line"><span> ...</span></span>
+<span class="line"><span> 2017-03-01 20:00:00 | 2017-03-01 21:00:00 | 2017-03-01 08:00:00 | 2017-03-01 20:00:00</span></span>
+<span class="line"><span> 2017-03-01 21:00:00 | 2017-03-01 22:00:00 |                     |</span></span>
+<span class="line"><span> ...</span></span>
+<span class="line"><span> 2017-03-02 18:00:00 | 2017-03-02 19:00:00 |                     |</span></span>
+<span class="line"><span> 2017-03-02 19:00:00 | 2017-03-02 20:00:00 | 2017-03-02 19:00:00 |</span></span>
+<span class="line"><span> ...</span></span>
+<span class="line"><span> 2017-03-02 23:00:00 | 2017-03-03 00:00:00 | 2017-03-02 19:00:00 |</span></span>
+<span class="line"><span>(48 rows)</span></span></code></pre>
+<p>If we try without the <code>LEFT</code> clause, we’ll only see 20 rows containing the up slices.</p>
+<h2 id="time-to-compute-some-timing">Time to compute some timing</h2>
+<p>Let’s add some times and sensible column names and replace the <code>*</code></p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#6A737D">    -- will use `first_ts` and `last_ts` to calculate uptime duration</span></span>
+<span class="line"><span style="color:#D73A49">    CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> IS NOT NULL</span><span style="color:#D73A49"> THEN</span></span>
+<span class="line"><span style="color:#005CC5">        greatest</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    END</span><span style="color:#D73A49">                                               AS</span><span style="color:#24292E"> first_ts,</span></span>
+<span class="line"><span style="color:#005CC5">    least</span><span style="color:#24292E">(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">)                  </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> last_ts,</span></span>
+<span class="line"><span style="color:#24292E">    date_trunc(</span><span style="color:#032F62">'day'</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)::</span><span style="color:#D73A49">date</span><span style="color:#D73A49">             AS</span><span style="color:#24292E"> cal_date,</span></span>
+<span class="line"><span style="color:#24292E">    extract(</span><span style="color:#D73A49">hour</span><span style="color:#D73A49"> from</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)                   </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_hour,</span></span>
+<span class="line"><span style="color:#24292E">    extract(epoch </span><span style="color:#D73A49">from</span><span style="color:#24292E"> age(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_seconds</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of all hours between</span></span>
+<span class="line"><span style="color:#6A737D">    -- a date range</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span></span>
+<span class="line"><span style="color:#24292E">        start_ts,</span></span>
+<span class="line"><span style="color:#24292E">        start_ts </span><span style="color:#D73A49">+</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#D73A49"> AS</span><span style="color:#24292E"> end_ts</span></span>
+<span class="line"><span style="color:#D73A49">        FROM</span><span style="color:#005CC5"> generate_series</span><span style="color:#24292E">(</span><span style="color:#032F62">'2017-03-01'</span><span style="color:#24292E">::</span><span style="color:#D73A49">date</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                             '2017-03-03'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#D73A49"> -</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">                             interval </span><span style="color:#032F62">'1 hour'</span></span>
+<span class="line"><span style="color:#24292E">        ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal</span></span>
+<span class="line"><span style="color:#D73A49">LEFT JOIN</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of uptimes</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span><span style="color:#D73A49"> *</span></span>
+<span class="line"><span style="color:#D73A49">    FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#D73A49">        VALUES</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-01 01:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 02:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-01 08:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 20:00:00-06'</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-02 19:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#D73A49">null</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts, end_ts)</span></span>
+<span class="line"><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> uptime </span><span style="color:#D73A49">ON</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#D73A49"> ></span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> AND</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> &#x3C;=</span><span style="color:#005CC5"> coalesce</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, current_timestamp)</span></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span></span></span>
+<span class="line"><span>      first_ts       |       last_ts       |  cal_date  | cal_hour | cal_seconds</span></span>
+<span class="line"><span>---------------------+---------------------+------------+----------+-------------</span></span>
+<span class="line"><span>                     | 2017-03-01 01:00:00 | 2017-03-01 |        0 |        3600</span></span>
+<span class="line"><span> 2017-03-01 01:15:00 | 2017-03-01 02:00:00 | 2017-03-01 |        1 |        3600</span></span>
+<span class="line"><span> 2017-03-01 02:00:00 | 2017-03-01 02:15:00 | 2017-03-01 |        2 |        3600</span></span>
+<span class="line"><span>                     | 2017-03-01 04:00:00 | 2017-03-01 |        3 |        3600</span></span>
+<span class="line"><span>                     | 2017-03-01 05:00:00 | 2017-03-01 |        4 |        3600</span></span>
+<span class="line"><span>                     | 2017-03-01 06:00:00 | 2017-03-01 |        5 |        3600</span></span>
+<span class="line"><span>                     | 2017-03-01 07:00:00 | 2017-03-01 |        6 |        3600</span></span>
+<span class="line"><span>                     | 2017-03-01 08:00:00 | 2017-03-01 |        7 |        3600</span></span>
+<span class="line"><span> 2017-03-01 08:00:00 | 2017-03-01 09:00:00 | 2017-03-01 |        8 |        3600</span></span>
+<span class="line"><span> ...</span></span>
+<span class="line"><span> 2017-03-01 20:00:00 | 2017-03-01 20:00:00 | 2017-03-01 |       20 |        3600</span></span>
+<span class="line"><span>                     | 2017-03-01 22:00:00 | 2017-03-01 |       21 |        3600</span></span>
+<span class="line"><span> ... </span></span>
+<span class="line"><span>                     | 2017-03-02 19:00:00 | 2017-03-02 |       18 |        3600</span></span>
+<span class="line"><span> 2017-03-02 19:00:00 | 2017-03-02 20:00:00 | 2017-03-02 |       19 |        3600</span></span>
+<span class="line"><span> ...</span></span>
+<span class="line"><span> 2017-03-02 23:00:00 | 2017-03-03 00:00:00 | 2017-03-02 |       23 |        3600</span></span>
+<span class="line"><span>(48 rows)</span></span></code></pre>
+<h2 id="subquery-subquery-whats-the-worry">Subquery, Subquery, What’s the Worry?</h2>
+<p>SQL is all about nested subqueries. It’s hard to escape without creating
 views, but who has time to lookup that <a href="https://www.postgresql.org/docs/9.3/static/sql-createview.html">syntax</a>
-<em>and</em> get their <a href="https://imgflip.com/i/1kzzyn">DBA's</a> permission to run the DDL?!?</p>
-<p>Let's add some duration times to the result set. We'll use the traditional sub
+<em>and</em> get their <a href="https://imgflip.com/i/1kzzyn">DBA’s</a> permission to run the DDL?!?</p>
+<p>Let’s add some duration times to the result set. We’ll use the traditional sub
 query for it.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">    </span><span class="c1">-- calculate uptime seconds</span>
-<span class="w">    </span><span class="k">coalesce</span><span class="p">(</span>
-<span class="w">      </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">age</span><span class="p">(</span><span class="n">last_ts</span><span class="p">,</span><span class="w"> </span><span class="n">first_ts</span><span class="p">)),</span>
-<span class="w">      </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">up_seconds</span><span class="p">,</span>
-<span class="w">    </span><span class="o">*</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">        </span><span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
-<span class="w">        </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span>
-<span class="w">            </span><span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">        </span><span class="k">END</span><span class="w">                                               </span><span class="k">AS</span><span class="w"> </span><span class="n">first_ts</span><span class="p">,</span>
-<span class="w">        </span><span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span><span class="w">                  </span><span class="k">AS</span><span class="w"> </span><span class="n">last_ts</span><span class="p">,</span>
-<span class="w">        </span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span><span class="w">             </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_date</span><span class="p">,</span>
-<span class="w">        </span><span class="k">extract</span><span class="p">(</span><span class="n">hour</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span><span class="w">                   </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_hour</span><span class="p">,</span>
-<span class="w">        </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_seconds</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">        </span><span class="c1">-- build virtual table of all hours between</span>
-<span class="w">        </span><span class="c1">-- a date range</span>
-<span class="w">        </span><span class="k">SELECT</span>
-<span class="w">            </span><span class="n">start_ts</span><span class="p">,</span>
-<span class="w">            </span><span class="n">start_ts</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">end_ts</span>
-<span class="w">            </span><span class="k">FROM</span><span class="w"> </span><span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
-<span class="w">                                 </span><span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
-<span class="w">                                 </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span>
-<span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal</span>
-<span class="w">    </span><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span>
-<span class="w">        </span><span class="c1">-- build virtual table of uptimes</span>
-<span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
-<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">            </span><span class="k">VALUES</span>
-<span class="w">            </span><span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
-<span class="w">            </span><span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
-<span class="w">            </span><span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">end_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">uptime</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="k">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="n">t1</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code> up_seconds
-------------
-          0
-       2700
-        900
-          0
-          0
-...
-       3600
-(48 rows)
-</code></pre></div>
-<p>Without the subquery we'd be getting into even more nested function calls and
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#6A737D">    -- calculate uptime seconds</span></span>
+<span class="line"><span style="color:#005CC5">    coalesce</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">      extract(epoch </span><span style="color:#D73A49">FROM</span><span style="color:#24292E"> age(last_ts, first_ts)),</span></span>
+<span class="line"><span style="color:#005CC5">      0</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> up_seconds,</span></span>
+<span class="line"><span style="color:#D73A49">    *</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span></span>
+<span class="line"><span style="color:#6A737D">        -- will use `first_ts` and `last_ts` to calculate uptime duration</span></span>
+<span class="line"><span style="color:#D73A49">        CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> IS NOT NULL</span><span style="color:#D73A49"> THEN</span></span>
+<span class="line"><span style="color:#005CC5">            greatest</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">        END</span><span style="color:#D73A49">                                               AS</span><span style="color:#24292E"> first_ts,</span></span>
+<span class="line"><span style="color:#005CC5">        least</span><span style="color:#24292E">(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">)                  </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> last_ts,</span></span>
+<span class="line"><span style="color:#24292E">        date_trunc(</span><span style="color:#032F62">'day'</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)::</span><span style="color:#D73A49">date</span><span style="color:#D73A49">             AS</span><span style="color:#24292E"> cal_date,</span></span>
+<span class="line"><span style="color:#24292E">        extract(</span><span style="color:#D73A49">hour</span><span style="color:#D73A49"> from</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)                   </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_hour,</span></span>
+<span class="line"><span style="color:#24292E">        extract(epoch </span><span style="color:#D73A49">from</span><span style="color:#24292E"> age(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_seconds</span></span>
+<span class="line"><span style="color:#D73A49">    FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">        -- build virtual table of all hours between</span></span>
+<span class="line"><span style="color:#6A737D">        -- a date range</span></span>
+<span class="line"><span style="color:#D73A49">        SELECT</span></span>
+<span class="line"><span style="color:#24292E">            start_ts,</span></span>
+<span class="line"><span style="color:#24292E">            start_ts </span><span style="color:#D73A49">+</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#D73A49"> AS</span><span style="color:#24292E"> end_ts</span></span>
+<span class="line"><span style="color:#D73A49">            FROM</span><span style="color:#005CC5"> generate_series</span><span style="color:#24292E">(</span><span style="color:#032F62">'2017-03-01'</span><span style="color:#24292E">::</span><span style="color:#D73A49">date</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                                 '2017-03-03'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#D73A49"> -</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">                                 interval </span><span style="color:#032F62">'1 hour'</span></span>
+<span class="line"><span style="color:#24292E">            ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal</span></span>
+<span class="line"><span style="color:#D73A49">    LEFT JOIN</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">        -- build virtual table of uptimes</span></span>
+<span class="line"><span style="color:#D73A49">        SELECT</span><span style="color:#D73A49"> *</span></span>
+<span class="line"><span style="color:#D73A49">        FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#D73A49">            VALUES</span></span>
+<span class="line"><span style="color:#24292E">            (</span><span style="color:#032F62">'2017-03-01 01:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 02:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">            (</span><span style="color:#032F62">'2017-03-01 08:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 20:00:00-06'</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">            (</span><span style="color:#032F62">'2017-03-02 19:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#D73A49">null</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">        ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts, end_ts)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> uptime </span><span style="color:#D73A49">ON</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#D73A49"> ></span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> AND</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> &#x3C;=</span><span style="color:#005CC5"> coalesce</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, current_timestamp)</span></span>
+<span class="line"><span style="color:#24292E">) t1</span></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span> up_seconds</span></span>
+<span class="line"><span>------------</span></span>
+<span class="line"><span>          0</span></span>
+<span class="line"><span>       2700</span></span>
+<span class="line"><span>        900</span></span>
+<span class="line"><span>          0</span></span>
+<span class="line"><span>          0</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>       3600</span></span>
+<span class="line"><span>(48 rows)</span></span></code></pre>
+<p>Without the subquery we’d be getting into even more nested function calls and
 would have to double compute values or have no visibility in the intermediate
 steps. We could have calculated <code>up_seconds</code> directly in the first query which
 introduced <code>first_ts</code> and <code>last_ts</code>. That would look like this:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">    </span><span class="k">coalesce</span><span class="p">(</span>
-<span class="w">        </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">FROM</span>
-<span class="w">            </span><span class="n">age</span><span class="p">(</span>
-<span class="w">                </span><span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">),</span><span class="w"> </span>
-<span class="w">                </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span>
-<span class="w">                  </span><span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">                </span><span class="k">END</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">),</span>
-<span class="w">        </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">up_seconds</span>
-<span class="k">FROM</span><span class="w"> </span><span class="c1">--- ...</span>
-</code></pre></div>
-<p>It's not for the weak stomach, but frankly speaking, neither is the subquery...</p>
-<h2 id="enough-nesting-lateral-join-save-me">Enough Nesting, <code>LATERAL</code> join save me!<a class="headerlink" href="#enough-nesting-lateral-join-save-me" title="Permanent link">&para;</a></h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#005CC5">    coalesce</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">        extract(epoch </span><span style="color:#D73A49">FROM</span></span>
+<span class="line"><span style="color:#24292E">            age(</span></span>
+<span class="line"><span style="color:#005CC5">                least</span><span style="color:#24292E">(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">), </span></span>
+<span class="line"><span style="color:#D73A49">                CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> IS NOT NULL</span><span style="color:#D73A49"> THEN</span></span>
+<span class="line"><span style="color:#005CC5">                  greatest</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">                END</span></span>
+<span class="line"><span style="color:#24292E">            )</span></span>
+<span class="line"><span style="color:#24292E">        ),</span></span>
+<span class="line"><span style="color:#005CC5">        0</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> up_seconds</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#6A737D"> --- ...</span></span></code></pre>
+<p>It’s not for the weak stomach, but frankly speaking, neither is the subquery…</p>
+<h2 id="enough-nesting-lateral-join-save-me">Enough Nesting, <code>LATERAL</code> join save me!</h2>
 <p>Lateral joins can give us the best of both worlds: reduced subquery nesting and
-traceable computed values. We're going to move the initial computed values like
+traceable computed values. We’re going to move the initial computed values like
 <code>first_ts</code> and <code>last_ts</code>, move them to a virtual table then <code>JOIN LATERAL</code> so
-they can get their own table alias. We'll do it again for <code>up_seconds</code> and use
+they can get their own table alias. We’ll do it again for <code>up_seconds</code> and use
 <code>first_ts</code> and <code>last_ts</code> from its sibling table.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">    </span><span class="n">t2</span><span class="p">.</span><span class="n">up_seconds</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of all hours between</span>
-<span class="w">    </span><span class="c1">-- a date range</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">        </span><span class="n">start_ts</span><span class="p">,</span>
-<span class="w">        </span><span class="n">start_ts</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">end_ts</span>
-<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
-<span class="w">                             </span><span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
-<span class="w">                             </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal</span>
-<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of uptimes</span>
-<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">        </span><span class="k">VALUES</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">end_ts</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">uptime</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="k">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">)</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="k">LATERAL</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="k">SELECT</span>
-<span class="w">      </span><span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
-<span class="w">    </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span>
-<span class="w">        </span><span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="k">END</span><span class="w">                                               </span><span class="k">AS</span><span class="w"> </span><span class="n">first_ts</span><span class="p">,</span>
-<span class="w">    </span><span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span><span class="w">                  </span><span class="k">AS</span><span class="w"> </span><span class="n">last_ts</span><span class="p">,</span>
-<span class="w">    </span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span><span class="w">             </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_date</span><span class="p">,</span>
-<span class="w">    </span><span class="k">extract</span><span class="p">(</span><span class="n">hour</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span><span class="w">                   </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_hour</span><span class="p">,</span>
-<span class="w">    </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_seconds</span>
-<span class="p">)</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">true</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="k">LATERAL</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="c1">-- calculate uptime seconds for the time slice</span>
-<span class="w">  </span><span class="k">SELECT</span>
-<span class="w">    </span><span class="k">coalesce</span><span class="p">(</span>
-<span class="w">        </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">age</span><span class="p">(</span><span class="n">last_ts</span><span class="p">,</span><span class="w"> </span><span class="n">first_ts</span><span class="p">)),</span>
-<span class="w">        </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">up_seconds</span>
-<span class="p">)</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">true</span>
-</code></pre></div>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#005CC5">    t2</span><span style="color:#24292E">.</span><span style="color:#005CC5">up_seconds</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of all hours between</span></span>
+<span class="line"><span style="color:#6A737D">    -- a date range</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span></span>
+<span class="line"><span style="color:#24292E">        start_ts,</span></span>
+<span class="line"><span style="color:#24292E">        start_ts </span><span style="color:#D73A49">+</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#D73A49"> AS</span><span style="color:#24292E"> end_ts</span></span>
+<span class="line"><span style="color:#D73A49">        FROM</span><span style="color:#005CC5"> generate_series</span><span style="color:#24292E">(</span><span style="color:#032F62">'2017-03-01'</span><span style="color:#24292E">::</span><span style="color:#D73A49">date</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                             '2017-03-03'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#D73A49"> -</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">                             interval </span><span style="color:#032F62">'1 hour'</span></span>
+<span class="line"><span style="color:#24292E">        ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal</span></span>
+<span class="line"><span style="color:#D73A49">LEFT JOIN</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of uptimes</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span><span style="color:#D73A49"> *</span></span>
+<span class="line"><span style="color:#D73A49">    FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#D73A49">        VALUES</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-01 01:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 02:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-01 08:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 20:00:00-06'</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-02 19:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#D73A49">null</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts, end_ts)</span></span>
+<span class="line"><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> uptime </span><span style="color:#D73A49">ON</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#D73A49"> ></span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> AND</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> &#x3C;=</span><span style="color:#005CC5"> coalesce</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, current_timestamp)</span></span>
+<span class="line"><span style="color:#D73A49">JOIN</span><span style="color:#24292E"> LATERAL (</span></span>
+<span class="line"><span style="color:#D73A49">  SELECT</span></span>
+<span class="line"><span style="color:#6A737D">      -- will use `first_ts` and `last_ts` to calculate uptime duration</span></span>
+<span class="line"><span style="color:#D73A49">    CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> IS NOT NULL</span><span style="color:#D73A49"> THEN</span></span>
+<span class="line"><span style="color:#005CC5">        greatest</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    END</span><span style="color:#D73A49">                                               AS</span><span style="color:#24292E"> first_ts,</span></span>
+<span class="line"><span style="color:#005CC5">    least</span><span style="color:#24292E">(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">)                  </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> last_ts,</span></span>
+<span class="line"><span style="color:#24292E">    date_trunc(</span><span style="color:#032F62">'day'</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)::</span><span style="color:#D73A49">date</span><span style="color:#D73A49">             AS</span><span style="color:#24292E"> cal_date,</span></span>
+<span class="line"><span style="color:#24292E">    extract(</span><span style="color:#D73A49">hour</span><span style="color:#D73A49"> from</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)                   </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_hour,</span></span>
+<span class="line"><span style="color:#24292E">    extract(epoch </span><span style="color:#D73A49">from</span><span style="color:#24292E"> age(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_seconds</span></span>
+<span class="line"><span style="color:#24292E">) t1 </span><span style="color:#D73A49">ON</span><span style="color:#24292E"> true</span></span>
+<span class="line"><span style="color:#D73A49">JOIN</span><span style="color:#24292E"> LATERAL (</span></span>
+<span class="line"><span style="color:#6A737D">  -- calculate uptime seconds for the time slice</span></span>
+<span class="line"><span style="color:#D73A49">  SELECT</span></span>
+<span class="line"><span style="color:#005CC5">    coalesce</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">        extract(epoch </span><span style="color:#D73A49">FROM</span><span style="color:#24292E"> age(last_ts, first_ts)),</span></span>
+<span class="line"><span style="color:#005CC5">        0</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> up_seconds</span></span>
+<span class="line"><span style="color:#24292E">) t2 </span><span style="color:#D73A49">ON</span><span style="color:#24292E"> true</span></span></code></pre>
 <p>This gives us the same results but without the deep nesting.</p>
-<div class="highlight"><pre><span></span><code> up_seconds
-------------
-          0
-       2700
-        900
-          0
-          0
-       3600
-...
-       3600
-(48 rows)
-</code></pre></div>
-<p>What's great about this strategy is we can quickly choose which columns to see
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span> up_seconds</span></span>
+<span class="line"><span>------------</span></span>
+<span class="line"><span>          0</span></span>
+<span class="line"><span>       2700</span></span>
+<span class="line"><span>        900</span></span>
+<span class="line"><span>          0</span></span>
+<span class="line"><span>          0</span></span>
+<span class="line"><span>       3600</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>       3600</span></span>
+<span class="line"><span>(48 rows)</span></span></code></pre>
+<p>What’s great about this strategy is we can quickly choose which columns to see
 as we build up the query.</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">  </span><span class="n">t2</span><span class="p">.</span><span class="n">up_seconds</span>
-<span class="w">  </span><span class="p">...</span>
-
-<span class="c1">-- or --</span>
-
-<span class="k">SELECT</span>
-<span class="w">  </span><span class="n">t2</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-<span class="w">  </span><span class="n">t1</span><span class="p">.</span><span class="o">*</span>
-</code></pre></div>
-<p>Let's build up the final calculation using the same strategy:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">  </span><span class="n">t2</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
-<span class="w">  </span><span class="n">t3</span><span class="p">.</span><span class="o">*</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">...</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="k">LATERAL</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="c1">-- calculate percentage between uptime seconds and available seconds</span>
-<span class="w">  </span><span class="c1">-- within the time slice</span>
-<span class="w">  </span><span class="k">SELECT</span>
-<span class="w">    </span><span class="n">up_seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cal_seconds</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">up_pct</span>
-<span class="p">)</span><span class="w"> </span><span class="n">t3</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">true</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code> up_seconds | up_pct
-------------+--------
-          0 |      0
-       2700 |   0.75
-        900 |   0.25
-          0 |      0
-...
-       3600 |      1
-(48 rows)
-</code></pre></div>
-<h2 id="plot-the-hours">Plot the Hours<a class="headerlink" href="#plot-the-hours" title="Permanent link">&para;</a></h2>
-<p>Now we have all the computed data we need. Let's plot it as a cross tab (but not
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#005CC5">  t2</span><span style="color:#24292E">.</span><span style="color:#005CC5">up_seconds</span></span>
+<span class="line"><span style="color:#24292E">  ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">-- or --</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#24292E">  t2.</span><span style="color:#D73A49">*</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">  t1.</span><span style="color:#D73A49">*</span></span></code></pre>
+<p>Let’s build up the final calculation using the same strategy:</p>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#24292E">  t2.</span><span style="color:#D73A49">*</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">  t3.</span><span style="color:#D73A49">*</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#24292E"> ...</span></span>
+<span class="line"><span style="color:#D73A49">JOIN</span><span style="color:#24292E"> LATERAL (</span></span>
+<span class="line"><span style="color:#6A737D">  -- calculate percentage between uptime seconds and available seconds</span></span>
+<span class="line"><span style="color:#6A737D">  -- within the time slice</span></span>
+<span class="line"><span style="color:#D73A49">  SELECT</span></span>
+<span class="line"><span style="color:#24292E">    up_seconds </span><span style="color:#D73A49">/</span><span style="color:#24292E"> cal_seconds </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> up_pct</span></span>
+<span class="line"><span style="color:#24292E">) t3 </span><span style="color:#D73A49">ON</span><span style="color:#24292E"> true</span></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span> up_seconds | up_pct</span></span>
+<span class="line"><span>------------+--------</span></span>
+<span class="line"><span>          0 |      0</span></span>
+<span class="line"><span>       2700 |   0.75</span></span>
+<span class="line"><span>        900 |   0.25</span></span>
+<span class="line"><span>          0 |      0</span></span>
+<span class="line"><span>...</span></span>
+<span class="line"><span>       3600 |      1</span></span>
+<span class="line"><span>(48 rows)</span></span></code></pre>
+<h2 id="plot-the-hours">Plot the Hours</h2>
+<p>Now we have all the computed data we need. Let’s plot it as a cross tab (but not
 actually use <a href="https://www.postgresql.org/docs/9.3/static/tablefunc.html"><code>crosstab</code></a>)</p>
-<p>We'll need to consolidate the long list of data by <code>cal_date</code> and pivot the
+<p>We’ll need to consolidate the long list of data by <code>cal_date</code> and pivot the
 <code>cal_hour</code> as a column and <code>up_pct</code> as a value. In case of overlapping uptimes
-we'll be pessimists and choose the lowest or <code>min</code> uptime percentage.</p>
+we’ll be pessimists and choose the lowest or <code>min</code> uptime percentage.</p>
 <p>The final query looks like:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
-<span class="w">    </span><span class="n">cal_date</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_0</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_1</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_2</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_3</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_4</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_5</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_6</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_7</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_8</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w">  </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_9</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_10</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_11</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_12</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_13</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_14</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_15</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_16</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">17</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_17</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">18</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_18</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">19</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_19</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_20</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_21</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">22</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_22</span><span class="p">,</span>
-<span class="w">    </span><span class="k">max</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">cal_hour</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">23</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">up_pct</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">hour_23</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of all hours between</span>
-<span class="w">    </span><span class="c1">-- a date range</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">        </span><span class="n">start_ts</span><span class="p">,</span>
-<span class="w">        </span><span class="n">start_ts</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">end_ts</span>
-<span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">generate_series</span><span class="p">(</span><span class="s1">&#39;2017-03-01&#39;</span><span class="p">::</span><span class="nb">date</span><span class="p">,</span>
-<span class="w">                             </span><span class="s1">&#39;2017-03-03&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span><span class="p">,</span>
-<span class="w">                             </span><span class="nb">interval</span><span class="w"> </span><span class="s1">&#39;1 hour&#39;</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal</span>
-<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="c1">-- build virtual table of uptimes</span>
-<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
-<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">        </span><span class="k">VALUES</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-01 01:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 02:15:00-06&#39;</span><span class="p">::</span><span class="k">timestamp</span><span class="p">),</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-01 08:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;2017-03-01 20:00:00-06&#39;</span><span class="p">),</span>
-<span class="w">        </span><span class="p">(</span><span class="s1">&#39;2017-03-02 19:00:00-06&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">end_ts</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">uptime</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="k">coalesce</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="k">current_timestamp</span><span class="p">)</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="k">LATERAL</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="k">SELECT</span>
-<span class="w">      </span><span class="c1">-- will use `first_ts` and `last_ts` to calculate uptime duration</span>
-<span class="w">    </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span>
-<span class="w">        </span><span class="n">greatest</span><span class="p">(</span><span class="n">uptime</span><span class="p">.</span><span class="n">start_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span>
-<span class="w">    </span><span class="k">END</span><span class="w">                                               </span><span class="k">AS</span><span class="w"> </span><span class="n">first_ts</span><span class="p">,</span>
-<span class="w">    </span><span class="n">least</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">uptime</span><span class="p">.</span><span class="n">end_ts</span><span class="p">)</span><span class="w">                  </span><span class="k">AS</span><span class="w"> </span><span class="n">last_ts</span><span class="p">,</span>
-<span class="w">    </span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)::</span><span class="nb">date</span><span class="w">             </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_date</span><span class="p">,</span>
-<span class="w">    </span><span class="k">extract</span><span class="p">(</span><span class="n">hour</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">)</span><span class="w">                   </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_hour</span><span class="p">,</span>
-<span class="w">    </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">age</span><span class="p">(</span><span class="n">cal</span><span class="p">.</span><span class="n">end_ts</span><span class="p">,</span><span class="w"> </span><span class="n">cal</span><span class="p">.</span><span class="n">start_ts</span><span class="p">))</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">cal_seconds</span>
-<span class="p">)</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">true</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="k">LATERAL</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="k">SELECT</span>
-<span class="w">    </span><span class="k">coalesce</span><span class="p">(</span>
-<span class="w">        </span><span class="k">extract</span><span class="p">(</span><span class="n">epoch</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">age</span><span class="p">(</span><span class="n">last_ts</span><span class="p">,</span><span class="w"> </span><span class="n">first_ts</span><span class="p">)),</span>
-<span class="w">        </span><span class="mi">0</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">up_seconds</span>
-<span class="p">)</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">true</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="k">LATERAL</span><span class="w"> </span><span class="p">(</span>
-<span class="w">  </span><span class="c1">-- calculate percentage between uptime seconds and available seconds</span>
-<span class="w">  </span><span class="c1">-- within the time slice</span>
-<span class="w">  </span><span class="k">SELECT</span>
-<span class="w">  </span><span class="n">up_seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">cal_seconds</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">up_pct</span>
-<span class="p">)</span><span class="w"> </span><span class="n">t3</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">true</span>
-<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">cal_date</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>  cal_date  | hour_0 | hour_1 | hour_2 | hour_3 | ... | hour_23
-------------+--------+--------+--------+--------+ ... +---------
- 2017-03-01 |      0 |   0.75 |   0.25 |      0 | ... |       0
- 2017-03-02 |      0 |      0 |      0 |      0 | ... |       1
-(2 rows)
-</code></pre></div>
-<h2 id="more-than-cte-and-cross-join">More than CTE and Cross Join<a class="headerlink" href="#more-than-cte-and-cross-join" title="Permanent link">&para;</a></h2>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#D73A49">SELECT</span></span>
+<span class="line"><span style="color:#24292E">    cal_date,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 0</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_0,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 1</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_1,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 2</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_2,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 3</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_3,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 4</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_4,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 5</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_5,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 6</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_6,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 7</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_7,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 8</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_8,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 9</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct  </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_9,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 10</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_10,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 11</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_11,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 12</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_12,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 13</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_13,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 14</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_14,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 15</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_15,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 16</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_16,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 17</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_17,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 18</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_18,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 19</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_19,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 20</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_20,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 21</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_21,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 22</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_22,</span></span>
+<span class="line"><span style="color:#005CC5">    max</span><span style="color:#24292E">(</span><span style="color:#D73A49">CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#24292E"> cal_hour </span><span style="color:#D73A49">=</span><span style="color:#005CC5"> 23</span><span style="color:#D73A49"> THEN</span><span style="color:#24292E"> up_pct </span><span style="color:#D73A49">END</span><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> hour_23</span></span>
+<span class="line"><span style="color:#D73A49">FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of all hours between</span></span>
+<span class="line"><span style="color:#6A737D">    -- a date range</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span></span>
+<span class="line"><span style="color:#24292E">        start_ts,</span></span>
+<span class="line"><span style="color:#24292E">        start_ts </span><span style="color:#D73A49">+</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#D73A49"> AS</span><span style="color:#24292E"> end_ts</span></span>
+<span class="line"><span style="color:#D73A49">        FROM</span><span style="color:#005CC5"> generate_series</span><span style="color:#24292E">(</span><span style="color:#032F62">'2017-03-01'</span><span style="color:#24292E">::</span><span style="color:#D73A49">date</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#032F62">                             '2017-03-03'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#D73A49"> -</span><span style="color:#24292E"> interval </span><span style="color:#032F62">'1 hour'</span><span style="color:#24292E">,</span></span>
+<span class="line"><span style="color:#24292E">                             interval </span><span style="color:#032F62">'1 hour'</span></span>
+<span class="line"><span style="color:#24292E">        ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal</span></span>
+<span class="line"><span style="color:#D73A49">LEFT JOIN</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#6A737D">    -- build virtual table of uptimes</span></span>
+<span class="line"><span style="color:#D73A49">    SELECT</span><span style="color:#D73A49"> *</span></span>
+<span class="line"><span style="color:#D73A49">    FROM</span><span style="color:#24292E"> (</span></span>
+<span class="line"><span style="color:#D73A49">        VALUES</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-01 01:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 02:15:00-06'</span><span style="color:#24292E">::</span><span style="color:#D73A49">timestamp</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-01 08:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#032F62">'2017-03-01 20:00:00-06'</span><span style="color:#24292E">),</span></span>
+<span class="line"><span style="color:#24292E">        (</span><span style="color:#032F62">'2017-03-02 19:00:00-06'</span><span style="color:#24292E">, </span><span style="color:#D73A49">null</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> t(start_ts, end_ts)</span></span>
+<span class="line"><span style="color:#24292E">) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> uptime </span><span style="color:#D73A49">ON</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#D73A49"> ></span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> AND</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> &#x3C;=</span><span style="color:#005CC5"> coalesce</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, current_timestamp)</span></span>
+<span class="line"><span style="color:#D73A49">JOIN</span><span style="color:#24292E"> LATERAL (</span></span>
+<span class="line"><span style="color:#D73A49">  SELECT</span></span>
+<span class="line"><span style="color:#6A737D">      -- will use `first_ts` and `last_ts` to calculate uptime duration</span></span>
+<span class="line"><span style="color:#D73A49">    CASE</span><span style="color:#D73A49"> WHEN</span><span style="color:#005CC5"> uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#D73A49"> IS NOT NULL</span><span style="color:#D73A49"> THEN</span></span>
+<span class="line"><span style="color:#005CC5">        greatest</span><span style="color:#24292E">(</span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)</span></span>
+<span class="line"><span style="color:#D73A49">    END</span><span style="color:#D73A49">                                               AS</span><span style="color:#24292E"> first_ts,</span></span>
+<span class="line"><span style="color:#005CC5">    least</span><span style="color:#24292E">(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">uptime</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">)                  </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> last_ts,</span></span>
+<span class="line"><span style="color:#24292E">    date_trunc(</span><span style="color:#032F62">'day'</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)::</span><span style="color:#D73A49">date</span><span style="color:#D73A49">             AS</span><span style="color:#24292E"> cal_date,</span></span>
+<span class="line"><span style="color:#24292E">    extract(</span><span style="color:#D73A49">hour</span><span style="color:#D73A49"> from</span><span style="color:#005CC5"> cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)                   </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_hour,</span></span>
+<span class="line"><span style="color:#24292E">    extract(epoch </span><span style="color:#D73A49">from</span><span style="color:#24292E"> age(</span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">end_ts</span><span style="color:#24292E">, </span><span style="color:#005CC5">cal</span><span style="color:#24292E">.</span><span style="color:#005CC5">start_ts</span><span style="color:#24292E">)) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> cal_seconds</span></span>
+<span class="line"><span style="color:#24292E">) t1 </span><span style="color:#D73A49">ON</span><span style="color:#24292E"> true</span></span>
+<span class="line"><span style="color:#D73A49">JOIN</span><span style="color:#24292E"> LATERAL (</span></span>
+<span class="line"><span style="color:#D73A49">  SELECT</span></span>
+<span class="line"><span style="color:#005CC5">    coalesce</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">        extract(epoch </span><span style="color:#D73A49">FROM</span><span style="color:#24292E"> age(last_ts, first_ts)),</span></span>
+<span class="line"><span style="color:#005CC5">        0</span></span>
+<span class="line"><span style="color:#24292E">    ) </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> up_seconds</span></span>
+<span class="line"><span style="color:#24292E">) t2 </span><span style="color:#D73A49">ON</span><span style="color:#24292E"> true</span></span>
+<span class="line"><span style="color:#D73A49">JOIN</span><span style="color:#24292E"> LATERAL (</span></span>
+<span class="line"><span style="color:#6A737D">  -- calculate percentage between uptime seconds and available seconds</span></span>
+<span class="line"><span style="color:#6A737D">  -- within the time slice</span></span>
+<span class="line"><span style="color:#D73A49">  SELECT</span></span>
+<span class="line"><span style="color:#24292E">  up_seconds </span><span style="color:#D73A49">/</span><span style="color:#24292E"> cal_seconds </span><span style="color:#D73A49">AS</span><span style="color:#24292E"> up_pct</span></span>
+<span class="line"><span style="color:#24292E">) t3 </span><span style="color:#D73A49">ON</span><span style="color:#24292E"> true</span></span>
+<span class="line"><span style="color:#D73A49">GROUP BY</span><span style="color:#24292E"> cal_date</span></span></code></pre>
+<pre class="astro-code github-light" style="background-color:#fff;color:#24292e; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plain"><code><span class="line"><span>  cal_date  | hour_0 | hour_1 | hour_2 | hour_3 | ... | hour_23</span></span>
+<span class="line"><span>------------+--------+--------+--------+--------+ ... +---------</span></span>
+<span class="line"><span> 2017-03-01 |      0 |   0.75 |   0.25 |      0 | ... |       0</span></span>
+<span class="line"><span> 2017-03-02 |      0 |      0 |      0 |      0 | ... |       1</span></span>
+<span class="line"><span>(2 rows)</span></span></code></pre>
+<h2 id="more-than-cte-and-cross-join">More than CTE and Cross Join</h2>
 <p>This example only scratches the surface of <code>LATERAL</code>s super powers. On the
 surface <code>LATERAL</code> can do things <code>CTE</code>, cross join, and <code>WINDOW</code> can do.
 PostgreSQL describe <code>LATERAL</code> as:</p>
@@ -2075,155 +420,20 @@ This allows them to reference columns provided by preceding FROM items.
 cross-reference any other FROM item.)</p>
 </blockquote>
 <p>TL;DR - <code>LATERAL</code> allows subqueries to reference earlier tables.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h2 id="references">References</h2>
 <ul>
 <li><a href="https://www.postgresql.org/docs/9.6/static/queries-table-expressions.html#QUERIES-LATERAL">Postgres Lateral Joins</a></li>
-</ul>
-                
-                  
-                
-              
-              
-                
+</ul>  </div> <footer class="article__footer"> <p> <a href="/blog/2017/what-the-sql-lateral.md" class="button">↓ Download as markdown</a> </p> <p class="text-faint">
+Tagged: <span class="article__tags"> <a href="/tags/sql/">sql</a> </span> </p> </footer> <div id="disqus_thread"></div> <script>(function(){const disqusIdentifier = "/blog/2017/what-the-sql-lateral/";
 
-
-  <h2 id="__comments">Comments</h2>
-  <div id="disqus_thread"></div>
-  <script>var disqus_config=function(){this.page.url="https://ddrscott.github.io/blog/2017/what-the-sql-lateral/",this.page.identifier="blog/2017/what-the-sql-lateral/"};window.addEventListener("load",function(){var e=document,i=e.createElement("script");i.src="//ddrscottgithubio.disqus.com/embed.js",i.setAttribute("data-timestamp",+new Date),(e.head||e.body).appendChild(i)})</script>
-
-              
-            </article>
-          </div>
-        </div>
-        
-      </main>
-      
-        
-<footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../gnu-screen/" class="md-footer__link md-footer__link--prev" aria-label="Previous: GNU Screen" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              GNU Screen
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../what-the-sql-window/" class="md-footer__link md-footer__link--next" aria-label="Next: What the SQL?!? WINDOW" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              What the SQL?!? WINDOW
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2026 Scott Pierce
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
-      
-  <div class="md-footer-social">
-    
-      
-      
-        
-        
-      
-      <a href="https://github.com/ddrscott" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-      </a>
-    
-      
-      
-        
-        
-      
-      <a href="https://twitter.com/_ddrscott_" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
-      </a>
-    
-  </div>
-
-    </div>
-  </div>
-</footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
-    
-    
-    <!-- Start of Rocket.Chat Livechat Script -->
-    <script type="text/javascript">
-    (function(w, d, s, u) {
-        w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
-        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
-        j.async = true; j.src = 'https://chat.chickencow.org/livechat/rocketchat-livechat.min.js?_=201903270000';
-        h.parentNode.insertBefore(j, h);
-    })(window, document, 'script', 'https://chat.chickencow.org/livechat');
-    </script>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9C68DD62WS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-9C68DD62WS');
-    </script>
-    <script defer data-domain="ddrscott.github.io" src="https://plausible.dataturd.com/js/script.outbound-links.js"></script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var navInner = document.querySelector(".md-sidebar--primary .md-sidebar__inner");
-      if (navInner) {
-        var sidebar = document.createElement("div");
-        sidebar.className = "sponsor-sidebar";
-        sidebar.innerHTML =
-          '<p class="sponsor-sidebar__copy">Like this? Motivate me to write more!</p>' +
-          '<iframe src="https://github.com/sponsors/ddrscott/button" title="Sponsor ddrscott" loading="lazy"></iframe>';
-        navInner.appendChild(sidebar);
-      }
-
-      var headerInner = document.querySelector(".md-header__inner");
-      if (headerInner) {
-        var btn = document.createElement("div");
-        btn.className = "sponsor-header-button";
-        btn.innerHTML = '<iframe src="https://github.com/sponsors/ddrscott/button" title="Sponsor ddrscott" loading="lazy"></iframe>';
-        headerInner.appendChild(btn);
-      }
-    });
-    </script>
-
-  </body>
-</html>
+      (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ddrscottgithubio.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', String(+new Date()));
+        window.disqus_config = function () {
+          this.page.identifier = disqusIdentifier;
+          this.page.url = window.location.href;
+        };
+        (d.head || d.body).appendChild(s);
+      })();
+    })();</script> </article>  </main> <footer class="site-footer"> <div class="site-footer__links"> <a href="https://github.com/ddrscott">GitHub</a> <a href="https://twitter.com/_ddrscott_">Twitter</a> <a href="/rss.xml">RSS</a> <a href="/llms.txt">llms.txt</a> </div> <div>© 2014–2026 Scott Pierce</div> </footer> </body></html>

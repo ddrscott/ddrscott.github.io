@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Why AI Can&#39;t Make You a Beautiful Logo — Why, Scott, WHY?!?</title><meta name="description" content="AI is a distillation of the internet. It cannot read your mind. The fastest way to better prompts is to strip subjective words and feed it objective context."><link rel="canonical" href="https://ddrscott.github.io/blog/2026/why-ai-cant-make-you-a-beautiful-logo/"><link rel="alternate" type="application/rss+xml" title="Why, Scott, WHY?!?" href="/rss.xml"><meta property="og:type" content="article"><meta property="og:title" content="Why AI Can't Make You a Beautiful Logo"><meta property="og:url" content="https://ddrscott.github.io/blog/2026/why-ai-cant-make-you-a-beautiful-logo/"><meta property="og:site_name" content="Why, Scott, WHY?!?"><meta property="og:description" content="AI is a distillation of the internet. It cannot read your mind. The fastest way to better prompts is to strip subjective words and feed it objective context."><meta property="og:image" content="https://ddrscott.github.io/images/2026/why-ai-cant-make-you-a-beautiful-logo.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:creator" content="@_ddrscott_"><meta name="twitter:site" content="@_ddrscott_"><meta name="twitter:image" content="https://ddrscott.github.io/images/2026/why-ai-cant-make-you-a-beautiful-logo.png"><link rel="icon" type="image/png" href="/favicon.png"><script defer data-domain="ddrscott.github.io" src="https://plausible.dataturd.com/js/script.outbound-links.js"></script><link rel="stylesheet" href="/_astro/Base.CKfiKiB4.css"></head> <body> <header class="site-header"> <div class="site-header__inner"> <a href="/" class="site-header__brand">Why, Scott, WHY?!?</a> <nav class="site-nav"> <a href="/">Latest</a> <a href="/tags/vim/">Vim</a> <a href="/tags/sql/">SQL</a> <a href="/tags/ai/">AI</a> <a href="/archive/">Archive</a> <a href="/about/">About</a> <a href="/search/" aria-label="Search">⌕</a> </nav> </div> </header> <main class>  <article class="article"> <header class="article__header"> <h1 class="article__title">Why AI Can&#39;t Make You a Beautiful Logo</h1> <div class="article__meta"> <time datetime="2026-05-15">2026-05-15</time> <span> <a href="/tags/ai/">ai</a> , <a href="/tags/communication/">communication</a> , <a href="/tags/design/">design</a> , <a href="/tags/llm/">llm</a> , <a href="/tags/prompting/">prompting</a>  </span> </div> </header> <img class="featured" src="/images/2026/why-ai-cant-make-you-a-beautiful-logo.png" alt="Why AI Can't Make You a Beautiful Logo" loading="lazy"> <div class="article__body">  <p><strong>TL;DR</strong> — AI is a distillation of the internet. It can’t read your mind. The fastest way to get better results is to strip subjective words out of your prompts and feed it objective context instead. The same way you’d talk to a stranger you just met.</p>
+<h2 id="make-a-beautiful-logo">”Make a beautiful logo”</h2>
+<p>Say you ask an AI: <em>“Make a beautiful logo that reflects the values of this website.”</em></p>
+<p>That’s it. You hit enter. You’re trusting the model with a request that, in your brain, has a clear picture attached to it. Colors. Tone. The vibe of the site. Maybe a feeling you can’t even put words to.</p>
+<p>The AI has none of that.</p>
+<p>It doesn’t know if it should visit the website. It doesn’t know what your conception of “beautiful” is. It doesn’t even know if the domain name has any correlation to the content you actually care about. So it guesses. And then you’re surprised when the guess is wrong.</p>
+<h2 id="ai-is-a-distillation-of-the-internet">AI is a distillation of the internet</h2>
+<p>Here’s the framing that fixes this for me: <strong>AI is a distillation of the internet.</strong> It’s an extremely broad, general-purpose guesser. When you ask it something subjective, it’s averaging across every opinion, style, and aesthetic on the open web and handing you back the centroid. There is essentially zero hope of that centroid matching what’s in your head.</p>
+<p>Try this thought experiment. Four people sit in a room. You say <em>“create a beautiful woman.”</em> Each of those four people will draw a different person. Different hair, different build, different face, different everything. The word “beautiful” doesn’t have a destination. It has four. Or four million.</p>
+<p>Now do the same thing with <em>“blonde.”</em> How blonde? Strawberry? Platinum? Dirty? You’ve narrowed it, but only a little.</p>
+<p>The internet can’t answer subjective questions because subjective questions don’t have answers. They have preferences. And your preference is a thing only you can supply.</p>
+<h2 id="the-google-search-rule-still-applies">The Google search rule still applies</h2>
+<p>If you typed <em>“beautiful woman”</em> into Google, you’d get a top page of results that are mostly stock photos and whatever the algorithm thinks is safe to surface. You’d scroll, drill in, refine — <em>“curly hair, round face, this height, this style”</em> — and slowly converge on what you actually wanted.</p>
+<p>Same rule with AI. <strong>Take every subjective word out.</strong> Replace it with something measurable.</p>
+<ul>
+<li><del>Beautiful</del> → high contrast, warm tones, geometric sans-serif</li>
+<li><del>Modern</del> → flat color, no gradients, 8px rounded corners</li>
+<li><del>Professional</del> → muted palette, generous whitespace, serif headings</li>
+</ul>
+<p>This isn’t because AI is dumb. It’s because subjective words are coordinates without an origin. Objective words are coordinates with an origin. AI needs the origin.</p>
+<h2 id="the-trick-let-ai-teach-you-its-language">The trick: let AI teach you its language</h2>
+<p>Here’s the move that changed how I prompt.</p>
+<p>Don’t pre-declare anything as good or bad. Don’t say <em>“I like this style”</em> or <em>“this is the kind of thing I want.”</em> That’s all subjective and you’re back to the same problem.</p>
+<p>Instead: grab a reference image — a logo, a screenshot, a piece of art you respond to — drop it into the model, and say: <strong>“Analyze this. Give me the words you think are appropriate for what I just gave you.”</strong></p>
+<p>The AI won’t tell you if it’s good or bad art. It’ll do what a computer does. It’ll tell you:</p>
+<ul>
+<li>The dominant color codes</li>
+<li>The tonal range (bright, dark, contrast ratios)</li>
+<li>The font family or family characteristics</li>
+<li>The composition (negative space, balance, weight)</li>
+<li>The mood vocabulary it associates with those properties</li>
+</ul>
+<p>Now you have the AI’s language for the thing you wanted. You can speak it back. <em>“Make me a logo that uses this palette, this kind of weight, this kind of negative space — but swap the serif for a geometric sans-serif and tighten the kerning by 5%.”</em></p>
+<p>You’ve stopped guessing what AI knows. You’ve made AI tell you what it knows, and then you’re working in that vocabulary.</p>
+<h2 id="prompting-is-about-context">Prompting is about context</h2>
+<p>The whole thing reduces to two questions:</p>
+<ol>
+<li><strong>Where are you starting?</strong></li>
+<li><strong>Where do you need to get to?</strong></li>
+</ol>
+<p>If you can answer both with specifics, AI fills in the middle. That’s its job. That’s what it’s good at. The failures happen when you give it the destination (“beautiful logo”) without the starting point, or the starting point without a destination.</p>
+<p>Context isn’t decoration on a prompt. It’s the prompt.</p>
+<h2 id="we-do-this-with-humans-too">We do this with humans too</h2>
+<p>This isn’t an AI quirk. It’s a communication quirk that AI happens to amplify.</p>
+<p>When I meet someone new — say I meet Timothy for the first time — we don’t immediately get to business. We chat. We figure out what language we both speak. Where the common ground is. Whether we’ve got shared references — faith, family, profession, taste in music. Once we’ve calibrated, the actual conversation gets easier, faster, more precise.</p>
+<p>AI is the same, just a touch more computery. Large language models understand English pretty well now, so you can be a little less robotic than you had to be three years ago. But you still need to be specific. You still need to calibrate. You still need to take out the subjective words and put in the objective ones.</p>
+<h2 id="the-whole-article-in-one-line">The whole article in one line</h2>
+<blockquote>
+<p>Take subjective words out. Put objective things in. Let AI teach you its language before you try to speak it.</p>
+</blockquote>
+<p>That’s it. That’s the diatribe. Go make better prompts.</p>  </div> <footer class="article__footer"> <p> <a href="/blog/2026/why-ai-cant-make-you-a-beautiful-logo.md" class="button">↓ Download as markdown</a> </p> <p class="text-faint">
+Tagged: <span class="article__tags"> <a href="/tags/ai/">ai</a><a href="/tags/communication/">communication</a><a href="/tags/design/">design</a><a href="/tags/llm/">llm</a><a href="/tags/prompting/">prompting</a> </span> </p> </footer> <div id="disqus_thread"></div> <script>(function(){const disqusIdentifier = "/blog/2026/why-ai-cant-make-you-a-beautiful-logo/";
+
+      (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://ddrscottgithubio.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', String(+new Date()));
+        window.disqus_config = function () {
+          this.page.identifier = disqusIdentifier;
+          this.page.url = window.location.href;
+        };
+        (d.head || d.body).appendChild(s);
+      })();
+    })();</script> </article>  </main> <footer class="site-footer"> <div class="site-footer__links"> <a href="https://github.com/ddrscott">GitHub</a> <a href="https://twitter.com/_ddrscott_">Twitter</a> <a href="/rss.xml">RSS</a> <a href="/llms.txt">llms.txt</a> </div> <div>© 2014–2026 Scott Pierce</div> </footer> </body></html>

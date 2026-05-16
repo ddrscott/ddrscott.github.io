@@ -1,0 +1,67 @@
+# Why, Scott, WHY?!?
+
+> Personal tech blog by Scott Pierce. SQL, Vim, Ruby, AI tooling, and tools for problems no one thinks they have.
+
+Articles below are the canonical posts at https://ddrscott.github.io. Each line links to a human-readable page; append `.md` to any blog URL to get the raw markdown source. The full archive is also available at https://ddrscott.github.io/llms-full.txt.
+
+## Posts
+
+- [Why AI Can't Make You a Beautiful Logo](https://ddrscott.github.io/blog/2026/why-ai-cant-make-you-a-beautiful-logo/): AI is a distillation of the internet. It cannot read your mind. The fastest way to better prompts is to strip subjective words and feed it objective context.
+- [Postgres via Cloudflare Tunnel](https://ddrscott.github.io/blog/2026/postgres-via-cloudflare-tunnel/): Expose your local Postgres to the world without opening firewall ports.
+- [Live Code Highlighting: A Technical Deep Dive](https://ddrscott.github.io/blog/2026/strudel-live-code-highlighting/): How Strudel implements real-time code highlighting during music playback - a unique approach to connecting notation and sound in live coding environments.
+- [How to Avoid Shark Bites: A Data-Driven Approach](https://ddrscott.github.io/blog/2026/shark-bite-prevention/): An infographic exploring the most effective shark bite prevention strategy, backed by data from the International Shark Attack File.
+- [Browser Agent - Claude Code Plugin for Playwright](https://ddrscott.github.io/blog/2026/browser-agent-plugin/): Stop fighting your browser automation. A context-friendly Playwright plugin for Claude Code.
+- [md-to-print: Because Screen Reading Killed My Eyes](https://ddrscott.github.io/blog/2026/md-to-print-markdown-pdf-generator/): A markdown to PDF converter that actually looks good on paper. 2-column layout, large fonts, automatic file watching, and a launchd setup that makes it invisible.
+- [Go SQL Injection: A Tale of Two Queries](https://ddrscott.github.io/blog/2025/go-sql-injection-the-wrong-way/): Learn how to build dynamic SQL filters in Go the right way by first seeing the wrong way. A practical guide to avoiding SQL injection with parameterized queries.
+- [The Greatness of Nano Banana 2](https://ddrscott.github.io/blog/2025/nano-banana-2/): Fal.ai's Nano Banana 2 model generates images from text in seconds. Here's how I made a professional business card with a single API call.
+- [RingLite: A Virtual Ring Light That Doesn't Exist](https://ddrscott.github.io/blog/2025/ringlite-virtual-ring-light/): Introducing RingLite - a virtual ring light for video recording that's invisible to screen recorders. Built with Tauri, it floats above your content so you can see your script while looking well-lit.
+- [tmate is Dead, Long Live tmate](https://ddrscott.github.io/blog/2025/tmate-is-dead-long-live-tmate/): When your favorite terminal sharing tool stops working on your phone, it's time to find something new. A pragmatic guide to browser-based alternatives.
+- [Double Quotes in Novels and Code](https://ddrscott.github.io/blog/2025/what-is-a-string/): Strings aren't complicated - they're dialogue for your code
+- [Why are LLMs bad at SQL?](https://ddrscott.github.io/blog/2025/why-are-llms-bad-at-sql/)
+- [How to Say the Impossible with Voice Cloning](https://ddrscott.github.io/blog/2025/chatterbox-tts-voice-cloning/): Make AI say tongue twisters for you
+- [Column with a G](https://ddrscott.github.io/blog/2024/column-with-a-g/): How to view large CSV files.
+- [Bowling Scores the SQL Way](https://ddrscott.github.io/blog/2024/sql-bowling/): How to calculate bowling scores using SQL. No Store Procedures allowed!
+- [Karaoke](https://ddrscott.github.io/blog/2024/tts-comparision/): What it's like when robots campaign for your Site Reliability position
+- [Karaoke](https://ddrscott.github.io/blog/2024/karaoke-podcast/): Surprisingly Good AI Generated Podcast Summary of Karaoke Artcle
+- [Karaoke](https://ddrscott.github.io/blog/2024/karaoke/): How to leverage technology to win at singing!
+- [Taking Humour Seriously](https://ddrscott.github.io/blog/2024/taking-humor-seriously/): Ever wonder what goes into making a joke that lasts just a few seconds? Spoiler: it's a lifetime of experiences.
+- [Recovering 10x Developer](https://ddrscott.github.io/blog/2024/recovering-10x-developer/): Ever wondered why being the fastest coder in the room isn't enough to make a real impact? Discover the journey of a "Recovering 10x Developer" who learned the hard way that speed isn't everything - value is.
+- [How to Make a Website from scratch in 7:59 seconds with Github](https://ddrscott.github.io/blog/2023/how-to-make-a-website-via-github/): Wordpress? Squarespace? Wix? Not today. Those are great products for hosting articles and marketing, but you want to make an application. You want to make something the old-fashioned way. You want to know what's under the hood, and you want to make it easy for others to help you along the way.
+- [Larry Pierce, aka Dad](https://ddrscott.github.io/blog/2023/larry-pierce-aka-dad/): Lawrence Roy Pierce age 76, of Lake in the Hills, Illinois passed away on February 1, 2023, at Northwestern Medicine - Huntley Hospital.
+- [Wordy Passwords](https://ddrscott.github.io/blog/2023/wordy-passwords/): How to Generate a Wordy Password
+- [How to Setup Airflow in its own Kubernetes namespace using Helm](https://ddrscott.github.io/blog/2022/how-to-airflow-with-helm/)
+- [How to use Kubernetes Namespaces and Service Accounts for Fun and Profit](https://ddrscott.github.io/blog/2022/how-to-k8s-service-account/)
+- [Instant Replay Live](https://ddrscott.github.io/blog/2022/instant-replay-live/)
+- [I Heart Make](https://ddrscott.github.io/blog/2021/i-heart-make/): I heart Make: How to Convert CBR to PDF using a Makefile
+- [Slice and Dice SQL with SQL Ninja](https://ddrscott.github.io/blog/2020/sql-ninja/): SQL + Jinja = SQL Templating Done Right™
+- [What the SQL?! JOIN me at UNION Station](https://ddrscott.github.io/blog/2018/join-me-at-union-station/)
+- [Move to MkDocs](https://ddrscott.github.io/blog/2018/move-to-mkdocs/)
+- [Dev Blog Tools :: A Quick Tour of My Setup](https://ddrscott.github.io/blog/2018/blog-setup/): Tools I use to create posts, screenshots, code snippets, gifs, screencasts, and other interesting things.
+- [A Rustic Journey Through Stream Stats](https://ddrscott.github.io/blog/2018/stream-stats-in-rust/): How I made a CLI program in Rust which combines tee, wc -l, and watch.
+- [Getting Rusty with Vim](https://ddrscott.github.io/blog/2018/getting-rusty-with-vim/)
+- [FZF + WordNet = Dictionary](https://ddrscott.github.io/blog/2017/fzf-dictionary/)
+- [GNU Screen](https://ddrscott.github.io/blog/2017/gnu-screen/)
+- [Base16 Shell](https://ddrscott.github.io/blog/2017/base16-shell/)
+- [Vim Send Text](https://ddrscott.github.io/blog/2017/vim-send-text/)
+- [What the SQL?!? Recursive](https://ddrscott.github.io/blog/2017/what-the-sql-window/)
+- [What the SQL?!? Recursive](https://ddrscott.github.io/blog/2017/what-the-sql-recursive/)
+- [What the SQL?!? Lateral Joins](https://ddrscott.github.io/blog/2017/what-the-sql-lateral/)
+- [How to Get Better At Anything](https://ddrscott.github.io/blog/2017/how-to-get-better-at-anything/)
+- [ANSI Codes with Character](https://ddrscott.github.io/blog/2016/ansi-codes-with-character/)
+- [Photography Refactored](https://ddrscott.github.io/blog/2016/photography-lightening-talk/)
+- [PSA: Vim Modulo '%' Returns Negative Numbers!](https://ddrscott.github.io/blog/2016/negative-modulo/)
+- [Vim Side Search: Making Search Fun Again](https://ddrscott.github.io/blog/2016/side-search/)
+- [Sensible Horizontal Scroll in Vim](https://ddrscott.github.io/blog/2016/sidescroll/)
+- [Ruby Abuse: How Not to Write Ruby, But Still Have Fun](https://ddrscott.github.io/blog/2016/ruby-abuse/)
+- [Making a Window Submode in Vim](https://ddrscott.github.io/blog/2016/making-a-window-submode/)
+- [Yank Without Jank](https://ddrscott.github.io/blog/2016/yank-without-jank/)
+- [Vim Toggle Movement: I Just Want to Go Home](https://ddrscott.github.io/blog/2016/vim-toggle-movement/)
+- [BS to the Black Hole](https://ddrscott.github.io/blog/2016/bs-to-the-black-hole/)
+- [Tech Stack 2014 Edition](https://ddrscott.github.io/blog/2014/tech-stack-2014-edition/)
+- [Octopress to the Rescue](https://ddrscott.github.io/blog/2014/octopress-to-the-rescue/)
+
+## Other pages
+
+- [About](https://ddrscott.github.io/about/): Who Scott is and what this blog is about.
+- [Projects](https://ddrscott.github.io/projects/): Scott's public software projects.
+- [Archive](https://ddrscott.github.io/archive/): Full chronological archive.

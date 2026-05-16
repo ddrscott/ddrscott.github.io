@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Search — Why, Scott, WHY?!?</title><meta name="description" content="Search posts on Why, Scott, WHY?!? — full-text via Pagefind."><link rel="canonical" href="https://ddrscott.github.io/search/"><link rel="alternate" type="application/rss+xml" title="Why, Scott, WHY?!?" href="/rss.xml"><meta property="og:type" content="website"><meta property="og:title" content="Search"><meta property="og:url" content="https://ddrscott.github.io/search/"><meta property="og:site_name" content="Why, Scott, WHY?!?"><meta property="og:description" content="Search posts on Why, Scott, WHY?!? — full-text via Pagefind."><meta name="twitter:card" content="summary"><meta name="twitter:creator" content="@_ddrscott_"><meta name="twitter:site" content="@_ddrscott_"><link rel="icon" type="image/png" href="/favicon.png"><script defer data-domain="ddrscott.github.io" src="https://plausible.dataturd.com/js/script.outbound-links.js"></script><link rel="stylesheet" href="/_astro/Base.CKfiKiB4.css">
+<style>.pagefind-mount[data-astro-cid-ipsxrsrh]{margin-top:var(--space-lg)}.pagefind-ui[data-astro-cid-ipsxrsrh]{--pagefind-ui-primary: var(--color-primary);--pagefind-ui-text: var(--color-text);--pagefind-ui-background: var(--color-bg);--pagefind-ui-border: var(--color-border);--pagefind-ui-tag: var(--color-surface);--pagefind-ui-border-width: 1px;--pagefind-ui-border-radius: 4px;--pagefind-ui-image-border-radius: 4px;--pagefind-ui-image-box-ratio: 3 / 2;--pagefind-ui-font: var(--font-body)}.pagefind-ui__search-input[data-astro-cid-ipsxrsrh]:focus{border-color:var(--color-accent)!important}.pagefind-ui__result-link[data-astro-cid-ipsxrsrh]{color:var(--color-primary)!important}.pagefind-ui__result-link[data-astro-cid-ipsxrsrh]:hover{color:var(--color-accent-dark)!important}
+</style></head> <body> <header class="site-header"> <div class="site-header__inner"> <a href="/" class="site-header__brand">Why, Scott, WHY?!?</a> <nav class="site-nav"> <a href="/">Latest</a> <a href="/tags/vim/">Vim</a> <a href="/tags/sql/">SQL</a> <a href="/tags/ai/">AI</a> <a href="/archive/">Archive</a> <a href="/about/">About</a> <a href="/search/" aria-label="Search">⌕</a> </nav> </div> </header> <main class>  <h1 data-astro-cid-ipsxrsrh>Search</h1> <p class="text-muted" data-astro-cid-ipsxrsrh>Full-text search across every post. Type a few characters and matches appear.</p> <div id="search" class="pagefind-mount" data-astro-cid-ipsxrsrh></div> <link rel="stylesheet" href="/pagefind/pagefind-ui.css"> <script src="/pagefind/pagefind-ui.js"></script> <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof window.PagefindUI === 'undefined') {
+        document.getElementById('search').innerHTML =
+          '<p class="text-faint">Search index not built yet. Run <code>make build</code> to generate <code>/pagefind/</code> output.</p>';
+        return;
+      }
+      new window.PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: true,
+        excerptLength: 28,
+        resetStyles: false,
+      });
+    });
+  </script>  </main> <footer class="site-footer"> <div class="site-footer__links"> <a href="https://github.com/ddrscott">GitHub</a> <a href="https://twitter.com/_ddrscott_">Twitter</a> <a href="/rss.xml">RSS</a> <a href="/llms.txt">llms.txt</a> </div> <div>© 2014–2026 Scott Pierce</div> </footer> </body></html>
