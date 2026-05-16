@@ -901,7 +901,7 @@ If you build something cool with it, let me know.
 
 Date: 2026-01-03
 URL: https://ddrscott.github.io/blog/2026/md-to-print-markdown-pdf-generator/
-Tags: cli python
+Tags: cli, python
 Description: A markdown to PDF converter that actually looks good on paper. 2-column layout, large fonts, automatic file watching, and a launchd setup that makes it invisible.
 
 ## The Problem With Reading on Screens
@@ -3796,7 +3796,7 @@ https://looka.com/editor/86772106
 
 Date: 2021-02-24
 URL: https://ddrscott.github.io/blog/2021/i-heart-make/
-Tags: makefile rar pdf
+Tags: makefile, pdf, rar
 Description: I heart Make: How to Convert CBR to PDF using a Makefile
 
 Good news: I got a shiny new e-ink reader.<br/>

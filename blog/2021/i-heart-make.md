@@ -4,7 +4,7 @@ date: 2021-02-24
 created: 2021-02-24T00:00:00Z
 type: blog
 status: settled
-tags: [Makefile rar pdf]
+tags: [makefile, pdf, rar]
 publish: [ddrscott]
 source: import
 description: "I heart Make: How to Convert CBR to PDF using a Makefile"

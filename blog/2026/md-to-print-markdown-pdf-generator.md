@@ -4,7 +4,7 @@ date: 2026-01-03
 created: 2026-01-03T00:00:00Z
 type: blog
 status: settled
-tags: [cli python]
+tags: [cli, python]
 publish: [ddrscott]
 source: import
 description: "A markdown to PDF converter that actually looks good on paper. 2-column layout, large fonts, automatic file watching, and a launchd setup that makes it invisible."
